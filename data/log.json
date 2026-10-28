@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "time": "2026-10-28T17:43:09.266812+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Gemini API failed after 3 attempts"
+  }
+]
