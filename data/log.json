@@ -70,5 +70,13 @@
     "caption": "",
     "media": "",
     "detail": "Gemini API failed after 3 attempts"
+  },
+  {
+    "time": "2026-10-29T05:25:55.683497+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "No JSON object found in Gemini response: {\n  \"scene\": \"A cinematic medium-format portrait of Lyra seated beside a massive, rain-streaked airport terminal window at twilight, looking out at the blur of amber runway lights. Moody cool violet s"
   }
 ]
