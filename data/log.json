@@ -118,5 +118,13 @@
     "caption": "",
     "media": "",
     "detail": "Gemini API (gemini-3.8-flash) failed after 6 attempts: 401 Client Error: Unauthorized for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=AQ.Ab8RN6I1mxLR1xyk5lDfSmmsBjObTz8a7gBtoGLBvwE09RhrWA"
+  },
+  {
+    "time": "2026-10-29T06:12:54.539439+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Gemini API (gemini-3.8-flash) failed after 6 attempts: 401 Client Error: Unauthorized for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=AQ.Ab8RN6I1mxLR1xyk5lDfSmmsBjObTz8a7gBtoGLBvwE09RhrWA"
   }
 ]
