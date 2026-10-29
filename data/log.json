@@ -6,5 +6,13 @@
     "caption": "",
     "media": "",
     "detail": "Instagram API POST /1328098817061884/media failed after 3 attempts"
+  },
+  {
+    "time": "2026-10-29T08:07:28.382828+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Text generation failed across all providers: HTTPSConnectionPool(host='text.pollinations.ai', port=443): Read timed out. (read timeout=30)"
   }
 ]
