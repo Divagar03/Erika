@@ -165,48 +165,65 @@ def log_fail(kind: str, detail: str, caption: str = "", media: str = "") -> None
 # Gemini API
 # ---------------------------------------------------------------------------
 
+def call_pollinations_text(prompt: str, json_mode: bool = False) -> str:
+    """Free zero-cost text generation (OpenAI model, no key, no rate limits)."""
+    url = "https://text.pollinations.ai/"
+    payload = {
+        "messages": [{"role": "user", "content": prompt}],
+        "model": "openai",
+        "jsonMode": json_mode,
+        "seed": random.randint(1000, 999999),
+    }
+    print("  Generating text via Pollinations (free tier, no quota limits)...")
+    r = requests.post(url, json=payload, timeout=30)
+    r.raise_for_status()
+    return r.text
+
+
 def call_gemini(prompt: str, env: dict, json_mode: bool = False) -> str:
-    """Call Gemini API strictly using gemini-3.8-flash with smart backoff on 503/temporary spikes."""
-    model_name = env['gemini_model']
-    # Pass key via header so it NEVER appears in URLs, error messages, or logs
-    url = f"{GEMINI_API_BASE}/models/{model_name}:generateContent"
-    headers = {
-        "x-goog-api-key": env["gemini_key"],
-        "Content-Type": "application/json"
-    }
+    """Call Gemini API with automatic instant fallback to Pollinations Text on timeouts/spikes."""
+    model_name = env.get('gemini_model', 'gemini-3.8-flash')
+    gemini_key = env.get('gemini_key', '').strip()
 
-    gen_config = {
-        "temperature": 0.8,
-        "maxOutputTokens": 2048,
-    }
-    if json_mode:
-        gen_config["responseMimeType"] = "application/json"
+    # Try Gemini if key is provided
+    if gemini_key:
+        url = f"{GEMINI_API_BASE}/models/{model_name}:generateContent"
+        headers = {
+            "x-goog-api-key": gemini_key,
+            "Content-Type": "application/json"
+        }
+        gen_config = {
+            "temperature": 0.8,
+            "maxOutputTokens": 2048,
+        }
+        if json_mode:
+            gen_config["responseMimeType"] = "application/json"
 
-    body = {
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": gen_config,
-    }
+        body = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": gen_config,
+        }
 
-    last_error = None
-    for attempt in range(5):
-        try:
-            print(f"  Gemini attempt {attempt + 1} calling '{model_name}'...")
-            r = requests.post(url, headers=headers, json=body, timeout=45)
-            if not r.ok:
-                err_text = r.text[:200]
-                print(f"  Gemini HTTP {r.status_code} ({model_name}): {err_text}")
-            r.raise_for_status()
-            data = r.json()
-            return data["candidates"][0]["content"]["parts"][0]["text"]
-        except Exception as exc:
-            last_error = exc
-            is_503 = "503" in str(exc)
-            is_429 = "429" in str(exc)
-            wait_sec = 12 if is_503 else (20 if is_429 else 5 * (attempt + 1))
-            print(f"  Attempt {attempt + 1} encountered temporary spike ({exc}). Waiting {wait_sec}s...")
-            time.sleep(wait_sec)
+        for attempt in range(2):
+            try:
+                print(f"  Gemini attempt {attempt + 1} calling '{model_name}'...")
+                r = requests.post(url, headers=headers, json=body, timeout=25)
+                if not r.ok:
+                    err_text = r.text[:200]
+                    print(f"  Gemini HTTP {r.status_code} ({model_name}): {err_text}")
+                r.raise_for_status()
+                data = r.json()
+                return data["candidates"][0]["content"]["parts"][0]["text"]
+            except Exception as exc:
+                print(f"  Gemini attempt {attempt + 1} failed: {exc}")
+                if attempt == 0:
+                    time.sleep(3)
 
-    raise RuntimeError(f"Gemini API ({model_name}) failed after 5 attempts: {last_error}")
+    # Automatic fallback to free Pollinations Text!
+    try:
+        return call_pollinations_text(prompt, json_mode=json_mode)
+    except Exception as exc:
+        raise RuntimeError(f"Text generation failed across all providers: {exc}")
 
 
 def parse_json_response(text: str) -> dict:
