@@ -46,5 +46,13 @@
     "caption": "",
     "media": "",
     "detail": "Gemini API failed after 3 attempts"
+  },
+  {
+    "time": "2026-10-29T04:34:24.480682+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "raw.githubusercontent.com URL not ready after 120s: https://raw.githubusercontent.com/Divagar03/Erika/main/media/post_20261029_043111.jpg"
   }
 ]
