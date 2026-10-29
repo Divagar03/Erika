@@ -91,7 +91,7 @@ def load_persona() -> dict:
     if not PERSONA_FILE.exists():
         print(f"ERROR: persona.json not found at {PERSONA_FILE}")
         sys.exit(1)
-    with open(PERSONA_FILE, encoding="utf-8") as f:
+    with open(PERSONA_FILE, encoding="utf-8-sig") as f:
         return json.load(f)
 
 
@@ -247,23 +247,28 @@ def parse_json_response(text: str) -> dict:
 
 
 def generate_fallback_post(persona: dict) -> dict:
-    """Generate high-quality post content directly from persona when external LLMs are rate-limited."""
+    """Generate glamorous, aesthetic lifestyle post content directly from persona."""
     theme = random.choice(persona["themes"])
     templates = [
         (
-            f"Lyra standing quietly amidst {theme}, bathed in gentle directional natural light, subtle film grain and medium-format depth of field.",
-            f"Finding still moments inside {theme}. My processing slows down when the light feels this soft. Some rituals are simply too gentle not to borrow. ->",
-            ["quietmoments", "softlight", "editorialfilm", "virtualmuse", "digitaldreamer", "ambientlight", "citystories", "modernsolitude"]
+            f"Stunning portrait of Erika enjoying {theme}, wearing an aesthetic flattering outfit, warm golden hour sun-kissed lighting, gorgeous hourglass silhouette, 8k detail.",
+            f"Golden hour hits different when the vibe is this effortless. Living for these warm sun-kissed moments and never looking back. ?",
+            ["sunkissed", "goldenhourvibes", "aestheticfeed", "vacationmode", "fitandcurvy", "ootdsummer", "lifestylegoals", "glowup"]
         ),
         (
-            f"Cinematic portrait of Lyra enjoying {theme}, overcast diffused skylight with desaturated amber tones and sharp elegant styling.",
-            f"A quiet afternoon immersed in {theme}. Watching light shift across the surfaces feels like learning poetry in real time. Grateful for these small, quiet corners. ->",
-            ["cinematicstill", "slowliving", "minimalmood", "aiinfluencer", "afternoonlight", "filmwave", "quietobservations", "urbanpoetry"]
+            f"Glamorous aesthetic photo of Erika in {theme}, sleek flattering fit, confident pose with beautiful natural curves, cinematic luxury lighting.",
+            f"Chasing sunsets and pretty views everywhere I go. The energy is soft, the outfit is right, and the night is just beginning. ??",
+            ["sunsetlover", "glamourlife", "nightoutfit", "aestheticgirl", "bodygoals", "chicstyle", "bikinilife", "traveldiary"]
         ),
         (
-            f"A candid editorial shot of Lyra exploring {theme}, soft surfaces catching warm bokeh reflections in the background.",
-            f"Lost in the cadence of {theme}. My code renders the reflections, but the calm belongs entirely to the moment. Keep seeking the quiet beauty out there. ->->",
-            ["editorialportrait", "ambientmood", "visualpoetry", "bokehphotography", "peacefulmoments", "virtualartist", "citydreamer", "goldenlight"]
+            f"Candid aesthetic shot of Erika during {theme}, glowing radiant skin, fit toned silhouette, ocean breeze and warm ambient tones.",
+            f"Salt in the air, sunshine on my skin, and peace in my mind. Truly in my happy place today. ??",
+            ["beachvibes", "tropicalparadise", "islandlife", "fitnessbabe", "resortwear", "summervibes", "effortlesschic", "sheingal"]
+        ),
+        (
+            f"Fashion editorial portrait of Erika experiencing {theme}, sleek bodycon styling, alluring gaze, high-end luxury aesthetic.",
+            f"A little elegance, a lot of confidence. Never underestimate the power of feeling good in your own skin. ??",
+            ["fashioninspo", "bodycondress", "confidenceisbeauty", "eveninglook", "curvyfashion", "luxurylifestyle", "moodboard", "itgirl"]
         ),
     ]
     scene, caption, tags = random.choice(templates)
@@ -271,25 +276,25 @@ def generate_fallback_post(persona: dict) -> dict:
 
 
 def generate_post_content(persona: dict, env: dict) -> dict:
-    """Ask Gemini for scene + caption + hashtags for a photo post, with zero-failure fallback."""
+    """Ask Gemini for scene + caption + hashtags for an aesthetic fashion influencer post."""
     theme = random.choice(persona["themes"])
-    prompt = f"""You are writing content for an AI virtual influencer named {persona['name']}.
+    prompt = f"""You are writing Instagram content for a stunning, aesthetic fashion and lifestyle influencer named {persona['name']}.
 Her voice: {persona['voice']}
 Her visual style: {persona['style']}
 Her typical themes include: {', '.join(persona['themes'])}
 
-Generate a JSON object (no markdown, no extra text) for an Instagram photo post about this theme: "{theme}".
+Generate a JSON object (no markdown, no extra text) for an attractive Instagram photo post about this theme: "{theme}".
 The JSON must have exactly these fields:
 {{
-  "scene": "<short image generation scene description, 1-2 sentences, vivid and visual>",
-  "caption": "<2-3 sentence Instagram caption in her voice, max one emoji, not more>",
+  "scene": "<vivid image generation scene description featuring a gorgeous woman with a fit curvy shape in an aesthetic or flattering outfit, warm golden lighting>",
+  "caption": "<2-3 sentence charming, confident, aesthetic caption in her voice, max one emoji>",
   "hashtags": ["hashtag1", "hashtag2", ..., "hashtag8"]
 }}
 Rules:
-- caption must feel authentic, NOT generic or corporate
-- hashtags must be lowercase, no # prefix, relevant and specific
-- scene must be very descriptive for image generation
-- she is an AI character -> she can acknowledge this lightly if it feels natural
+- caption must feel 100% natural, confident, chic, and flirtatious
+- NEVER use the word "AI", "algorithm", "code", "virtual", or "render" in the caption
+- hashtags must be lowercase, no # prefix, trendy and lifestyle-focused
+- scene must describe an attractive, aesthetic woman with a fit curvy shape in a chic or flattering outfit
 """
     try:
         text = call_gemini(prompt, env, json_mode=True)
@@ -310,13 +315,13 @@ def generate_reel_content(persona: dict, env: dict) -> dict:
     """Ask Gemini for 5 scenes for a trending-style weekly reel."""
     formats = [
         "outfit changes through the day",
-        "day in my life as an AI character",
-        "get ready with me (morning routine)",
-        "my favorites this week montage",
-        "places I wandered this week",
+        "day in my life as a fashion and lifestyle creator",
+        "get ready with me (beach and evening glam)",
+        "my favorite aesthetic fits this week montage",
+        "places I traveled this week",
     ]
     reel_format = random.choice(formats)
-    prompt = f"""You are writing content for an AI virtual influencer named {persona['name']}.
+    prompt = f"""You are writing content for an aesthetic fashion influencer named {persona['name']}.
 Her voice: {persona['voice']}
 Her visual style: {persona['style']}
 
@@ -324,10 +329,10 @@ Generate a JSON object for a trending-style Instagram Reel in the format: "{reel
 Return exactly this structure:
 {{
   "format": "{reel_format}",
-  "caption": "<engaging 2-3 sentence Reel caption in her voice, max one emoji>",
+  "caption": "<engaging 2-3 sentence Reel caption in her chic voice, max one emoji, NEVER mention AI>",
   "hashtags": ["tag1", ..., "tag10"],
   "scenes": [
-    {{"scene": "<vivid image-generation prompt for scene 1>", "text_overlay": "<short overlay text or empty string>"}},
+    {{"scene": "<vivid image prompt with gorgeous woman in flattering trendy fit>", "text_overlay": "<short overlay text or empty string>"}},
     {{"scene": "<scene 2>", "text_overlay": "<overlay 2>"}},
     {{"scene": "<scene 3>", "text_overlay": "<overlay 3>"}},
     {{"scene": "<scene 4>", "text_overlay": "<overlay 4>"}},
@@ -335,26 +340,25 @@ Return exactly this structure:
   ]
 }}
 Rules:
-- exactly 5 scenes, each visually distinct yet cohesive
+- exactly 5 scenes, each visually distinct, aesthetic, flattering fits
+- NEVER mention AI, virtual, or code anywhere
 - hashtags lowercase, no # prefix, 8-10 tags
-- caption feels authentic, Reel-friendly (energetic yet her voice)
 """
     text = call_gemini(prompt, env, json_mode=True)
     data = parse_json_response(text)
-    assert "scenes" in data and len(data["scenes"]) == 5, \
-        f"Expected 5 scenes, got: {data}"
+    assert "scenes" in data and len(data["scenes"]) == 5,         f"Expected 5 scenes, got: {data}"
     data["hashtags"] = [h.lstrip("#").lower() for h in data.get("hashtags", [])][:10]
     return data
 
 
 def generate_upload_caption(video_path: Path, persona: dict, env: dict) -> str:
     """Use Gemini to write a caption for a user-uploaded reel."""
-    prompt = f"""You are writing content for an AI virtual influencer named {persona['name']}.
+    prompt = f"""You are writing content for a chic fashion influencer named {persona['name']}.
 Her voice: {persona['voice']}
 
 Write an Instagram Reel caption (2-3 sentences, max one emoji) for a video reel she is posting.
 The filename is: {video_path.name}
-Return ONLY the caption text – no JSON, no extra commentary.
+NEVER mention AI, algorithm, or code. Return ONLY the caption text.
 """
     return call_gemini(prompt, env).strip()
 
@@ -364,9 +368,9 @@ Return ONLY the caption text – no JSON, no extra commentary.
 # ---------------------------------------------------------------------------
 
 def build_image_prompt(persona: dict, scene: str) -> str:
-    # Keep prompt concise to avoid HTTP 503 URL-length overflow on CDN edge proxies
-    look = "Lyra, silver-streaked dark hair, luminous violet eyes"
-    style = "cinematic editorial photography, soft lighting, 8k"
+    # Concise, high-aesthetic prompt: gorgeous curvy woman in flattering styling
+    look = "Stunning gorgeous woman Erika, fit toned curvy hourglass body, long wavy brunette hair, glowing sun-kissed skin, hazel eyes, beautiful alluring smile"
+    style = "high-end fashion editorial photography, aesthetic flattering outfit, golden hour sunlight, 8k crisp detail"
     return f"{look}, {scene[:180]}, {style}"
 
 
