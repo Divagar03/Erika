@@ -367,6 +367,31 @@ NEVER mention AI, algorithm, or code. Return ONLY the caption text.
 # Image generation (Pollinations.ai)
 # ---------------------------------------------------------------------------
 
+# Curated aesthetic fashion & model imagery matching Erika's style (hot, chic, flattering outfits)
+AESTHETIC_MODEL_PRESETS = [
+    # Sultry studio cutout fit / black bodysuit (Reference 2 aesthetic)
+    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1080&h=1350&fit=crop&q=85",
+    # Golden hour warm silk / sheer drapery with sunbeams (Reference 3 aesthetic)
+    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1080&h=1350&fit=crop&q=85",
+    # Chic beachwear / flattering bikini on white sand
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1080&h=1350&fit=crop&q=85",
+    # Sun-kissed golden aesthetic portrait with natural curves
+    "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1080&h=1350&fit=crop&q=85",
+    # Glamorous evening bodycon look with sultry gaze
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=1080&h=1350&fit=crop&q=85",
+    # Infinity pool resort swimwear with glowing skin
+    "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=1080&h=1350&fit=crop&q=85",
+    # Aesthetic rooftop twilight slip dress
+    "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=1080&h=1350&fit=crop&q=85",
+    # Tropical vacation chic bikini
+    "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=1080&h=1350&fit=crop&q=85",
+    # Flattering activewear / toned aesthetic silhouette
+    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1080&h=1350&fit=crop&q=85",
+    # Chic summer vacation dress with sunset bokeh
+    "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=1080&h=1350&fit=crop&q=85"
+]
+
+
 def build_image_prompt(persona: dict, scene: str) -> str:
     # Concise, high-aesthetic prompt: gorgeous curvy woman in flattering styling
     look = "Stunning gorgeous woman Erika, fit toned curvy hourglass body, long wavy brunette hair, glowing sun-kissed skin, hazel eyes, beautiful alluring smile"
@@ -407,17 +432,17 @@ def download_image(
             if attempt == 0:
                 time.sleep(5)
 
-    # Reliable fallback: High-res editorial photography matching the dimensions
-    print("  Pollinations rate-limited/busy. Using high-res editorial photography fallback...")
-    fallback_url = f"https://picsum.photos/{width}/{height}?random={random.randint(1000, 999999)}"
-    r = requests.get(fallback_url, timeout=20, stream=True)
+    # Guaranteed high-aesthetic fallback: curated attractive female model photography matching Erika's style
+    print("  Pollinations busy/rate-limited. Using curated aesthetic model photography fallback...")
+    fallback_url = random.choice(AESTHETIC_MODEL_PRESETS)
+    r = requests.get(fallback_url, timeout=25, stream=True)
     r.raise_for_status()
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "wb") as f:
         for chunk in r.iter_content(65536):
             f.write(chunk)
     size = output_path.stat().st_size
-    print(f"  Editorial image saved: {output_path} ({size // 1024} KB)")
+    print(f"  Aesthetic model image saved: {output_path} ({size // 1024} KB)")
 
 
 # ---------------------------------------------------------------------------
