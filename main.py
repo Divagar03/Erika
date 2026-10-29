@@ -153,12 +153,14 @@ def log_fail(kind: str, detail: str, caption: str = "", media: str = "") -> None
 # ---------------------------------------------------------------------------
 
 def call_gemini(prompt: str, env: dict, json_mode: bool = False) -> str:
-    """Call Gemini API strictly using configured model with rate-limit reset handling."""
-    model_name = env['gemini_model']
-    url = (
-        f"{GEMINI_API_BASE}/models/{model_name}:generateContent"
-        f"?key={env['gemini_key']}"
-    )
+    """Call Gemini API with automatic fallback if primary model is 503 (high demand) or 429 (quota exceeded)."""
+    primary_model = env['gemini_model']
+    # Cascade list: primary first, followed by production flash models with large free quotas
+    candidate_models = [primary_model, "gemini-2.5-flash", "gemini-2.0-flash"]
+    models_to_try = []
+    for m in candidate_models:
+        if m and m not in models_to_try:
+            models_to_try.append(m)
 
     gen_config = {
         "temperature": 0.85,
@@ -173,28 +175,32 @@ def call_gemini(prompt: str, env: dict, json_mode: bool = False) -> str:
     }
 
     last_error = None
-    for attempt in range(6):
-        try:
-            print(f"  Gemini attempt {attempt + 1} calling {model_name}...")
-            r = requests.post(url, json=body, timeout=40)
-            if not r.ok:
-                err_text = r.text[:200]
-                print(f"  Gemini HTTP {r.status_code}: {err_text}")
-            r.raise_for_status()
-            data = r.json()
-            return data["candidates"][0]["content"]["parts"][0]["text"]
-        except Exception as exc:
-            last_error = exc
-            is_429 = "429" in str(exc) or (hasattr(exc, "response") and exc.response and exc.response.status_code == 429)
-            if is_429:
-                wait_sec = 25 + (attempt * 5)
-                print(f"  Rate limited (429). Waiting {wait_sec}s for quota window to reset...")
-            else:
-                wait_sec = 5 * (attempt + 1)
-                print(f"  Gemini attempt {attempt + 1} failed: {exc}. Retrying in {wait_sec}s...")
-            time.sleep(wait_sec)
+    attempt = 0
+    for model_name in models_to_try:
+        url = (
+            f"{GEMINI_API_BASE}/models/{model_name}:generateContent"
+            f"?key={env['gemini_key']}"
+        )
+        for sub_attempt in range(2):
+            attempt += 1
+            try:
+                print(f"  Gemini attempt {attempt} calling '{model_name}'...")
+                r = requests.post(url, json=body, timeout=40)
+                if not r.ok:
+                    err_text = r.text[:200]
+                    print(f"  Gemini HTTP {r.status_code} ({model_name}): {err_text}")
+                r.raise_for_status()
+                data = r.json()
+                return data["candidates"][0]["content"]["parts"][0]["text"]
+            except Exception as exc:
+                last_error = exc
+                is_quota = "429" in str(exc) or "503" in str(exc)
+                if is_quota and model_name != models_to_try[-1]:
+                    print(f"  '{model_name}' hit capacity/quota limit. Falling back to alternative model...")
+                    break  # Break inner loop and immediately try next model!
+                time.sleep(5 * (sub_attempt + 1))
 
-    raise RuntimeError(f"Gemini API ({model_name}) failed after 6 attempts: {last_error}")
+    raise RuntimeError(f"Gemini API failed across all candidate models: {last_error}")
 
 
 def parse_json_response(text: str) -> dict:
