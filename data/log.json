@@ -110,5 +110,13 @@
     "caption": "",
     "media": "",
     "detail": "Instagram API POST /17841450672087574/media failed after 3 attempts"
+  },
+  {
+    "time": "2026-10-29T19:06:55.086645+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Instagram API POST /17841450672087574/media failed after 3 attempts"
   }
 ]
