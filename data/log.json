@@ -22,5 +22,13 @@
     "caption": "",
     "media": "",
     "detail": "raw.githubusercontent.com URL not ready after 300s: https://raw.githubusercontent.com/Divagar03/Erika/65b8b636fe689a91f0b1e6ea991d055304f3a8b1/media/post_20261029_081438.jpg"
+  },
+  {
+    "time": "2026-10-29T08:23:56.504205+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Instagram API POST /1328098817061884/media failed after 3 attempts"
   }
 ]
