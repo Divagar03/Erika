@@ -539,11 +539,42 @@ def poll_container_status(container_id: str, env: dict) -> None:
     raise TimeoutError(f"Container {container_id} not FINISHED after {IG_PUBLISH_TIMEOUT}s")
 
 
+def resolve_ig_user_id(env: dict) -> str:
+    """Validate or auto-discover the Instagram Business Account ID from the token."""
+    configured_id = env.get("ig_user_id", "").strip()
+
+    # 1. Try querying /me on the token
+    try:
+        data = ig_get("me", env, {"fields": "name,instagram_business_account"})
+        print(f"  Token identity: {data.get('name')} (id: {data.get('id')})")
+        ig_biz = data.get("instagram_business_account")
+        if isinstance(ig_biz, dict) and ig_biz.get("id"):
+            found_id = ig_biz["id"]
+            print(f"  Auto-resolved Instagram Business ID: {found_id}")
+            return found_id
+    except Exception as exc:
+        print(f"  Meta /me check: {exc}")
+
+    # 2. Try querying /me/accounts if token has user page access
+    try:
+        pages_data = ig_get("me/accounts", env, {"fields": "name,instagram_business_account"})
+        for page in pages_data.get("data", []):
+            ig_biz = page.get("instagram_business_account")
+            if isinstance(ig_biz, dict) and ig_biz.get("id"):
+                found_id = ig_biz["id"]
+                print(f"  Found Instagram Business ID under page '{page.get('name')}': {found_id}")
+                return found_id
+    except Exception as exc:
+        print(f"  Meta /me/accounts check: {exc}")
+
+    return configured_id
+
+
 def publish_photo(image_url: str, caption: str, env: dict) -> str:
     """Create a photo container and publish it. Returns media ID."""
-    ig_user = env["ig_user_id"]
+    ig_user = resolve_ig_user_id(env)
     full_caption = caption  # hashtags already embedded in caption
-    print(f"  Creating photo container...")
+    print(f"  Creating photo container for IG user: {ig_user}...")
     data = ig_post(
         f"{ig_user}/media",
         env,
@@ -562,7 +593,7 @@ def publish_photo(image_url: str, caption: str, env: dict) -> str:
 
 def publish_reel(video_url: str, caption: str, env: dict) -> str:
     """Create a Reel container and publish it. Returns media ID."""
-    ig_user = env["ig_user_id"]
+    ig_user = resolve_ig_user_id(env)
     print(f"  Creating reel container...")
     data = ig_post(
         f"{ig_user}/media",
