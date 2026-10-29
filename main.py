@@ -153,11 +153,12 @@ def log_fail(kind: str, detail: str, caption: str = "", media: str = "") -> None
 # ---------------------------------------------------------------------------
 
 def call_gemini(prompt: str, env: dict, json_mode: bool = False) -> str:
-    """Call Gemini API and return the text response."""
-    url = (
-        f"{GEMINI_API_BASE}/models/{env['gemini_model']}:generateContent"
-        f"?key={env['gemini_key']}"
-    )
+    """Call Gemini API with model fallback on 503/timeout."""
+    primary_model = env['gemini_model']
+    # Fallback cascade so a 503 or timeout on one model never kills the post
+    candidate_models = [primary_model, "gemini-2.5-flash", "gemini-2.0-flash"]
+    models_to_try = [m for i, m in enumerate(candidate_models) if m and m not in candidate_models[:i]]
+
     gen_config = {
         "temperature": 1.0,
         "topP": 0.95,
@@ -170,17 +171,27 @@ def call_gemini(prompt: str, env: dict, json_mode: bool = False) -> str:
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": gen_config,
     }
-    for attempt in range(5):
+
+    last_error = None
+    for attempt, model_name in enumerate(models_to_try * 2):
+        if attempt >= 5:
+            break
+        url = (
+            f"{GEMINI_API_BASE}/models/{model_name}:generateContent"
+            f"?key={env['gemini_key']}"
+        )
         try:
-            r = requests.post(url, json=body, timeout=60)
+            print(f"  Gemini attempt {attempt + 1} using '{model_name}'...")
+            r = requests.post(url, json=body, timeout=35)
             r.raise_for_status()
             data = r.json()
             return data["candidates"][0]["content"]["parts"][0]["text"]
         except Exception as exc:
-            print(f"  Gemini attempt {attempt + 1} failed: {exc}")
-            if attempt < 4:
-                time.sleep(5 * (attempt + 1))
-    raise RuntimeError("Gemini API failed after 5 attempts")
+            last_error = exc
+            print(f"  Gemini attempt {attempt + 1} ({model_name}) failed: {exc}")
+            time.sleep(3 * (attempt + 1))
+
+    raise RuntimeError(f"Gemini API failed after attempts across models: {last_error}")
 
 
 def parse_json_response(text: str) -> dict:
