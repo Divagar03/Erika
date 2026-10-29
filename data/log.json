@@ -102,5 +102,13 @@
     "caption": "",
     "media": "",
     "detail": "Gemini API failed after attempts across models: 404 Client Error: Not Found for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AQ.Ab8RN6I1mxLR1xyk5lDfSmmsBjObTz8a7gBtoGLBvwE09RhrWA"
+  },
+  {
+    "time": "2026-10-29T06:03:21.375133+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Instagram API POST /1328098817061884/media failed after 3 attempts"
   }
 ]
