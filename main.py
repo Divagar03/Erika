@@ -152,30 +152,34 @@ def log_fail(kind: str, detail: str, caption: str = "", media: str = "") -> None
 # Gemini API
 # ---------------------------------------------------------------------------
 
-def call_gemini(prompt: str, env: dict) -> str:
+def call_gemini(prompt: str, env: dict, json_mode: bool = False) -> str:
     """Call Gemini API and return the text response."""
     url = (
         f"{GEMINI_API_BASE}/models/{env['gemini_model']}:generateContent"
         f"?key={env['gemini_key']}"
     )
+    gen_config = {
+        "temperature": 1.0,
+        "topP": 0.95,
+        "maxOutputTokens": 4096,
+    }
+    if json_mode:
+        gen_config["responseMimeType"] = "application/json"
+
     body = {
         "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {
-            "temperature": 1.0,
-            "topP": 0.95,
-            "maxOutputTokens": 1024,
-        },
+        "generationConfig": gen_config,
     }
     for attempt in range(5):
         try:
-            r = requests.post(url, json=body, timeout=120)
+            r = requests.post(url, json=body, timeout=60)
             r.raise_for_status()
             data = r.json()
             return data["candidates"][0]["content"]["parts"][0]["text"]
         except Exception as exc:
             print(f"  Gemini attempt {attempt + 1} failed: {exc}")
             if attempt < 4:
-                time.sleep(10 * (attempt + 1))
+                time.sleep(5 * (attempt + 1))
     raise RuntimeError("Gemini API failed after 5 attempts")
 
 
@@ -216,7 +220,7 @@ Rules:
 - scene must be very descriptive for image generation
 - she is an AI character – she can acknowledge this lightly if it feels natural
 """
-    text = call_gemini(prompt, env)
+    text = call_gemini(prompt, env, json_mode=True)
     data = parse_json_response(text)
     # Validate
     assert "scene" in data and "caption" in data and "hashtags" in data, \
@@ -259,7 +263,7 @@ Rules:
 - hashtags lowercase, no # prefix, 8-10 tags
 - caption feels authentic, Reel-friendly (energetic yet her voice)
 """
-    text = call_gemini(prompt, env)
+    text = call_gemini(prompt, env, json_mode=True)
     data = parse_json_response(text)
     assert "scenes" in data and len(data["scenes"]) == 5, \
         f"Expected 5 scenes, got: {data}"
@@ -385,14 +389,18 @@ def _get_branch() -> str:
 def wait_for_raw_url(gh_repo: str, branch: str, file_path: Path) -> str:
     """Wait until the raw.githubusercontent.com URL is accessible (HTTP 200)."""
     rel = file_path.relative_to(ROOT).as_posix()
-    url = f"{RAW_GITHUB_BASE}/{gh_repo}/{branch}/{rel}"
+    # Use the exact Git commit SHA so GitHub CDN does not serve stale branch 404s
+    r_sha = git_run("rev-parse", "HEAD")
+    ref = r_sha.stdout.strip() if r_sha.returncode == 0 and r_sha.stdout.strip() else branch
+    url = f"{RAW_GITHUB_BASE}/{gh_repo}/{ref}/{rel}"
     print(f"  Waiting for raw URL: {url}")
-    print(f"  Giving GitHub CDN {MEDIA_WAIT_INITIAL}s to propagate...")
-    time.sleep(MEDIA_WAIT_INITIAL)
+
     deadline = time.time() + MEDIA_WAIT_TIMEOUT
     while time.time() < deadline:
         try:
-            r = requests.head(url, timeout=15)
+            # Query with a timestamp param so Fastly CDN never serves negative cached 404
+            test_url = f"{url}?t={int(time.time())}"
+            r = requests.get(test_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=15, stream=True)
             if r.status_code == 200:
                 print(f"  URL ready (HTTP 200)")
                 return url
