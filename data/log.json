@@ -94,5 +94,13 @@
     "caption": "",
     "media": "",
     "detail": "Gemini API failed after 5 attempts"
+  },
+  {
+    "time": "2026-10-29T05:58:46.538090+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Gemini API failed after attempts across models: 404 Client Error: Not Found for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AQ.Ab8RN6I1mxLR1xyk5lDfSmmsBjObTz8a7gBtoGLBvwE09RhrWA"
   }
 ]
