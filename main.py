@@ -376,16 +376,17 @@ def download_image(
     width: int = 1080,
     height: int = 1350,
 ) -> None:
-    """Download an image from Pollinations.ai with the fixed persona seed."""
+    """Download an image from Pollinations.ai with fixed seed and 48s cooldown on rate-limits."""
     prompt_text = build_image_prompt(persona, scene)
     encoded = urllib.parse.quote(prompt_text)
     seed = persona.get("seed", 42817)
-    url = f"{POLLINATIONS_BASE}/{encoded}->width={width}&height={height}&seed={seed}&model=flux&nologo=true"
+    # Use standard free URL format with ? query delimiter
+    url = f"{POLLINATIONS_BASE}/{encoded}?width={width}&height={height}&seed={seed}&nologo=true"
 
     print(f"  Generating image: {output_path.name}")
     for attempt in range(5):
         try:
-            r = requests.get(url, timeout=120, stream=True)
+            r = requests.get(url, timeout=90, stream=True)
             r.raise_for_status()
             output_path.parent.mkdir(parents=True, exist_ok=True)
             with open(output_path, "wb") as f:
@@ -393,15 +394,17 @@ def download_image(
                     f.write(chunk)
             size = output_path.stat().st_size
             if size < 10_000:
-                raise ValueError(f"Image too small ({size} bytes), likely an error page")
+                raise ValueError(f"Image too small ({size} bytes), likely an error response")
             print(f"  Image saved: {output_path} ({size // 1024} KB)")
             return
         except Exception as exc:
-            print(f"  Image attempt {attempt + 1} failed: {exc}")
+            is_limit = "402" in str(exc) or "503" in str(exc)
+            wait_sec = 48 if is_limit else 10 * (attempt + 1)
+            print(f"  Image attempt {attempt + 1} failed: {exc}. Cooldown {wait_sec}s for Pollinations rate window...")
             if output_path.exists():
                 output_path.unlink()
             if attempt < 4:
-                time.sleep(10 * (attempt + 1))
+                time.sleep(wait_sec)
     raise RuntimeError(f"Pollinations.ai failed after 5 attempts for scene: {scene[:80]}")
 
 
