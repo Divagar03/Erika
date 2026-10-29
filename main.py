@@ -831,7 +831,7 @@ def main() -> None:
             "gemini_key": _env("GEMINI_API_KEY"),
             "gh_repo": os.environ.get("GITHUB_REPOSITORY", "owner/repo"),
             "gh_branch": os.environ.get("GITHUB_REF_NAME", "main"),
-            "gemini_model": os.environ.get("GEMINI_MODEL", "gemini-2.5-pro"),
+            "gemini_model": os.environ.get("GEMINI_MODEL", "gemini-3.8-flash"),
         }
     else:
         env = load_env()
