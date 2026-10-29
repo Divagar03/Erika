@@ -49,8 +49,9 @@ POLLINATIONS_BASE = "https://image.pollinations.ai/prompt"
 RAW_GITHUB_BASE = "https://raw.githubusercontent.com"
 
 LOG_MAX_ENTRIES = 500
-MEDIA_WAIT_TIMEOUT = 120   # seconds to wait for raw.githubusercontent.com
-MEDIA_WAIT_INTERVAL = 8    # seconds between checks
+MEDIA_WAIT_TIMEOUT = 300   # seconds to wait for raw.githubusercontent.com
+MEDIA_WAIT_INTERVAL = 5    # seconds between checks
+MEDIA_WAIT_INITIAL  = 15   # seconds to wait before first check (CDN propagation)
 IG_PUBLISH_TIMEOUT = 180   # seconds to poll container status
 IG_PUBLISH_INTERVAL = 10
 
@@ -378,6 +379,8 @@ def wait_for_raw_url(gh_repo: str, branch: str, file_path: Path) -> str:
     rel = file_path.relative_to(ROOT).as_posix()
     url = f"{RAW_GITHUB_BASE}/{gh_repo}/{branch}/{rel}"
     print(f"  Waiting for raw URL: {url}")
+    print(f"  Giving GitHub CDN {MEDIA_WAIT_INITIAL}s to propagate...")
+    time.sleep(MEDIA_WAIT_INITIAL)
     deadline = time.time() + MEDIA_WAIT_TIMEOUT
     while time.time() < deadline:
         try:
