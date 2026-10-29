@@ -153,7 +153,7 @@ def log_fail(kind: str, detail: str, caption: str = "", media: str = "") -> None
 # ---------------------------------------------------------------------------
 
 def call_gemini(prompt: str, env: dict, json_mode: bool = False) -> str:
-    """Call Gemini API strictly using the configured model (gemini-3.8-flash)."""
+    """Call Gemini API strictly using configured model with rate-limit reset handling."""
     model_name = env['gemini_model']
     url = (
         f"{GEMINI_API_BASE}/models/{model_name}:generateContent"
@@ -161,7 +161,7 @@ def call_gemini(prompt: str, env: dict, json_mode: bool = False) -> str:
     )
 
     gen_config = {
-        "temperature": 0.9,
+        "temperature": 0.85,
         "maxOutputTokens": 2048,
     }
     if json_mode:
@@ -176,15 +176,23 @@ def call_gemini(prompt: str, env: dict, json_mode: bool = False) -> str:
     for attempt in range(6):
         try:
             print(f"  Gemini attempt {attempt + 1} calling {model_name}...")
-            r = requests.post(url, json=body, timeout=60)
+            r = requests.post(url, json=body, timeout=40)
+            if not r.ok:
+                err_text = r.text[:200]
+                print(f"  Gemini HTTP {r.status_code}: {err_text}")
             r.raise_for_status()
             data = r.json()
             return data["candidates"][0]["content"]["parts"][0]["text"]
         except Exception as exc:
             last_error = exc
-            print(f"  Gemini attempt {attempt + 1} failed: {exc}")
-            # Exponential backoff with jitter
-            time.sleep(4 * (attempt + 1))
+            is_429 = "429" in str(exc) or (hasattr(exc, "response") and exc.response and exc.response.status_code == 429)
+            if is_429:
+                wait_sec = 25 + (attempt * 5)
+                print(f"  Rate limited (429). Waiting {wait_sec}s for quota window to reset...")
+            else:
+                wait_sec = 5 * (attempt + 1)
+                print(f"  Gemini attempt {attempt + 1} failed: {exc}. Retrying in {wait_sec}s...")
+            time.sleep(wait_sec)
 
     raise RuntimeError(f"Gemini API ({model_name}) failed after 6 attempts: {last_error}")
 
