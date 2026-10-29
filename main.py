@@ -153,17 +153,15 @@ def log_fail(kind: str, detail: str, caption: str = "", media: str = "") -> None
 # ---------------------------------------------------------------------------
 
 def call_gemini(prompt: str, env: dict, json_mode: bool = False) -> str:
-    """Call Gemini API with automatic fallback if primary model is 503 (high demand) or 429 (quota exceeded)."""
-    primary_model = env['gemini_model']
-    # Cascade list: primary first, followed by production flash models with large free quotas
-    candidate_models = [primary_model, "gemini-2.5-flash", "gemini-2.0-flash"]
-    models_to_try = []
-    for m in candidate_models:
-        if m and m not in models_to_try:
-            models_to_try.append(m)
+    """Call Gemini API strictly using gemini-3.8-flash with smart backoff on 503/temporary spikes."""
+    model_name = env['gemini_model']
+    url = (
+        f"{GEMINI_API_BASE}/models/{model_name}:generateContent"
+        f"?key={env['gemini_key']}"
+    )
 
     gen_config = {
-        "temperature": 0.85,
+        "temperature": 0.8,
         "maxOutputTokens": 2048,
     }
     if json_mode:
@@ -175,32 +173,25 @@ def call_gemini(prompt: str, env: dict, json_mode: bool = False) -> str:
     }
 
     last_error = None
-    attempt = 0
-    for model_name in models_to_try:
-        url = (
-            f"{GEMINI_API_BASE}/models/{model_name}:generateContent"
-            f"?key={env['gemini_key']}"
-        )
-        for sub_attempt in range(2):
-            attempt += 1
-            try:
-                print(f"  Gemini attempt {attempt} calling '{model_name}'...")
-                r = requests.post(url, json=body, timeout=40)
-                if not r.ok:
-                    err_text = r.text[:200]
-                    print(f"  Gemini HTTP {r.status_code} ({model_name}): {err_text}")
-                r.raise_for_status()
-                data = r.json()
-                return data["candidates"][0]["content"]["parts"][0]["text"]
-            except Exception as exc:
-                last_error = exc
-                is_quota = "429" in str(exc) or "503" in str(exc)
-                if is_quota and model_name != models_to_try[-1]:
-                    print(f"  '{model_name}' hit capacity/quota limit. Falling back to alternative model...")
-                    break  # Break inner loop and immediately try next model!
-                time.sleep(5 * (sub_attempt + 1))
+    for attempt in range(5):
+        try:
+            print(f"  Gemini attempt {attempt + 1} calling '{model_name}'...")
+            r = requests.post(url, json=body, timeout=45)
+            if not r.ok:
+                err_text = r.text[:200]
+                print(f"  Gemini HTTP {r.status_code} ({model_name}): {err_text}")
+            r.raise_for_status()
+            data = r.json()
+            return data["candidates"][0]["content"]["parts"][0]["text"]
+        except Exception as exc:
+            last_error = exc
+            is_503 = "503" in str(exc)
+            is_429 = "429" in str(exc)
+            wait_sec = 12 if is_503 else (20 if is_429 else 5 * (attempt + 1))
+            print(f"  Attempt {attempt + 1} encountered temporary spike ({exc}). Waiting {wait_sec}s...")
+            time.sleep(wait_sec)
 
-    raise RuntimeError(f"Gemini API failed across all candidate models: {last_error}")
+    raise RuntimeError(f"Gemini API ({model_name}) failed after 5 attempts: {last_error}")
 
 
 def parse_json_response(text: str) -> dict:
