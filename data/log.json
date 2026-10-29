@@ -46,5 +46,13 @@
     "caption": "",
     "media": "",
     "detail": "Instagram API POST /1328098817061884/media failed after 3 attempts"
+  },
+  {
+    "time": "2026-10-29T09:00:41.699075+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Pollinations.ai failed after 5 attempts for scene: A candid editorial shot of Lyra exploring minimalist interiors with soft window "
   }
 ]
