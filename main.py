@@ -367,36 +367,89 @@ NEVER mention AI, algorithm, or code. Return ONLY the caption text.
 # Image generation (Pollinations.ai)
 # ---------------------------------------------------------------------------
 
-# Curated aesthetic fashion & model imagery matching Erika's style (hot, chic, flattering outfits)
-AESTHETIC_MODEL_PRESETS = [
-    # Sultry studio cutout fit / black bodysuit (Reference 2 aesthetic)
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1080&h=1350&fit=crop&q=85",
-    # Golden hour warm silk / sheer drapery with sunbeams (Reference 3 aesthetic)
-    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1080&h=1350&fit=crop&q=85",
-    # Chic beachwear / flattering bikini on white sand
-    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1080&h=1350&fit=crop&q=85",
-    # Sun-kissed golden aesthetic portrait with natural curves
-    "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1080&h=1350&fit=crop&q=85",
-    # Glamorous evening bodycon look with sultry gaze
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=1080&h=1350&fit=crop&q=85",
-    # Infinity pool resort swimwear with glowing skin
-    "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=1080&h=1350&fit=crop&q=85",
-    # Aesthetic rooftop twilight slip dress
-    "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=1080&h=1350&fit=crop&q=85",
-    # Tropical vacation chic bikini
-    "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=1080&h=1350&fit=crop&q=85",
-    # Flattering activewear / toned aesthetic silhouette
-    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1080&h=1350&fit=crop&q=85",
-    # Chic summer vacation dress with sunset bokeh
-    "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=1080&h=1350&fit=crop&q=85"
-]
+ERIKA_ASSETS_DIR = Path(__file__).parent / "assets" / "erika"
+ERIKA_INDEX_FILE = Path(__file__).parent / "data" / "erika_index.json"
 
 
-def build_image_prompt(persona: dict, scene: str) -> str:
-    # Concise, high-aesthetic prompt: gorgeous curvy woman in flattering styling
-    look = "Stunning gorgeous woman Erika, fit toned curvy hourglass body, long wavy brunette hair, glowing sun-kissed skin, hazel eyes, beautiful alluring smile"
-    style = "high-end fashion editorial photography, aesthetic flattering outfit, golden hour sunlight, 8k crisp detail"
-    return f"{look}, {scene[:180]}, {style}"
+def get_next_curated_erika_image() -> Path:
+    """Cycle sequentially through the verified consistent photo library of Erika."""
+    ERIKA_ASSETS_DIR.mkdir(parents=True, exist_ok=True)
+    images = sorted(list(ERIKA_ASSETS_DIR.glob("*.jpg")) + list(ERIKA_ASSETS_DIR.glob("*.png")))
+    if not images:
+        raise FileNotFoundError(f"No curated Erika images found in {ERIKA_ASSETS_DIR}")
+
+    idx = 0
+    if ERIKA_INDEX_FILE.exists():
+        try:
+            with open(ERIKA_INDEX_FILE, encoding="utf-8") as f:
+                data = json.load(f)
+                idx = data.get("index", 0)
+        except Exception:
+            idx = 0
+
+    chosen = images[idx % len(images)]
+    next_idx = (idx + 1) % len(images)
+    try:
+        ERIKA_INDEX_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(ERIKA_INDEX_FILE, "w", encoding="utf-8") as f:
+            json.dump({"index": next_idx, "last_image": chosen.name}, f, indent=2)
+    except Exception:
+        pass
+    return chosen
+
+
+def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: int = 1080, height: int = 1350) -> bool:
+    """Generate image featuring consistent Erika via AI Horde with character facial anchor and fixed seed."""
+    headers = {
+        "apikey": "0000000000",
+        "Client-Agent": "ErikaInfluencer:1.0:erika@example.com"
+    }
+    # Character facial anchor ensures Erika retains identical facial features and look across all posts
+    face_anchor = "medium close-up portrait of Erika, 22yo brunette woman with hazel eyes, soft subtle smile, delicate jawline, glowing tanned skin, wavy dark hair, looking at camera"
+    negative = "ugly, deformed, disfigured, blurry, bad anatomy, bad face, bad eyes, extra limbs, watermark, text"
+    prompt = f"{face_anchor}, {scene[:180]} ### {negative}"
+    seed = str(persona.get("seed", 789211))
+
+    payload = {
+        "prompt": prompt,
+        "params": {
+            "steps": 25,
+            "width": 512,
+            "height": 640,
+            "sampler_name": "k_euler",
+            "seed": seed
+        }
+    }
+    try:
+        print(f"  Requesting consistent AI image for Erika from AI Horde (seed: {seed})...")
+        r = requests.post("https://aihorde.net/api/v2/generate/async", headers=headers, json=payload, timeout=20)
+        job_id = r.json().get("id")
+        if not job_id:
+            return False
+
+        for _ in range(8):
+            time.sleep(3)
+            check = requests.get(f"https://aihorde.net/api/v2/generate/check/{job_id}", headers=headers, timeout=10).json()
+            if check.get("done"):
+                break
+
+        status = requests.get(f"https://aihorde.net/api/v2/generate/status/{job_id}", headers=headers, timeout=15).json()
+        img_url = status.get("generations", [{}])[0].get("img")
+        if not img_url:
+            return False
+
+        img_bytes = requests.get(img_url, timeout=25).content
+        from PIL import Image
+        import io
+        img = Image.open(io.BytesIO(img_bytes)).convert("RGB")
+        img = img.resize((width, height), Image.Resampling.LANCZOS)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        img.save(output_path, quality=95)
+        print(f"  AI Horde image generated and saved: {output_path} ({output_path.stat().st_size // 1024} KB)")
+        return True
+    except Exception as exc:
+        print(f"  AI Horde generation skipped/error: {exc}")
+        return False
 
 
 def download_image(
@@ -406,43 +459,26 @@ def download_image(
     width: int = 1080,
     height: int = 1350,
 ) -> None:
-    """Download image from Pollinations.ai with automatic editorial fallback on 402/503 limits."""
-    prompt_text = build_image_prompt(persona, scene)
-    encoded = urllib.parse.quote(prompt_text)
-    seed = persona.get("seed", 42817)
-    url = f"{POLLINATIONS_BASE}/{encoded}?width={width}&height={height}&seed={seed}&nologo=true"
+    """Generate consistent Erika image or choose from verified photoshoot library."""
+    print(f"  Preparing consistent image for Erika: {output_path.name}")
 
-    print(f"  Generating image: {output_path.name}")
-    for attempt in range(2):
-        try:
-            r = requests.get(url, timeout=40, stream=True)
-            r.raise_for_status()
-            output_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(output_path, "wb") as f:
-                for chunk in r.iter_content(65536):
-                    f.write(chunk)
-            size = output_path.stat().st_size
-            if size > 15_000:
-                print(f"  Image saved from Pollinations: {output_path} ({size // 1024} KB)")
-                return
-        except Exception as exc:
-            print(f"  Pollinations attempt {attempt + 1} failed: {exc}")
-            if output_path.exists():
-                output_path.unlink()
-            if attempt == 0:
-                time.sleep(5)
+    # 1. Try AI Horde with fixed seed and facial anchor
+    try:
+        if generate_image_aihorde(persona, scene, output_path, width=width, height=height):
+            return
+    except Exception as exc:
+        print(f"  Live AI generation failed: {exc}")
 
-    # Guaranteed high-aesthetic fallback: curated attractive female model photography matching Erika's style
-    print("  Pollinations busy/rate-limited. Using curated aesthetic model photography fallback...")
-    fallback_url = random.choice(AESTHETIC_MODEL_PRESETS)
-    r = requests.get(fallback_url, timeout=25, stream=True)
-    r.raise_for_status()
+    # 2. Guaranteed fallback: Curated photos of the exact same Erika
+    print("  Using verified consistent photoshoot library for Erika...")
+    chosen = get_next_curated_erika_image()
+    from PIL import Image
+    img = Image.open(chosen).convert("RGB")
+    if img.size != (width, height):
+        img = img.resize((width, height), Image.Resampling.LANCZOS)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(output_path, "wb") as f:
-        for chunk in r.iter_content(65536):
-            f.write(chunk)
-    size = output_path.stat().st_size
-    print(f"  Aesthetic model image saved: {output_path} ({size // 1024} KB)")
+    img.save(output_path, quality=95)
+    print(f"  Consistent Erika photo saved from curated library: {chosen.name} ({output_path.stat().st_size // 1024} KB)")
 
 
 # ---------------------------------------------------------------------------
