@@ -513,12 +513,14 @@ def ig_post(endpoint: str, env: dict, payload: dict) -> dict:
 
 
 def ig_get(endpoint: str, env: dict, params: dict | None = None) -> dict:
-    """GET from Instagram Graph API."""
-    url = f"{IG_API_BASE}/{endpoint}"
+    """GET from Instagram Graph API with response debugging."""
+    url = f"{IG_API_BASE}/{endpoint}" if not endpoint.startswith("http") else endpoint
     p = {"access_token": env["ig_token"]}
     if params:
         p.update(params)
     r = requests.get(url, params=p, timeout=30)
+    if not r.ok:
+        print(f"  Meta API GET error ({r.status_code}) on {endpoint}: {r.text[:300]}")
     r.raise_for_status()
     return r.json()
 
@@ -543,9 +545,9 @@ def resolve_ig_user_id(env: dict) -> str:
     """Validate or auto-discover the Instagram Business Account ID from the token."""
     configured_id = env.get("ig_user_id", "").strip()
 
-    # 1. Try querying /me on the token
+    # 1. Try querying /me on graph.facebook.com
     try:
-        data = ig_get("me", env, {"fields": "name,instagram_business_account"})
+        data = ig_get("me", env, {"fields": "id,name,instagram_business_account"})
         print(f"  Token identity: {data.get('name')} (id: {data.get('id')})")
         ig_biz = data.get("instagram_business_account")
         if isinstance(ig_biz, dict) and ig_biz.get("id"):
@@ -553,7 +555,18 @@ def resolve_ig_user_id(env: dict) -> str:
             print(f"  Auto-resolved Instagram Business ID: {found_id}")
             return found_id
     except Exception as exc:
-        print(f"  Meta /me check: {exc}")
+        print(f"  Meta /me check failed: {exc}")
+
+    # 1b. Try querying graph.instagram.com/me in case it is an Instagram User Token
+    try:
+        data = ig_get("https://graph.instagram.com/v21.0/me", env, {"fields": "id,username,user_id"})
+        print(f"  Instagram Token identity: {data.get('username')} (id: {data.get('id')}, user_id: {data.get('user_id')})")
+        found_id = data.get("user_id") or data.get("id")
+        if found_id:
+            print(f"  Auto-resolved via graph.instagram.com: {found_id}")
+            return found_id
+    except Exception as exc:
+        print(f"  Instagram /me check failed: {exc}")
 
     # 2. Try querying /me/accounts if token has user page access
     try:
