@@ -14,5 +14,13 @@
     "caption": "",
     "media": "",
     "detail": "Text generation failed across all providers: HTTPSConnectionPool(host='text.pollinations.ai', port=443): Read timed out. (read timeout=30)"
+  },
+  {
+    "time": "2026-10-29T08:20:20.848667+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "raw.githubusercontent.com URL not ready after 300s: https://raw.githubusercontent.com/Divagar03/Erika/65b8b636fe689a91f0b1e6ea991d055304f3a8b1/media/post_20261029_081438.jpg"
   }
 ]
