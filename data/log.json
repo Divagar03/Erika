@@ -134,5 +134,13 @@
     "caption": "",
     "media": "",
     "detail": "Gemini API (gemini-3.8-flash) failed after 6 attempts: 429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=AQ.Ab8RN6IBp8wvQauOVXNOU03mAxqXLkgZW-_eA0VeV9LYH8HDLQ"
+  },
+  {
+    "time": "2026-10-29T06:45:01.276688+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Gemini API (gemini-3.8-flash) failed after 6 attempts: 401 Client Error: Unauthorized for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=AQ.Ab8RN6IBp8wvQauOVXNOU03mAxqXLkgZW-_eA0VeV9LYH8HDLQ"
   }
 ]
