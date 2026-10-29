@@ -110,8 +110,21 @@ def is_paused() -> bool:
 # Logging
 # ---------------------------------------------------------------------------
 
+def sanitize_log_str(s: str) -> str:
+    """Redact any keys or tokens from log strings."""
+    if not isinstance(s, str):
+        return s
+    s = re.sub(r'key=[a-zA-Z0-9_\-\.]+', 'key=[REDACTED]', s)
+    s = re.sub(r'AQ\.[a-zA-Z0-9_\-\.]+', '[REDACTED]', s)
+    s = re.sub(r'AIzaSy[a-zA-Z0-9_\-\.]+', '[REDACTED]', s)
+    s = re.sub(r'access_token=[a-zA-Z0-9_\-\.]+', 'access_token=[REDACTED]', s)
+    return s
+
+
 def write_log(entry: dict) -> None:
     """Append entry to data/log.json, keep last LOG_MAX_ENTRIES."""
+    # Sanitize every field to prevent credential leakage
+    entry = {k: (sanitize_log_str(v) if isinstance(v, str) else v) for k, v in entry.items()}
     LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     entries: list = []
     if LOG_FILE.exists():
@@ -155,10 +168,12 @@ def log_fail(kind: str, detail: str, caption: str = "", media: str = "") -> None
 def call_gemini(prompt: str, env: dict, json_mode: bool = False) -> str:
     """Call Gemini API strictly using gemini-3.8-flash with smart backoff on 503/temporary spikes."""
     model_name = env['gemini_model']
-    url = (
-        f"{GEMINI_API_BASE}/models/{model_name}:generateContent"
-        f"?key={env['gemini_key']}"
-    )
+    # Pass key via header so it NEVER appears in URLs, error messages, or logs
+    url = f"{GEMINI_API_BASE}/models/{model_name}:generateContent"
+    headers = {
+        "x-goog-api-key": env["gemini_key"],
+        "Content-Type": "application/json"
+    }
 
     gen_config = {
         "temperature": 0.8,
@@ -176,7 +191,7 @@ def call_gemini(prompt: str, env: dict, json_mode: bool = False) -> str:
     for attempt in range(5):
         try:
             print(f"  Gemini attempt {attempt + 1} calling '{model_name}'...")
-            r = requests.post(url, json=body, timeout=45)
+            r = requests.post(url, headers=headers, json=body, timeout=45)
             if not r.ok:
                 err_text = r.text[:200]
                 print(f"  Gemini HTTP {r.status_code} ({model_name}): {err_text}")
