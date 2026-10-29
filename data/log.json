@@ -78,5 +78,13 @@
     "caption": "",
     "media": "",
     "detail": "No JSON object found in Gemini response: {\n  \"scene\": \"A cinematic medium-format portrait of Lyra seated beside a massive, rain-streaked airport terminal window at twilight, looking out at the blur of amber runway lights. Moody cool violet s"
+  },
+  {
+    "time": "2026-10-29T05:40:24.191254+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "raw.githubusercontent.com URL not ready after 300s: https://raw.githubusercontent.com/Divagar03/Erika/932b51c07b7fc4dd1dcb3645582d3941508225d4/media/post_20261029_053414.jpg"
   }
 ]
