@@ -75,6 +75,7 @@ def load_env() -> dict:
         "gh_repo": _env("GITHUB_REPOSITORY"),   # owner/repo
         "gh_branch": _env("GITHUB_REF_NAME", required=False) or "main",
         "gemini_model": os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip(),
+        "gh_token": os.environ.get("GITHUB_TOKEN", "").strip(),
     }
 
 
@@ -339,7 +340,14 @@ def git_run(*args: str) -> subprocess.CompletedProcess:
 
 
 def git_commit_and_push(files: list[Path], message: str) -> None:
-    """Stage given files, pull --rebase, then push."""
+    """Stage given files, pull --rebase, then push (authenticated via GITHUB_TOKEN)."""
+    # Configure authenticated remote URL so git push works from Python subprocess
+    gh_token = os.environ.get("GITHUB_TOKEN", "").strip()
+    gh_repo = os.environ.get("GITHUB_REPOSITORY", "").strip()
+    if gh_token and gh_repo:
+        auth_url = f"https://x-access-token:{gh_token}@github.com/{gh_repo}.git"
+        git_run("remote", "set-url", "origin", auth_url)
+
     for f in files:
         rel = f.relative_to(ROOT).as_posix()
         r = git_run("add", rel)
@@ -362,7 +370,7 @@ def git_commit_and_push(files: list[Path], message: str) -> None:
 
     r = git_run("push", "origin", _get_branch())
     if r.returncode != 0:
-        raise RuntimeError(f"git push failed: {r.stderr}")
+        raise RuntimeError(f"git push failed (returncode={r.returncode}): {r.stderr}")
     print(f"  Pushed: {message}")
 
 
