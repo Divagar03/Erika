@@ -22,5 +22,13 @@
     "caption": "",
     "media": "",
     "detail": "Gemini API failed after 3 attempts"
+  },
+  {
+    "time": "2026-10-29T04:16:01.024375+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Gemini API failed after 3 attempts"
   }
 ]
