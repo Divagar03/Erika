@@ -73,7 +73,7 @@ def load_env() -> dict:
         "gemini_key": _env("GEMINI_API_KEY"),
         "gh_repo": _env("GITHUB_REPOSITORY"),   # owner/repo
         "gh_branch": _env("GITHUB_REF_NAME", required=False) or "main",
-        "gemini_model": os.environ.get("GEMINI_MODEL", "gemini-2.5-pro").strip(),
+        "gemini_model": os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip(),
     }
 
 
