@@ -86,5 +86,13 @@
     "caption": "",
     "media": "",
     "detail": "raw.githubusercontent.com URL not ready after 300s: https://raw.githubusercontent.com/Divagar03/Erika/932b51c07b7fc4dd1dcb3645582d3941508225d4/media/post_20261029_053414.jpg"
+  },
+  {
+    "time": "2026-10-29T05:53:58.484435+00:00",
+    "kind": "post",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Gemini API failed after 5 attempts"
   }
 ]
