@@ -166,17 +166,17 @@ def call_gemini(prompt: str, env: dict) -> str:
             "maxOutputTokens": 1024,
         },
     }
-    for attempt in range(3):
+    for attempt in range(5):
         try:
-            r = requests.post(url, json=body, timeout=60)
+            r = requests.post(url, json=body, timeout=120)
             r.raise_for_status()
             data = r.json()
             return data["candidates"][0]["content"]["parts"][0]["text"]
         except Exception as exc:
             print(f"  Gemini attempt {attempt + 1} failed: {exc}")
-            if attempt < 2:
-                time.sleep(5 * (attempt + 1))
-    raise RuntimeError("Gemini API failed after 3 attempts")
+            if attempt < 4:
+                time.sleep(10 * (attempt + 1))
+    raise RuntimeError("Gemini API failed after 5 attempts")
 
 
 def parse_json_response(text: str) -> dict:
