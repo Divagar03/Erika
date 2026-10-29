@@ -43,7 +43,7 @@ UPLOADS_DIR = ROOT / "uploads"
 UPLOADS_DONE_DIR = ROOT / "uploads" / "done"
 MUSIC_DIR = ROOT / "assets" / "music"
 
-IG_API_BASE = "https://graph.instagram.com/v21.0"
+IG_API_BASE = "https://graph.facebook.com/v21.0"
 GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta"
 POLLINATIONS_BASE = "https://image.pollinations.ai/prompt"
 RAW_GITHUB_BASE = "https://raw.githubusercontent.com"
@@ -422,23 +422,21 @@ def wait_for_raw_url(gh_repo: str, branch: str, file_path: Path) -> str:
 # ---------------------------------------------------------------------------
 
 def ig_post(endpoint: str, env: dict, payload: dict) -> dict:
-    """POST to Instagram Graph API."""
+    """POST to Instagram Graph API using form-encoded payload."""
     url = f"{IG_API_BASE}/{endpoint}"
     params = {"access_token": env["ig_token"]}
     for attempt in range(3):
         try:
-            r = requests.post(url, params=params, json=payload, timeout=60)
+            # Meta Graph API expects form data (data=payload)
+            r = requests.post(url, params=params, data=payload, timeout=60)
+            if not r.ok:
+                print(f"  Meta API response ({r.status_code}): {r.text}")
             r.raise_for_status()
             return r.json()
-        except requests.HTTPError as exc:
-            body = exc.response.text if exc.response else ""
-            print(f"  IG API error (attempt {attempt + 1}): {exc} – {body[:300]}")
-            if attempt < 2:
-                time.sleep(10)
         except Exception as exc:
             print(f"  IG API error (attempt {attempt + 1}): {exc}")
             if attempt < 2:
-                time.sleep(10)
+                time.sleep(5)
     raise RuntimeError(f"Instagram API POST /{endpoint} failed after 3 attempts")
 
 
