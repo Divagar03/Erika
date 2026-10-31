@@ -398,48 +398,88 @@ def get_next_curated_erika_image() -> Path:
     return chosen
 
 
+# Photorealistic models to cycle through (all produce natural-looking results)
+REALISTIC_MODELS = [
+    "Realistic Vision",
+    "AbsoluteReality",
+    "ICBINP - I Can't Believe It's Not Photography",
+    "Photon",
+    "Edge Of Realism",
+    "majicMIX realistic",
+]
+
+
 def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: int = 1080, height: int = 1350) -> bool:
-    """Generate image featuring consistent Erika via AI Horde with character facial anchor and fixed seed."""
+    """Generate a photorealistic image of Erika via AI Horde with consistent face anchor."""
     headers = {
         "apikey": "0000000000",
         "Client-Agent": "ErikaInfluencer:1.0:erika@example.com"
     }
-    # Character facial anchor ensures Erika retains identical facial features and look across all posts
-    face_anchor = "medium close-up portrait of Erika, 22yo brunette woman with hazel eyes, soft subtle smile, delicate jawline, glowing tanned skin, wavy dark hair, looking at camera"
-    negative = "ugly, deformed, disfigured, blurry, bad anatomy, bad face, bad eyes, extra limbs, watermark, text"
-    prompt = f"{face_anchor}, {scene[:180]} ### {negative}"
-    # Use a unique seed per post so every image is a different pose/scene/outfit
-    # The facial anchor (face_anchor text) is what keeps Erika's FACE the same — not the seed
+
+    # Photorealistic character anchor — natural photography language, not AI-art language
+    face_anchor = (
+        "RAW candid photo, beautiful 22yo brunette woman, natural hazel eyes, "
+        "soft warm smile, natural skin texture, subtle pores, realistic lighting, "
+        "wavy dark brown hair, looking at camera, shot on Canon EOS R5, 85mm f/1.8 lens"
+    )
+
+    # Realism-focused style suffix
+    style_suffix = (
+        "photorealistic, natural daylight, soft bokeh background, "
+        "film grain, realistic shadows, lifelike skin, "
+        "candid lifestyle photography, Instagram portrait"
+    )
+
+    # Negative: explicitly block AI-giveaway traits
+    negative = (
+        "ugly, deformed, disfigured, bad anatomy, bad face, extra limbs, "
+        "watermark, text, logo, cartoon, anime, painting, illustration, "
+        "plastic skin, overly smooth skin, airbrushed, oversaturated, "
+        "artificial, fake, uncanny valley, perfect symmetry, studio backdrop"
+    )
+
+    prompt = f"{face_anchor}, {scene[:160]}, {style_suffix} ### {negative}"
+
+    # Unique seed per scene (different image every post)
     import hashlib
     scene_seed = int(hashlib.md5(scene[:80].encode()).hexdigest(), 16) % 999999 + 10000
     seed = str(scene_seed)
 
+    # Pick a photorealistic model
+    model = random.choice(REALISTIC_MODELS)
+
     payload = {
         "prompt": prompt,
         "params": {
-            "steps": 25,
+            "steps": 30,
             "width": 512,
             "height": 640,
-            "sampler_name": "k_euler",
-            "seed": seed
-        }
+            "sampler_name": "k_dpmpp_2m",
+            "cfg_scale": 6,
+            "seed": seed,
+        },
+        "models": [model],
     }
     try:
-        print(f"  Requesting consistent AI image for Erika from AI Horde (seed: {seed} / scene-unique)...")
+        print(f"  Generating realistic Erika image via AI Horde (model: {model}, seed: {seed})...")
         r = requests.post("https://aihorde.net/api/v2/generate/async", headers=headers, json=payload, timeout=20)
         job_id = r.json().get("id")
         if not job_id:
+            print(f"  AI Horde job submission failed: {r.text[:200]}")
             return False
 
-        for _ in range(8):
+        # Wait up to ~45s for generation
+        for _ in range(15):
             time.sleep(3)
             check = requests.get(f"https://aihorde.net/api/v2/generate/check/{job_id}", headers=headers, timeout=10).json()
             if check.get("done"):
                 break
 
         status = requests.get(f"https://aihorde.net/api/v2/generate/status/{job_id}", headers=headers, timeout=15).json()
-        img_url = status.get("generations", [{}])[0].get("img")
+        gen = status.get("generations", [{}])[0]
+        img_url = gen.get("img")
         if not img_url:
+            print(f"  AI Horde returned no image URL. Status: {status}")
             return False
 
         img_bytes = requests.get(img_url, timeout=25).content
@@ -448,11 +488,11 @@ def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: 
         img = Image.open(io.BytesIO(img_bytes)).convert("RGB")
         img = img.resize((width, height), Image.Resampling.LANCZOS)
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        img.save(output_path, quality=95)
-        print(f"  AI Horde image generated and saved: {output_path} ({output_path.stat().st_size // 1024} KB)")
+        img.save(output_path, quality=92)
+        print(f"  Realistic image saved: {output_path} ({output_path.stat().st_size // 1024} KB) [{model}]")
         return True
     except Exception as exc:
-        print(f"  AI Horde generation skipped/error: {exc}")
+        print(f"  AI Horde generation error: {exc}")
         return False
 
 
