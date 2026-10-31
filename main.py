@@ -294,7 +294,7 @@ Rules:
 - caption must feel 100% natural, confident, chic, and flirtatious
 - NEVER use the word "AI", "algorithm", "code", "virtual", or "render" in the caption
 - hashtags must be lowercase, no # prefix, trendy and lifestyle-focused
-- scene must describe an attractive, aesthetic woman with a fit curvy shape in a chic or flattering outfit
+- scene must describe an attractive, sexy woman with a fit curvy hourglass figure wearing modern open, stylish, flattering dresses (e.g. backless silk slip dress, cutout bodycon, deep plunge neckline dress, high side-slit gown, off-shoulder corset dress, or chic beachwear). Seductive and attractive but strictly clothed (NEVER nude)
 """
     try:
         text = call_gemini(prompt, env, json_mode=True)
@@ -416,22 +416,24 @@ def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: 
         "Client-Agent": "ErikaInfluencer:1.0:erika@example.com"
     }
 
-    # Photorealistic character anchor — natural photography language, not AI-art language
+    # Photorealistic character anchor — attractive, seductive, tasteful open modern fashion
     face_anchor = (
-        "RAW candid photo, beautiful 22yo brunette woman, natural hazel eyes, "
-        "soft warm smile, natural skin texture, subtle pores, realistic lighting, "
-        "wavy dark brown hair, looking at camera, shot on Canon EOS R5, 85mm f/1.8 lens"
+        "RAW candid photo, gorgeous attractive 22yo brunette woman, alluring hazel eyes, "
+        "soft seductive smile, toned fit curvy hourglass figure, sun-kissed glowing skin, "
+        "wavy dark brown hair, looking directly at camera, shot on Canon EOS R5, 85mm f/1.8 lens, "
+        "wearing an attractive modern open dress, tasteful cleavage, alluring fashion fit"
     )
 
-    # Realism-focused style suffix
+    # Realism and aesthetic style suffix
     style_suffix = (
-        "photorealistic, natural daylight, soft bokeh background, "
-        "film grain, realistic shadows, lifelike skin, "
-        "candid lifestyle photography, Instagram portrait"
+        "photorealistic, natural daylight, soft bokeh background, seductive aesthetic, "
+        "film grain, realistic shadows, lifelike skin texture with subtle pores, "
+        "candid lifestyle photography, chic Instagram influencer portrait"
     )
 
-    # Negative: explicitly block AI-giveaway traits
+    # Negative: block nudity/nsfw and artificial AI traits
     negative = (
+        "nude, naked, nudity, topless, bare breasts, nipples, nsfw, uncensored, "
         "ugly, deformed, disfigured, bad anatomy, bad face, extra limbs, "
         "watermark, text, logo, cartoon, anime, painting, illustration, "
         "plastic skin, overly smooth skin, airbrushed, oversaturated, "
