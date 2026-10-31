@@ -408,7 +408,11 @@ def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: 
     face_anchor = "medium close-up portrait of Erika, 22yo brunette woman with hazel eyes, soft subtle smile, delicate jawline, glowing tanned skin, wavy dark hair, looking at camera"
     negative = "ugly, deformed, disfigured, blurry, bad anatomy, bad face, bad eyes, extra limbs, watermark, text"
     prompt = f"{face_anchor}, {scene[:180]} ### {negative}"
-    seed = str(persona.get("seed", 789211))
+    # Use a unique seed per post so every image is a different pose/scene/outfit
+    # The facial anchor (face_anchor text) is what keeps Erika's FACE the same — not the seed
+    import hashlib
+    scene_seed = int(hashlib.md5(scene[:80].encode()).hexdigest(), 16) % 999999 + 10000
+    seed = str(scene_seed)
 
     payload = {
         "prompt": prompt,
@@ -421,7 +425,7 @@ def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: 
         }
     }
     try:
-        print(f"  Requesting consistent AI image for Erika from AI Horde (seed: {seed})...")
+        print(f"  Requesting consistent AI image for Erika from AI Horde (seed: {seed} / scene-unique)...")
         r = requests.post("https://aihorde.net/api/v2/generate/async", headers=headers, json=payload, timeout=20)
         job_id = r.json().get("id")
         if not job_id:
@@ -843,9 +847,12 @@ def mode_post(persona: dict, env: dict, dry_run: bool) -> None:
     media_id = publish_photo(raw_url, full_caption, env)
     print(f"Published! media_id={media_id}")
 
-    print("Committing log...")
+    print("Committing log and index...")
     log_ok("post", full_caption, str(image_path.name), f"media_id={media_id}")
-    git_commit_and_push([LOG_FILE], f"chore: log post {ts}")
+    files_to_log = [LOG_FILE]
+    if ERIKA_INDEX_FILE.exists():
+        files_to_log.append(ERIKA_INDEX_FILE)
+    git_commit_and_push(files_to_log, f"chore: log post {ts}")
 
 
 # ---------------------------------------------------------------------------
