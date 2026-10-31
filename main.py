@@ -482,9 +482,8 @@ def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: 
 
     prompt = f"{arch_prefix} {scene[:170]}, {style_suffix} ### {negative}"
 
-    import hashlib
-    scene_seed = int(hashlib.md5(scene[:80].encode()).hexdigest(), 16) % 999999 + 10000
-    seed = str(scene_seed)
+    # Unique random seed per generation so AI images are never repeated
+    seed = str(random.randint(10000, 9999999))
 
     # Use any free photorealistic model on the network
     REALISTIC_MODELS = [
@@ -538,7 +537,7 @@ def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: 
         img = img.resize((width, height), Image.Resampling.LANCZOS)
         output_path.parent.mkdir(parents=True, exist_ok=True)
         img.save(output_path, quality=95)
-        print(f"  Realistic image saved: {output_path} ({output_path.stat().st_size // 1024} KB) [{model}]")
+        print(f"  Realistic image saved: {output_path} ({output_path.stat().st_size // 1024} KB) [{model_used}]")
         return True
     except Exception as exc:
         print(f"  AI Horde generation error: {exc}")
@@ -995,7 +994,10 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool) -> None:
     print(f"Published! media_id={media_id}")
 
     log_ok("weekly_reel", full_caption, video_path.name, f"media_id={media_id}")
-    git_commit_and_push([LOG_FILE], f"chore: log weekly_reel {ts}")
+    files_to_log = [LOG_FILE]
+    if ARCH_INDEX_FILE.exists():
+        files_to_log.append(ARCH_INDEX_FILE)
+    git_commit_and_push(files_to_log, f"chore: log weekly_reel {ts}")
 
 
 # ---------------------------------------------------------------------------
