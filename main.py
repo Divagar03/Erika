@@ -309,34 +309,46 @@ Rules:
 
 
 def generate_fallback_reel(persona: dict) -> dict:
-    """Curated 5-scene architectural tour reel fallback (zero API dependency, 100% reliable)."""
-    reel_formats = [
+    """Cohesive 5-scene virtual walkthrough of a single luxury sanctuary (cinematic tour edit)."""
+    tours = [
         (
-            "5 Impossible Sanctuaries That Don't Feel Real",
-            "5 architectural wonders where visionary design transcends reality. Which of these retreats would you escape to? Drop your favorite (1–5) below 👇",
+            "Inside Villa Obsidian: Suspended 300m Above The Amalfi Sea",
+            "A seamless tour through Villa Obsidian. Where raw volcanic stone, cantilevered glass, and endless horizons merge into pure serenity. Would you spend a week here completely off the grid? Rate this home 1–10 👇",
             [
-                {"scene": "Cantilevered cliffside glass villa suspended above the Amalfi Coast with infinity pool at golden hour, Architectural Digest style", "text_overlay": "1. The Amalfi Cliff Sanctuary"},
-                {"scene": "Minimalist Japanese onsen pavilion hidden in a misty Kyoto bamboo forest with steaming stone pool and warm cedar timber", "text_overlay": "2. Komorebi Onsen (Kyoto)"},
-                {"scene": "Subterranean desert luxury villa in Utah red rocks with curved raw concrete, skylight reflecting pool under twilight", "text_overlay": "3. The Dune Oasis (Utah)"},
-                {"scene": "Nordic glass and blackened timber chalet perched over a Norwegian fjord with glowing fireplace and snow peaks", "text_overlay": "4. Fjord Horizon (Norway)"},
-                {"scene": "Tropical brutalist jungle villa in Bali enveloped in green canopy with cantilevered glass-bottom pool", "text_overlay": "5. Canopy Eden (Bali)"},
+                {"scene": "Dramatic wide aerial shot of Villa Obsidian, a cantilevered glass and blackened timber villa hovering 300m above the turquoise Amalfi sea at golden hour", "text_overlay": "01 // THE ARRIVAL"},
+                {"scene": "Grand entrance of Villa Obsidian with floating travertine stepping stones over shallow reflecting pool leading to a massive pivoting glass door", "text_overlay": "02 // THE ENTRANCE"},
+                {"scene": "Interior living pavilion of Villa Obsidian with sunken minimalist seating, raw concrete walls, and panoramic floor-to-ceiling glass looking over the ocean", "text_overlay": "03 // LIVING HORIZON"},
+                {"scene": "Cantilevered infinity glass-bottom pool of Villa Obsidian suspended out over the cliff edge with water spilling toward the sea", "text_overlay": "04 // THE INFINITY EDGE"},
+                {"scene": "Twilight blue hour view of Villa Obsidian with illuminated warm interior, sunken outdoor fire pit burning softly under twilight sky", "text_overlay": "05 // TWILIGHT SANCTUARY"},
             ],
-            ["architecturelovers", "luxuryvilla", "modernarchitecture", "architecturaldigest", "dreamhome", "interiorarchitecture", "surrealarchitecture", "reelsviral", "designinspiration", "luxurylifestyle"]
+            ["architecturelovers", "luxuryvilla", "architecturaldigest", "dreamhome", "villatour", "modernarchitecture", "surrealarchitecture", "reelsviral", "luxurydesign", "designinspiration"]
         ),
         (
-            "5 Futuristic Cliffside Retreats Across The Globe",
-            "Perched on the edge of the world. Which view would you wake up to? Rate your favorite 1 to 5 in the comments 👇",
+            "24 Hours Inside Komorebi Sanctuary: The Hidden Kyoto Forest Haven",
+            "Experience peace at Komorebi Sanctuary, tucked deep within the mist of Kyoto. Built around the flow of natural water and ancient cedar. Who would you bring here for total tranquility? Drop a comment 👇",
             [
-                {"scene": "Dramatic cantilevered modern glass villa over ocean cliffs in Mallorca with sunset horizon and infinity pool", "text_overlay": "1. Mallorca Edge Residence"},
-                {"scene": "Minimalist alpine glass chalet in Swiss Alps with panoramic mountain view and outdoor heated sunken lounge", "text_overlay": "2. The Alpine Glasshouse"},
-                {"scene": "Volcanic cliff cave villa in Santorini with organic whitewashed curves and subterranean infinity plunge pool", "text_overlay": "3. Caldera Sanctuary (Santorini)"},
-                {"scene": "Rainforest glass treehouse villa in Costa Rica with open-air living space and warm ambient evening lighting", "text_overlay": "4. Monteverde Canopy Villa"},
-                {"scene": "Modernist lakeside villa in Lake Como with floating deck, curved timber ceiling, and blue hour reflections", "text_overlay": "5. Villa Bellagio (Como)"},
+                {"scene": "Misty bamboo forest clearing revealing the charred cedar timber architecture of Komorebi Sanctuary in Kyoto at dawn", "text_overlay": "01 // THE FOREST APPROACH"},
+                {"scene": "Minimalist Japanese entry veranda with paper shoji screens, smooth river stone path, and morning dew", "text_overlay": "02 // MINIMALIST ARRIVAL"},
+                {"scene": "Open-air tatami tea lounge with low wooden table framing misty bamboo groves through floor-to-ceiling frameless glass", "text_overlay": "03 // THE TEA PAVILION"},
+                {"scene": "Steaming natural thermal onsen pool carved from volcanic black granite surrounded by soft moss and bamboo", "text_overlay": "04 // THERMAL ONSEN"},
+                {"scene": "Evening dusk view of Komorebi Pavilion with soft paper lanterns casting warm amber glow across steaming water", "text_overlay": "05 // DUSK TRANQUILITY"},
             ],
-            ["archilovers", "luxuryrealestate", "modernvilla", "cliffsidevilla", "contemporarydesign", "dreamresidence", "architecturalphotography", "travelgoals", "luxurydesign", "reelsinsta"]
+            ["japanesearchitecture", "zenliving", "forestsanctuary", "luxuryretreat", "architecturedose", "aestheticvibes", "designinspiration", "modernzen", "architecturaldigest", "reelsinsta"]
+        ),
+        (
+            "The Mirage Glasshouse: Utah's Subterranean Desert Oasis",
+            "Hidden beneath the red rock canyons of Utah lies The Mirage. A subterranean architectural marvel that stays naturally cool under the desert sun. Could you live here off the grid? Drop your thoughts 👇",
+            [
+                {"scene": "Dramatic desert aerial reveal of The Mirage Glasshouse carved organically into soaring red sandstone rock formations", "text_overlay": "01 // DESERT CANYON REVEAL"},
+                {"scene": "Curved raw concrete entrance ramp descending beneath a monumental rock archway into sun-dappled courtyard", "text_overlay": "02 // THE SUBTERRANEAN ENTRY"},
+                {"scene": "Sunken desert living lounge with natural rock walls, skylight streaming daylight into oasis reflecting pool", "text_overlay": "03 // SUNKEN ROCK LOUNGE"},
+                {"scene": "Private subterranean lap pool illuminated by hidden linear cove lighting reflecting off raw desert stone", "text_overlay": "04 // OASIS POOL"},
+                {"scene": "Starlit night view looking up through the open glass atrium at the Milky Way above towering red canyon walls", "text_overlay": "05 // DESERT STARRY NIGHT"},
+            ],
+            ["desertarchitecture", "organicmodernism", "luxuryrealestate", "modernluxury", "brutalisminnature", "dreamresidence", "architecturalphotography", "canyonretreat", "reelsviral", "designlovers"]
         )
     ]
-    title, caption, scenes, tags = random.choice(reel_formats)
+    title, caption, scenes, tags = random.choice(tours)
     return {
         "format": title,
         "caption": caption,
@@ -346,33 +358,27 @@ def generate_fallback_reel(persona: dict) -> dict:
 
 
 def generate_reel_content(persona: dict, env: dict) -> dict:
-    """Ask Gemini for 5 scenes for a viral architectural showcase reel with instant fallback."""
-    formats = [
-        "5 Impossible Sanctuaries That Don't Feel Real",
-        "5 Dream Retreats Where Design Meets Nature",
-        "Top 5 Modernist Villas Around The World",
-        "5 Architectural Wonders Perched on the Edge of the World",
-    ]
-    reel_format = random.choice(formats)
-    prompt = f"""You are the creative director of a prestigious architecture publication named "{persona['name']}".
-Theme: "{reel_format}"
+    """Generate a cohesive 5-shot architectural tour edit of a single luxury villa via Gemini."""
+    prompt = f"""You are the creative director of a prestigious architectural design publication named "{persona['name']}".
 
-Generate a JSON object for an ultra-viral architectural Instagram Reel.
-Return exactly this structure:
+Create a JSON object for an ultra-viral, cinematic Instagram Reel that presents a COHESIVE 5-SHOT VIRTUAL TOUR of ONE SINGLE dream sanctuary (NOT 5 random different houses).
+Every shot must depict the SAME property from progressive angles (Arrival -> Entrance -> Interior Lounge -> Signature Pool/Feature -> Evening Twilight).
+
+Return exactly this JSON structure:
 {{
-  "format": "{reel_format}",
-  "caption": "<engaging 2-3 sentence Reel caption describing these 5 architectural sanctuaries, ending with an interactive question to spark comments, max one emoji, NEVER mention AI>",
-  "hashtags": ["architecturelovers", "luxuryvilla", "modernarchitecture", "architecturaldigest", "dreamhome", "interiorarchitecture", "surrealarchitecture", "reelsviral", "designinspiration", "luxurylifestyle"],
+  "format": "<Punchy title e.g. 'Inside Villa Solaria: Suspended Above the Sea'>",
+  "caption": "<Engaging 2-3 sentence reel caption describing this single property walkthrough, ending with a question to drive comments, max one emoji, NEVER mention AI>",
+  "hashtags": ["architecturelovers", "luxuryvilla", "architecturaldigest", "dreamhome", "villatour", "modernarchitecture", "surrealarchitecture", "reelsviral", "luxurydesign", "designinspiration"],
   "scenes": [
-    {{"scene": "<hyper-detailed architectural photography description, Architectural Digest style, no humans, golden hour lighting>", "text_overlay": "<short catchy 3-4 word overlay e.g. 1. The Amalfi Cliff Sanctuary>"}},
-    {{"scene": "<scene 2>", "text_overlay": "<overlay 2>"}},
-    {{"scene": "<scene 3>", "text_overlay": "<overlay 3>"}},
-    {{"scene": "<scene 4>", "text_overlay": "<overlay 4>"}},
-    {{"scene": "<scene 5>", "text_overlay": "<overlay 5>"}}
+    {{"scene": "<Shot 1: Dramatic exterior wide reveal of the villa, materials, setting, Architectural Digest style>", "text_overlay": "01 // THE ARRIVAL"}},
+    {{"scene": "<Shot 2: Stepping into the grand entrance/approach of the same villa>", "text_overlay": "02 // THE ENTRANCE"}},
+    {{"scene": "<Shot 3: Main living lounge/interior of the same villa with panoramic views>", "text_overlay": "03 // LIVING HORIZON"}},
+    {{"scene": "<Shot 4: Signature infinity pool/outdoor terrace of the same villa>", "text_overlay": "04 // INFINITY EDGE"}},
+    {{"scene": "<Shot 5: Evening blue-hour view of the same villa with warm ambient lighting and firepit>", "text_overlay": "05 // TWILIGHT SANCTUARY"}}
   ]
 }}
 Rules:
-- exactly 5 scenes, each depicting a different breathtaking architectural masterpiece
+- All 5 scenes MUST feature the SAME property and architecture style so the reel forms a cohesive video tour edit
 - NEVER mention AI, virtual, render, or algorithm
 - hashtags lowercase, no # prefix, 8-10 tags
 """
@@ -383,7 +389,7 @@ Rules:
         data["hashtags"] = [h.lstrip("#").lower() for h in data.get("hashtags", [])][:10]
         return data
     except Exception as exc:
-        print(f"  External LLM API unavailable ({exc}). Using curated architectural reel generator...")
+        print(f"  External LLM API unavailable ({exc}). Using curated cohesive tour edit generator...")
         return generate_fallback_reel(persona)
 
 def generate_upload_caption(video_path: Path, persona: dict, env: dict) -> str:
@@ -818,8 +824,8 @@ def build_full_caption(caption: str, hashtags: list[str]) -> str:
 def build_reel_video(image_paths: list[Path], output_path: Path) -> None:
     """Build a ~20 second 9:16 vertical video from 5 images using fast cinematic crossfade transitions."""
     width, height = 1080, 1920
-    clip_duration = 4.5  # seconds per image
-    fade_duration = 0.5  # crossfade transition duration
+    clip_duration = 3.2  # 3.2s per cut (16s total edit - peak viral retention)
+    fade_duration = 0.35 # quick cinematic dissolve
 
     inputs: list[str] = []
     for img in image_paths:
