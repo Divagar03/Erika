@@ -816,45 +816,35 @@ def build_full_caption(caption: str, hashtags: list[str]) -> str:
 # ---------------------------------------------------------------------------
 
 def build_reel_video(image_paths: list[Path], output_path: Path) -> None:
-    """Build a ~20 second 9:16 video from 5 images using FFmpeg zoompan."""
-    duration_per_image = 4  # seconds each → total ~20s
+    """Build a ~20 second 9:16 vertical video from 5 images using fast cinematic crossfade transitions."""
     width, height = 1080, 1920
+    clip_duration = 4.5  # seconds per image
+    fade_duration = 0.5  # crossfade transition duration
+
+    inputs: list[str] = []
+    for img in image_paths:
+        inputs += ["-loop", "1", "-t", str(clip_duration), "-i", str(img)]
 
     filter_parts: list[str] = []
-    inputs: list[str] = []
-
-    for i, img in enumerate(image_paths):
-        inputs += ["-loop", "1", "-t", str(duration_per_image), "-i", str(img)]
-
-    # Build zoompan filtergraph
-    streams: list[str] = []
     for i in range(len(image_paths)):
-        # Alternate zoom direction for variety
-        zoom_dir = "in" if i % 2 == 0 else "out"
-        if zoom_dir == "in":
-            zoom_expr = "min(zoom+0.0015,1.5)"
-            x_expr = "iw/2-(iw/zoom/2)"
-            y_expr = "ih/2-(ih/zoom/2)"
-        else:
-            zoom_expr = "if(lte(zoom,1.0),1.5,max(zoom-0.0015,1.0))"
-            x_expr = "iw/2-(iw/zoom/2)"
-            y_expr = "ih/2-(ih/zoom/2)"
-
-        fps = 25
-        n_frames = duration_per_image * fps
         filter_parts.append(
             f"[{i}:v]scale={width}:{height}:force_original_aspect_ratio=increase,"
-            f"crop={width}:{height},"
-            f"zoompan=z='{zoom_expr}':x='{x_expr}':y='{y_expr}':"
-            f"d={n_frames}:s={width}x{height}:fps={fps}[v{i}]"
+            f"crop={width}:{height},setsar=1,format=yuv420p[v{i}]"
         )
-        streams.append(f"[v{i}]")
 
-    concat_filter = "".join(f"{s}" for s in streams)
-    concat_filter += f"concat=n={len(image_paths)}:v=1:a=0[vout]"
-    full_filter = ";".join(filter_parts) + ";" + concat_filter
+    # Chain xfade transitions
+    n = len(image_paths)
+    if n == 1:
+        full_filter = f"{filter_parts[0]};[v0]copy[vout]"
+    else:
+        last_out = "v0"
+        for i in range(1, n):
+            offset = i * (clip_duration - fade_duration)
+            out_label = f"x{i}" if i < n - 1 else "vout"
+            filter_parts.append(f"[{last_out}][v{i}]xfade=transition=fade:duration={fade_duration}:offset={offset:.1f}[{out_label}]")
+            last_out = f"x{i}"
+        full_filter = ";".join(filter_parts)
 
-    # Check for music
     music_files = list(MUSIC_DIR.glob("*.mp3"))
     has_music = bool(music_files)
     music_path = random.choice(music_files) if has_music else None
@@ -880,8 +870,9 @@ def build_reel_video(image_paths: list[Path], output_path: Path) -> None:
     cmd += [
         "-c:v", "libx264",
         "-pix_fmt", "yuv420p",
-        "-crf", "23",
-        "-preset", "fast",
+        "-crf", "22",
+        "-preset", "veryfast",
+        "-threads", "0",
         "-movflags", "+faststart",
         str(output_path),
         "-y",
@@ -896,7 +887,7 @@ def build_reel_video(image_paths: list[Path], output_path: Path) -> None:
     if result.returncode != 0:
         print(f"FFmpeg stderr: {result.stderr[-2000:]}")
         raise RuntimeError(f"FFmpeg failed with code {result.returncode}")
-    print(f"  Video built: {output_path}")
+    print(f"  Video built: {output_path} ({output_path.stat().st_size // 1024} KB)")
 
 
 # ---------------------------------------------------------------------------
