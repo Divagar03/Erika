@@ -247,28 +247,28 @@ def parse_json_response(text: str) -> dict:
 
 
 def generate_fallback_post(persona: dict) -> dict:
-    """Generate glamorous, aesthetic lifestyle post content directly from persona."""
+    """Generate high-engagement impossible luxury architecture post directly from persona."""
     theme = random.choice(persona["themes"])
     templates = [
         (
-            f"Stunning portrait of Erika enjoying {theme}, wearing an aesthetic flattering outfit, warm golden hour sun-kissed lighting, gorgeous hourglass silhouette, 8k detail.",
-            f"Golden hour hits different when the vibe is this effortless. Living for these warm sun-kissed moments and never looking back. ?",
-            ["sunkissed", "goldenhourvibes", "aestheticfeed", "vacationmode", "fitandcurvy", "ootdsummer", "lifestylegoals", "glowup"]
+            f"Breathtaking cantilevered cliffside glass villa suspended above the ocean in {theme}, Architectural Digest style, infinity pool, warm golden hour twilight, photorealistic.",
+            "The Obsidian Sanctuary. Perched 300 meters above the open ocean, where raw concrete meets endless horizons. Could you live here completely off the grid? Rate this design 1–10 below 👇",
+            ["architecturelovers", "luxuryvilla", "modernarchitecture", "architecturaldigest", "dreamhome", "interiorarchitecture", "luxurylifestyle", "surrealarchitecture"]
         ),
         (
-            f"Glamorous aesthetic photo of Erika in {theme}, sleek flattering fit, confident pose with beautiful natural curves, cinematic luxury lighting.",
-            f"Chasing sunsets and pretty views everywhere I go. The energy is soft, the outfit is right, and the night is just beginning. ??",
-            ["sunsetlover", "glamourlife", "nightoutfit", "aestheticgirl", "bodygoals", "chicstyle", "bikinilife", "traveldiary"]
+            f"Minimalist modern Japanese onsen pavilion in {theme}, charred cedar timber, steaming natural stone pool, serene misty morning light, award-winning architecture.",
+            "Komorebi Pavilion. Deep in the misty bamboo forest, designed around the sound of flowing water and quiet contemplation. Tag someone who needs this level of peace ✨",
+            ["japanesearchitecture", "zenliving", "modernretreat", "minimalistdesign", "luxuryarchitecture", "architecturedose", "aestheticvibes", "designinspiration"]
         ),
         (
-            f"Candid aesthetic shot of Erika during {theme}, glowing radiant skin, fit toned silhouette, ocean breeze and warm ambient tones.",
-            f"Salt in the air, sunshine on my skin, and peace in my mind. Truly in my happy place today. ??",
-            ["beachvibes", "tropicalparadise", "islandlife", "fitnessbabe", "resortwear", "summervibes", "effortlesschic", "sheingal"]
+            f"Subterranean desert luxury sanctuary in {theme}, organic curved travertine walls, skylight reflecting pool, dramatic architectural shadows, dusk lighting.",
+            "The Dunes Villa. Carved seamlessly into the desert landscape to stay naturally cool under the scorching sun. Would you spend a weekend here? Drop your thoughts 👇",
+            ["desertarchitecture", "organicmodernism", "brutalisminnature", "luxuryrealestate", "modernluxury", "interiorlovers", "architecturalphotography", "dreamresidence"]
         ),
         (
-            f"Fashion editorial portrait of Erika experiencing {theme}, sleek bodycon styling, alluring gaze, high-end luxury aesthetic.",
-            f"A little elegance, a lot of confidence. Never underestimate the power of feeling good in your own skin. ??",
-            ["fashioninspo", "bodycondress", "confidenceisbeauty", "eveninglook", "curvyfashion", "luxurylifestyle", "moodboard", "itgirl"]
+            f"Nordic glass and blackened timber villa in {theme}, panoramic floor-to-ceiling glass, warm interior fireplace glow, dramatic snow-capped peaks and fjord.",
+            "Fjord House. Floating between the icy waters and the northern sky. Designed for warmth against the wild. Who would you bring to watch the aurora from here? ❄️",
+            ["nordicdesign", "scandinavianhome", "cozyretreat", "luxurychalet", "contemporaryarchitecture", "mountainarchitecture", "beautifuldestinations", "cabinlife"]
         ),
     ]
     scene, caption, tags = random.choice(templates)
@@ -276,25 +276,22 @@ def generate_fallback_post(persona: dict) -> dict:
 
 
 def generate_post_content(persona: dict, env: dict) -> dict:
-    """Ask Gemini for scene + caption + hashtags for an aesthetic fashion influencer post."""
+    """Generate high-engagement Architectural Digest style post content via Gemini."""
     theme = random.choice(persona["themes"])
-    prompt = f"""You are writing Instagram content for a stunning, aesthetic fashion and lifestyle influencer named {persona['name']}.
-Her voice: {persona['voice']}
-Her visual style: {persona['style']}
-Her typical themes include: {', '.join(persona['themes'])}
+    prompt = f"""You are the creative director of a world-famous luxury architecture and design magazine named "{persona['name']}".
+Theme: "{theme}"
 
-Generate a JSON object (no markdown, no extra text) for an attractive Instagram photo post about this theme: "{theme}".
+Generate a JSON object (no markdown, no extra text) for an insanely viral, captivating Instagram post about this architectural masterpiece.
 The JSON must have exactly these fields:
 {{
-  "scene": "<vivid image generation scene description featuring a gorgeous woman with a fit curvy shape in an aesthetic or flattering outfit, warm golden lighting>",
-  "caption": "<2-3 sentence charming, confident, aesthetic caption in her voice, max one emoji>",
-  "hashtags": ["hashtag1", "hashtag2", ..., "hashtag8"]
+  "scene": "<hyper-detailed architectural photography description, Architectural Digest style, award-winning luxury villa or sanctuary, materials like travertine, charred timber, floor-to-ceiling glass, infinity pools, volumetric golden hour or blue hour lighting, 8k photorealistic>",
+  "caption": "<2-3 sentence evocative, captivating caption. Give the project a fictional name (e.g. 'The Obsidian Villa', 'Villa Solaria'), describe the location and architectural highlight, and end with an interactive question to spark comments (e.g. 'Could you live here off-grid? Rate this design from 1-10 👇')>",
+  "hashtags": ["architecturelovers", "modernarchitecture", "luxuryvilla", "architecturaldigest", "dreamhome", "interiorarchitecture", "surrealarchitecture", "contemporarydesign"]
 }}
 Rules:
-- caption must feel 100% natural, confident, chic, and flirtatious
-- NEVER use the word "AI", "algorithm", "code", "virtual", or "render" in the caption
-- hashtags must be lowercase, no # prefix, trendy and lifestyle-focused
-- scene must describe an attractive, sexy woman with a fit curvy hourglass figure wearing modern open, stylish, flattering dresses (e.g. backless silk slip dress, cutout bodycon, deep plunge neckline dress, high side-slit gown, off-shoulder corset dress, or chic beachwear). Seductive and attractive but strictly clothed (NEVER nude)
+- NEVER mention AI, virtual, render, or algorithm
+- caption must sound like a prestigious architectural magazine
+- hashtags must be 8 relevant high-traffic architectural tags, lowercase, no # prefix
 """
     try:
         text = call_gemini(prompt, env, json_mode=True)
@@ -367,21 +364,26 @@ NEVER mention AI, algorithm, or code. Return ONLY the caption text.
 # Image generation (Pollinations.ai)
 # ---------------------------------------------------------------------------
 
-ERIKA_ASSETS_DIR = Path(__file__).parent / "assets" / "erika"
-ERIKA_INDEX_FILE = Path(__file__).parent / "data" / "erika_index.json"
+ARCH_ASSETS_DIR = Path(__file__).parent / "assets" / "architecture"
+ARCH_INDEX_FILE = Path(__file__).parent / "data" / "arch_index.json"
+ERIKA_INDEX_FILE = ARCH_INDEX_FILE  # backwards compatibility
 
 
-def get_next_curated_erika_image() -> Path:
-    """Cycle sequentially through the verified consistent photo library of Erika."""
-    ERIKA_ASSETS_DIR.mkdir(parents=True, exist_ok=True)
-    images = sorted(list(ERIKA_ASSETS_DIR.glob("*.jpg")) + list(ERIKA_ASSETS_DIR.glob("*.png")))
+def get_next_curated_architecture_image() -> Path:
+    """Cycle sequentially through the verified luxury architecture gallery."""
+    ARCH_ASSETS_DIR.mkdir(parents=True, exist_ok=True)
+    images = sorted(list(ARCH_ASSETS_DIR.glob("*.jpg")) + list(ARCH_ASSETS_DIR.glob("*.png")))
     if not images:
-        raise FileNotFoundError(f"No curated Erika images found in {ERIKA_ASSETS_DIR}")
+        # Fallback to erika dir if architecture is empty
+        fallback_dir = Path(__file__).parent / "assets" / "erika"
+        images = sorted(list(fallback_dir.glob("*.jpg")) + list(fallback_dir.glob("*.png")))
+    if not images:
+        raise FileNotFoundError(f"No curated images found in {ARCH_ASSETS_DIR}")
 
     idx = 0
-    if ERIKA_INDEX_FILE.exists():
+    if ARCH_INDEX_FILE.exists():
         try:
-            with open(ERIKA_INDEX_FILE, encoding="utf-8") as f:
+            with open(ARCH_INDEX_FILE, encoding="utf-8") as f:
                 data = json.load(f)
                 idx = data.get("index", 0)
         except Exception:
@@ -390,8 +392,8 @@ def get_next_curated_erika_image() -> Path:
     chosen = images[idx % len(images)]
     next_idx = (idx + 1) % len(images)
     try:
-        ERIKA_INDEX_FILE.parent.mkdir(parents=True, exist_ok=True)
-        with open(ERIKA_INDEX_FILE, "w", encoding="utf-8") as f:
+        ARCH_INDEX_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(ARCH_INDEX_FILE, "w", encoding="utf-8") as f:
             json.dump({"index": next_idx, "last_image": chosen.name}, f, indent=2)
     except Exception:
         pass
@@ -410,68 +412,67 @@ REALISTIC_MODELS = [
 
 
 def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: int = 1080, height: int = 1350) -> bool:
-    """Generate a photorealistic image of Erika via AI Horde with consistent face anchor."""
+    """Generate hyper-realistic architectural photography via AI Horde."""
     headers = {
         "apikey": "0000000000",
-        "Client-Agent": "ErikaInfluencer:1.0:erika@example.com"
+        "Client-Agent": "AuraSanctuaries:1.0:architecture@example.com"
     }
 
-    # Photorealistic character anchor — attractive, seductive, tasteful open modern fashion
-    face_anchor = (
-        "RAW candid photo, gorgeous attractive 22yo brunette woman, alluring hazel eyes, "
-        "soft seductive smile, toned fit curvy hourglass figure, sun-kissed glowing skin, "
-        "wavy dark brown hair, looking directly at camera, shot on Canon EOS R5, 85mm f/1.8 lens, "
-        "wearing an attractive modern open dress, tasteful cleavage, alluring fashion fit"
+    # High-end Architectural Digest photography prompt
+    arch_prefix = (
+        "RAW architectural photograph, Architectural Digest feature, award-winning contemporary luxury sanctuary, "
+        "shot on Hasselblad H6D-100c, 24mm tilt-shift architectural lens, volumetric atmospheric lighting, "
+        "photorealistic textures of travertine stone, raw concrete, floor-to-ceiling glass, warm timber, "
     )
-
-    # Realism and aesthetic style suffix
     style_suffix = (
-        "photorealistic, natural daylight, soft bokeh background, seductive aesthetic, "
-        "film grain, realistic shadows, lifelike skin texture with subtle pores, "
-        "candid lifestyle photography, chic Instagram influencer portrait"
+        "clean geometric lines, golden hour sunlight, hyperrealistic reflections in water, "
+        "high-end interior design, cinematic luxury atmosphere, 8k resolution, crisp architectural detail"
     )
-
-    # Negative: block nudity/nsfw and artificial AI traits
     negative = (
-        "nude, naked, nudity, topless, bare breasts, nipples, nsfw, uncensored, "
-        "ugly, deformed, disfigured, bad anatomy, bad face, extra limbs, "
-        "watermark, text, logo, cartoon, anime, painting, illustration, "
-        "plastic skin, overly smooth skin, airbrushed, oversaturated, "
-        "artificial, fake, uncanny valley, perfect symmetry, studio backdrop"
+        "people, humans, crowd, man, woman, face, "
+        "ugly, distorted architecture, crooked walls, melting geometry, "
+        "cartoon, anime, painting, illustration, 3d render, cgi, video game graphics, "
+        "blurry, low resolution, watermark, text, signature, oversaturated"
     )
 
-    prompt = f"{face_anchor}, {scene[:160]}, {style_suffix} ### {negative}"
+    prompt = f"{arch_prefix} {scene[:170]}, {style_suffix} ### {negative}"
 
-    # Unique seed per scene (different image every post)
     import hashlib
     scene_seed = int(hashlib.md5(scene[:80].encode()).hexdigest(), 16) % 999999 + 10000
     seed = str(scene_seed)
 
-    # Pick a photorealistic model
-    model = random.choice(REALISTIC_MODELS)
+    # Use any free photorealistic model on the network
+    REALISTIC_MODELS = [
+        "Realistic Vision",
+        "AbsoluteReality",
+        "ICBINP - I Can't Believe It's Not Photography",
+        "Photon",
+        "Edge Of Realism",
+        "majicMIX realistic",
+    ]
 
     payload = {
         "prompt": prompt,
         "params": {
-            "steps": 30,
+            "steps": 28,
             "width": 512,
             "height": 640,
             "sampler_name": "k_dpmpp_2m",
-            "cfg_scale": 6,
+            "cfg_scale": 6.5,
             "seed": seed,
         },
-        "models": [model],
+        "models": REALISTIC_MODELS,  # Allow any of these workers to pick up instantly
     }
     try:
-        print(f"  Generating realistic Erika image via AI Horde (model: {model}, seed: {seed})...")
+        print(f"  Generating architectural sanctuary image via AI Horde (seed: {seed})...")
         r = requests.post("https://aihorde.net/api/v2/generate/async", headers=headers, json=payload, timeout=20)
         job_id = r.json().get("id")
         if not job_id:
             print(f"  AI Horde job submission failed: {r.text[:200]}")
             return False
 
-        # Wait up to ~45s for generation
-        for _ in range(15):
+        # Wait up to ~60s
+        for _ in range(20):
             time.sleep(3)
             check = requests.get(f"https://aihorde.net/api/v2/generate/check/{job_id}", headers=headers, timeout=10).json()
             if check.get("done"):
@@ -480,6 +481,7 @@ def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: 
         status = requests.get(f"https://aihorde.net/api/v2/generate/status/{job_id}", headers=headers, timeout=15).json()
         gen = status.get("generations", [{}])[0]
         img_url = gen.get("img")
+        model_used = gen.get("model", "AI Horde")
         if not img_url:
             print(f"  AI Horde returned no image URL. Status: {status}")
             return False
@@ -490,7 +492,7 @@ def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: 
         img = Image.open(io.BytesIO(img_bytes)).convert("RGB")
         img = img.resize((width, height), Image.Resampling.LANCZOS)
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        img.save(output_path, quality=92)
+        img.save(output_path, quality=95)
         print(f"  Realistic image saved: {output_path} ({output_path.stat().st_size // 1024} KB) [{model}]")
         return True
     except Exception as exc:
@@ -515,9 +517,9 @@ def download_image(
     except Exception as exc:
         print(f"  Live AI generation failed: {exc}")
 
-    # 2. Guaranteed fallback: Curated photos of the exact same Erika
-    print("  Using verified consistent photoshoot library for Erika...")
-    chosen = get_next_curated_erika_image()
+    # 2. Guaranteed fallback: Curated architectural photography gallery
+    print("  Using verified luxury architecture photography library...")
+    chosen = get_next_curated_architecture_image()
     from PIL import Image
     img = Image.open(chosen).convert("RGB")
     if img.size != (width, height):
