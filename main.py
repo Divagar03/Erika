@@ -308,28 +308,63 @@ Rules:
     return data
 
 
+def generate_fallback_reel(persona: dict) -> dict:
+    """Curated 5-scene architectural tour reel fallback (zero API dependency, 100% reliable)."""
+    reel_formats = [
+        (
+            "5 Impossible Sanctuaries That Don't Feel Real",
+            "5 architectural wonders where visionary design transcends reality. Which of these retreats would you escape to? Drop your favorite (1–5) below 👇",
+            [
+                {"scene": "Cantilevered cliffside glass villa suspended above the Amalfi Coast with infinity pool at golden hour, Architectural Digest style", "text_overlay": "1. The Amalfi Cliff Sanctuary"},
+                {"scene": "Minimalist Japanese onsen pavilion hidden in a misty Kyoto bamboo forest with steaming stone pool and warm cedar timber", "text_overlay": "2. Komorebi Onsen (Kyoto)"},
+                {"scene": "Subterranean desert luxury villa in Utah red rocks with curved raw concrete, skylight reflecting pool under twilight", "text_overlay": "3. The Dune Oasis (Utah)"},
+                {"scene": "Nordic glass and blackened timber chalet perched over a Norwegian fjord with glowing fireplace and snow peaks", "text_overlay": "4. Fjord Horizon (Norway)"},
+                {"scene": "Tropical brutalist jungle villa in Bali enveloped in green canopy with cantilevered glass-bottom pool", "text_overlay": "5. Canopy Eden (Bali)"},
+            ],
+            ["architecturelovers", "luxuryvilla", "modernarchitecture", "architecturaldigest", "dreamhome", "interiorarchitecture", "surrealarchitecture", "reelsviral", "designinspiration", "luxurylifestyle"]
+        ),
+        (
+            "5 Futuristic Cliffside Retreats Across The Globe",
+            "Perched on the edge of the world. Which view would you wake up to? Rate your favorite 1 to 5 in the comments 👇",
+            [
+                {"scene": "Dramatic cantilevered modern glass villa over ocean cliffs in Mallorca with sunset horizon and infinity pool", "text_overlay": "1. Mallorca Edge Residence"},
+                {"scene": "Minimalist alpine glass chalet in Swiss Alps with panoramic mountain view and outdoor heated sunken lounge", "text_overlay": "2. The Alpine Glasshouse"},
+                {"scene": "Volcanic cliff cave villa in Santorini with organic whitewashed curves and subterranean infinity plunge pool", "text_overlay": "3. Caldera Sanctuary (Santorini)"},
+                {"scene": "Rainforest glass treehouse villa in Costa Rica with open-air living space and warm ambient evening lighting", "text_overlay": "4. Monteverde Canopy Villa"},
+                {"scene": "Modernist lakeside villa in Lake Como with floating deck, curved timber ceiling, and blue hour reflections", "text_overlay": "5. Villa Bellagio (Como)"},
+            ],
+            ["archilovers", "luxuryrealestate", "modernvilla", "cliffsidevilla", "contemporarydesign", "dreamresidence", "architecturalphotography", "travelgoals", "luxurydesign", "reelsinsta"]
+        )
+    ]
+    title, caption, scenes, tags = random.choice(reel_formats)
+    return {
+        "format": title,
+        "caption": caption,
+        "hashtags": tags,
+        "scenes": scenes
+    }
+
+
 def generate_reel_content(persona: dict, env: dict) -> dict:
-    """Ask Gemini for 5 scenes for a trending-style weekly reel."""
+    """Ask Gemini for 5 scenes for a viral architectural showcase reel with instant fallback."""
     formats = [
-        "outfit changes through the day",
-        "day in my life as a fashion and lifestyle creator",
-        "get ready with me (beach and evening glam)",
-        "my favorite aesthetic fits this week montage",
-        "places I traveled this week",
+        "5 Impossible Sanctuaries That Don't Feel Real",
+        "5 Dream Retreats Where Design Meets Nature",
+        "Top 5 Modernist Villas Around The World",
+        "5 Architectural Wonders Perched on the Edge of the World",
     ]
     reel_format = random.choice(formats)
-    prompt = f"""You are writing content for an aesthetic fashion influencer named {persona['name']}.
-Her voice: {persona['voice']}
-Her visual style: {persona['style']}
+    prompt = f"""You are the creative director of a prestigious architecture publication named "{persona['name']}".
+Theme: "{reel_format}"
 
-Generate a JSON object for a trending-style Instagram Reel in the format: "{reel_format}".
+Generate a JSON object for an ultra-viral architectural Instagram Reel.
 Return exactly this structure:
 {{
   "format": "{reel_format}",
-  "caption": "<engaging 2-3 sentence Reel caption in her chic voice, max one emoji, NEVER mention AI>",
-  "hashtags": ["tag1", ..., "tag10"],
+  "caption": "<engaging 2-3 sentence Reel caption describing these 5 architectural sanctuaries, ending with an interactive question to spark comments, max one emoji, NEVER mention AI>",
+  "hashtags": ["architecturelovers", "luxuryvilla", "modernarchitecture", "architecturaldigest", "dreamhome", "interiorarchitecture", "surrealarchitecture", "reelsviral", "designinspiration", "luxurylifestyle"],
   "scenes": [
-    {{"scene": "<vivid image prompt with gorgeous woman in flattering trendy fit>", "text_overlay": "<short overlay text or empty string>"}},
+    {{"scene": "<hyper-detailed architectural photography description, Architectural Digest style, no humans, golden hour lighting>", "text_overlay": "<short catchy 3-4 word overlay e.g. 1. The Amalfi Cliff Sanctuary>"}},
     {{"scene": "<scene 2>", "text_overlay": "<overlay 2>"}},
     {{"scene": "<scene 3>", "text_overlay": "<overlay 3>"}},
     {{"scene": "<scene 4>", "text_overlay": "<overlay 4>"}},
@@ -337,27 +372,31 @@ Return exactly this structure:
   ]
 }}
 Rules:
-- exactly 5 scenes, each visually distinct, aesthetic, flattering fits
-- NEVER mention AI, virtual, or code anywhere
+- exactly 5 scenes, each depicting a different breathtaking architectural masterpiece
+- NEVER mention AI, virtual, render, or algorithm
 - hashtags lowercase, no # prefix, 8-10 tags
 """
-    text = call_gemini(prompt, env, json_mode=True)
-    data = parse_json_response(text)
-    assert "scenes" in data and len(data["scenes"]) == 5,         f"Expected 5 scenes, got: {data}"
-    data["hashtags"] = [h.lstrip("#").lower() for h in data.get("hashtags", [])][:10]
-    return data
-
+    try:
+        text = call_gemini(prompt, env, json_mode=True)
+        data = parse_json_response(text)
+        assert "scenes" in data and len(data["scenes"]) == 5
+        data["hashtags"] = [h.lstrip("#").lower() for h in data.get("hashtags", [])][:10]
+        return data
+    except Exception as exc:
+        print(f"  External LLM API unavailable ({exc}). Using curated architectural reel generator...")
+        return generate_fallback_reel(persona)
 
 def generate_upload_caption(video_path: Path, persona: dict, env: dict) -> str:
     """Use Gemini to write a caption for a user-uploaded reel."""
-    prompt = f"""You are writing content for a chic fashion influencer named {persona['name']}.
-Her voice: {persona['voice']}
-
-Write an Instagram Reel caption (2-3 sentences, max one emoji) for a video reel she is posting.
+    prompt = f"""You are the creative director of a prestigious architecture publication named "{persona['name']}".
+Write an Instagram Reel caption (2-3 sentences, max one emoji) for an architectural tour video reel.
 The filename is: {video_path.name}
-NEVER mention AI, algorithm, or code. Return ONLY the caption text.
+NEVER mention AI, algorithm, or code. End with an interactive question to spark comments. Return ONLY the caption text.
 """
-    return call_gemini(prompt, env).strip()
+    try:
+        return call_gemini(prompt, env).strip()
+    except Exception:
+        return "An architectural masterpiece where visionary design meets pure tranquility. Which detail stands out most to you? Drop your thoughts below 👇"
 
 
 # ---------------------------------------------------------------------------
@@ -567,15 +606,25 @@ def git_commit_and_push(files: list[Path], message: str) -> None:
     if r.returncode != 0:
         raise RuntimeError(f"git commit failed: {r.stderr}")
 
-    # Pull rebase first to avoid conflicts
-    r = git_run("pull", "--rebase", "origin", _get_branch())
+    # Pull remote changes with merge strategy favoring recent commits to avoid rebase deadlocks
+    branch = _get_branch()
+    r = git_run("pull", "--rebase", "--autostash", "origin", branch)
     if r.returncode != 0:
-        print(f"  git pull --rebase warning (continuing): {r.stderr}")
+        print(f"  git rebase warning: {r.stderr.strip()[:200]}. Aborting rebase and merging...")
+        git_run("rebase", "--abort")
+        git_run("pull", "origin", branch, "--no-rebase", "-X", "theirs")
 
-    r = git_run("push", "origin", _get_branch())
-    if r.returncode != 0:
-        raise RuntimeError(f"git push failed (returncode={r.returncode}): {r.stderr}")
-    print(f"  Pushed: {message}")
+    # Push with up to 3 retries
+    for attempt in range(3):
+        r = git_run("push", "origin", branch)
+        if r.returncode == 0:
+            print(f"  Pushed: {message}")
+            return
+        print(f"  Push attempt {attempt + 1} rejected, syncing remote...")
+        time.sleep(2)
+        git_run("pull", "origin", branch, "--no-rebase", "-X", "theirs")
+
+    raise RuntimeError(f"git push failed after 3 attempts (returncode={r.returncode}): {r.stderr}")
 
 
 def _get_branch() -> str:
