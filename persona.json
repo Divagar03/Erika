@@ -1,24 +1,20 @@
 {
-  "name": "Aura Sanctuaries",
-  "handle": "erikkaaa_williieee",
-  "bio": "Impossible architecture & luxury sanctuaries ✨ Where design meets dreams",
-  "voice": "Sophisticated, evocative, design-focused, and captivating. Treats each creation like a real masterwork of world-class architecture. Engaging questions to spark high comment activity.",
+  "name": "Zenith Villas",
+  "handle": "zenith_villas_",
+  "bio": "Curating the world's most breathtaking luxury villas & sanctuaries ✨ Where architecture meets lifestyle",
+  "voice": "Chic, warm, engaging, and aspirational. Inspired by world-class boutique real-estate & luxury travel curators (like propertia.bali). Authentic, human, and eye-catching.",
 
-  "look": "Hyper-realistic architectural photography of impossible luxury dream homes, cliffside glass villas, modern Japanese zen retreats, brutalist sanctuaries enveloped in nature, and futuristic coastal retreats.",
-  "style": "Architectural Digest photography style, shot on Hasselblad H6D-100c with 24mm tilt-shift lens, volumetric golden hour and blue hour lighting, high-end materials: raw travertine, polished concrete, brushed bronze, floor-to-ceiling glass, and warm Japanese oak.",
+  "look": "Human-attractive, livable luxury architecture and interior design: tropical Bali pool villas with sunken living rooms and lush palms, Mediterranean whitewashed arches with ocean horizons, warm Japandi oak master suites, sun-drenched private pools, cozy designer kitchens, and golden hour coastal terraces.",
+  "style": "High-end interior design and architectural photography, Architectural Digest and Vogue Living style, warm natural sunlight, tactile materials: whitewashed stucco, warm teak and Japanese oak, honed travertine, fluted wood, textured linen, and sparkling turquoise water.",
   "seed": 924185,
   "themes": [
-    "cantilevered cliffside glass villa suspended 300 meters above the Amalfi Coast with an infinity pool spilling into the Mediterranean Sea at golden hour",
-    "modern minimalist Japanese onsen pavilion hidden inside a misty Kyoto bamboo forest with warm cedar wood and steaming thermal pool",
-    "subterranean desert luxury sanctuary in Utah red rocks with curved raw concrete, skylight oasis, and reflecting pool under starry twilight",
-    "Nordic glass and blackened timber cabin cantilevered over a Norwegian fjord with northern lights dancing in the night sky",
-    "futuristic biophilic penthouse in Singapore with cascading indoor waterfalls, lush tropical greenery, and panoramic skyline views",
-    "secluded cliffside brutalist retreat in Mallorca featuring floor-to-ceiling glass walls, warm travertine stone, and sunset ocean views",
-    "modern tropical concrete villa in Bali enveloped in jungle canopy with an elevated glass-bottom pool and sunken lounge",
-    "minimalist alpine glass chalet in the Swiss Alps with warm fire pit, snow-covered pine forest panorama, and evening interior glow",
-    "luxurious coastal cave residence in Santorini carved into volcanic caldera cliffs with whitewashed curves and subterranean infinity plunge pool",
-    "modernist lakeside sanctuary in Lake Como with floating deck, curved timber ceiling, and soft blue hour twilight reflections",
-    "contemporary desert glass pavilion in Palm Springs surrounded by golden hour sand dunes and sculptural desert flora",
-    "rainforest glass treehouse villa in Costa Rica with warm ambient lighting, open-air living spaces, and natural stone soaking tub"
+    "tropical modern pool villa in Bingin Bali with whitewashed walls, sunken outdoor lounge, private turquoise pool, and lush banana palms under bright sunlight",
+    "Mediterranean coastal sanctuary in Santorini with smooth whitewashed arches, pink bougainvillea flowers, and infinity pool overlooking the Aegean Sea",
+    "warm Japandi minimalist master suite with natural light oak wood, platform bed with soft linen, and private bamboo garden view",
+    "contemporary Palm Springs desert pavilion with floor-to-ceiling glass sliders, sunken fire pit, and sunset pool reflections",
+    "luxury duplex penthouse loft with double-height glass, dark marble kitchen island, and evening city skyline panorama",
+    "eco-luxury jungle treehouse villa in Tulum with curved polished plaster, woven pendant lights, and rooftop plunge pool surrounded by green canopy",
+    "modern Italian country estate in Lake Como with floating sun deck, stone terrace, and blue hour twilight water reflections",
+    "minimalist alpine glass chalet in Swiss Alps with cozy modern fireplace, warm timber beams, and snow-covered pines outside floor-to-ceiling glass"
   ]
 }

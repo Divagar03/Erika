@@ -309,43 +309,55 @@ Rules:
 
 
 def generate_fallback_reel(persona: dict) -> dict:
-    """Cohesive 5-scene virtual walkthrough of a single luxury sanctuary (cinematic tour edit)."""
+    """Classy, human-attractive villa walkthroughs with varied destinations (inspired by propertia.bali)."""
     tours = [
         (
-            "Inside Villa Obsidian: Suspended 300m Above The Amalfi Sea",
-            "A seamless tour through Villa Obsidian. Where raw volcanic stone, cantilevered glass, and endless horizons merge into pure serenity. Would you spend a week here completely off the grid? Rate this home 1–10 👇",
+            "Villa Bingin • Tropical Pool Sanctuary in Bali 🌴",
+            "Inside Villa Bingin — a sun-drenched 3-bedroom tropical haven in Uluwatu, Bali. Designed with a private sunken lounge, turquoise pool, and open-concept kitchen for effortless island living. Could you see yourself waking up here? Drop a comment below 👇",
             [
-                {"scene": "Dramatic wide aerial shot of Villa Obsidian, a cantilevered glass and blackened timber villa hovering 300m above the turquoise Amalfi sea at golden hour", "text_overlay": "01 // THE ARRIVAL"},
-                {"scene": "Grand entrance of Villa Obsidian with floating travertine stepping stones over shallow reflecting pool leading to a massive pivoting glass door", "text_overlay": "02 // THE ENTRANCE"},
-                {"scene": "Interior living pavilion of Villa Obsidian with sunken minimalist seating, raw concrete walls, and panoramic floor-to-ceiling glass looking over the ocean", "text_overlay": "03 // LIVING HORIZON"},
-                {"scene": "Cantilevered infinity glass-bottom pool of Villa Obsidian suspended out over the cliff edge with water spilling toward the sea", "text_overlay": "04 // THE INFINITY EDGE"},
-                {"scene": "Twilight blue hour view of Villa Obsidian with illuminated warm interior, sunken outdoor fire pit burning softly under twilight sky", "text_overlay": "05 // TWILIGHT SANCTUARY"},
+                {"scene": "Sun-drenched exterior of a modern tropical white stucco villa in Bali with private turquoise pool and lush banana palms, Vogue Living style", "text_overlay": "01 // VILLA BINGIN (BALI)"},
+                {"scene": "Chic open-concept living room with sunken sofa, warm oak timber dining table, and natural daylight flooding through open glass sliders", "text_overlay": "02 // OPEN-PLAN LIVING"},
+                {"scene": "Warm cozy master bedroom with floating platform bed, crisp white linen, slatted teak wood ceiling, and private garden patio", "text_overlay": "03 // MASTER SUITE"},
+                {"scene": "Luxury outdoor stone bathroom with tropical rainfall shower, freestanding terrazzo tub, and lush green monstera plants", "text_overlay": "04 // STONE BATH OASIS"},
+                {"scene": "Golden hour twilight view of the villa with soft warm pendant lights glowing over the pool and outdoor lounge", "text_overlay": "05 // SUNSET VIBES"}
             ],
-            ["architecturelovers", "luxuryvilla", "architecturaldigest", "dreamhome", "villatour", "modernarchitecture", "surrealarchitecture", "reelsviral", "luxurydesign", "designinspiration"]
+            ["balivilla", "luxuryvilla", "villatour", "interiorinspiration", "tropicalmodern", "dreamhome", "baliinteriors", "vacationhome", "reelsviral", "designinspiration"]
         ),
         (
-            "24 Hours Inside Komorebi Sanctuary: The Hidden Kyoto Forest Haven",
-            "Experience peace at Komorebi Sanctuary, tucked deep within the mist of Kyoto. Built around the flow of natural water and ancient cedar. Who would you bring here for total tranquility? Drop a comment 👇",
+            "Casa Caldera • Whitewashed Coastal Haven in Santorini 🌊",
+            "Welcome to Casa Caldera. Carved into the cliffs of Santorini with smooth whitewashed arches, vibrant pink bougainvillea, and a private plunge pool overlooking the sparkling Aegean Sea. Tag someone you'd bring here ✨",
             [
-                {"scene": "Misty bamboo forest clearing revealing the charred cedar timber architecture of Komorebi Sanctuary in Kyoto at dawn", "text_overlay": "01 // THE FOREST APPROACH"},
-                {"scene": "Minimalist Japanese entry veranda with paper shoji screens, smooth river stone path, and morning dew", "text_overlay": "02 // MINIMALIST ARRIVAL"},
-                {"scene": "Open-air tatami tea lounge with low wooden table framing misty bamboo groves through floor-to-ceiling frameless glass", "text_overlay": "03 // THE TEA PAVILION"},
-                {"scene": "Steaming natural thermal onsen pool carved from volcanic black granite surrounded by soft moss and bamboo", "text_overlay": "04 // THERMAL ONSEN"},
-                {"scene": "Evening dusk view of Komorebi Pavilion with soft paper lanterns casting warm amber glow across steaming water", "text_overlay": "05 // DUSK TRANQUILITY"},
+                {"scene": "Bright sunlit exterior of a whitewashed cave villa in Santorini with smooth organic arches, vibrant bougainvillea, and sparkling sea horizon", "text_overlay": "01 // CASA CALDERA (SANTORINI)"},
+                {"scene": "Minimalist Mediterranean outdoor terrace with cushioned sun loungers, terracotta planters, and private infinity plunge pool", "text_overlay": "02 // SUNLIT TERRACE"},
+                {"scene": "Cozy vaulted cave bedroom with smooth curved white walls, built-in recessed lighting, and soft natural textiles", "text_overlay": "03 // CAVE BEDROOM"},
+                {"scene": "Modern stone-carved kitchen with rustic open shelving, local pottery, and sunlit breakfast nook framing ocean views", "text_overlay": "04 // KITCHEN & NOOK"},
+                {"scene": "Dusk twilight over the caldera with warm amber lantern lights reflecting in the private plunge pool", "text_overlay": "05 // EVENING TWILIGHT"}
             ],
-            ["japanesearchitecture", "zenliving", "forestsanctuary", "luxuryretreat", "architecturedose", "aestheticvibes", "designinspiration", "modernzen", "architecturaldigest", "reelsinsta"]
+            ["santorinivilla", "mediterraneanhome", "luxurytravel", "greeceescape", "coastalinteriors", "summerinspo", "dreamdestination", "villalife", "reelsinsta", "luxurydesign"]
         ),
         (
-            "The Mirage Glasshouse: Utah's Subterranean Desert Oasis",
-            "Hidden beneath the red rock canyons of Utah lies The Mirage. A subterranean architectural marvel that stays naturally cool under the desert sun. Could you live here off the grid? Drop your thoughts 👇",
+            "The Kyoto Pavilion • Warm Japandi Minimalist Sanctuary 🌿",
+            "A walkthrough of The Kyoto Pavilion. Warm Japanese oak, clean minimalist lines, and calm morning sunlight that makes every corner feel like peace. What is your favorite detail? Drop your thoughts below 👇",
             [
-                {"scene": "Dramatic desert aerial reveal of The Mirage Glasshouse carved organically into soaring red sandstone rock formations", "text_overlay": "01 // DESERT CANYON REVEAL"},
-                {"scene": "Curved raw concrete entrance ramp descending beneath a monumental rock archway into sun-dappled courtyard", "text_overlay": "02 // THE SUBTERRANEAN ENTRY"},
-                {"scene": "Sunken desert living lounge with natural rock walls, skylight streaming daylight into oasis reflecting pool", "text_overlay": "03 // SUNKEN ROCK LOUNGE"},
-                {"scene": "Private subterranean lap pool illuminated by hidden linear cove lighting reflecting off raw desert stone", "text_overlay": "04 // OASIS POOL"},
-                {"scene": "Starlit night view looking up through the open glass atrium at the Milky Way above towering red canyon walls", "text_overlay": "05 // DESERT STARRY NIGHT"},
+                {"scene": "Serene exterior of a modern Japandi timber residence with slatted cedar wood, smooth gravel garden, and morning sunlight, Architectural Digest", "text_overlay": "01 // THE KYOTO PAVILION"},
+                {"scene": "Sunlit minimalist living space with low-profile cream sofa, light oak fluted paneling, and sliding glass wall opening to bamboo courtyard", "text_overlay": "02 // JAPANDI LIVING"},
+                {"scene": "Peaceful master bedroom with floor-level tatami bed frame, soft linen bedding, and warm paper lantern pendant light", "text_overlay": "03 // OAK MASTER BEDROOM"},
+                {"scene": "Spa-inspired bathroom with natural black river stone floor, deep cedar soaking tub, and sunlight streaming through slatted wood", "text_overlay": "04 // CEDAR SOAKING SPA"},
+                {"scene": "Evening interior glow with warm indirect LED cove lighting illuminating textured timber and serene garden shadows", "text_overlay": "05 // NIGHT PEACE"}
             ],
-            ["desertarchitecture", "organicmodernism", "luxuryrealestate", "modernluxury", "brutalisminnature", "dreamresidence", "architecturalphotography", "canyonretreat", "reelsviral", "designlovers"]
+            ["japandi", "minimalisthome", "japanesearchitecture", "warmminimalism", "interiorlovers", "zenhome", "calmliving", "designinspo", "architecturedose", "reelsviral"]
+        ),
+        (
+            "The Palms Pavilion • Mid-Century Desert Oasis in California ☀️",
+            "Hidden in the warm desert sands of Palm Springs lies The Palms Pavilion. Floor-to-ceiling glass sliders, sunken terrazzo fire pit, and a sparkling pool framed by towering fan palms. Rate this design 1–10 in the comments 👇",
+            [
+                {"scene": "Low-slung modern desert villa in Palm Springs with mid-century lines, pristine pool, and towering fan palms under crisp blue sky", "text_overlay": "01 // THE PALMS (CALIFORNIA)"},
+                {"scene": "Sunken outdoor conversation pit with custom cushions, built-in fire table, and golden hour light washing over terrazzo tiles", "text_overlay": "02 // SUNKEN FIREPIT"},
+                {"scene": "Bright open-concept kitchen and dining pavilion with white quartz island, walnut barstools, and panoramic glass sliders", "text_overlay": "03 // CHEF KITCHEN"},
+                {"scene": "Sun-drenched master bedroom with sliding glass door leading directly to the pool deck, warm desert earth tones", "text_overlay": "04 // POOLSIDE BEDROOM"},
+                {"scene": "Desert twilight view with illuminated turquoise pool, glowing fire table, and silhouette of desert palms against purple sky", "text_overlay": "05 // DESERT BLUE HOUR"}
+            ],
+            ["palmsprings", "midcenturymodern", "desertvilla", "poolsidevibes", "californialiving", "architecturelovers", "modernresidence", "luxurylifestyle", "reelsdaily", "interiordesign"]
         )
     ]
     title, caption, scenes, tags = random.choice(tours)
@@ -358,28 +370,45 @@ def generate_fallback_reel(persona: dict) -> dict:
 
 
 def generate_reel_content(persona: dict, env: dict) -> dict:
-    """Generate a cohesive 5-shot architectural tour edit of a single luxury villa via Gemini."""
-    prompt = f"""You are the creative director of a prestigious architectural design publication named "{persona['name']}".
+    """Generate a classy, human-attractive luxury villa walkthrough edit (like propertia.bali) via Gemini."""
+    destinations = [
+        "a sun-drenched modern tropical pool villa in Bali with sunken outdoor lounge and banana palms",
+        "a whitewashed coastal cave villa in Santorini with smooth arches, pink bougainvillea, and plunge pool",
+        "a warm Japandi minimalist oak residence in Kyoto with paper screens and private zen garden",
+        "a mid-century modern desert pavilion in Palm Springs with sunken fire pit and palm-framed pool",
+        "a chic luxury skyline penthouse in Milan with dark marble kitchen island and panoramic city terrace",
+        "an eco-luxury jungle treehouse villa in Tulum with curved polished chukum walls and rooftop pool"
+    ]
+    chosen_dest = random.choice(destinations)
 
-Create a JSON object for an ultra-viral, cinematic Instagram Reel that presents a COHESIVE 5-SHOT VIRTUAL TOUR of ONE SINGLE dream sanctuary (NOT 5 random different houses).
-Every shot must depict the SAME property from progressive angles (Arrival -> Entrance -> Interior Lounge -> Signature Pool/Feature -> Evening Twilight).
+    prompt = f"""You are the creative director of a prestigious luxury villa and boutique lifestyle publication named "{persona['name']}".
+Theme for this reel: {chosen_dest}
+
+Create a JSON object for an ultra-classy, human-attractive, and eye-catching Instagram Reel walkthrough (inspired by boutique villa tours like propertia.bali).
+The reel must show a progressive 5-shot walkthrough of ONE gorgeous villa:
+Shot 1: The sun-drenched exterior & pool entrance
+Shot 2: The open-plan living room or outdoor sunken lounge
+Shot 3: The warm, cozy designer master bedroom
+Shot 4: The spa bathroom or stylish kitchen/dining space
+Shot 5: The golden hour or twilight evening glow with warm ambient lighting
 
 Return exactly this JSON structure:
 {{
-  "format": "<Punchy title e.g. 'Inside Villa Solaria: Suspended Above the Sea'>",
-  "caption": "<Engaging 2-3 sentence reel caption describing this single property walkthrough, ending with a question to drive comments, max one emoji, NEVER mention AI>",
-  "hashtags": ["architecturelovers", "luxuryvilla", "architecturaldigest", "dreamhome", "villatour", "modernarchitecture", "surrealarchitecture", "reelsviral", "luxurydesign", "designinspiration"],
+  "format": "<Classy title e.g. 'Villa Bingin • Tropical Pool Sanctuary in Bali 🌴'>",
+  "caption": "<Warm, human, 2-3 sentence engaging reel caption. Describe the lifestyle and design highlights, and end with an inviting question to drive comments (e.g. 'Could you see yourself waking up here? 🌴 Drop a comment below 👇')>",
+  "hashtags": ["luxuryvilla", "villatour", "interiorinspiration", "dreamhome", "vacationhome", "architecturedose", "aestheticliving", "reelsviral", "designinspiration", "luxurylifestyle"],
   "scenes": [
-    {{"scene": "<Shot 1: Dramatic exterior wide reveal of the villa, materials, setting, Architectural Digest style>", "text_overlay": "01 // THE ARRIVAL"}},
-    {{"scene": "<Shot 2: Stepping into the grand entrance/approach of the same villa>", "text_overlay": "02 // THE ENTRANCE"}},
-    {{"scene": "<Shot 3: Main living lounge/interior of the same villa with panoramic views>", "text_overlay": "03 // LIVING HORIZON"}},
-    {{"scene": "<Shot 4: Signature infinity pool/outdoor terrace of the same villa>", "text_overlay": "04 // INFINITY EDGE"}},
-    {{"scene": "<Shot 5: Evening blue-hour view of the same villa with warm ambient lighting and firepit>", "text_overlay": "05 // TWILIGHT SANCTUARY"}}
+    {{"scene": "<Shot 1: Bright, human-attractive, sunlit exterior with pool and lush landscaping, Architectural Digest/Vogue Living style>", "text_overlay": "01 // THE VILLA"}},
+    {{"scene": "<Shot 2: Inviting living space or sunken lounge with warm textures and daylight>", "text_overlay": "02 // LIVING SPACE"}},
+    {{"scene": "<Shot 3: Cozy master bedroom with soft linen, warm timber, and garden view>", "text_overlay": "03 // MASTER BEDROOM"}},
+    {{"scene": "<Shot 4: Spa bathroom or chic kitchen with natural stone and designer lighting>", "text_overlay": "04 // SPA & INTERIOR"}},
+    {{"scene": "<Shot 5: Sunset or twilight view with warm ambient lighting reflecting in the pool>", "text_overlay": "05 // SUNSET VIBES"}}
   ]
 }}
 Rules:
-- All 5 scenes MUST feature the SAME property and architecture style so the reel forms a cohesive video tour edit
-- NEVER mention AI, virtual, render, or algorithm
+- Make the villa look human-attractive, warm, and livable (real luxury lifestyle, NOT cold sci-fi CGI)
+- All 5 shots must depict the SAME villa to form a cohesive, satisfying tour edit
+- NEVER mention AI, virtual, render, or code
 - hashtags lowercase, no # prefix, 8-10 tags
 """
     try:
@@ -389,7 +418,7 @@ Rules:
         data["hashtags"] = [h.lstrip("#").lower() for h in data.get("hashtags", [])][:10]
         return data
     except Exception as exc:
-        print(f"  External LLM API unavailable ({exc}). Using curated cohesive tour edit generator...")
+        print(f"  External LLM API unavailable ({exc}). Using curated human-attractive villa walkthrough...")
         return generate_fallback_reel(persona)
 
 def generate_upload_caption(video_path: Path, persona: dict, env: dict) -> str:
@@ -465,9 +494,9 @@ def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: 
 
     # High-end Architectural Digest photography prompt
     arch_prefix = (
-        "RAW architectural photograph, Architectural Digest feature, award-winning contemporary luxury sanctuary, "
-        "shot on Hasselblad H6D-100c, 24mm tilt-shift architectural lens, volumetric atmospheric lighting, "
-        "photorealistic textures of travertine stone, raw concrete, floor-to-ceiling glass, warm timber, "
+        "RAW architectural interior and villa photography, Vogue Living and Architectural Digest feature, "
+        "shot on 35mm lens, warm natural sunlight, tactile textures of whitewashed stucco, warm natural oak, "
+        "linen textiles, lush tropical plants, crystal clear turquoise pool water, cozy livable luxury atmosphere, "
     )
     style_suffix = (
         "clean geometric lines, golden hour sunlight, hyperrealistic reflections in water, "
@@ -820,6 +849,34 @@ def build_full_caption(caption: str, hashtags: list[str]) -> str:
 # Video builder (FFmpeg)
 # ---------------------------------------------------------------------------
 
+MUSIC_STATE_FILE = Path(__file__).parent / "data" / "music_state.json"
+
+
+def pick_diverse_music_track() -> Path | None:
+    """Select a fresh, authentic music track differing from the last run for maximum variety."""
+    music_files = list(MUSIC_DIR.glob("*.mp3"))
+    if not music_files:
+        return None
+    last_played = ""
+    if MUSIC_STATE_FILE.exists():
+        try:
+            with open(MUSIC_STATE_FILE, encoding="utf-8") as f:
+                last_played = json.load(f).get("last_track", "")
+        except Exception:
+            pass
+    # Avoid repeating the immediate previous track
+    eligible = [f for f in music_files if f.name != last_played] or music_files
+    chosen = random.choice(eligible)
+    try:
+        MUSIC_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(MUSIC_STATE_FILE, "w", encoding="utf-8") as f:
+            json.dump({"last_track": chosen.name}, f, indent=2)
+    except Exception:
+        pass
+    print(f"  Selected authentic music track: {chosen.name}")
+    return chosen
+
+
 def build_reel_video(image_paths: list[Path], output_path: Path) -> None:
     """Build a ~20 second 9:16 vertical video from 5 images using fast cinematic crossfade transitions."""
     width, height = 1080, 1920
@@ -850,9 +907,8 @@ def build_reel_video(image_paths: list[Path], output_path: Path) -> None:
             last_out = f"x{i}"
         full_filter = ";".join(filter_parts)
 
-    music_files = list(MUSIC_DIR.glob("*.mp3"))
-    has_music = bool(music_files)
-    music_path = random.choice(music_files) if has_music else None
+    music_path = pick_diverse_music_track()
+    has_music = music_path is not None
 
     cmd = [*inputs]
     if has_music:
