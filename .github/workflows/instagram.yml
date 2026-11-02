@@ -2,15 +2,10 @@ name: Instagram Automation
 
 on:
   schedule:
-    # 4 Reels daily spaced evenly across peak global engagement hours:
-    # 03:00 UTC (08:30 IST / 11:00 PM EST prev day - Asia morning)
-    # 09:00 UTC (14:30 IST / 10:00 AM CET - Europe morning)
-    # 15:00 UTC (20:30 IST / 11:00 AM EST - US East Coast peak)
-    # 21:00 UTC (02:30 IST / 05:00 PM EST - US West Coast peak)
-    - cron: "0 3 * * *"
-    - cron: "0 9 * * *"
-    - cron: "0 15 * * *"
-    - cron: "0 21 * * *"
+    # 12 Reels daily (every 2 hours): 00:00, 02:00, 04:00, 06:00, 08:00, 10:00, 12:00, 14:00, 16:00, 18:00, 20:00, 22:00 UTC
+    - cron: "0 */2 * * *"
+    # 1 Photo post daily at 13:00 UTC (18:30 IST / 09:00 AM EST)
+    - cron: "0 13 * * *"
   push:
     paths:
       - "uploads/*.mp4"
@@ -72,8 +67,13 @@ jobs:
           elif [ "${{ github.event_name }}" = "push" ]; then
             echo "mode=upload_reel" >> "$GITHUB_OUTPUT"
           else
-            # 4x daily scheduled runs: post a Reel
-            echo "mode=reel" >> "$GITHUB_OUTPUT"
+            # Scheduled runs: hour 13 = daily photo post, all other hours = reel every 2 hours
+            HOUR=$(date -u +%H)
+            if [ "$HOUR" = "13" ]; then
+              echo "mode=post" >> "$GITHUB_OUTPUT"
+            else
+              echo "mode=reel" >> "$GITHUB_OUTPUT"
+            fi
           fi
 
       - name: Run automation
