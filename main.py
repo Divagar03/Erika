@@ -1111,7 +1111,7 @@ Return ONLY a JSON array of lowercase strings without # prefix.
 # Main entry point
 # ---------------------------------------------------------------------------
 
-MODES = {"post", "weekly_reel", "upload_reel"}
+MODES = {"post", "weekly_reel", "reel", "upload_reel"}
 
 
 def main() -> None:
@@ -1153,7 +1153,7 @@ def main() -> None:
     try:
         if mode == "post":
             mode_post(persona, env, dry_run)
-        elif mode == "weekly_reel":
+        elif mode in {"weekly_reel", "reel"}:
             mode_weekly_reel(persona, env, dry_run)
         elif mode == "upload_reel":
             mode_upload_reel(persona, env, dry_run)
