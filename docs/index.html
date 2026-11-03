@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lyra Voss · AI Influencer Dashboard</title>
-  <meta name="description" content="Control and monitor the automated AI Instagram influencer account — Lyra Voss." />
+  <title>Zenith Villas · Luxury Villa Dashboard</title>
+  <meta name="description" content="Control and monitor the automated luxury villa curation page — Zenith Villas." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -472,6 +472,19 @@
       <div class="card-title">Actions</div>
       <div id="actions-area" style="display:flex;flex-direction:column;gap:1.25rem;">
 
+        <!-- Generate Reel From Text -->
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.25rem;">
+          <div class="section-title" style="margin-bottom:0.5rem;">✨ Generate Reel from Text</div>
+          <div class="info-text" style="margin-bottom:0.75rem;">Type any luxury villa concept or architectural idea. The system generates a cohesive 5-shot walkthrough edit, pairs trending audio, and posts directly to Instagram.</div>
+          <div class="form-group" style="margin-bottom:0.75rem;">
+            <textarea id="custom-prompt-input" rows="3" placeholder="e.g. A cliffside Santorini cave villa with pink bougainvillea, private heated plunge pool, and sunset Aegean views..."></textarea>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;">
+            <button class="btn btn-primary" id="btn-custom-reel-now" style="background:linear-gradient(135deg, #6366f1, #a855f7);border:none;">✨ Post Reel From Text</button>
+            <button class="btn btn-secondary" id="btn-custom-post-now">📸 Post Photo From Text</button>
+          </div>
+        </div>
+
         <!-- Upload reel -->
         <div>
           <div class="section-title" style="margin-bottom:0.75rem;">📤 Upload a Reel</div>
@@ -624,19 +637,26 @@
       return ghFetch("/contents/" + path);
     }
 
-    async function dispatchWorkflow(mode) {
-      const url = GH_API + "/repos/" + getRepo() + "/actions/workflows/" + WORKFLOW_FILE + "/dispatches";
+    async function dispatchWorkflow(mode, prompt = "") {
       const token = getToken();
+      if (!token) {
+        throw new Error("GitHub Token not set. Click '⚙ Settings' in the top-right to enter your GitHub Personal Access Token (PAT).");
+      }
+      const url = GH_API + "/repos/" + getRepo() + "/actions/workflows/" + WORKFLOW_FILE + "/dispatches";
       const headers = {
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
         "Authorization": "Bearer " + token,
         "Content-Type": "application/json",
       };
+      const inputs = { mode };
+      if (prompt && prompt.trim()) {
+        inputs.prompt = prompt.trim();
+      }
       const res = await fetch(url, {
         method: "POST",
         headers,
-        body: JSON.stringify({ ref: getBranch(), inputs: { mode } }),
+        body: JSON.stringify({ ref: getBranch(), inputs }),
       });
       if (!res.ok) {
         const text = await res.text().catch(() => "");
@@ -1068,12 +1088,12 @@
     });
 
     // ── Dispatch ───────────────────────────────────────────────────────────
-    async function doDispatch(mode, label) {
+    async function doDispatch(mode, label, prompt = "") {
       const statusEl = document.getElementById("dispatch-status");
       statusEl.style.display = "block";
       statusEl.textContent = "Dispatching " + label + "…";
       try {
-        await dispatchWorkflow(mode);
+        await dispatchWorkflow(mode, prompt);
         statusEl.textContent = "✓ Dispatched " + label + ". Check the Actions runs tab in ~30 seconds.";
         notify(label + " dispatched!", "ok");
         setTimeout(() => renderRuns(), 5000);
@@ -1085,6 +1105,24 @@
 
     document.getElementById("btn-post-now").addEventListener("click", () => doDispatch("post", "photo post"));
     document.getElementById("btn-reel-now").addEventListener("click", () => doDispatch("weekly_reel", "weekly reel"));
+    
+    document.getElementById("btn-custom-reel-now").addEventListener("click", () => {
+      const prompt = document.getElementById("custom-prompt-input").value.trim();
+      if (!prompt) {
+        notify("Please type a description or theme in the box first!", "warn");
+        return;
+      }
+      doDispatch("reel", "custom reel from text ('" + prompt.slice(0, 30) + "…')", prompt);
+    });
+
+    document.getElementById("btn-custom-post-now").addEventListener("click", () => {
+      const prompt = document.getElementById("custom-prompt-input").value.trim();
+      if (!prompt) {
+        notify("Please type a description or theme in the box first!", "warn");
+        return;
+      }
+      doDispatch("post", "custom photo from text ('" + prompt.slice(0, 30) + "…')", prompt);
+    });
     document.getElementById("btn-pause-resume").addEventListener("click", togglePause);
 
     // ── Settings ───────────────────────────────────────────────────────────
