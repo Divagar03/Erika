@@ -471,11 +471,11 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
         title = f"{cp[:45]} • Luxury Walkthrough ✨"
         caption = f"Step inside this breathtaking sanctuary: {cp}. Designed with bespoke materials and panoramic views for effortless luxury living. Could you see yourself waking up here? Drop a comment below 👇"
         scenes = [
-            {"scene": f"Sun-drenched exterior wide angle of {cp}, Architectural Digest and Vogue Living style, warm natural sunlight", "text_overlay": "01 // THE ARRIVAL"},
-            {"scene": f"Grand entrance and sunlit approach of {cp} with natural stone and floor-to-ceiling glass", "text_overlay": "02 // THE ENTRANCE"},
-            {"scene": f"Main living room and open-concept interior of {cp} with designer furniture and panoramic views", "text_overlay": "03 // LIVING SPACE"},
-            {"scene": f"Signature terrace, pool, or outdoor garden oasis of {cp} with sparkling clear water", "text_overlay": "04 // SIGNATURE OASIS"},
-            {"scene": f"Evening twilight blue-hour view of {cp} with soft warm ambient lighting and glowing atmosphere", "text_overlay": "05 // SUNSET VIBES"},
+            {"scene": f"Sun-drenched exterior wide angle of {cp}, Architectural Digest and Vogue Living style, warm natural sunlight", "text_overlay": ""},
+            {"scene": f"Grand entrance and sunlit approach of {cp} with natural stone and floor-to-ceiling glass", "text_overlay": ""},
+            {"scene": f"Main living room and open-concept interior of {cp} with designer furniture and panoramic views", "text_overlay": ""},
+            {"scene": f"Signature terrace, pool, or outdoor garden oasis of {cp} with sparkling clear water", "text_overlay": ""},
+            {"scene": f"Evening twilight blue-hour view of {cp} with soft warm ambient lighting and glowing atmosphere", "text_overlay": ""},
         ]
         tags = ["luxuryvilla", "villatour", "interiorinspiration", "dreamhome", "customretreat", "architecturedose", "aestheticliving", "reelsviral", "designinspiration", "luxurylifestyle"]
         return {"format": title, "caption": caption, "hashtags": tags, "scenes": scenes}
@@ -485,11 +485,11 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
             "Villa Bingin • Tropical Pool Sanctuary in Bali 🌴",
             "Inside Villa Bingin — a sun-drenched 3-bedroom tropical haven in Uluwatu, Bali. Designed with a private sunken lounge, turquoise pool, and open-concept kitchen for effortless island living. Could you see yourself waking up here? Drop a comment below 👇",
             [
-                {"scene": "Sun-drenched exterior of a modern tropical white stucco villa in Bali with private turquoise pool and lush banana palms, Vogue Living style", "text_overlay": "01 // VILLA BINGIN (BALI)"},
-                {"scene": "Chic open-concept living room with sunken sofa, warm oak timber dining table, and natural daylight flooding through open glass sliders", "text_overlay": "02 // OPEN-PLAN LIVING"},
-                {"scene": "Warm cozy master bedroom with floating platform bed, crisp white linen, slatted teak wood ceiling, and private garden patio", "text_overlay": "03 // MASTER SUITE"},
-                {"scene": "Luxury outdoor stone bathroom with tropical rainfall shower, freestanding terrazzo tub, and lush green monstera plants", "text_overlay": "04 // STONE BATH OASIS"},
-                {"scene": "Golden hour twilight view of the villa with soft warm pendant lights glowing over the pool and outdoor lounge", "text_overlay": "05 // SUNSET VIBES"}
+                {"scene": "Sun-drenched exterior of a modern tropical white stucco villa in Bali with private turquoise pool and lush banana palms, Vogue Living style", "text_overlay": ""},
+                {"scene": "Chic open-concept living room with sunken sofa, warm oak timber dining table, and natural daylight flooding through open glass sliders", "text_overlay": ""},
+                {"scene": "Warm cozy master bedroom with floating platform bed, crisp white linen, slatted teak wood ceiling, and private garden patio", "text_overlay": ""},
+                {"scene": "Luxury outdoor stone bathroom with tropical rainfall shower, freestanding terrazzo tub, and lush green monstera plants", "text_overlay": ""},
+                {"scene": "Golden hour twilight view of the villa with soft warm pendant lights glowing over the pool and outdoor lounge", "text_overlay": ""}
             ],
             ["balivilla", "luxuryvilla", "villatour", "interiorinspiration", "tropicalmodern", "dreamhome", "baliinteriors", "vacationhome", "reelsviral", "designinspiration"]
         ),
@@ -497,11 +497,11 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
             "Casa Caldera • Whitewashed Coastal Haven in Santorini 🌊",
             "Welcome to Casa Caldera. Carved into the cliffs of Santorini with smooth whitewashed arches, vibrant pink bougainvillea, and a private plunge pool overlooking the sparkling Aegean Sea. Tag someone you'd bring here ✨",
             [
-                {"scene": "Bright sunlit exterior of a whitewashed cave villa in Santorini with smooth organic arches, vibrant bougainvillea, and sparkling sea horizon", "text_overlay": "01 // CASA CALDERA (SANTORINI)"},
-                {"scene": "Minimalist Mediterranean outdoor terrace with cushioned sun loungers, terracotta planters, and private infinity plunge pool", "text_overlay": "02 // SUNLIT TERRACE"},
-                {"scene": "Cozy vaulted cave bedroom with smooth curved white walls, built-in recessed lighting, and soft natural textiles", "text_overlay": "03 // CAVE BEDROOM"},
-                {"scene": "Modern stone-carved kitchen with rustic open shelving, local pottery, and sunlit breakfast nook framing ocean views", "text_overlay": "04 // KITCHEN & NOOK"},
-                {"scene": "Dusk twilight over the caldera with warm amber lantern lights reflecting in the private plunge pool", "text_overlay": "05 // EVENING TWILIGHT"}
+                {"scene": "Bright sunlit exterior of a whitewashed cave villa in Santorini with smooth organic arches, vibrant bougainvillea, and sparkling sea horizon", "text_overlay": ""},
+                {"scene": "Minimalist Mediterranean outdoor terrace with cushioned sun loungers, terracotta planters, and private infinity plunge pool", "text_overlay": ""},
+                {"scene": "Cozy vaulted cave bedroom with smooth curved white walls, built-in recessed lighting, and soft natural textiles", "text_overlay": ""},
+                {"scene": "Modern stone-carved kitchen with rustic open shelving, local pottery, and sunlit breakfast nook framing ocean views", "text_overlay": ""},
+                {"scene": "Dusk twilight over the caldera with warm amber lantern lights reflecting in the private plunge pool", "text_overlay": ""}
             ],
             ["santorinivilla", "mediterraneanhome", "luxurytravel", "greeceescape", "coastalinteriors", "summerinspo", "dreamdestination", "villalife", "reelsinsta", "luxurydesign"]
         ),
@@ -509,11 +509,11 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
             "The Kyoto Pavilion • Warm Japandi Minimalist Sanctuary 🌿",
             "A walkthrough of The Kyoto Pavilion. Warm Japanese oak, clean minimalist lines, and calm morning sunlight that makes every corner feel like peace. What is your favorite detail? Drop your thoughts below 👇",
             [
-                {"scene": "Serene exterior of a modern Japandi timber residence with slatted cedar wood, smooth gravel garden, and morning sunlight, Architectural Digest", "text_overlay": "01 // THE KYOTO PAVILION"},
-                {"scene": "Sunlit minimalist living space with low-profile cream sofa, light oak fluted paneling, and sliding glass wall opening to bamboo courtyard", "text_overlay": "02 // JAPANDI LIVING"},
-                {"scene": "Peaceful master bedroom with floor-level tatami bed frame, soft linen bedding, and warm paper lantern pendant light", "text_overlay": "03 // OAK MASTER BEDROOM"},
-                {"scene": "Spa-inspired bathroom with natural black river stone floor, deep cedar soaking tub, and sunlight streaming through slatted wood", "text_overlay": "04 // CEDAR SOAKING SPA"},
-                {"scene": "Evening interior glow with warm indirect LED cove lighting illuminating textured timber and serene garden shadows", "text_overlay": "05 // NIGHT PEACE"}
+                {"scene": "Serene exterior of a modern Japandi timber residence with slatted cedar wood, smooth gravel garden, and morning sunlight, Architectural Digest", "text_overlay": ""},
+                {"scene": "Sunlit minimalist living space with low-profile cream sofa, light oak fluted paneling, and sliding glass wall opening to bamboo courtyard", "text_overlay": ""},
+                {"scene": "Peaceful master bedroom with floor-level tatami bed frame, soft linen bedding, and warm paper lantern pendant light", "text_overlay": ""},
+                {"scene": "Spa-inspired bathroom with natural black river stone floor, deep cedar soaking tub, and sunlight streaming through slatted wood", "text_overlay": ""},
+                {"scene": "Evening interior glow with warm indirect LED cove lighting illuminating textured timber and serene garden shadows", "text_overlay": ""}
             ],
             ["japandi", "minimalisthome", "japanesearchitecture", "warmminimalism", "interiorlovers", "zenhome", "calmliving", "designinspo", "architecturedose", "reelsviral"]
         ),
@@ -521,11 +521,11 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
             "The Palms Pavilion • Mid-Century Desert Oasis in California ☀️",
             "Hidden in the warm desert sands of Palm Springs lies The Palms Pavilion. Floor-to-ceiling glass sliders, sunken terrazzo fire pit, and a sparkling pool framed by towering fan palms. Rate this design 1–10 in the comments 👇",
             [
-                {"scene": "Low-slung modern desert villa in Palm Springs with mid-century lines, pristine pool, and towering fan palms under crisp blue sky", "text_overlay": "01 // THE PALMS (CALIFORNIA)"},
-                {"scene": "Sunken outdoor conversation pit with custom cushions, built-in fire table, and golden hour light washing over terrazzo tiles", "text_overlay": "02 // SUNKEN FIREPIT"},
-                {"scene": "Bright open-concept kitchen and dining pavilion with white quartz island, walnut barstools, and panoramic glass sliders", "text_overlay": "03 // CHEF KITCHEN"},
-                {"scene": "Sun-drenched master bedroom with sliding glass door leading directly to the pool deck, warm desert earth tones", "text_overlay": "04 // POOLSIDE BEDROOM"},
-                {"scene": "Desert twilight view with illuminated turquoise pool, glowing fire table, and silhouette of desert palms against purple sky", "text_overlay": "05 // DESERT BLUE HOUR"}
+                {"scene": "Low-slung modern desert villa in Palm Springs with mid-century lines, pristine pool, and towering fan palms under crisp blue sky", "text_overlay": ""},
+                {"scene": "Sunken outdoor conversation pit with custom cushions, built-in fire table, and golden hour light washing over terrazzo tiles", "text_overlay": ""},
+                {"scene": "Bright open-concept kitchen and dining pavilion with white quartz island, walnut barstools, and panoramic glass sliders", "text_overlay": ""},
+                {"scene": "Sun-drenched master bedroom with sliding glass door leading directly to the pool deck, warm desert earth tones", "text_overlay": ""},
+                {"scene": "Desert twilight view with illuminated turquoise pool, glowing fire table, and silhouette of desert palms against purple sky", "text_overlay": ""}
             ],
             ["palmsprings", "midcenturymodern", "desertvilla", "poolsidevibes", "californialiving", "architecturelovers", "modernresidence", "luxurylifestyle", "reelsdaily", "interiordesign"]
         )
@@ -577,11 +577,11 @@ Return exactly this JSON structure:
   "caption": "<Warm, human, 2-3 sentence engaging reel caption. Describe the lifestyle and design highlights, and end with an inviting question to drive comments (e.g. 'Could you see yourself waking up here? 🌴 Drop a comment below 👇')>",
   "hashtags": ["luxuryvilla", "villatour", "interiorinspiration", "dreamhome", "vacationhome", "architecturedose", "aestheticliving", "reelsviral", "designinspiration", "luxurylifestyle"],
   "scenes": [
-    {{"scene": "<Shot 1: Bright, human-attractive, sunlit exterior with pool and lush landscaping, Architectural Digest/Vogue Living style>", "text_overlay": "01 // THE VILLA"}},
-    {{"scene": "<Shot 2: Inviting living space or sunken lounge with warm textures and daylight>", "text_overlay": "02 // LIVING SPACE"}},
-    {{"scene": "<Shot 3: Cozy master bedroom with soft linen, warm timber, and garden view>", "text_overlay": "03 // MASTER BEDROOM"}},
-    {{"scene": "<Shot 4: Spa bathroom or chic kitchen with natural stone and designer lighting>", "text_overlay": "04 // SPA & INTERIOR"}},
-    {{"scene": "<Shot 5: Sunset or twilight view with warm ambient lighting reflecting in the pool>", "text_overlay": "05 // SUNSET VIBES"}}
+    {{"scene": "<Shot 1: Bright, human-attractive, sunlit exterior with pool and lush landscaping, Architectural Digest/Vogue Living style>", "text_overlay": ""}},
+    {{"scene": "<Shot 2: Inviting living space or sunken lounge with warm textures and daylight>", "text_overlay": ""}},
+    {{"scene": "<Shot 3: Cozy master bedroom with soft linen, warm timber, and garden view>", "text_overlay": ""}},
+    {{"scene": "<Shot 4: Spa bathroom or chic kitchen with natural stone and designer lighting>", "text_overlay": ""}},
+    {{"scene": "<Shot 5: Sunset or twilight view with warm ambient lighting reflecting in the pool>", "text_overlay": ""}}
   ]
 }}
 Rules:
@@ -600,6 +600,10 @@ Rules:
                 sc["text_overlay"] = overlay
             data["format"] = f"Zenith Villas • {overlay[:35]}... ✨"
             data["caption"] = f"{overlay}\n\nStep inside an exclusive modern architectural sanctuary. Can we reach 1k? Drop a comment below and follow along 👇"
+        else:
+            # Clean visuals: never draw text on standard automated reels unless explicitly asked
+            for sc in data["scenes"]:
+                sc["text_overlay"] = ""
         return data
     except Exception as exc:
         print(f"  External LLM API unavailable ({exc}). Using curated human-attractive villa walkthrough...")
@@ -1218,7 +1222,9 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         img_path = MEDIA_DIR / f"reel_{ts}_scene{i + 1}.jpg"
         download_image(persona, sc["scene"], img_path, width=1080, height=1920)
         overlay_txt = sc.get("text_overlay", "").strip()
-        if overlay_txt:
+        # ONLY apply text overlay if user explicitly requested custom text
+        # (clean aesthetic visuals on standard reels with no text boxes)
+        if overlay_txt and not overlay_txt.startswith("0"):
             apply_text_overlay(img_path, overlay_txt)
         image_paths.append(img_path)
 
