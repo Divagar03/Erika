@@ -26,6 +26,8 @@ if hasattr(sys.stdout, 'reconfigure'):
     sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 import time
 import urllib.parse
+import textwrap
+from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -308,8 +310,146 @@ Rules:
     return data
 
 
+
+def get_bold_font(size: int = 44) -> ImageFont.ImageFont:
+    """Find a crisp, bold sans-serif font across Linux/Ubuntu (Actions runner) and Windows."""
+    font_candidates = [
+        # Linux / Ubuntu runners
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+        "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf",
+        # Windows
+        "C:/Windows/Fonts/arialbd.ttf",
+        "C:/Windows/Fonts/arial.ttf",
+        "C:/Windows/Fonts/calibrib.ttf",
+        # macOS
+        "/System/Library/Fonts/Helvetica.ttc",
+        "/Library/Fonts/Arial Bold.ttf",
+    ]
+    for p in font_candidates:
+        if os.path.exists(p):
+            try:
+                return ImageFont.truetype(p, size)
+            except Exception:
+                pass
+    try:
+        return ImageFont.load_default(size=size)
+    except TypeError:
+        return ImageFont.load_default()
+
+
+def apply_text_overlay(img_path: Path, text: str) -> None:
+    """Overlay clean, viral-style aesthetic text onto a 1080x1920 image with dark pill background."""
+    if not text or not text.strip():
+        return
+    text = text.strip()
+    try:
+        with Image.open(img_path).convert("RGBA") as base:
+            txt_layer = Image.new("RGBA", base.size, (255, 255, 255, 0))
+            draw = ImageDraw.Draw(txt_layer)
+
+            raw_len = len(text)
+            if raw_len > 90:
+                font_size = 38
+                max_chars = 32
+            elif raw_len > 45:
+                font_size = 42
+                max_chars = 28
+            else:
+                font_size = 48
+                max_chars = 24
+
+            font = get_bold_font(font_size)
+
+            lines: list[str] = []
+            for part in text.split("\n"):
+                sub = textwrap.wrap(part.strip(), width=max_chars)
+                if sub:
+                    lines.extend(sub)
+                else:
+                    lines.append("")
+
+            lines = [l for l in lines if l]
+            if not lines:
+                return
+
+            line_height = int(font_size * 1.38)
+            total_h = len(lines) * line_height
+
+            img_w, img_h = base.size
+            y_start = int((img_h - total_h) * 0.40)
+
+            pad_x = 36
+            pad_y = 28
+            max_w = 0
+            for line in lines:
+                bbox = draw.textbbox((0, 0), line, font=font)
+                max_w = max(max_w, bbox[2] - bbox[0])
+
+            box = [
+                int((img_w - max_w) / 2) - pad_x,
+                y_start - pad_y,
+                int((img_w + max_w) / 2) + pad_x,
+                y_start + total_h + pad_y,
+            ]
+
+            # Sleek translucent pill background
+            draw.rounded_rectangle(box, radius=24, fill=(0, 0, 0, 185))
+
+            for i, line in enumerate(lines):
+                bbox = draw.textbbox((0, 0), line, font=font)
+                w = bbox[2] - bbox[0]
+                x = int((img_w - w) / 2)
+                y = y_start + i * line_height
+                draw.text((x + 2, y + 2), line, fill=(0, 0, 0, 220), font=font)
+                draw.text((x, y), line, fill=(255, 255, 255, 255), font=font)
+
+            out = Image.alpha_composite(base, txt_layer).convert("RGB")
+            out.save(img_path, "JPEG", quality=95)
+            print(f"  Applied viral text overlay to {img_path.name}: '{text[:35]}...'")
+    except Exception as exc:
+        print(f"  Warning: failed to overlay text on {img_path.name}: {exc}")
+
+
+def extract_overlay_and_theme(cp: str) -> tuple[str, str]:
+    """Extract optional text overlay (e.g. text in quotes) and villa visual theme from custom prompt."""
+    if not cp:
+        return "", ""
+    # Look for double quotes first
+    m = re.search(r'["“]([^"”]{5,})["”]', cp)
+    if not m:
+        # Match single quotes if not part of a contraction
+        m = re.search(r"(?:^|\s)['‘]([^'’]{5,})['’](?:$|\s)", cp)
+
+    if m:
+        overlay = m.group(1).strip()
+        theme_part = cp[:m.start()] + cp[m.end():]
+        theme_part = re.sub(
+            r'(?i)\b(over those text|with text|text overlay|over that text|over this text|text:?|with title)\b',
+            '',
+            theme_part
+        ).strip(' ,:;-')
+        if not theme_part or len(theme_part) < 6 or 'villa' in theme_part.lower() or 'reel' in theme_part.lower():
+            theme_part = 'a sun-drenched modern luxury tropical villa walkthrough with private pool and ocean view'
+        return overlay, theme_part
+    return "", cp
+
 def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
     """Classy, human-attractive villa walkthroughs with varied destinations or custom text prompt."""
+    overlay, theme = extract_overlay_and_theme(custom_prompt)
+    if overlay:
+        title = f"Zenith Villas • {overlay[:35]}... ✨"
+        caption = f"{overlay}\n\nStep inside an exclusive modern architectural haven. Could you see yourself waking up here? Drop a comment below 👇"
+        scenes = [
+            {"scene": f"Sun-drenched exterior wide angle of {theme}, Architectural Digest and Vogue Living style, warm natural sunlight", "text_overlay": overlay},
+            {"scene": f"Grand entrance and sunlit approach of {theme} with natural stone and floor-to-ceiling glass", "text_overlay": overlay},
+            {"scene": f"Main living room and open-concept interior of {theme} with designer furniture and panoramic views", "text_overlay": overlay},
+            {"scene": f"Signature terrace, pool, or outdoor garden oasis of {theme} with sparkling clear water", "text_overlay": overlay},
+            {"scene": f"Evening twilight blue-hour view of {theme} with soft warm ambient lighting and glowing atmosphere", "text_overlay": overlay},
+        ]
+        tags = ["luxuryvilla", "villatour", "interiorinspiration", "dreamhome", "viralreels", "architecturedose", "aestheticliving", "reelsviral", "designinspiration", "luxurylifestyle"]
+        return {"format": title, "caption": caption, "hashtags": tags, "scenes": scenes}
+
     if custom_prompt and custom_prompt.strip():
         cp = custom_prompt.strip()
         title = f"{cp[:45]} • Luxury Walkthrough ✨"
@@ -393,11 +533,16 @@ def generate_reel_content(persona: dict, env: dict, custom_prompt: str = "") -> 
         "a chic luxury skyline penthouse in Milan with dark marble kitchen island and panoramic city terrace",
         "an eco-luxury jungle treehouse villa in Tulum with curved polished chukum walls and rooftop pool"
     ]
+    overlay, theme = extract_overlay_and_theme(custom_prompt)
     if custom_prompt and custom_prompt.strip():
-        chosen_dest = custom_prompt.strip()
-        print(f"  Building reel specifically for custom prompt: '{chosen_dest}'")
+        chosen_dest = theme if theme else custom_prompt.strip()
+        msg = f"  Building reel for theme: '{chosen_dest}'"
+        if overlay:
+            msg += f" with on-screen text overlay: '{overlay}'"
+        print(msg)
     else:
         chosen_dest = random.choice(destinations)
+        overlay = ""
 
     prompt = f"""You are the creative director of a prestigious luxury villa and boutique lifestyle publication named "{persona['name']}".
 Theme for this reel: {chosen_dest}
@@ -434,6 +579,9 @@ Rules:
         data = parse_json_response(text)
         assert "scenes" in data and len(data["scenes"]) == 5
         data["hashtags"] = [h.lstrip("#").lower() for h in data.get("hashtags", [])][:10]
+        if overlay:
+            for sc in data["scenes"]:
+                sc["text_overlay"] = overlay
         return data
     except Exception as exc:
         print(f"  External LLM API unavailable ({exc}). Using curated human-attractive villa walkthrough...")
@@ -1051,6 +1199,9 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     for i, sc in enumerate(scenes):
         img_path = MEDIA_DIR / f"reel_{ts}_scene{i + 1}.jpg"
         download_image(persona, sc["scene"], img_path, width=1080, height=1920)
+        overlay_txt = sc.get("text_overlay", "").strip()
+        if overlay_txt:
+            apply_text_overlay(img_path, overlay_txt)
         image_paths.append(img_path)
 
     print("Building reel video with FFmpeg...")

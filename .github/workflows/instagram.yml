@@ -91,9 +91,6 @@ jobs:
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CUSTOM_PROMPT: ${{ github.event.inputs.prompt }}
+          MODE_NAME: ${{ steps.mode.outputs.mode }}
         run: |
-          if [ -n "${{ github.event.inputs.prompt }}" ]; then
-            python main.py ${{ steps.mode.outputs.mode }} --prompt "${{ github.event.inputs.prompt }}"
-          else
-            python main.py ${{ steps.mode.outputs.mode }}
-          fi
+          python main.py "$MODE_NAME"
