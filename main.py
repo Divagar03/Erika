@@ -75,7 +75,7 @@ def load_env() -> dict:
     return {
         "ig_user_id": _env("IG_USER_ID"),
         "ig_token": _env("IG_ACCESS_TOKEN"),
-        "gemini_key": _env("GEMINI_API_KEY"),
+        "gemini_key": _env("GEMINI_API_KEY", required=False),
         "gh_repo": _env("GITHUB_REPOSITORY"),   # owner/repo
         "gh_branch": _env("GITHUB_REF_NAME", required=False) or "main",
         "gemini_model": os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip(),
@@ -275,9 +275,9 @@ def generate_fallback_post(persona: dict) -> dict:
     return {"scene": scene, "caption": caption, "hashtags": tags}
 
 
-def generate_post_content(persona: dict, env: dict) -> dict:
+def generate_post_content(persona: dict, env: dict, custom_prompt: str = "") -> dict:
     """Generate high-engagement Architectural Digest style post content via Gemini."""
-    theme = random.choice(persona["themes"])
+    theme = custom_prompt.strip() if custom_prompt and custom_prompt.strip() else random.choice(persona["themes"])
     prompt = f"""You are the creative director of a world-famous luxury architecture and design magazine named "{persona['name']}".
 Theme: "{theme}"
 
@@ -308,8 +308,22 @@ Rules:
     return data
 
 
-def generate_fallback_reel(persona: dict) -> dict:
-    """Classy, human-attractive villa walkthroughs with varied destinations (inspired by propertia.bali)."""
+def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
+    """Classy, human-attractive villa walkthroughs with varied destinations or custom text prompt."""
+    if custom_prompt and custom_prompt.strip():
+        cp = custom_prompt.strip()
+        title = f"{cp[:45]} • Luxury Walkthrough ✨"
+        caption = f"Step inside this breathtaking sanctuary: {cp}. Designed with bespoke materials and panoramic views for effortless luxury living. Could you see yourself waking up here? Drop a comment below 👇"
+        scenes = [
+            {"scene": f"Sun-drenched exterior wide angle of {cp}, Architectural Digest and Vogue Living style, warm natural sunlight", "text_overlay": "01 // THE ARRIVAL"},
+            {"scene": f"Grand entrance and sunlit approach of {cp} with natural stone and floor-to-ceiling glass", "text_overlay": "02 // THE ENTRANCE"},
+            {"scene": f"Main living room and open-concept interior of {cp} with designer furniture and panoramic views", "text_overlay": "03 // LIVING SPACE"},
+            {"scene": f"Signature terrace, pool, or outdoor garden oasis of {cp} with sparkling clear water", "text_overlay": "04 // SIGNATURE OASIS"},
+            {"scene": f"Evening twilight blue-hour view of {cp} with soft warm ambient lighting and glowing atmosphere", "text_overlay": "05 // SUNSET VIBES"},
+        ]
+        tags = ["luxuryvilla", "villatour", "interiorinspiration", "dreamhome", "customretreat", "architecturedose", "aestheticliving", "reelsviral", "designinspiration", "luxurylifestyle"]
+        return {"format": title, "caption": caption, "hashtags": tags, "scenes": scenes}
+
     tours = [
         (
             "Villa Bingin • Tropical Pool Sanctuary in Bali 🌴",
@@ -369,8 +383,8 @@ def generate_fallback_reel(persona: dict) -> dict:
     }
 
 
-def generate_reel_content(persona: dict, env: dict) -> dict:
-    """Generate a classy, human-attractive luxury villa walkthrough edit (like propertia.bali) via Gemini."""
+def generate_reel_content(persona: dict, env: dict, custom_prompt: str = "") -> dict:
+    """Generate a classy, human-attractive luxury villa walkthrough edit from custom text or rotating destinations."""
     destinations = [
         "a sun-drenched modern tropical pool villa in Bali with sunken outdoor lounge and banana palms",
         "a whitewashed coastal cave villa in Santorini with smooth arches, pink bougainvillea, and plunge pool",
@@ -379,7 +393,11 @@ def generate_reel_content(persona: dict, env: dict) -> dict:
         "a chic luxury skyline penthouse in Milan with dark marble kitchen island and panoramic city terrace",
         "an eco-luxury jungle treehouse villa in Tulum with curved polished chukum walls and rooftop pool"
     ]
-    chosen_dest = random.choice(destinations)
+    if custom_prompt and custom_prompt.strip():
+        chosen_dest = custom_prompt.strip()
+        print(f"  Building reel specifically for custom prompt: '{chosen_dest}'")
+    else:
+        chosen_dest = random.choice(destinations)
 
     prompt = f"""You are the creative director of a prestigious luxury villa and boutique lifestyle publication named "{persona['name']}".
 Theme for this reel: {chosen_dest}
@@ -419,7 +437,7 @@ Rules:
         return data
     except Exception as exc:
         print(f"  External LLM API unavailable ({exc}). Using curated human-attractive villa walkthrough...")
-        return generate_fallback_reel(persona)
+        return generate_fallback_reel(persona, custom_prompt=custom_prompt)
 
 def generate_upload_caption(video_path: Path, persona: dict, env: dict) -> str:
     """Use Gemini to write a caption for a user-uploaded reel."""
@@ -955,13 +973,13 @@ def build_reel_video(image_paths: list[Path], output_path: Path) -> None:
 # Mode: post
 # ---------------------------------------------------------------------------
 
-def mode_post(persona: dict, env: dict, dry_run: bool) -> None:
+def mode_post(persona: dict, env: dict, dry_run: bool, custom_prompt: str = "") -> None:
     """Generate and publish a single photo post."""
     print("\n=== MODE: post ===")
     ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
     print("Generating post content with Gemini...")
-    content = generate_post_content(persona, env)
+    content = generate_post_content(persona, env, custom_prompt=custom_prompt)
     scene = content["scene"]
     caption_text = content["caption"]
     hashtags = content["hashtags"]
@@ -1004,13 +1022,13 @@ def mode_post(persona: dict, env: dict, dry_run: bool) -> None:
 # Mode: weekly_reel
 # ---------------------------------------------------------------------------
 
-def mode_weekly_reel(persona: dict, env: dict, dry_run: bool) -> None:
-    """Generate and publish a weekly reel from 5 AI images."""
-    print("\n=== MODE: weekly_reel ===")
+def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str = "") -> None:
+    """Generate and publish a reel from 5 AI images based on custom text or curated themes."""
+    print("\n=== MODE: reel ===")
     ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
     print("Generating reel content with Gemini...")
-    content = generate_reel_content(persona, env)
+    content = generate_reel_content(persona, env, custom_prompt=custom_prompt)
     scenes = content["scenes"]
     caption_text = content["caption"]
     hashtags = content["hashtags"]
@@ -1175,12 +1193,36 @@ def main() -> None:
     dry_run = "--dry-run" in args
     args = [a for a in args if a != "--dry-run"]
 
+    custom_prompt = ""
+    # Parse --prompt "some text"
+    for i, a in enumerate(args):
+        if a in ("--prompt", "-p") and i + 1 < len(args):
+            custom_prompt = args[i + 1].strip()
+            args = args[:i] + args[i + 2:]
+            break
+
+    # Also check CUSTOM_PROMPT environment variable
+    if not custom_prompt:
+        custom_prompt = os.environ.get("CUSTOM_PROMPT", "").strip()
+
+    # Also check if custom_prompt.txt exists in root
+    prompt_file = ROOT / "custom_prompt.txt"
+    if not custom_prompt and prompt_file.exists():
+        try:
+            custom_prompt = prompt_file.read_text(encoding="utf-8").strip()
+            prompt_file.unlink()  # Consume single-use file
+            print(f"  Read and consumed custom prompt from {prompt_file.name}")
+        except Exception:
+            pass
+
     if not args or args[0] not in MODES:
-        print(f"Usage: python main.py <mode> [--dry-run]")
+        print(f"Usage: python main.py <mode> [--prompt <text>] [--dry-run]")
         print(f"Modes: {', '.join(sorted(MODES))}")
         sys.exit(1)
 
     mode = args[0]
+    if custom_prompt:
+        print(f"Custom prompt: '{custom_prompt}'")
 
     if dry_run:
         print("=== DRY RUN MODE (no commits, no posts) ===")
@@ -1198,7 +1240,7 @@ def main() -> None:
         env = {
             "ig_user_id": "DRY_RUN",
             "ig_token": "DRY_RUN",
-            "gemini_key": _env("GEMINI_API_KEY"),
+            "gemini_key": _env("GEMINI_API_KEY", required=False),
             "gh_repo": os.environ.get("GITHUB_REPOSITORY", "owner/repo"),
             "gh_branch": os.environ.get("GITHUB_REF_NAME", "main"),
             "gemini_model": os.environ.get("GEMINI_MODEL", "gemini-3.8-flash"),
@@ -1208,9 +1250,9 @@ def main() -> None:
 
     try:
         if mode == "post":
-            mode_post(persona, env, dry_run)
+            mode_post(persona, env, dry_run, custom_prompt=custom_prompt)
         elif mode in {"weekly_reel", "reel"}:
-            mode_weekly_reel(persona, env, dry_run)
+            mode_weekly_reel(persona, env, dry_run, custom_prompt=custom_prompt)
         elif mode == "upload_reel":
             mode_upload_reel(persona, env, dry_run)
     except Exception as exc:

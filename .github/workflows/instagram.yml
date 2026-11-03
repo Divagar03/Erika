@@ -21,6 +21,11 @@ on:
           - weekly_reel
           - post
           - upload_reel
+      prompt:
+        description: "Custom text/prompt for the reel or post (leave empty for auto theme)"
+        required: false
+        default: ""
+        type: string
 
 permissions:
   contents: write
@@ -85,5 +90,10 @@ jobs:
           GITHUB_REF_NAME: ${{ github.ref_name }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CUSTOM_PROMPT: ${{ github.event.inputs.prompt }}
         run: |
-          python main.py ${{ steps.mode.outputs.mode }}
+          if [ -n "${{ github.event.inputs.prompt }}" ]; then
+            python main.py ${{ steps.mode.outputs.mode }} --prompt "${{ github.event.inputs.prompt }}"
+          else
+            python main.py ${{ steps.mode.outputs.mode }}
+          fi
