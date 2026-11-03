@@ -412,26 +412,42 @@ def apply_text_overlay(img_path: Path, text: str) -> None:
 
 
 def extract_overlay_and_theme(cp: str) -> tuple[str, str]:
-    """Extract optional text overlay (e.g. text in quotes) and villa visual theme from custom prompt."""
+    """Extract optional text overlay (e.g. text in quotes or after indicators) and villa visual theme from custom prompt."""
     if not cp:
         return "", ""
-    # Look for double quotes first
-    m = re.search(r'["“]([^"”]{5,})["”]', cp)
+
+    raw = cp.strip()
+
+    # 1. Closed quotes: "..." or '...'
+    m = re.search(r'["“]([^"”]{5,})["”]', raw)
     if not m:
-        # Match single quotes if not part of a contraction
-        m = re.search(r"(?:^|\s)['‘]([^'’]{5,})['’](?:$|\s)", cp)
+        m = re.search(r"(?:^|\s)['‘]([^'’]{5,})['’](?:$|\s)", raw)
+
+    # 2. Unclosed quote starting with " or ' up to end of string (e.g. user typed opening quote without closing it)
+    if not m:
+        m = re.search(r'["“]([^"”]{5,})$', raw)
+    if not m:
+        m = re.search(r"(?:^|\s)['‘]([^'’]{5,})$", raw)
+
+    # 3. Keyword indicators without quotes (e.g. 'over those text Day 1...', 'with text Day 1...', 'text: Day 1...')
+    if not m:
+        m = re.search(r"""(?i)\b(?:over those text|over that text|over this text|with text|text overlay|put text|having text|text is|saying|text:)\s+["“']?(.*)""", raw)
 
     if m:
-        overlay = m.group(1).strip()
-        theme_part = cp[:m.start()] + cp[m.end():]
+        overlay = m.group(1).strip(" \"'“”‘’")
+        overlay = re.sub(r"""["”'’]+$""", "", overlay).strip()
+
+        # The visual theme is the rest of the prompt
+        theme_part = raw[:m.start()] + raw[m.end():]
         theme_part = re.sub(
-            r'(?i)\b(over those text|with text|text overlay|over that text|over this text|text:?|with title)\b',
+            r'(?i)\b(a normal reel where you make photo of villas but|a normal reel|reel where you make photo of villas|photo of villas|over those text|with text|text overlay|over that text|over this text|text:?|with title)\b',
             '',
             theme_part
         ).strip(' ,:;-')
         if not theme_part or len(theme_part) < 6 or 'villa' in theme_part.lower() or 'reel' in theme_part.lower():
             theme_part = 'a sun-drenched modern luxury tropical villa walkthrough with private pool and ocean view'
         return overlay, theme_part
+
     return "", cp
 
 def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
@@ -582,6 +598,8 @@ Rules:
         if overlay:
             for sc in data["scenes"]:
                 sc["text_overlay"] = overlay
+            data["format"] = f"Zenith Villas • {overlay[:35]}... ✨"
+            data["caption"] = f"{overlay}\n\nStep inside an exclusive modern architectural sanctuary. Can we reach 1k? Drop a comment below and follow along 👇"
         return data
     except Exception as exc:
         print(f"  External LLM API unavailable ({exc}). Using curated human-attractive villa walkthrough...")
