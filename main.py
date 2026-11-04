@@ -268,7 +268,7 @@ def generate_fallback_post(persona: dict) -> dict:
             ["lamborghini", "revuelto", "v12", "hypercars", "supercars", "exoticcars", "carspotting", "carlifestyle"]
         ),
         (
-            f"BMW S1000RR M Package superbike in Alpine White with M motorsport tri-color livery, parked outside modern architectural glass pavilion at twilight, sharp LED headlights.",
+            f"BMW S1000RR M Package superbike in Alpine White with M motorsport tri-color livery, parked on mountain touge pass at blue hour twilight with glowing LED headlights.",
             "The ultimate track missile. BMW S1000RR M Package with full carbon aero winglets and race-tuned electronics. Tag a rider who needs this in their garage ⚡",
             ["bmwmotorrad", "s1000rr", "bmws1000rr", "superbikes", "motorcycles", "sportbikelife", "riderich", "trackday"]
         ),
@@ -412,7 +412,7 @@ def apply_text_overlay(img_path: Path, text: str) -> None:
 
 
 def extract_overlay_and_theme(cp: str) -> tuple[str, str]:
-    """Extract optional text overlay (e.g. text in quotes or after indicators) and villa visual theme from custom prompt."""
+    """Extract optional text overlay (e.g. text in quotes or after indicators) and supercar/superbike automotive theme from custom prompt."""
     if not cp:
         return "", ""
 
@@ -440,11 +440,11 @@ def extract_overlay_and_theme(cp: str) -> tuple[str, str]:
         # The visual theme is the rest of the prompt
         theme_part = raw[:m.start()] + raw[m.end():]
         theme_part = re.sub(
-            r'(?i)\b(a normal reel where you make photo of villas but|a normal reel|reel where you make photo of villas|photo of villas|over those text|with text|text overlay|over that text|over this text|text:?|with title)\b',
+            r'(?i)\b(with text overlay|text overlay|with text|over those text|over that text|over this text|text:?|with title|a normal reel|reel)\b',
             '',
             theme_part
         ).strip(' ,:;-')
-        if not theme_part or len(theme_part) < 6 or 'villa' in theme_part.lower() or 'reel' in theme_part.lower():
+        if not theme_part or len(theme_part) < 6 or any(k in theme_part.lower() for k in ['villa', 'reel', 'overlay', 'edit', 'photo']):
             theme_part = 'Porsche 911 GT3 RS in Shark Blue and Ducati Panigale V4 S superbike on rain-slicked asphalt, 4k automotive cinematography'
         return overlay, theme_part
 
@@ -635,15 +635,15 @@ Rules:
 
 def generate_upload_caption(video_path: Path, persona: dict, env: dict) -> str:
     """Use Gemini to write a caption for a user-uploaded reel."""
-    prompt = f"""You are the creative director of a prestigious architecture publication named "{persona['name']}".
-Write an Instagram Reel caption (2-3 sentences, max one emoji) for an architectural tour video reel.
+    prompt = f"""You are the creative director of a world-famous supercar & superbike media brand named "{persona['name']}".
+Write an Instagram Reel caption (2-3 sentences, max one emoji) for an adrenaline-fueled automotive video reel.
 The filename is: {video_path.name}
 NEVER mention AI, algorithm, or code. End with an interactive question to spark comments. Return ONLY the caption text.
 """
     try:
         return call_gemini(prompt, env).strip()
     except Exception:
-        return "An architectural masterpiece where visionary design meets pure tranquility. Which detail stands out most to you? Drop your thoughts below 👇"
+        return "Pure mechanical adrenaline where visionary automotive engineering meets raw power. Would you take the keys for a weekend run? Drop your thoughts below 👇"
 
 
 # ---------------------------------------------------------------------------
@@ -651,25 +651,22 @@ NEVER mention AI, algorithm, or code. End with an interactive question to spark 
 # ---------------------------------------------------------------------------
 
 VEHICLES_ASSETS_DIR = Path(__file__).parent / "assets" / "vehicles"
-ARCH_ASSETS_DIR = VEHICLES_ASSETS_DIR
-ARCH_INDEX_FILE = Path(__file__).parent / "data" / "arch_index.json"
-ERIKA_INDEX_FILE = ARCH_INDEX_FILE  # backwards compatibility
+VEHICLE_INDEX_FILE = Path(__file__).parent / "data" / "vehicle_index.json"
+ARCH_INDEX_FILE = VEHICLE_INDEX_FILE  # backwards compatibility
+ERIKA_INDEX_FILE = VEHICLE_INDEX_FILE # backwards compatibility
 
 
-def get_next_curated_architecture_image() -> Path:
+def get_next_curated_vehicle_image() -> Path:
     """Cycle sequentially through the verified supercar and superbike gallery."""
     VEHICLES_ASSETS_DIR.mkdir(parents=True, exist_ok=True)
     images = sorted(list(VEHICLES_ASSETS_DIR.glob("*.jpg")) + list(VEHICLES_ASSETS_DIR.glob("*.png")))
     if not images:
-        fallback_dir = Path(__file__).parent / "assets" / "architecture"
-        images = sorted(list(fallback_dir.glob("*.jpg")) + list(fallback_dir.glob("*.png")))
-    if not images:
         raise FileNotFoundError(f"No curated vehicle images found in {VEHICLES_ASSETS_DIR}")
 
     idx = 0
-    if ARCH_INDEX_FILE.exists():
+    if VEHICLE_INDEX_FILE.exists():
         try:
-            with open(ARCH_INDEX_FILE, encoding="utf-8") as f:
+            with open(VEHICLE_INDEX_FILE, encoding="utf-8") as f:
                 data = json.load(f)
                 idx = data.get("index", 0)
         except Exception:
@@ -678,12 +675,14 @@ def get_next_curated_architecture_image() -> Path:
     chosen = images[idx % len(images)]
     next_idx = (idx + 1) % len(images)
     try:
-        ARCH_INDEX_FILE.parent.mkdir(parents=True, exist_ok=True)
-        with open(ARCH_INDEX_FILE, "w", encoding="utf-8") as f:
+        VEHICLE_INDEX_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(VEHICLE_INDEX_FILE, "w", encoding="utf-8") as f:
             json.dump({"index": next_idx, "last_image": chosen.name}, f, indent=2)
     except Exception:
         pass
     return chosen
+
+get_next_curated_architecture_image = get_next_curated_vehicle_image
 
 
 # Photorealistic models to cycle through (all produce natural-looking results)
@@ -767,7 +766,7 @@ def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: 
         "models": REALISTIC_MODELS,  # Allow any of these workers to pick up instantly
     }
     try:
-        print(f"  Generating architectural sanctuary image via AI Horde (seed: {seed})...")
+        print(f"  Generating automotive photography via AI Horde (seed: {seed})...")
         r = requests.post("https://aihorde.net/api/v2/generate/async", headers=headers, json=payload, timeout=20)
         job_id = r.json().get("id")
         if not job_id:
@@ -829,7 +828,7 @@ def download_image(
 
     # 3. Guaranteed fallback: Curated 4K Supercars & Superbikes gallery (Porsche, Ducati, Lamborghini, etc.)
     print("  Using verified supercar & superbike photography library...")
-    chosen = get_next_curated_architecture_image()
+    chosen = get_next_curated_vehicle_image()
     from PIL import Image
     img = Image.open(chosen).convert("RGB")
     if img.size != (width, height):
