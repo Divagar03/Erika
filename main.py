@@ -451,7 +451,7 @@ def extract_overlay_and_theme(cp: str) -> tuple[str, str]:
     return "", cp
 
 def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
-    """Classy, human-attractive villa walkthroughs with varied destinations or custom text prompt."""
+    """Curated, high-octane 5-shot single machine edits (emblem, wheels, cockpit, exhaust, rolling) for supercars and superbikes."""
     overlay, theme = extract_overlay_and_theme(custom_prompt)
     if overlay:
         if "studies" in overlay.lower() or "study" in overlay.lower():
@@ -463,13 +463,12 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
             caption = f"{overlay}\n\nBehind the wheel of pure mechanical perfection. Drop a comment below 👇"
             tags = ["supercars", "hypercars", "superbikes", "carsofinstagram", "bikersofinstagram", "viralreels", "speedhunters", "carlifestyle", "carreels", "drive"]
         scenes = [
-            {"scene": f"Cinematic rolling hero shot of {theme} on wet asphalt, Speedhunters style, 4k automotive cinematography", "text_overlay": overlay},
-            {"scene": f"Aggressive front fascia and menacing LED headlights of {theme} with carbon aerodynamic splitter", "text_overlay": overlay},
-            {"scene": f"Driver cockpit of {theme} with Alcantara steering wheel, digital tachometer, and carbon fiber details", "text_overlay": overlay},
-            {"scene": f"Rear three-quarter angle of {theme} showing aggressive aero carbon wing and quad titanium exhaust tips", "text_overlay": overlay},
-            {"scene": f"Rain-slicked night city streets with glowing LED taillights of {theme} reflecting on dark asphalt", "text_overlay": overlay},
+            {"scene": f"Extreme macro close-up of {theme} front emblem and piercing LED headlights waking up in dark moody studio, 4k automotive cinema", "text_overlay": overlay},
+            {"scene": f"Macro low-angle shot of forged wheels, performance tyre, and brake calipers of {theme}, water droplets, Speedhunters style", "text_overlay": overlay},
+            {"scene": f"Driver cockpit of {theme} with Alcantara steering wheel, glowing engine start ignition button, and digital tachometer", "text_overlay": overlay},
+            {"scene": f"Rear low-angle angle of {theme} showing aggressive aero carbon wing and quad titanium exhaust tips", "text_overlay": overlay},
+            {"scene": f"Dynamic wide cinematic rolling tracking shot of {theme} on rain-slicked dark asphalt at night with reflections", "text_overlay": overlay},
         ]
-        tags = ["supercars", "hypercars", "superbikes", "carsofinstagram", "bikersofinstagram", "viralreels", "speedhunters", "carlifestyle", "carreels", "drive"]
         return {"format": title, "caption": caption, "hashtags": tags, "scenes": scenes}
 
     if custom_prompt and custom_prompt.strip():
@@ -477,37 +476,49 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
         title = f"{cp[:45]} • Pure Machine 🏁"
         caption = f"Unleashing the beast: {cp}. Masterclass engineering and heart-pounding adrenaline. Would you take the keys? Drop your thoughts below 👇"
         scenes = [
-            {"scene": f"Cinematic rolling hero shot of {cp} on asphalt, Speedhunters style, 4k automotive cinematography", "text_overlay": ""},
-            {"scene": f"Aggressive front fascia and menacing LED headlights of {cp} with carbon aerodynamic splitter", "text_overlay": ""},
-            {"scene": f"Driver cockpit of {cp} with Alcantara steering wheel, digital tachometer, and carbon fiber details", "text_overlay": ""},
-            {"scene": f"Rear three-quarter angle of {cp} showing aggressive aero carbon wing and quad titanium exhaust tips", "text_overlay": ""},
-            {"scene": f"Rain-slicked night city streets with glowing LED taillights of {cp} reflecting on dark asphalt", "text_overlay": ""},
+            {"scene": f"Extreme macro close-up of {cp} front badge and piercing LED headlights waking up in dark moody studio, 4k automotive cinema", "text_overlay": ""},
+            {"scene": f"Macro low-angle shot of forged wheels, performance tyre, and brake calipers of {cp}, water droplets, Speedhunters style", "text_overlay": ""},
+            {"scene": f"Driver cockpit of {cp} with Alcantara steering wheel, glowing engine start ignition button, and digital tachometer", "text_overlay": ""},
+            {"scene": f"Rear low-angle angle of {cp} showing aggressive aero carbon wing and quad titanium exhaust tips", "text_overlay": ""},
+            {"scene": f"Dynamic wide cinematic rolling tracking shot of {cp} on rain-slicked dark asphalt at night with reflections", "text_overlay": ""},
         ]
         tags = ["supercars", "hypercars", "superbikes", "carsofinstagram", "bikersofinstagram", "carreels", "speedhunters", "carlifestyle", "trackweapon", "automotive"]
         return {"format": title, "caption": caption, "hashtags": tags, "scenes": scenes}
 
     tours = [
         (
-            "Porsche 911 GT3 RS • Shark Blue Track Weapon 🏁",
-            "The Porsche 911 GT3 RS in Shark Blue — 518 naturally aspirated horsepower and a swan-neck wing generating 1,895 lbs of downforce. Built purely for the apex. Could you daily drive this weapon? Drop your thoughts below 👇",
+            "BMW M4 Competition • Stealth Black Track Weapon 🏁",
+            "503 horsepower of pure twin-turbo inline-six rage wrapped in Frozen Matte Black. The BMW M4 Competition G82 demands respect on both street and apex. Sound up for that cold start roar 🔊 Drop your dream spec below 👇",
             [
-                {"scene": "Porsche 911 GT3 RS in Shark Blue rolling on wet asphalt, aggressive swan-neck carbon wing, Speedhunters style", "text_overlay": ""},
-                {"scene": "Aggressive front fascia with hood aero nostrils, LED Matrix headlights, and carbon splitter", "text_overlay": ""},
-                {"scene": "Track cockpit with carbon bucket seats, yellow roll cage, and 9000 RPM tachometer", "text_overlay": ""},
-                {"scene": "Rear carbon fiber diffuser with titanium dual center exhaust tips and wide stance", "text_overlay": ""},
-                {"scene": "Rainy night Tokyo street reflections with illuminated rear LED lightbar glowing in the dark", "text_overlay": ""}
+                {"scene": "Extreme macro close-up of BMW M carbon badge on gloss black kidney grille with piercing twin LED laser headlights firing up in dark moody studio, 4k automotive cinema", "text_overlay": ""},
+                {"scene": "Macro low-angle shot of 20-inch M forged black wheel, sticky Michelin Pilot Sport tyre, and gold carbon ceramic brake caliper, water droplets, automotive photography", "text_overlay": ""},
+                {"scene": "Driver cockpit view of BMW M4 focusing on Alcantara steering wheel with carbon paddle shifters, red start stop engine button, digital M cluster", "text_overlay": ""},
+                {"scene": "Rear close-up of carbon rear diffuser, quad titanium exhaust tips with blue heat burn, and carbon ducktail trunk spoiler on Matte Black BMW M4", "text_overlay": ""},
+                {"scene": "Wide cinematic rolling tracking shot of Matte Black BMW M4 Competition gliding on rain-slicked dark asphalt at night with streetlights reflecting", "text_overlay": ""}
+            ],
+            ["bmwm4", "bmwm", "mperformance", "bimmerpost", "supercars", "trackweapon", "carreels", "speedhunters", "carlifestyle", "m4competition"]
+        ),
+        (
+            "Porsche 911 GT3 RS • Shark Blue Track Weapon 🏁",
+            "The Porsche 911 GT3 RS in Shark Blue — 518 naturally aspirated horsepower and a swan-neck wing generating 1,895 lbs of downforce. Built purely for the apex. Sound on 🔊 Could you daily drive this weapon? Drop your thoughts below 👇",
+            [
+                {"scene": "Macro close-up of Porsche crest emblem on carbon hood with aggressive aero nostrils and LED Matrix headlights waking up in dark studio", "text_overlay": ""},
+                {"scene": "Low-angle macro shot of lightweight forged magnesium wheel, Michelin Cup 2R tyre, and yellow carbon ceramic brake caliper of Porsche GT3 RS", "text_overlay": ""},
+                {"scene": "Cockpit of Porsche GT3 RS focusing on Alcantara steering wheel, drive mode rotary dials, red ignition switch, and 9000 RPM tachometer", "text_overlay": ""},
+                {"scene": "Rear carbon fiber diffuser, swan-neck aero wing, and dual center titanium exhaust pipes of Shark Blue Porsche GT3 RS", "text_overlay": ""},
+                {"scene": "Cinematic tracking rolling shot of Shark Blue Porsche 911 GT3 RS attacking track curb on wet asphalt with motion blur", "text_overlay": ""}
             ],
             ["porsche", "gt3rs", "porsche911", "supercars", "trackweapon", "carsofinstagram", "speedhunters", "carreels", "carlifestyle", "exoticcars"]
         ),
         (
             "Ducati Panigale V4 S • Pure Italian Adrenaline 🔴",
-            "214 HP at 13,000 RPM wrapped in iconic Ducati Red. The Panigale V4 S is poetry in motion and brute force on two wheels. Sound on 🔊 Would you take the keys for a mountain canyon run? Drop a comment below 👇",
+            "214 HP at 13,000 RPM wrapped in iconic Ducati Red. The Panigale V4 S is poetry in motion and brute force on two wheels. Sound on for that Desmosedici roar 🔊 Would you take the keys for a mountain canyon run? Drop a comment below 👇",
             [
-                {"scene": "Ducati Panigale V4 S in iconic Ducati Red parked on scenic coastal cliffside switchback at golden hour", "text_overlay": ""},
-                {"scene": "Aggressive front fairing with dual piercing LED projector headlights and carbon aerodynamic winglets", "text_overlay": ""},
-                {"scene": "Rider cockpit view of digital color TFT display, clip-on bars, and Brembo Stylema calipers", "text_overlay": ""},
-                {"scene": "Single-sided swingarm showcasing bronze forged Marchesini wheel and Akrapovic exhaust", "text_overlay": ""},
-                {"scene": "Sunset twilight silhouette with glowing LED taillight reflecting on dark asphalt", "text_overlay": ""}
+                {"scene": "Extreme macro close-up of Ducati Corse emblem on front red aerodynamic fairing with piercing twin LED projector lights in moody studio", "text_overlay": ""},
+                {"scene": "Macro low-angle shot of Pirelli Diablo Supercorsa SP tyre, bronze forged Marchesini wheel, and Brembo Stylema calipers", "text_overlay": ""},
+                {"scene": "Rider cockpit view of Ducati Panigale V4 S focusing on clip-on handlebars, electronic TFT race display, and red ignition switch", "text_overlay": ""},
+                {"scene": "Close-up of single-sided swingarm, titanium Akrapovic underslung exhaust, and exposed rear wheel of Ducati Panigale V4 S", "text_overlay": ""},
+                {"scene": "Cinematic rolling shot of Ducati Panigale V4 S carving coastal mountain hairpin switchback at golden hour sunset", "text_overlay": ""}
             ],
             ["ducati", "panigalev4", "superbikes", "bikersofinstagram", "motorcycles", "sportbike", "twowheels", "riderich", "trackday", "ducatistagram"]
         ),
@@ -515,10 +526,10 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
             "Lamborghini Revuelto • 1000HP V12 Hybrid Beast ⚡",
             "A roaring 6.5L naturally aspirated V12 paired with three electric motors to unleash 1,001 horsepower. The Lamborghini Revuelto is the dawn of a new hypercar era. Which color spec would you order? Drop a comment below 👇",
             [
-                {"scene": "Matte black Lamborghini Revuelto low front three-quarter view under moody industrial concrete lights", "text_overlay": ""},
-                {"scene": "Y-shaped signature LED daytime running lights with sharp geometric carbon fiber front splitter", "text_overlay": ""},
-                {"scene": "Fighter-jet inspired interior with carbon steering wheel, digital cluster, and orange launch button", "text_overlay": ""},
-                {"scene": "High-mounted exposed hexagonal dual exhaust pipes with active carbon fiber rear wing", "text_overlay": ""},
+                {"scene": "Macro close-up of Lamborghini raging bull crest on front nose with sharp Y-shaped LED daytime lights waking up", "text_overlay": ""},
+                {"scene": "Low-angle macro shot of forged Bridgestone Potenza sport wheel and giant carbon-ceramic orange brake caliper", "text_overlay": ""},
+                {"scene": "Fighter-jet inspired cockpit with carbon steering wheel, digital cluster, and flip-up red fighter-jet ignition start button", "text_overlay": ""},
+                {"scene": "High-mounted exposed hexagonal dual exhaust tips with active carbon fiber rear diffuser and wing", "text_overlay": ""},
                 {"scene": "Rainy night city neon reflections with glowing Y-shaped taillights reflecting on wet road", "text_overlay": ""}
             ],
             ["lamborghini", "revuelto", "hypercars", "supercars", "v12", "exoticcars", "carspotting", "carlifestyle", "carreels", "speedhunters"]
@@ -527,9 +538,9 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
             "BMW S1000RR M Package • The Precision Missile ⚪",
             "Engineered to dominate the track. The BMW S1000RR M Package in Alpine White with carbon fiber wheels and M winglets. Pure mechanical precision. Tag someone who loves two wheels 🔥",
             [
-                {"scene": "BMW S1000RR M Package in Alpine White with M motorsport tri-color rolling on mountain pass at sunrise", "text_overlay": ""},
-                {"scene": "Aggressive front fairing with M carbon winglets and piercing dual LED headlights", "text_overlay": ""},
-                {"scene": "Clip-on handlebars with carbon tank cover, digital race display, and M Endurance chain", "text_overlay": ""},
+                {"scene": "Macro close-up of BMW roundel badge and aggressive front fairing with M carbon winglets and piercing dual LED headlights", "text_overlay": ""},
+                {"scene": "Low-angle shot of 17-inch M carbon fiber front wheel, Michelin Power Cup tyre, and blue M brake caliper", "text_overlay": ""},
+                {"scene": "Clip-on handlebars with carbon tank cover, digital race display, and M start button", "text_overlay": ""},
                 {"scene": "Akrapovic titanium exhaust canister and carbon fiber rear wheel hugger with wide rear tire", "text_overlay": ""},
                 {"scene": "Blue-hour twilight silhouette with glowing LED taillight line on winding asphalt", "text_overlay": ""}
             ],
@@ -544,9 +555,8 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
         "scenes": scenes
     }
 
-
 def generate_reel_content(persona: dict, env: dict, custom_prompt: str = "") -> dict:
-    """Generate a classy, human-attractive luxury villa walkthrough edit from custom text or rotating destinations."""
+    """Generate an aggressive, 5-shot cinematic edit focused strictly on ONE supercar or superbike."""
     destinations = [
         "Porsche 911 GT3 RS in Shark Blue with Weissach Package and swan-neck carbon wing, rain-slicked Tokyo street",
         "Ducati Panigale V4 S in iconic Ducati Red with carbon aerodynamic winglets, coastal switchback at golden hour",
@@ -620,7 +630,7 @@ Rules:
                 sc["text_overlay"] = ""
         return data
     except Exception as exc:
-        print(f"  External LLM API unavailable ({exc}). Using curated human-attractive villa walkthrough...")
+        print(f"  External LLM API unavailable ({exc}). Using curated cohesive single-machine edit generator...")
         return generate_fallback_reel(persona, custom_prompt=custom_prompt)
 
 def generate_upload_caption(video_path: Path, persona: dict, env: dict) -> str:
@@ -1104,55 +1114,149 @@ def pick_diverse_music_track() -> Path | None:
     return chosen
 
 
-def build_reel_video(image_paths: list[Path], output_path: Path) -> None:
-    """Build a ~20 second 9:16 vertical video from 5 images using fast cinematic crossfade transitions."""
+ENGINE_SFX_DIR = Path(__file__).parent / "assets" / "sfx" / "engine"
+VEHICLE_SETS_DIR = Path(__file__).parent / "assets" / "vehicles" / "sets"
+VEHICLE_STATE_FILE = Path(__file__).parent / "data" / "vehicle_state.json"
+
+
+def pick_engine_sfx(is_bike: bool = False) -> Path | None:
+    """Pick an authentic engine starting ignition or throttle rev sound effect."""
+    if not ENGINE_SFX_DIR.exists():
+        return None
+    if is_bike:
+        candidates = list(ENGINE_SFX_DIR.glob("bike_*.mp3"))
+    else:
+        candidates = list(ENGINE_SFX_DIR.glob("car_*.mp3"))
+    if not candidates:
+        candidates = list(ENGINE_SFX_DIR.glob("*.mp3"))
+    return random.choice(candidates) if candidates else None
+
+
+def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path], bool]:
+    """Return (set_name, 5_shots, is_bike) from the curated cohesive single-vehicle library."""
+    available_sets: list[tuple[str, list[Path]]] = []
+    if VEHICLE_SETS_DIR.exists():
+        for d in sorted(VEHICLE_SETS_DIR.iterdir()):
+            if d.is_dir():
+                shots = sorted(list(d.glob("shot_*.jpg")))
+                if len(shots) == 5:
+                    available_sets.append((d.name, shots))
+
+    if not available_sets:
+        v_dir = Path(__file__).parent / "assets" / "vehicles"
+        imgs = sorted(list(v_dir.glob("*.jpg")))[:5]
+        return "single_car", imgs, False
+
+    is_bike_hint = any(b in theme_hint.lower() for b in ["bike", "motorcycle", "ducati", "yamaha", "kawasaki", "s1000rr"])
+    if theme_hint:
+        filtered = [s for s in available_sets if ("ducati" in s[0] or "bike" in s[0]) == is_bike_hint]
+        if filtered:
+            available_sets = filtered
+
+    last_set = ""
+    if VEHICLE_STATE_FILE.exists():
+        try:
+            with open(VEHICLE_STATE_FILE, encoding="utf-8") as f:
+                last_set = json.load(f).get("last_set", "")
+        except Exception:
+            pass
+
+    eligible = [s for s in available_sets if s[0] != last_set] or available_sets
+    chosen_name, chosen_shots = random.choice(eligible)
+    try:
+        VEHICLE_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(VEHICLE_STATE_FILE, "w", encoding="utf-8") as f:
+            json.dump({"last_set": chosen_name}, f, indent=2)
+    except Exception:
+        pass
+
+    is_bike = any(b in chosen_name for b in ["bike", "ducati", "yamaha", "kawasaki", "s1000rr"])
+    return chosen_name, chosen_shots, is_bike
+
+
+def build_reel_video(image_paths: list[Path], output_path: Path, is_bike: bool = False) -> None:
+    """Build a ~16s 9:16 vertical video from 5 images using dynamic camera motion, crossfades, and mixed engine audio."""
     width, height = 1080, 1920
     clip_duration = 3.2  # 3.2s per cut (16s total edit - peak viral retention)
     fade_duration = 0.35 # quick cinematic dissolve
+    n = len(image_paths)
 
     inputs: list[str] = []
     for img in image_paths:
         inputs += ["-loop", "1", "-t", str(clip_duration), "-i", str(img)]
 
+    # Dynamic cinematic camera motion for each detail cut
+    motions = [
+        # Shot 1 (Badge / Emblem / Headlights): Subtle upward tilt & push-in into emblem
+        "x='(in_w-out_w)/2':y='(in_h-out_h)*(1-0.7*t/3.2)'",
+        # Shot 2 (Tyres / Wheels / Brake): Smooth lateral tracking pan across wheel rim & caliper
+        "x='(in_w-out_w)*(0.2+0.6*t/3.2)':y='(in_h-out_h)/2'",
+        # Shot 3 (Cockpit / Ignition button): Smooth push-in toward start button & digital cluster
+        "x='(in_w-out_w)*(0.8-0.6*t/3.2)':y='(in_h-out_h)*(0.3+0.4*t/3.2)'",
+        # Shot 4 (Exhaust / Diffuser): Low-angle upward tilt from quad exhausts to spoiler
+        "x='(in_w-out_w)/2':y='(in_h-out_h)*(0.8-0.6*t/3.2)'",
+        # Shot 5 (Rolling shot): Fast cinematic tracking pan along asphalt
+        "x='(in_w-out_w)*(0.1+0.8*t/3.2)':y='(in_h-out_h)/2'",
+    ]
+
     filter_parts: list[str] = []
-    for i in range(len(image_paths)):
+    for i in range(n):
+        motion = motions[i % len(motions)]
         filter_parts.append(
-            f"[{i}:v]scale={width}:{height}:force_original_aspect_ratio=increase,"
-            f"crop={width}:{height},setsar=1,format=yuv420p[v{i}]"
+            f"[{i}:v]scale=1242:2208:force_original_aspect_ratio=increase,"
+            f"crop={width}:{height}:{motion},setsar=1,format=yuv420p[v{i}]"
         )
 
     # Chain xfade transitions
-    n = len(image_paths)
     if n == 1:
-        full_filter = f"{filter_parts[0]};[v0]copy[vout]"
+        last_v = "v0"
     else:
         last_out = "v0"
         for i in range(1, n):
             offset = i * (clip_duration - fade_duration)
             out_label = f"x{i}" if i < n - 1 else "vout"
-            filter_parts.append(f"[{last_out}][v{i}]xfade=transition=fade:duration={fade_duration}:offset={offset:.1f}[{out_label}]")
+            filter_parts.append(f"[{last_out}][v{i}]xfade=transition=fade:duration={fade_duration}:offset={offset:.2f}[{out_label}]")
             last_out = f"x{i}"
-        full_filter = ";".join(filter_parts)
+        last_v = "vout"
 
     music_path = pick_diverse_music_track()
+    engine_sfx_path = pick_engine_sfx(is_bike=is_bike)
+
     has_music = music_path is not None
+    has_engine = engine_sfx_path is not None
+
+    if has_music:
+        inputs += ["-i", str(music_path)]
+    if has_engine:
+        inputs += ["-i", str(engine_sfx_path)]
 
     cmd = [*inputs]
-    if has_music:
-        cmd += ["-i", str(music_path)]
 
-    cmd += [
-        "-filter_complex", full_filter,
-        "-map", "[vout]",
-    ]
+    # Mix authentic engine audio with background music
+    if has_music and has_engine:
+        m_idx = n
+        s_idx = n + 1
+        # Duck music to 0.25 while engine ignition/rev roars (0s-2.0s), then swell into the beat drop
+        filter_parts.append(f"[{m_idx}:a]volume='if(lt(t,1.8),0.25,if(lt(t,3.2),0.25+(t-1.8)*0.45,0.85))':eval=frame[bgm]")
+        filter_parts.append(f"[{s_idx}:a]volume=1.4[eng]")
+        filter_parts.append(f"[bgm][eng]amix=inputs=2:duration=first:dropout_transition=2[aout]")
+        audio_map = "[aout]"
+    elif has_music:
+        audio_map = f"{n}:a"
+    elif has_engine:
+        audio_map = f"{n}:a"
+    else:
+        audio_map = None
 
-    if has_music:
-        music_idx = len(image_paths)
+    full_filter = ";".join(filter_parts)
+    cmd += ["-filter_complex", full_filter, "-map", f"[{last_v}]"]
+
+    if audio_map:
         cmd += [
-            "-map", f"{music_idx}:a",
+            "-map", audio_map,
             "-shortest",
             "-c:a", "aac",
-            "-b:a", "128k",
+            "-b:a", "160k",
         ]
 
     cmd += [
@@ -1177,10 +1281,6 @@ def build_reel_video(image_paths: list[Path], output_path: Path) -> None:
         raise RuntimeError(f"FFmpeg failed with code {result.returncode}")
     print(f"  Video built: {output_path} ({output_path.stat().st_size // 1024} KB)")
 
-
-# ---------------------------------------------------------------------------
-# Mode: post
-# ---------------------------------------------------------------------------
 
 def mode_post(persona: dict, env: dict, dry_run: bool, custom_prompt: str = "") -> None:
     """Generate and publish a single photo post."""
@@ -1286,7 +1386,7 @@ def mode_journey_reel(persona: dict, env: dict, dry_run: bool) -> None:
 
     # Purely asking for help to complete UG studies — ZERO follower/1k requests, no "men to men"
     overlay = f"Day {day} of seeking help to complete my ug studies\nI am a college student working hard to graduate, seeking guidance & support for my education"
-    custom_prompt = f'a cinematic 4K edit of supercars and superbikes with text overlay "{overlay}"'
+    custom_prompt = f'Matte Black BMW M4 Competition G82 with text overlay "{overlay}"'
 
     mode_weekly_reel(persona, env, dry_run, custom_prompt=custom_prompt)
 
@@ -1320,27 +1420,45 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     for i, sc in enumerate(scenes):
         print(f"Scene {i + 1}: {sc['scene'][:80]}...")
 
+    theme_hint = content.get("format", "") + " " + caption_text
+    is_bike = any(b in theme_hint.lower() for b in ["bike", "ducati", "yamaha", "kawasaki", "s1000rr", "motorcycle"])
+
+    set_name, set_shots, _ = get_next_curated_vehicle_set(theme_hint)
+
     image_paths: list[Path] = []
     video_path = MEDIA_DIR / f"reel_{ts}.mp4"
 
     if dry_run:
         print(f"\n[DRY RUN] Would generate 5 images and build video → {video_path}")
+        print(f"[DRY RUN] Vehicle focus: {content.get('format', set_name)} (is_bike={is_bike})")
         print("[DRY RUN] Would commit and publish reel")
         return
 
-    print("\nGenerating 5 images...")
+    print(f"\nPreparing 5 detail shots for {content.get('format', set_name)}...")
+    use_curated_set = False
     for i, sc in enumerate(scenes):
         img_path = MEDIA_DIR / f"reel_{ts}_scene{i + 1}.jpg"
-        download_image(persona, sc["scene"], img_path, width=1080, height=1920)
+        if not use_curated_set:
+            success = generate_image_pollinations(sc["scene"], img_path, width=1080, height=1920)
+            if not success:
+                print(f"  AI generation rate-limited or unavailable. Activating cohesive single-vehicle set: '{set_name}'")
+                use_curated_set = True
+
+        if use_curated_set:
+            fallback_source = set_shots[i % len(set_shots)]
+            import shutil
+            shutil.copyfile(fallback_source, img_path)
+            print(f"  Applied {set_name} single-vehicle cut {i + 1} ({fallback_source.name})")
+
         overlay_txt = sc.get("text_overlay", "").strip()
-        # ONLY apply text overlay if user explicitly requested custom text
-        # (clean aesthetic visuals on standard reels with no text boxes)
+        # ONLY apply text overlay if user explicitly requested custom text / study journey
+        # Standard automated reels have zero text boxes
         if overlay_txt and not overlay_txt.startswith("0"):
             apply_text_overlay(img_path, overlay_txt)
         image_paths.append(img_path)
 
-    print("Building reel video with FFmpeg...")
-    build_reel_video(image_paths, video_path)
+    print("Building cinematic reel video with FFmpeg & authentic engine audio...")
+    build_reel_video(image_paths, video_path, is_bike=is_bike)
 
     print("Committing video to repo...")
     files_to_commit = image_paths + [video_path]
