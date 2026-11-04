@@ -1232,31 +1232,32 @@ def save_journey_state(state: dict) -> None:
 
 
 def get_current_journey_day() -> int:
-    """Calculate the current day number based on start date and elapsed days."""
+    """Calculate the current day number based on start date and elapsed calendar days."""
     state = load_journey_state()
     try:
-        from datetime import datetime, timezone
+        from datetime import datetime, timezone, timedelta
         start_date = datetime.strptime(state.get("start_date", "2026-11-04"), "%Y-%m-%d").date()
-        today = datetime.now(timezone.utc).date()
-        days_elapsed = (today - start_date).days
+        today_local = (datetime.now(timezone.utc) + timedelta(hours=5, minutes=30)).date()
+        days_elapsed = (today_local - start_date).days
         return max(1, days_elapsed + 1)
     except Exception:
         return state.get("day", 1)
 
 
 def mode_journey_reel(persona: dict, env: dict, dry_run: bool) -> None:
-    """Generate and post the daily 12 AM 'Day X of seeking help to complete my ug studies' reel (no follower requests)."""
+    """Generate and post the daily 12 AM 'Day X of seeking help to complete my ug studies' reel (once per day)."""
     state = load_journey_state()
-    today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    from datetime import datetime, timezone, timedelta
+    today_local_str = (datetime.now(timezone.utc) + timedelta(hours=5, minutes=30)).strftime("%Y-%m-%d")
 
-    # If already posted today, run a standard clean bike/car reel
-    if not dry_run and state.get("last_post_date") == today_str:
-        print(f"\n=== Today's study reel was already posted ({today_str}). Running standard clean reel ===")
+    # If already posted today, run a standard clean bike/car reel instead (guarantees exactly once per day)
+    if not dry_run and state.get("last_post_date") == today_local_str:
+        print(f"\n=== Today's study reel was already posted ({today_local_str}). Running standard clean 2-hour bike/car reel ===")
         mode_weekly_reel(persona, env, dry_run)
         return
 
     day = get_current_journey_day()
-    print(f"\n=== MODE: journey_reel (Day {day} - 12 AM Study Reel) ===")
+    print(f"\n=== MODE: journey_reel (Day {day} - 12 AM Daily Study Reel) ===")
 
     # Purely asking for help to complete UG studies — ZERO follower/1k requests, no "men to men"
     overlay = f"Day {day} of seeking help to complete my ug studies\nI am a college student working hard to graduate, seeking guidance & support for my education"
@@ -1266,7 +1267,7 @@ def mode_journey_reel(persona: dict, env: dict, dry_run: bool) -> None:
 
     if not dry_run:
         state["day"] = day + 1
-        state["last_post_date"] = today_str
+        state["last_post_date"] = today_local_str
         save_journey_state(state)
         try:
             git_commit_and_push([JOURNEY_STATE_FILE], f"chore: advance study journey to Day {day + 1}")

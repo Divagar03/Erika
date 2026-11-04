@@ -2,11 +2,11 @@ name: Instagram Automation
 
 on:
   schedule:
-    # Every 2 hours clean bike/car reels: 00:00, 02:00, 04:00, 06:00, 08:00, 10:00, 12:00, 14:00, 16:00, 18:00, 20:00, 22:00 UTC
+    # Every 2 hours clean bike/car reels (12 posts/day): 00:00, 02:00, 04:00, 06:00, 08:00, 10:00, 12:00, 14:00, 16:00, 18:00, 20:00, 22:00 UTC
     - cron: "0 */2 * * *"
-    # 12:00 AM Midnight IST (18:30 UTC)
+    # Exactly at 12:00 AM Midnight (18:30 UTC / 12:00 AM IST) - Daily Study Reel (once per day)
     - cron: "30 18 * * *"
-    # 1 Photo post daily at 13:00 UTC (18:30 IST / 09:00 AM EST)
+    # 1 Photo post daily at 13:00 UTC
     - cron: "0 13 * * *"
   push:
     paths:
@@ -76,12 +76,12 @@ jobs:
             echo "mode=upload_reel" >> "$GITHUB_OUTPUT"
           else
             # Scheduled runs: hour 13 = daily photo post, all other hours = reel every 2 hours
-            # 12:00 AM Midnight runs (00:00 UTC or 18:30 UTC / 12 AM IST): Study Journey Reel
-            # Hour 13 = Daily Photo Post
-            # All other runs = Clean Supercar & Superbike Reel every 2 hours
+            # 12:00 AM Midnight (18:30 UTC): Daily Study Journey Reel (once per day)
+            # Hour 13:00 UTC: Daily Photo Post
+            # All other 2-hour runs: Clean Supercar & Superbike Reel with zero text overlay
             HOUR=$(date -u +%H)
             MIN=$(date -u +%M)
-            if [ "$HOUR" = "00" ] || ([ "$HOUR" = "18" ] && [ "$MIN" -ge 20 ]); then
+            if [ "$HOUR" = "18" ] && [ "$MIN" -ge 20 ]; then
               echo "mode=journey_reel" >> "$GITHUB_OUTPUT"
             elif [ "$HOUR" = "13" ]; then
               echo "mode=post" >> "$GITHUB_OUTPUT"
