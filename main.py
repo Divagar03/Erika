@@ -687,31 +687,49 @@ REALISTIC_MODELS = [
 ]
 
 
+def generate_image_pollinations(scene: str, output_path: Path, width: int = 1080, height: int = 1920) -> bool:
+    """Generate high-res 4K automotive photography via Pollinations.ai (Flux/SDXL)."""
+    auto_prompt = f"4K ultra-realistic automotive photography, Speedhunters and Car and Driver magazine cover style, sharp focus, 8k resolution, cinematic lighting: {scene}"
+    seed = random.randint(10000, 9999999)
+    url = f"https://image.pollinations.ai/prompt/{urllib.parse.quote(auto_prompt)}?width={width}&height={height}&nologo=true&seed={seed}"
+    try:
+        r = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}, timeout=25)
+        if r.status_code == 200 and len(r.content) > 20000:
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            output_path.write_bytes(r.content)
+            print(f"  Live AI supercar/bike photo generated via Pollinations: {output_path.name} ({len(r.content)//1024} KB)")
+            return True
+        else:
+            print(f"  Pollinations returned status {r.status_code}")
+    except Exception as exc:
+        print(f"  Pollinations image error: {exc}")
+    return False
+
+
 def generate_image_aihorde(persona: dict, scene: str, output_path: Path, width: int = 1080, height: int = 1350) -> bool:
-    """Generate hyper-realistic architectural photography via AI Horde."""
+    """Generate hyper-realistic automotive photography via AI Horde."""
     headers = {
         "apikey": "0000000000",
-        "Client-Agent": "AuraSanctuaries:1.0:architecture@example.com"
+        "Client-Agent": "ZenithMotors:1.0:automotive@example.com"
     }
 
-    # High-end Architectural Digest photography prompt
-    arch_prefix = (
-        "RAW architectural interior and villa photography, Vogue Living and Architectural Digest feature, "
-        "shot on 35mm lens, warm natural sunlight, tactile textures of whitewashed stucco, warm natural oak, "
-        "linen textiles, lush tropical plants, crystal clear turquoise pool water, cozy livable luxury atmosphere, "
+    # High-end 4K automotive cinematography prompt
+    auto_prefix = (
+        "RAW 4K cinematic automotive photography, Speedhunters feature, supercar and superbike culture, "
+        "shot on 35mm anamorphic lens, reflections on wet asphalt, carbon fiber details, aggressive stance, "
     )
     style_suffix = (
-        "clean geometric lines, golden hour sunlight, hyperrealistic reflections in water, "
-        "high-end interior design, cinematic luxury atmosphere, 8k resolution, crisp architectural detail"
+        "crisp mechanical detail, cinematic lighting, reflections on wet road, "
+        "high-end automotive cinematography, 8k resolution, photorealistic"
     )
     negative = (
         "people, humans, crowd, man, woman, face, "
-        "ugly, distorted architecture, crooked walls, melting geometry, "
-        "cartoon, anime, painting, illustration, 3d render, cgi, video game graphics, "
+        "villa, building, interior, room, house, swimming pool, furniture, living room, bedroom, "
+        "ugly, distorted, crooked, cartoon, anime, painting, illustration, 3d render, cgi, video game graphics, "
         "blurry, low resolution, watermark, text, signature, oversaturated"
     )
 
-    prompt = f"{arch_prefix} {scene[:170]}, {style_suffix} ### {negative}"
+    prompt = f"{auto_prefix} {scene[:170]}, {style_suffix} ### {negative}"
 
     # Unique random seed per generation so AI images are never repeated
     seed = str(random.randint(10000, 9999999))
@@ -780,20 +798,27 @@ def download_image(
     scene: str,
     output_path: Path,
     width: int = 1080,
-    height: int = 1350,
+    height: int = 1920,
 ) -> None:
-    """Generate consistent Erika image or choose from verified photoshoot library."""
-    print(f"  Preparing consistent image for Erika: {output_path.name}")
+    """Generate 4K supercar/superbike image or choose from verified automotive gallery."""
+    print(f"  Preparing automotive image: {output_path.name}")
 
-    # 1. Try AI Horde with fixed seed and facial anchor
+    # 1. Try Pollinations (instant 4K AI automotive photo)
+    try:
+        if generate_image_pollinations(scene, output_path, width=width, height=height):
+            return
+    except Exception as exc:
+        print(f"  Pollinations generation failed: {exc}")
+
+    # 2. Try AI Horde with automotive prompt
     try:
         if generate_image_aihorde(persona, scene, output_path, width=width, height=height):
             return
     except Exception as exc:
-        print(f"  Live AI generation failed: {exc}")
+        print(f"  AI Horde generation failed: {exc}")
 
-    # 2. Guaranteed fallback: Curated architectural photography gallery
-    print("  Using verified luxury architecture photography library...")
+    # 3. Guaranteed fallback: Curated 4K Supercars & Superbikes gallery (Porsche, Ducati, Lamborghini, etc.)
+    print("  Using verified supercar & superbike photography library...")
     chosen = get_next_curated_architecture_image()
     from PIL import Image
     img = Image.open(chosen).convert("RGB")
@@ -801,7 +826,7 @@ def download_image(
         img = img.resize((width, height), Image.Resampling.LANCZOS)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     img.save(output_path, quality=95)
-    print(f"  Consistent Erika photo saved from curated library: {chosen.name} ({output_path.stat().st_size // 1024} KB)")
+    print(f"  Curated automotive photo saved: {chosen.name} ({output_path.stat().st_size // 1024} KB)")
 
 
 # ---------------------------------------------------------------------------
