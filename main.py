@@ -1119,17 +1119,84 @@ VEHICLE_SETS_DIR = Path(__file__).parent / "assets" / "vehicles" / "sets"
 VEHICLE_STATE_FILE = Path(__file__).parent / "data" / "vehicle_state.json"
 
 
-def pick_engine_sfx(is_bike: bool = False) -> Path | None:
-    """Pick an authentic engine starting ignition or throttle rev sound effect."""
+def pick_engine_sfx(theme_hint: str = "", is_bike: bool = False) -> Path | None:
+    """Pick the exact authentic engine starting ignition and exhaust rev sound matching the machine."""
     if not ENGINE_SFX_DIR.exists():
         return None
-    if is_bike:
-        candidates = list(ENGINE_SFX_DIR.glob("bike_*.mp3"))
+
+    th = theme_hint.lower()
+
+    # Exact matching by vehicle make/model and engine architecture:
+    if any(k in th for k in ["bmw m4", "m4 competition", "m4", "g82"]):
+        target = ENGINE_SFX_DIR / "bmw_m4_rev.mp3"
+        if target.exists():
+            print(f"  Matched exact engine sound: BMW M4 Competition S58 Twin-Turbo I6 ({target.name})")
+            return target
+
+    if any(k in th for k in ["porsche", "911 gt3", "gt3 rs", "gt3"]):
+        target = ENGINE_SFX_DIR / "porsche_gt3rs_rev.mp3"
+        if target.exists():
+            print(f"  Matched exact engine sound: Porsche 911 GT3 RS Naturally Aspirated 9000 RPM Flat-6 ({target.name})")
+            return target
+
+    if any(k in th for k in ["lamborghini", "revuelto", "huracan", "v12", "aventador"]):
+        target = ENGINE_SFX_DIR / "lamborghini_v12_rev.mp3"
+        if target.exists():
+            print(f"  Matched exact engine sound: Lamborghini High-RPM V12 Exhaust Scream ({target.name})")
+            return target
+
+    if any(k in th for k in ["ferrari", "sf90", "f8", "stradale", "488"]):
+        target = ENGINE_SFX_DIR / "ferrari_v8_rev.mp3"
+        if target.exists():
+            print(f"  Matched exact engine sound: Ferrari Twin-Turbo Flat-Plane V8 Exhaust ({target.name})")
+            return target
+
+    if any(k in th for k in ["mclaren", "765lt", "720s", "spider"]):
+        target = ENGINE_SFX_DIR / "mclaren_v8_rev.mp3"
+        if target.exists():
+            print(f"  Matched exact engine sound: McLaren Twin-Turbo V8 Top-Exit Flame Rev ({target.name})")
+            return target
+
+    if any(k in th for k in ["ducati", "panigale", "v4"]):
+        target = ENGINE_SFX_DIR / "ducati_panigale_rev.mp3"
+        if target.exists():
+            print(f"  Matched exact engine sound: Ducati Panigale V4 Desmosedici Stradale ({target.name})")
+            return target
+
+    if any(k in th for k in ["s1000rr", "bmw s1000", "bmw motorrad"]):
+        target = ENGINE_SFX_DIR / "bmw_s1000rr_rev.mp3"
+        if target.exists():
+            print(f"  Matched exact engine sound: BMW S1000RR 14500 RPM ShiftCam Inline-4 ({target.name})")
+            return target
+
+    if any(k in th for k in ["kawasaki", "ninja", "h2", "zx6r", "zx10r"]):
+        target = ENGINE_SFX_DIR / "kawasaki_superbike_rev.mp3"
+        if target.exists():
+            print(f"  Matched exact engine sound: Kawasaki Superbike High-RPM Exhaust ({target.name})")
+            return target
+
+    # Fallback to category-matched pool:
+    if is_bike or any(k in th for k in ["bike", "motorcycle", "yamaha", "r1"]):
+        candidates = [
+            ENGINE_SFX_DIR / "ducati_panigale_rev.mp3",
+            ENGINE_SFX_DIR / "bmw_s1000rr_rev.mp3",
+            ENGINE_SFX_DIR / "kawasaki_superbike_rev.mp3",
+            ENGINE_SFX_DIR / "bike_rev_high_rpm.mp3"
+        ]
     else:
-        candidates = list(ENGINE_SFX_DIR.glob("car_*.mp3"))
-    if not candidates:
-        candidates = list(ENGINE_SFX_DIR.glob("*.mp3"))
-    return random.choice(candidates) if candidates else None
+        candidates = [
+            ENGINE_SFX_DIR / "bmw_m4_rev.mp3",
+            ENGINE_SFX_DIR / "porsche_gt3rs_rev.mp3",
+            ENGINE_SFX_DIR / "lamborghini_v12_rev.mp3",
+            ENGINE_SFX_DIR / "ferrari_v8_rev.mp3",
+            ENGINE_SFX_DIR / "mclaren_v8_rev.mp3"
+        ]
+
+    existing = [c for c in candidates if c.exists()]
+    chosen = random.choice(existing) if existing else None
+    if chosen:
+        print(f"  Selected category-matched engine sound: {chosen.name}")
+    return chosen
 
 
 def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path], bool]:
@@ -1174,7 +1241,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     return chosen_name, chosen_shots, is_bike
 
 
-def build_reel_video(image_paths: list[Path], output_path: Path, is_bike: bool = False) -> None:
+def build_reel_video(image_paths: list[Path], output_path: Path, theme_hint: str = "", is_bike: bool = False) -> None:
     """Build a ~16s 9:16 vertical video from 5 images using dynamic camera motion, crossfades, and mixed engine audio."""
     width, height = 1080, 1920
     clip_duration = 3.2  # 3.2s per cut (16s total edit - peak viral retention)
@@ -1220,7 +1287,7 @@ def build_reel_video(image_paths: list[Path], output_path: Path, is_bike: bool =
         last_v = "vout"
 
     music_path = pick_diverse_music_track()
-    engine_sfx_path = pick_engine_sfx(is_bike=is_bike)
+    engine_sfx_path = pick_engine_sfx(theme_hint=theme_hint, is_bike=is_bike)
 
     has_music = music_path is not None
     has_engine = engine_sfx_path is not None
@@ -1458,7 +1525,7 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         image_paths.append(img_path)
 
     print("Building cinematic reel video with FFmpeg & authentic engine audio...")
-    build_reel_video(image_paths, video_path, is_bike=is_bike)
+    build_reel_video(image_paths, video_path, theme_hint=theme_hint, is_bike=is_bike)
 
     print("Committing video to repo...")
     files_to_commit = image_paths + [video_path]
