@@ -454,8 +454,14 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
     """Classy, human-attractive villa walkthroughs with varied destinations or custom text prompt."""
     overlay, theme = extract_overlay_and_theme(custom_prompt)
     if overlay:
-        title = f"Zenith Motors • {overlay[:35]}... 🏁"
-        caption = f"{overlay}\n\nBehind the wheel of pure mechanical perfection. Can we make it to 1k? Drop a comment below and follow the journey 👇"
+        if "studies" in overlay.lower() or "study" in overlay.lower():
+            title = f"Zenith Motors • Study Journey 📚"
+            caption = f"{overlay}\n\nAny mentorship, study guidance, or advice in the comments means the world to me 👇\n\n#collegestudent #studymotivation #studentlife #education #engineering #studentjourney #supercars #superbikes"
+            tags = ["collegestudent", "studymotivation", "studentlife", "education", "engineering", "supercars", "superbikes", "studentjourney", "growthmindset", "carlifestyle"]
+        else:
+            title = f"Zenith Motors • {overlay[:35]}... 🏁"
+            caption = f"{overlay}\n\nBehind the wheel of pure mechanical perfection. Drop a comment below 👇"
+            tags = ["supercars", "hypercars", "superbikes", "carsofinstagram", "bikersofinstagram", "viralreels", "speedhunters", "carlifestyle", "carreels", "drive"]
         scenes = [
             {"scene": f"Cinematic rolling hero shot of {theme} on wet asphalt, Speedhunters style, 4k automotive cinematography", "text_overlay": overlay},
             {"scene": f"Aggressive front fascia and menacing LED headlights of {theme} with carbon aerodynamic splitter", "text_overlay": overlay},
@@ -602,8 +608,12 @@ Rules:
         if overlay:
             for sc in data["scenes"]:
                 sc["text_overlay"] = overlay
-            data["format"] = f"Zenith Villas • {overlay[:35]}... ✨"
-            data["caption"] = f"{overlay}\n\nStep inside an exclusive modern architectural sanctuary. Can we reach 1k? Drop a comment below and follow along 👇"
+            if "studies" in overlay.lower() or "study" in overlay.lower():
+                data["format"] = f"Zenith Motors • Study Journey 📚"
+                data["caption"] = f"{overlay}\n\nAny mentorship, study guidance, or advice in the comments means the world to me 👇\n\n#collegestudent #studymotivation #studentlife #education #engineering #studentjourney #supercars #superbikes"
+            else:
+                data["format"] = f"Zenith Motors • {overlay[:35]}... 🏁"
+                data["caption"] = f"{overlay}\n\nBehind the wheel of pure mechanical perfection. Drop a comment below 👇"
         else:
             # Clean visuals: never draw text on standard automated reels unless explicitly asked
             for sc in data["scenes"]:
@@ -1235,19 +1245,28 @@ def get_current_journey_day() -> int:
 
 
 def mode_journey_reel(persona: dict, env: dict, dry_run: bool) -> None:
-    """Generate and post the daily 'Day X of seeking help for my studies' reel."""
-    day = get_current_journey_day()
-    print(f"\n=== MODE: journey_reel (Day {day}) ===")
+    """Generate and post the daily 12 AM 'Day X of asking help for my studies' reel (no follower requests)."""
+    state = load_journey_state()
+    today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
-    overlay = f"Day {day} of seeking help for my studies\nIt's a men to men request guys, i am a college student willing to succeed help me reach 1k"
+    # If already posted today, run a standard clean bike/car reel
+    if not dry_run and state.get("last_post_date") == today_str:
+        print(f"\n=== Today's study reel was already posted ({today_str}). Running standard clean reel ===")
+        mode_weekly_reel(persona, env, dry_run)
+        return
+
+    day = get_current_journey_day()
+    print(f"\n=== MODE: journey_reel (Day {day} - 12 AM Study Reel) ===")
+
+    # Purely asking for help with studies — ZERO follower/1k requests
+    overlay = f"Day {day} of asking help for my studies\nIt's a men to men request guys, i am a college student willing to succeed and need guidance & help for my education"
     custom_prompt = f'a cinematic 4K edit of supercars and superbikes with text overlay "{overlay}"'
 
     mode_weekly_reel(persona, env, dry_run, custom_prompt=custom_prompt)
 
     if not dry_run:
-        state = load_journey_state()
         state["day"] = day + 1
-        state["last_post_date"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        state["last_post_date"] = today_str
         save_journey_state(state)
         try:
             git_commit_and_push([JOURNEY_STATE_FILE], f"chore: advance study journey to Day {day + 1}")
