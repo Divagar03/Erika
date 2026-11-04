@@ -457,7 +457,7 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
         if "studies" in overlay.lower() or "study" in overlay.lower():
             title = f"Zenith Motors • Study Journey 📚"
             caption = f"{overlay}\n\nAny mentorship, study guidance, or advice in the comments means the world to me 👇\n\n#collegestudent #studymotivation #studentlife #education #engineering #studentjourney #supercars #superbikes"
-            tags = ["collegestudent", "studymotivation", "studentlife", "education", "engineering", "supercars", "superbikes", "studentjourney", "growthmindset", "carlifestyle"]
+            tags = ["ugstudies", "collegestudent", "studymotivation", "undergraduate", "studentlife", "education", "engineering", "supercars", "superbikes", "studentjourney"]
         else:
             title = f"Zenith Motors • {overlay[:35]}... 🏁"
             caption = f"{overlay}\n\nBehind the wheel of pure mechanical perfection. Drop a comment below 👇"
@@ -1245,7 +1245,7 @@ def get_current_journey_day() -> int:
 
 
 def mode_journey_reel(persona: dict, env: dict, dry_run: bool) -> None:
-    """Generate and post the daily 12 AM 'Day X of asking help for my studies' reel (no follower requests)."""
+    """Generate and post the daily 12 AM 'Day X of seeking help to complete my ug studies' reel (no follower requests)."""
     state = load_journey_state()
     today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
@@ -1258,8 +1258,8 @@ def mode_journey_reel(persona: dict, env: dict, dry_run: bool) -> None:
     day = get_current_journey_day()
     print(f"\n=== MODE: journey_reel (Day {day} - 12 AM Study Reel) ===")
 
-    # Purely asking for help with studies — ZERO follower/1k requests
-    overlay = f"Day {day} of asking help for my studies\nIt's a men to men request guys, i am a college student willing to succeed and need guidance & help for my education"
+    # Purely asking for help to complete UG studies — ZERO follower/1k requests, no "men to men"
+    overlay = f"Day {day} of seeking help to complete my ug studies\nI am a college student working hard to graduate, seeking guidance & support for my education"
     custom_prompt = f'a cinematic 4K edit of supercars and superbikes with text overlay "{overlay}"'
 
     mode_weekly_reel(persona, env, dry_run, custom_prompt=custom_prompt)
