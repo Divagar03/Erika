@@ -18,6 +18,7 @@ on:
         type: choice
         options:
           - reel
+          - journey_reel
           - weekly_reel
           - post
           - upload_reel
@@ -74,7 +75,9 @@ jobs:
           else
             # Scheduled runs: hour 13 = daily photo post, all other hours = reel every 2 hours
             HOUR=$(date -u +%H)
-            if [ "$HOUR" = "13" ]; then
+            if [ "$HOUR" = "12" ]; then
+              echo "mode=journey_reel" >> "$GITHUB_OUTPUT"
+            elif [ "$HOUR" = "13" ]; then
               echo "mode=post" >> "$GITHUB_OUTPUT"
             else
               echo "mode=reel" >> "$GITHUB_OUTPUT"

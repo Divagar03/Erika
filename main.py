@@ -445,7 +445,7 @@ def extract_overlay_and_theme(cp: str) -> tuple[str, str]:
             theme_part
         ).strip(' ,:;-')
         if not theme_part or len(theme_part) < 6 or 'villa' in theme_part.lower() or 'reel' in theme_part.lower():
-            theme_part = 'a sun-drenched modern luxury tropical villa walkthrough with private pool and ocean view'
+            theme_part = 'Porsche 911 GT3 RS in Shark Blue and Ducati Panigale V4 S superbike on rain-slicked asphalt, 4k automotive cinematography'
         return overlay, theme_part
 
     return "", cp
@@ -1193,6 +1193,68 @@ def mode_post(persona: dict, env: dict, dry_run: bool, custom_prompt: str = "") 
 
 
 # ---------------------------------------------------------------------------
+JOURNEY_STATE_FILE = ROOT / "data" / "journey_state.json"
+
+
+def load_journey_state() -> dict:
+    """Load or initialize the daily study journey state."""
+    default_state = {
+        "day": 1,
+        "start_date": "2026-11-04",
+        "topic": "seeking help for my studies",
+        "last_post_date": None
+    }
+    if not JOURNEY_STATE_FILE.exists():
+        save_journey_state(default_state)
+        return default_state
+    try:
+        with open(JOURNEY_STATE_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return default_state
+
+
+def save_journey_state(state: dict) -> None:
+    """Save journey state to disk."""
+    JOURNEY_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with open(JOURNEY_STATE_FILE, "w", encoding="utf-8") as f:
+        json.dump(state, f, indent=2)
+
+
+def get_current_journey_day() -> int:
+    """Calculate the current day number based on start date and elapsed days."""
+    state = load_journey_state()
+    try:
+        from datetime import datetime, timezone
+        start_date = datetime.strptime(state.get("start_date", "2026-11-04"), "%Y-%m-%d").date()
+        today = datetime.now(timezone.utc).date()
+        days_elapsed = (today - start_date).days
+        return max(1, days_elapsed + 1)
+    except Exception:
+        return state.get("day", 1)
+
+
+def mode_journey_reel(persona: dict, env: dict, dry_run: bool) -> None:
+    """Generate and post the daily 'Day X of seeking help for my studies' reel."""
+    day = get_current_journey_day()
+    print(f"\n=== MODE: journey_reel (Day {day}) ===")
+
+    overlay = f"Day {day} of seeking help for my studies\nIt's a men to men request guys, i am a college student willing to succeed help me reach 1k"
+    custom_prompt = f'a cinematic 4K edit of supercars and superbikes with text overlay "{overlay}"'
+
+    mode_weekly_reel(persona, env, dry_run, custom_prompt=custom_prompt)
+
+    if not dry_run:
+        state = load_journey_state()
+        state["day"] = day + 1
+        state["last_post_date"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        save_journey_state(state)
+        try:
+            git_commit_and_push([JOURNEY_STATE_FILE], f"chore: advance study journey to Day {day + 1}")
+        except Exception as exc:
+            print(f"  Warning: failed to commit journey state: {exc}")
+
+# ---------------------------------------------------------------------------
 # Mode: weekly_reel
 # ---------------------------------------------------------------------------
 
@@ -1364,7 +1426,7 @@ Return ONLY a JSON array of lowercase strings without # prefix.
 # Main entry point
 # ---------------------------------------------------------------------------
 
-MODES = {"post", "weekly_reel", "reel", "upload_reel"}
+MODES = {"post", "weekly_reel", "reel", "upload_reel", "journey_reel"}
 
 
 def main() -> None:
@@ -1430,6 +1492,8 @@ def main() -> None:
     try:
         if mode == "post":
             mode_post(persona, env, dry_run, custom_prompt=custom_prompt)
+        elif mode == "journey_reel":
+            mode_journey_reel(persona, env, dry_run)
         elif mode in {"weekly_reel", "reel"}:
             mode_weekly_reel(persona, env, dry_run, custom_prompt=custom_prompt)
         elif mode == "upload_reel":

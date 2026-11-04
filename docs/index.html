@@ -514,7 +514,8 @@
           <div class="section-title" style="margin-bottom:0.75rem;">⚡ Quick Actions</div>
           <div class="actions-grid">
             <button class="btn btn-primary" id="btn-post-now">📸 Post a Photo Now</button>
-            <button class="btn btn-secondary" id="btn-reel-now">🎬 Make Weekly Reel Now</button>
+            <button class="btn btn-secondary" id="btn-reel-now">🎬 Make Clean Reel Now</button>
+            <button class="btn btn-primary" id="btn-journey-now" style="background:linear-gradient(135deg, #10b981, #059669);border:none;">🚀 Post Day X Study Reel Now</button>
             <button class="btn btn-pause" id="btn-pause-resume">⏸ Pause Automation</button>
           </div>
           <div id="dispatch-status" class="info-text" style="margin-top:0.5rem;display:none;"></div>
@@ -1104,7 +1105,8 @@
     }
 
     document.getElementById("btn-post-now").addEventListener("click", () => doDispatch("post", "photo post"));
-    document.getElementById("btn-reel-now").addEventListener("click", () => doDispatch("weekly_reel", "weekly reel"));
+    document.getElementById("btn-reel-now").addEventListener("click", () => doDispatch("weekly_reel", "clean automotive reel"));
+    document.getElementById("btn-journey-now").addEventListener("click", () => doDispatch("journey_reel", "Day X Study Journey Reel"));
     
     document.getElementById("btn-custom-reel-now").addEventListener("click", () => {
       const prompt = document.getElementById("custom-prompt-input").value.trim();
