@@ -249,28 +249,28 @@ def parse_json_response(text: str) -> dict:
 
 
 def generate_fallback_post(persona: dict) -> dict:
-    """Generate high-engagement impossible luxury architecture post directly from persona."""
+    """Generate high-engagement supercar or superbike post directly from persona."""
     theme = random.choice(persona["themes"])
     templates = [
         (
-            f"Breathtaking cantilevered cliffside glass villa suspended above the ocean in {theme}, Architectural Digest style, infinity pool, warm golden hour twilight, photorealistic.",
-            "The Obsidian Sanctuary. Perched 300 meters above the open ocean, where raw concrete meets endless horizons. Could you live here completely off the grid? Rate this design 1–10 below 👇",
-            ["architecturelovers", "luxuryvilla", "modernarchitecture", "architecturaldigest", "dreamhome", "interiorarchitecture", "luxurylifestyle", "surrealarchitecture"]
+            f"Porsche 911 GT3 RS in Shark Blue with Weissach Package, aggressive swan-neck carbon wing, parked on rain-slicked Tokyo street with neon reflections, 4k automotive photography.",
+            "Pure precision engineering. The Porsche 911 GT3 RS in Shark Blue — built for the apex, dialed for track dominance. Could you daily drive this weapon? Drop your thoughts below 👇",
+            ["porsche", "gt3rs", "porsche911", "supercars", "carsofinstagram", "trackweapon", "speedhunters", "carreels"]
         ),
         (
-            f"Minimalist modern Japanese onsen pavilion in {theme}, charred cedar timber, steaming natural stone pool, serene misty morning light, award-winning architecture.",
-            "Komorebi Pavilion. Deep in the misty bamboo forest, designed around the sound of flowing water and quiet contemplation. Tag someone who needs this level of peace ✨",
-            ["japanesearchitecture", "zenliving", "modernretreat", "minimalistdesign", "luxuryarchitecture", "architecturedose", "aestheticvibes", "designinspiration"]
+            f"Ducati Panigale V4 S in iconic Ducati Red, aggressive dual LED projector headlights, parked on coastal cliffside switchback at golden hour, shallow depth of field.",
+            "214 horsepower of pure Italian adrenaline. The Ducati Panigale V4 S doesn't ask for attention — it commands it. Would you take the keys for a canyon run? Drop a comment below 👇",
+            ["ducati", "panigale", "panigalev4", "superbikes", "bikersofinstagram", "motorcyclelife", "sportbike", "twowheels"]
         ),
         (
-            f"Subterranean desert luxury sanctuary in {theme}, organic curved travertine walls, skylight reflecting pool, dramatic architectural shadows, dusk lighting.",
-            "The Dunes Villa. Carved seamlessly into the desert landscape to stay naturally cool under the scorching sun. Would you spend a weekend here? Drop your thoughts 👇",
-            ["desertarchitecture", "organicmodernism", "brutalisminnature", "luxuryrealestate", "modernluxury", "interiorlovers", "architecturalphotography", "dreamresidence"]
+            f"Matte black Lamborghini Revuelto V12 hybrid supercar idling under dramatic industrial concrete lights, glowing orange brake calipers and titanium exhaust tips, cinematic.",
+            "1,001 horsepower of electrified V12 fury. The Lamborghini Revuelto redefining the hypercar era. Rate this stealth spec from 1–10 below 👇",
+            ["lamborghini", "revuelto", "v12", "hypercars", "supercars", "exoticcars", "carspotting", "carlifestyle"]
         ),
         (
-            f"Nordic glass and blackened timber villa in {theme}, panoramic floor-to-ceiling glass, warm interior fireplace glow, dramatic snow-capped peaks and fjord.",
-            "Fjord House. Floating between the icy waters and the northern sky. Designed for warmth against the wild. Who would you bring to watch the aurora from here? ❄️",
-            ["nordicdesign", "scandinavianhome", "cozyretreat", "luxurychalet", "contemporaryarchitecture", "mountainarchitecture", "beautifuldestinations", "cabinlife"]
+            f"BMW S1000RR M Package superbike in Alpine White with M motorsport tri-color livery, parked outside modern architectural glass pavilion at twilight, sharp LED headlights.",
+            "The ultimate track missile. BMW S1000RR M Package with full carbon aero winglets and race-tuned electronics. Tag a rider who needs this in their garage ⚡",
+            ["bmwmotorrad", "s1000rr", "bmws1000rr", "superbikes", "motorcycles", "sportbikelife", "riderich", "trackday"]
         ),
     ]
     scene, caption, tags = random.choice(templates)
@@ -278,22 +278,22 @@ def generate_fallback_post(persona: dict) -> dict:
 
 
 def generate_post_content(persona: dict, env: dict, custom_prompt: str = "") -> dict:
-    """Generate high-engagement Architectural Digest style post content via Gemini."""
+    """Generate high-engagement automotive post content via Gemini."""
     theme = custom_prompt.strip() if custom_prompt and custom_prompt.strip() else random.choice(persona["themes"])
-    prompt = f"""You are the creative director of a world-famous luxury architecture and design magazine named "{persona['name']}".
+    prompt = f"""You are the creative director of a world-famous supercar & superbike media brand named "{persona['name']}".
 Theme: "{theme}"
 
-Generate a JSON object (no markdown, no extra text) for an insanely viral, captivating Instagram post about this architectural masterpiece.
+Generate a JSON object (no markdown, no extra text) for an insanely viral, captivating Instagram post about this machine.
 The JSON must have exactly these fields:
 {{
-  "scene": "<hyper-detailed architectural photography description, Architectural Digest style, award-winning luxury villa or sanctuary, materials like travertine, charred timber, floor-to-ceiling glass, infinity pools, volumetric golden hour or blue hour lighting, 8k photorealistic>",
-  "caption": "<2-3 sentence evocative, captivating caption. Give the project a fictional name (e.g. 'The Obsidian Villa', 'Villa Solaria'), describe the location and architectural highlight, and end with an interactive question to spark comments (e.g. 'Could you live here off-grid? Rate this design from 1-10 👇')>",
-  "hashtags": ["architecturelovers", "modernarchitecture", "luxuryvilla", "architecturaldigest", "dreamhome", "interiorarchitecture", "surrealarchitecture", "contemporarydesign"]
+  "scene": "<hyper-detailed 4K automotive photography description, Speedhunters and Car and Driver magazine cover style, aggressive supercar or superbike, carbon fiber aerodynamic parts, wet asphalt reflections or sunset lighting, photorealistic>",
+  "caption": "<2-3 sentence bold, adrenaline-fueled caption describing performance and visual highlights, ending with a compelling debate question to spark comments (e.g. 'Which keys are you taking? 🔑 Rate this spec 1–10 below 👇')>",
+  "hashtags": ["supercars", "hypercars", "superbikes", "carsofinstagram", "bikersofinstagram", "speedhunters", "carlifestyle", "carspotting"]
 }}
 Rules:
 - NEVER mention AI, virtual, render, or algorithm
-- caption must sound like a prestigious architectural magazine
-- hashtags must be 8 relevant high-traffic architectural tags, lowercase, no # prefix
+- caption must sound like an authentic automotive enthusiast publication
+- hashtags must be 8 relevant high-traffic automotive tags, lowercase, no # prefix
 """
     try:
         text = call_gemini(prompt, env, json_mode=True)
@@ -454,80 +454,80 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
     """Classy, human-attractive villa walkthroughs with varied destinations or custom text prompt."""
     overlay, theme = extract_overlay_and_theme(custom_prompt)
     if overlay:
-        title = f"Zenith Villas • {overlay[:35]}... ✨"
-        caption = f"{overlay}\n\nStep inside an exclusive modern architectural haven. Could you see yourself waking up here? Drop a comment below 👇"
+        title = f"Zenith Motors • {overlay[:35]}... 🏁"
+        caption = f"{overlay}\n\nBehind the wheel of pure mechanical perfection. Can we make it to 1k? Drop a comment below and follow the journey 👇"
         scenes = [
-            {"scene": f"Sun-drenched exterior wide angle of {theme}, Architectural Digest and Vogue Living style, warm natural sunlight", "text_overlay": overlay},
-            {"scene": f"Grand entrance and sunlit approach of {theme} with natural stone and floor-to-ceiling glass", "text_overlay": overlay},
-            {"scene": f"Main living room and open-concept interior of {theme} with designer furniture and panoramic views", "text_overlay": overlay},
-            {"scene": f"Signature terrace, pool, or outdoor garden oasis of {theme} with sparkling clear water", "text_overlay": overlay},
-            {"scene": f"Evening twilight blue-hour view of {theme} with soft warm ambient lighting and glowing atmosphere", "text_overlay": overlay},
+            {"scene": f"Cinematic rolling hero shot of {theme} on wet asphalt, Speedhunters style, 4k automotive cinematography", "text_overlay": overlay},
+            {"scene": f"Aggressive front fascia and menacing LED headlights of {theme} with carbon aerodynamic splitter", "text_overlay": overlay},
+            {"scene": f"Driver cockpit of {theme} with Alcantara steering wheel, digital tachometer, and carbon fiber details", "text_overlay": overlay},
+            {"scene": f"Rear three-quarter angle of {theme} showing aggressive aero carbon wing and quad titanium exhaust tips", "text_overlay": overlay},
+            {"scene": f"Rain-slicked night city streets with glowing LED taillights of {theme} reflecting on dark asphalt", "text_overlay": overlay},
         ]
-        tags = ["luxuryvilla", "villatour", "interiorinspiration", "dreamhome", "viralreels", "architecturedose", "aestheticliving", "reelsviral", "designinspiration", "luxurylifestyle"]
+        tags = ["supercars", "hypercars", "superbikes", "carsofinstagram", "bikersofinstagram", "viralreels", "speedhunters", "carlifestyle", "carreels", "drive"]
         return {"format": title, "caption": caption, "hashtags": tags, "scenes": scenes}
 
     if custom_prompt and custom_prompt.strip():
         cp = custom_prompt.strip()
-        title = f"{cp[:45]} • Luxury Walkthrough ✨"
-        caption = f"Step inside this breathtaking sanctuary: {cp}. Designed with bespoke materials and panoramic views for effortless luxury living. Could you see yourself waking up here? Drop a comment below 👇"
+        title = f"{cp[:45]} • Pure Machine 🏁"
+        caption = f"Unleashing the beast: {cp}. Masterclass engineering and heart-pounding adrenaline. Would you take the keys? Drop your thoughts below 👇"
         scenes = [
-            {"scene": f"Sun-drenched exterior wide angle of {cp}, Architectural Digest and Vogue Living style, warm natural sunlight", "text_overlay": ""},
-            {"scene": f"Grand entrance and sunlit approach of {cp} with natural stone and floor-to-ceiling glass", "text_overlay": ""},
-            {"scene": f"Main living room and open-concept interior of {cp} with designer furniture and panoramic views", "text_overlay": ""},
-            {"scene": f"Signature terrace, pool, or outdoor garden oasis of {cp} with sparkling clear water", "text_overlay": ""},
-            {"scene": f"Evening twilight blue-hour view of {cp} with soft warm ambient lighting and glowing atmosphere", "text_overlay": ""},
+            {"scene": f"Cinematic rolling hero shot of {cp} on asphalt, Speedhunters style, 4k automotive cinematography", "text_overlay": ""},
+            {"scene": f"Aggressive front fascia and menacing LED headlights of {cp} with carbon aerodynamic splitter", "text_overlay": ""},
+            {"scene": f"Driver cockpit of {cp} with Alcantara steering wheel, digital tachometer, and carbon fiber details", "text_overlay": ""},
+            {"scene": f"Rear three-quarter angle of {cp} showing aggressive aero carbon wing and quad titanium exhaust tips", "text_overlay": ""},
+            {"scene": f"Rain-slicked night city streets with glowing LED taillights of {cp} reflecting on dark asphalt", "text_overlay": ""},
         ]
-        tags = ["luxuryvilla", "villatour", "interiorinspiration", "dreamhome", "customretreat", "architecturedose", "aestheticliving", "reelsviral", "designinspiration", "luxurylifestyle"]
+        tags = ["supercars", "hypercars", "superbikes", "carsofinstagram", "bikersofinstagram", "carreels", "speedhunters", "carlifestyle", "trackweapon", "automotive"]
         return {"format": title, "caption": caption, "hashtags": tags, "scenes": scenes}
 
     tours = [
         (
-            "Villa Bingin • Tropical Pool Sanctuary in Bali 🌴",
-            "Inside Villa Bingin — a sun-drenched 3-bedroom tropical haven in Uluwatu, Bali. Designed with a private sunken lounge, turquoise pool, and open-concept kitchen for effortless island living. Could you see yourself waking up here? Drop a comment below 👇",
+            "Porsche 911 GT3 RS • Shark Blue Track Weapon 🏁",
+            "The Porsche 911 GT3 RS in Shark Blue — 518 naturally aspirated horsepower and a swan-neck wing generating 1,895 lbs of downforce. Built purely for the apex. Could you daily drive this weapon? Drop your thoughts below 👇",
             [
-                {"scene": "Sun-drenched exterior of a modern tropical white stucco villa in Bali with private turquoise pool and lush banana palms, Vogue Living style", "text_overlay": ""},
-                {"scene": "Chic open-concept living room with sunken sofa, warm oak timber dining table, and natural daylight flooding through open glass sliders", "text_overlay": ""},
-                {"scene": "Warm cozy master bedroom with floating platform bed, crisp white linen, slatted teak wood ceiling, and private garden patio", "text_overlay": ""},
-                {"scene": "Luxury outdoor stone bathroom with tropical rainfall shower, freestanding terrazzo tub, and lush green monstera plants", "text_overlay": ""},
-                {"scene": "Golden hour twilight view of the villa with soft warm pendant lights glowing over the pool and outdoor lounge", "text_overlay": ""}
+                {"scene": "Porsche 911 GT3 RS in Shark Blue rolling on wet asphalt, aggressive swan-neck carbon wing, Speedhunters style", "text_overlay": ""},
+                {"scene": "Aggressive front fascia with hood aero nostrils, LED Matrix headlights, and carbon splitter", "text_overlay": ""},
+                {"scene": "Track cockpit with carbon bucket seats, yellow roll cage, and 9000 RPM tachometer", "text_overlay": ""},
+                {"scene": "Rear carbon fiber diffuser with titanium dual center exhaust tips and wide stance", "text_overlay": ""},
+                {"scene": "Rainy night Tokyo street reflections with illuminated rear LED lightbar glowing in the dark", "text_overlay": ""}
             ],
-            ["balivilla", "luxuryvilla", "villatour", "interiorinspiration", "tropicalmodern", "dreamhome", "baliinteriors", "vacationhome", "reelsviral", "designinspiration"]
+            ["porsche", "gt3rs", "porsche911", "supercars", "trackweapon", "carsofinstagram", "speedhunters", "carreels", "carlifestyle", "exoticcars"]
         ),
         (
-            "Casa Caldera • Whitewashed Coastal Haven in Santorini 🌊",
-            "Welcome to Casa Caldera. Carved into the cliffs of Santorini with smooth whitewashed arches, vibrant pink bougainvillea, and a private plunge pool overlooking the sparkling Aegean Sea. Tag someone you'd bring here ✨",
+            "Ducati Panigale V4 S • Pure Italian Adrenaline 🔴",
+            "214 HP at 13,000 RPM wrapped in iconic Ducati Red. The Panigale V4 S is poetry in motion and brute force on two wheels. Sound on 🔊 Would you take the keys for a mountain canyon run? Drop a comment below 👇",
             [
-                {"scene": "Bright sunlit exterior of a whitewashed cave villa in Santorini with smooth organic arches, vibrant bougainvillea, and sparkling sea horizon", "text_overlay": ""},
-                {"scene": "Minimalist Mediterranean outdoor terrace with cushioned sun loungers, terracotta planters, and private infinity plunge pool", "text_overlay": ""},
-                {"scene": "Cozy vaulted cave bedroom with smooth curved white walls, built-in recessed lighting, and soft natural textiles", "text_overlay": ""},
-                {"scene": "Modern stone-carved kitchen with rustic open shelving, local pottery, and sunlit breakfast nook framing ocean views", "text_overlay": ""},
-                {"scene": "Dusk twilight over the caldera with warm amber lantern lights reflecting in the private plunge pool", "text_overlay": ""}
+                {"scene": "Ducati Panigale V4 S in iconic Ducati Red parked on scenic coastal cliffside switchback at golden hour", "text_overlay": ""},
+                {"scene": "Aggressive front fairing with dual piercing LED projector headlights and carbon aerodynamic winglets", "text_overlay": ""},
+                {"scene": "Rider cockpit view of digital color TFT display, clip-on bars, and Brembo Stylema calipers", "text_overlay": ""},
+                {"scene": "Single-sided swingarm showcasing bronze forged Marchesini wheel and Akrapovic exhaust", "text_overlay": ""},
+                {"scene": "Sunset twilight silhouette with glowing LED taillight reflecting on dark asphalt", "text_overlay": ""}
             ],
-            ["santorinivilla", "mediterraneanhome", "luxurytravel", "greeceescape", "coastalinteriors", "summerinspo", "dreamdestination", "villalife", "reelsinsta", "luxurydesign"]
+            ["ducati", "panigalev4", "superbikes", "bikersofinstagram", "motorcycles", "sportbike", "twowheels", "riderich", "trackday", "ducatistagram"]
         ),
         (
-            "The Kyoto Pavilion • Warm Japandi Minimalist Sanctuary 🌿",
-            "A walkthrough of The Kyoto Pavilion. Warm Japanese oak, clean minimalist lines, and calm morning sunlight that makes every corner feel like peace. What is your favorite detail? Drop your thoughts below 👇",
+            "Lamborghini Revuelto • 1000HP V12 Hybrid Beast ⚡",
+            "A roaring 6.5L naturally aspirated V12 paired with three electric motors to unleash 1,001 horsepower. The Lamborghini Revuelto is the dawn of a new hypercar era. Which color spec would you order? Drop a comment below 👇",
             [
-                {"scene": "Serene exterior of a modern Japandi timber residence with slatted cedar wood, smooth gravel garden, and morning sunlight, Architectural Digest", "text_overlay": ""},
-                {"scene": "Sunlit minimalist living space with low-profile cream sofa, light oak fluted paneling, and sliding glass wall opening to bamboo courtyard", "text_overlay": ""},
-                {"scene": "Peaceful master bedroom with floor-level tatami bed frame, soft linen bedding, and warm paper lantern pendant light", "text_overlay": ""},
-                {"scene": "Spa-inspired bathroom with natural black river stone floor, deep cedar soaking tub, and sunlight streaming through slatted wood", "text_overlay": ""},
-                {"scene": "Evening interior glow with warm indirect LED cove lighting illuminating textured timber and serene garden shadows", "text_overlay": ""}
+                {"scene": "Matte black Lamborghini Revuelto low front three-quarter view under moody industrial concrete lights", "text_overlay": ""},
+                {"scene": "Y-shaped signature LED daytime running lights with sharp geometric carbon fiber front splitter", "text_overlay": ""},
+                {"scene": "Fighter-jet inspired interior with carbon steering wheel, digital cluster, and orange launch button", "text_overlay": ""},
+                {"scene": "High-mounted exposed hexagonal dual exhaust pipes with active carbon fiber rear wing", "text_overlay": ""},
+                {"scene": "Rainy night city neon reflections with glowing Y-shaped taillights reflecting on wet road", "text_overlay": ""}
             ],
-            ["japandi", "minimalisthome", "japanesearchitecture", "warmminimalism", "interiorlovers", "zenhome", "calmliving", "designinspo", "architecturedose", "reelsviral"]
+            ["lamborghini", "revuelto", "hypercars", "supercars", "v12", "exoticcars", "carspotting", "carlifestyle", "carreels", "speedhunters"]
         ),
         (
-            "The Palms Pavilion • Mid-Century Desert Oasis in California ☀️",
-            "Hidden in the warm desert sands of Palm Springs lies The Palms Pavilion. Floor-to-ceiling glass sliders, sunken terrazzo fire pit, and a sparkling pool framed by towering fan palms. Rate this design 1–10 in the comments 👇",
+            "BMW S1000RR M Package • The Precision Missile ⚪",
+            "Engineered to dominate the track. The BMW S1000RR M Package in Alpine White with carbon fiber wheels and M winglets. Pure mechanical precision. Tag someone who loves two wheels 🔥",
             [
-                {"scene": "Low-slung modern desert villa in Palm Springs with mid-century lines, pristine pool, and towering fan palms under crisp blue sky", "text_overlay": ""},
-                {"scene": "Sunken outdoor conversation pit with custom cushions, built-in fire table, and golden hour light washing over terrazzo tiles", "text_overlay": ""},
-                {"scene": "Bright open-concept kitchen and dining pavilion with white quartz island, walnut barstools, and panoramic glass sliders", "text_overlay": ""},
-                {"scene": "Sun-drenched master bedroom with sliding glass door leading directly to the pool deck, warm desert earth tones", "text_overlay": ""},
-                {"scene": "Desert twilight view with illuminated turquoise pool, glowing fire table, and silhouette of desert palms against purple sky", "text_overlay": ""}
+                {"scene": "BMW S1000RR M Package in Alpine White with M motorsport tri-color rolling on mountain pass at sunrise", "text_overlay": ""},
+                {"scene": "Aggressive front fairing with M carbon winglets and piercing dual LED headlights", "text_overlay": ""},
+                {"scene": "Clip-on handlebars with carbon tank cover, digital race display, and M Endurance chain", "text_overlay": ""},
+                {"scene": "Akrapovic titanium exhaust canister and carbon fiber rear wheel hugger with wide rear tire", "text_overlay": ""},
+                {"scene": "Blue-hour twilight silhouette with glowing LED taillight line on winding asphalt", "text_overlay": ""}
             ],
-            ["palmsprings", "midcenturymodern", "desertvilla", "poolsidevibes", "californialiving", "architecturelovers", "modernresidence", "luxurylifestyle", "reelsdaily", "interiordesign"]
+            ["bmwmotorrad", "s1000rr", "superbikes", "bikersofinstagram", "sportbikelife", "motorcycles", "bmws1000rr", "twowheels", "bikelife", "carreels"]
         )
     ]
     title, caption, scenes, tags = random.choice(tours)
@@ -542,12 +542,16 @@ def generate_fallback_reel(persona: dict, custom_prompt: str = "") -> dict:
 def generate_reel_content(persona: dict, env: dict, custom_prompt: str = "") -> dict:
     """Generate a classy, human-attractive luxury villa walkthrough edit from custom text or rotating destinations."""
     destinations = [
-        "a sun-drenched modern tropical pool villa in Bali with sunken outdoor lounge and banana palms",
-        "a whitewashed coastal cave villa in Santorini with smooth arches, pink bougainvillea, and plunge pool",
-        "a warm Japandi minimalist oak residence in Kyoto with paper screens and private zen garden",
-        "a mid-century modern desert pavilion in Palm Springs with sunken fire pit and palm-framed pool",
-        "a chic luxury skyline penthouse in Milan with dark marble kitchen island and panoramic city terrace",
-        "an eco-luxury jungle treehouse villa in Tulum with curved polished chukum walls and rooftop pool"
+        "Porsche 911 GT3 RS in Shark Blue with Weissach Package and swan-neck carbon wing, rain-slicked Tokyo street",
+        "Ducati Panigale V4 S in iconic Ducati Red with carbon aerodynamic winglets, coastal switchback at golden hour",
+        "matte black Lamborghini Revuelto V12 hybrid supercar idling under moody neon lighting with orange brake calipers",
+        "BMW S1000RR M Package superbike in Alpine White with M motorsport tri-color livery, mountain touge pass at sunrise",
+        "Ferrari SF90 Stradale in Rosso Corsa with Assetto Fiorano carbon package, rolling through mountain tunnel",
+        "Kawasaki Ninja H2 Carbon supercharged superbike with dark mirror chrome paint under midnight city lights",
+        "McLaren 765LT Spider in Papaya Spark orange with exposed carbon aero louvers and quad titanium exhaust",
+        "Yamaha YZF-R1M superbike with exposed carbon fairings and blue wheels under moody studio spotlights",
+        "Koenigsegg Jesko Absolut hypercar on runway tarmac at dramatic dawn sunrise",
+        "Nissan GT-R Nismo in stealth grey with red aero accents under rainy night city neon"
     ]
     overlay, theme = extract_overlay_and_theme(custom_prompt)
     if custom_prompt and custom_prompt.strip():
@@ -560,33 +564,33 @@ def generate_reel_content(persona: dict, env: dict, custom_prompt: str = "") -> 
         chosen_dest = random.choice(destinations)
         overlay = ""
 
-    prompt = f"""You are the creative director of a prestigious luxury villa and boutique lifestyle publication named "{persona['name']}".
+    prompt = f"""You are the creative director of a prestigious supercar & superbike media brand named "{persona['name']}".
 Theme for this reel: {chosen_dest}
 
-Create a JSON object for an ultra-classy, human-attractive, and eye-catching Instagram Reel walkthrough (inspired by boutique villa tours like propertia.bali).
-The reel must show a progressive 5-shot walkthrough of ONE gorgeous villa:
-Shot 1: The sun-drenched exterior & pool entrance
-Shot 2: The open-plan living room or outdoor sunken lounge
-Shot 3: The warm, cozy designer master bedroom
-Shot 4: The spa bathroom or stylish kitchen/dining space
-Shot 5: The golden hour or twilight evening glow with warm ambient lighting
+Create a JSON object for an aggressive, eye-catching, viral Instagram Reel edit of this supercar or superbike.
+The reel must show a progressive 5-shot cinematic edit of ONE machine:
+Shot 1: The dramatic hero rolling shot or wide front-quarter angle on road/track
+Shot 2: The aggressive front fascia, LED headlight signature, and carbon aero splitter
+Shot 3: The driver/rider cockpit, tachometer, Alcantara steering wheel, and mechanical details
+Shot 4: The rear diffuser, active aerodynamic carbon wing, and exhaust setup
+Shot 5: The golden hour or rainy night neon reflections with glowing LED taillights
 
 Return exactly this JSON structure:
 {{
-  "format": "<Classy title e.g. 'Villa Bingin • Tropical Pool Sanctuary in Bali 🌴'>",
-  "caption": "<Warm, human, 2-3 sentence engaging reel caption. Describe the lifestyle and design highlights, and end with an inviting question to drive comments (e.g. 'Could you see yourself waking up here? 🌴 Drop a comment below 👇')>",
-  "hashtags": ["luxuryvilla", "villatour", "interiorinspiration", "dreamhome", "vacationhome", "architecturedose", "aestheticliving", "reelsviral", "designinspiration", "luxurylifestyle"],
+  "format": "<Punchy title e.g. 'Porsche 911 GT3 RS • Shark Blue Track Weapon 🏁'>",
+  "caption": "<Adrenaline-fueled, engaging 2-3 sentence caption describing the performance, sound, and presence of this machine. End with a debate question to drive comments (e.g. 'Which keys are you taking for the weekend? 🔑 Drop your dream spec below 👇')>",
+  "hashtags": ["supercars", "hypercars", "superbikes", "carsofinstagram", "bikersofinstagram", "carreels", "speedhunters", "carlifestyle", "trackweapon", "automotive"],
   "scenes": [
-    {{"scene": "<Shot 1: Bright, human-attractive, sunlit exterior with pool and lush landscaping, Architectural Digest/Vogue Living style>", "text_overlay": ""}},
-    {{"scene": "<Shot 2: Inviting living space or sunken lounge with warm textures and daylight>", "text_overlay": ""}},
-    {{"scene": "<Shot 3: Cozy master bedroom with soft linen, warm timber, and garden view>", "text_overlay": ""}},
-    {{"scene": "<Shot 4: Spa bathroom or chic kitchen with natural stone and designer lighting>", "text_overlay": ""}},
-    {{"scene": "<Shot 5: Sunset or twilight view with warm ambient lighting reflecting in the pool>", "text_overlay": ""}}
+    {{"scene": "<Shot 1: 4K cinematic rolling hero shot on road, Speedhunters style, photorealistic>", "text_overlay": ""}},
+    {{"scene": "<Shot 2: Aggressive front fascia with glowing LED headlights and carbon splitter>", "text_overlay": ""}},
+    {{"scene": "<Shot 3: Driver cockpit with digital cluster, Alcantara details, and race controls>", "text_overlay": ""}},
+    {{"scene": "<Shot 4: Rear aero wing, carbon diffuser, and titanium exhaust setup>", "text_overlay": ""}},
+    {{"scene": "<Shot 5: Sunset or rainy night city reflections with glowing taillights>", "text_overlay": ""}}
   ]
 }}
 Rules:
-- Make the villa look human-attractive, warm, and livable (real luxury lifestyle, NOT cold sci-fi CGI)
-- All 5 shots must depict the SAME villa to form a cohesive, satisfying tour edit
+- 4K cinematic automotive cinematography (Speedhunters / Top Gear cover style, photorealistic)
+- All 5 shots must depict the SAME machine to form a cohesive, satisfying edit
 - NEVER mention AI, virtual, render, or code
 - hashtags lowercase, no # prefix, 8-10 tags
 """
@@ -626,21 +630,21 @@ NEVER mention AI, algorithm, or code. End with an interactive question to spark 
 # Image generation (Pollinations.ai)
 # ---------------------------------------------------------------------------
 
-ARCH_ASSETS_DIR = Path(__file__).parent / "assets" / "architecture"
+VEHICLES_ASSETS_DIR = Path(__file__).parent / "assets" / "vehicles"
+ARCH_ASSETS_DIR = VEHICLES_ASSETS_DIR
 ARCH_INDEX_FILE = Path(__file__).parent / "data" / "arch_index.json"
 ERIKA_INDEX_FILE = ARCH_INDEX_FILE  # backwards compatibility
 
 
 def get_next_curated_architecture_image() -> Path:
-    """Cycle sequentially through the verified luxury architecture gallery."""
-    ARCH_ASSETS_DIR.mkdir(parents=True, exist_ok=True)
-    images = sorted(list(ARCH_ASSETS_DIR.glob("*.jpg")) + list(ARCH_ASSETS_DIR.glob("*.png")))
+    """Cycle sequentially through the verified supercar and superbike gallery."""
+    VEHICLES_ASSETS_DIR.mkdir(parents=True, exist_ok=True)
+    images = sorted(list(VEHICLES_ASSETS_DIR.glob("*.jpg")) + list(VEHICLES_ASSETS_DIR.glob("*.png")))
     if not images:
-        # Fallback to erika dir if architecture is empty
-        fallback_dir = Path(__file__).parent / "assets" / "erika"
+        fallback_dir = Path(__file__).parent / "assets" / "architecture"
         images = sorted(list(fallback_dir.glob("*.jpg")) + list(fallback_dir.glob("*.png")))
     if not images:
-        raise FileNotFoundError(f"No curated images found in {ARCH_ASSETS_DIR}")
+        raise FileNotFoundError(f"No curated vehicle images found in {VEHICLES_ASSETS_DIR}")
 
     idx = 0
     if ARCH_INDEX_FILE.exists():

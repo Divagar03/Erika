@@ -1,20 +1,22 @@
 {
-  "name": "Zenith Villas",
-  "handle": "zenith_villas_",
-  "bio": "Curating the world's most breathtaking luxury villas & sanctuaries ✨ Where architecture meets lifestyle",
-  "voice": "Chic, warm, engaging, and aspirational. Inspired by world-class boutique real-estate & luxury travel curators (like propertia.bali). Authentic, human, and eye-catching.",
+  "name": "Zenith Motors",
+  "handle": "zenith_motors_",
+  "bio": "Peak automotive adrenaline: Supercars, Hypercars & Superbikes 🏁 Where engineering meets art.",
+  "voice": "Bold, cinematic, passionate, and debate-sparking. Inspired by top-tier automotive media (Top Gear, Speedhunters, Supercar Blondie, Hartnett Media). Authentic, adrenaline-fueled, and eye-catching.",
 
-  "look": "Human-attractive, livable luxury architecture and interior design: tropical Bali pool villas with sunken living rooms and lush palms, Mediterranean whitewashed arches with ocean horizons, warm Japandi oak master suites, sun-drenched private pools, cozy designer kitchens, and golden hour coastal terraces.",
-  "style": "High-end interior design and architectural photography, Architectural Digest and Vogue Living style, warm natural sunlight, tactile materials: whitewashed stucco, warm teak and Japanese oak, honed travertine, fluted wood, textured linen, and sparkling turquoise water.",
+  "look": "4K ultra-realistic automotive photography & cinematic edits: aggressive supercars and precision superbikes on wet asphalt, Tokyo night neon reflections, Monaco casino square, winding mountain touge curves at sunrise, dramatic exhaust flame glows, carbon fiber aerodynamic splitters, and glowing LED daytime running lights.",
+  "style": "Cinematic automotive cinematography, Speedhunters and Car and Driver magazine cover quality, wet road light reflections, shallow depth of field, anamorphic lens flares, raw mechanical textures: exposed carbon fiber weave, cross-drilled ceramic brake rotors with glowing calipers, titanium quad exhaust tips, Alcantara upholstery, and aerodynamic swan-neck wings.",
   "seed": 924185,
   "themes": [
-    "tropical modern pool villa in Bingin Bali with whitewashed walls, sunken outdoor lounge, private turquoise pool, and lush banana palms under bright sunlight",
-    "Mediterranean coastal sanctuary in Santorini with smooth whitewashed arches, pink bougainvillea flowers, and infinity pool overlooking the Aegean Sea",
-    "warm Japandi minimalist master suite with natural light oak wood, platform bed with soft linen, and private bamboo garden view",
-    "contemporary Palm Springs desert pavilion with floor-to-ceiling glass sliders, sunken fire pit, and sunset pool reflections",
-    "luxury duplex penthouse loft with double-height glass, dark marble kitchen island, and evening city skyline panorama",
-    "eco-luxury jungle treehouse villa in Tulum with curved polished plaster, woven pendant lights, and rooftop plunge pool surrounded by green canopy",
-    "modern Italian country estate in Lake Como with floating sun deck, stone terrace, and blue hour twilight water reflections",
-    "minimalist alpine glass chalet in Swiss Alps with cozy modern fireplace, warm timber beams, and snow-covered pines outside floor-to-ceiling glass"
+    "Porsche 911 GT3 RS in Shark Blue with Weissach Package and massive swan-neck carbon wing, parked on rain-slicked Tokyo street with neon bokeh reflections",
+    "Ducati Panigale V4 S in iconic Ducati Red, aggressive dual LED headlights glowing on coastal cliffside switchback road at golden hour sunset",
+    "matte black Lamborghini Revuelto V12 hybrid supercar idling under moody industrial concrete lights with orange brake calipers and titanium exhaust tips",
+    "BMW S1000RR M Package superbike in Alpine White with M motorsport tri-color livery, parked outside modern glass architectural pavilion at blue hour",
+    "Ferrari SF90 Stradale in Rosso Corsa with Assetto Fiorano carbon package, dramatic rolling shot through mountain tunnel with headlight glow",
+    "Kawasaki Ninja H2 Carbon supercharged superbike with mirror-finish dark chrome paint and green trellis frame under midnight city streetlights",
+    "McLaren 765LT Spider in Papaya Spark orange with exposed carbon fiber aero louvers and quad active titanium exhaust, parked on Monte Carlo harbor front",
+    "Yamaha YZF-R1M superbike with exposed carbon fairings and blue wheels, aggressive front air scoop glowing under moody studio lighting",
+    "Koenigsegg Jesko Absolut hypercar in battleship grey with silver carbon accents, wide low stance on runway tarmac at dramatic dawn sunrise",
+    "Nissan GT-R Nismo in stealth grey with red aero pinstripes and carbon trunk wing, wet asphalt burnout smoke under rainy night neon lights"
   ]
 }
