@@ -1245,6 +1245,10 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         specific = [s for s in available_sets if "red" in s[0] or "sportscar" in s[0]]
     elif any(k in th for k in ["bmw", "m4", "black"]):
         specific = [s for s in available_sets if "bmw" in s[0]]
+    elif any(k in th for k in ["mustang", "white", "muscle"]):
+        specific = [s for s in available_sets if "mustang" in s[0]]
+    elif any(k in th for k in ["aston", "valour", "green"]):
+        specific = [s for s in available_sets if "aston" in s[0] or "valour" in s[0]]
 
     if specific:
         available_sets = specific
@@ -1257,8 +1261,17 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         except Exception:
             pass
 
-    eligible = [s for s in available_sets if s[0] != last_set] or available_sets
-    chosen_name, chosen_media = random.choice(eligible)
+    # Sort available sets alphabetically for consistent strict round-robin rotation
+    available_sets = sorted(available_sets, key=lambda s: s[0])
+    set_names = [s[0] for s in available_sets]
+
+    # Advance strictly to the next set in the cycle (guarantees every post is different)
+    if last_set in set_names:
+        next_idx = (set_names.index(last_set) + 1) % len(set_names)
+    else:
+        next_idx = 0
+
+    chosen_name, chosen_media = available_sets[next_idx]
     try:
         VEHICLE_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
         with open(VEHICLE_STATE_FILE, "w", encoding="utf-8") as f:
@@ -1606,6 +1619,32 @@ CURATED_SET_METADATA = {
         "tags": ["supercars", "sportscar", "carsofinstagram", "exoticcars", "carlifestyle", "carreels", "speedhunters", "cleanbuild", "forgedwheels"],
         "audio": "ferrari_v8_rev.mp3",
         "is_bike": False
+    },
+    "aston_martin_valour": {
+        "title": "Aston Martin Valour • 705 HP Twin-Turbo V12 Manual 🇬🇧🔥",
+        "make_model": "Aston Martin Valour",
+        "color": "British Racing Green",
+        "captions": [
+            "Pure analog violence. The ultra-rare Aston Martin Valour commanding Monterey in British Racing Green. 705 horsepower of twin-turbo V12 fury mated strictly to a 6-speed manual gearbox. Turn the sound up! 🔊 Drop your dream spec below 👇",
+            "A retro-modern titan. The Aston Martin Valour roaring past in British Racing Green with circular halo lights and a quad-exhaust soundtrack. Rate this modern manual legend 1-10 👇",
+            "110 units built worldwide. The Aston Martin Valour showcasing its aggressive front aero and retro louver ducktail in Monterey. Sound up for that 5.2L Twin-Turbo V12 rumble! 🔊 Drop your thoughts below 👇"
+        ],
+        "tags": ["astonmartin", "astonmartinvalour", "valour", "v12", "britishracinggreen", "supercars", "hypercars", "manualgearbox", "montereycarweek", "exoticcars", "carlifestyle"],
+        "audio": "lamborghini_v12_rev.mp3",
+        "is_bike": False
+    },
+    "white_mustang_sunset": {
+        "title": "Sunset Velocity • 5.0L V8 American Muscle 🌅🇺🇸",
+        "make_model": "Ford Mustang GT 5.0",
+        "color": "Oxford White",
+        "captions": [
+            "Chasing the golden hour. The Oxford White 5.0L V8 tearing down the coastal highway as the sun dips below the horizon. Sound up for that naturally aspirated American V8 roar! 🔊 Drop your dream muscle spec below 👇",
+            "Golden rays and American muscle. Oxford White paint gleaming against the sunset glow with aggressive triple LED headlights. Would you take this on a cross-country sprint? 🔑🔥",
+            "There's nothing quite like a naturally aspirated V8 singing into the sunset. Triple DRL headlights cutting through the dusk. Rate this clean rolling pass 1-10 👇"
+        ],
+        "tags": ["mustang", "mustanggt", "americanmuscle", "v8", "goldenhour", "carreels", "speedhunters", "carlifestyle", "sunsetdrive", "musclecars"],
+        "audio": "car_v8_start.mp3",
+        "is_bike": False
     }
 }
 
@@ -1631,8 +1670,9 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         set_name, set_shots, is_bike = get_next_curated_vehicle_set("bmw_m_black")
         title = f"Day {day_num} • Seeking Help To Complete UG Studies"
     else:
-        # Standard 2-hour clean supercar reel
-        set_name, set_shots, is_bike = get_next_curated_vehicle_set()
+        # Standard 2-hour clean supercar reel (or custom prompt from dashboard)
+        hint = custom_prompt if custom_prompt else ""
+        set_name, set_shots, is_bike = get_next_curated_vehicle_set(hint)
         meta = CURATED_SET_METADATA.get(set_name, {})
         if meta:
             title = meta["title"]
@@ -1694,6 +1734,8 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     files_to_log = [LOG_FILE]
     if ARCH_INDEX_FILE.exists():
         files_to_log.append(ARCH_INDEX_FILE)
+    if VEHICLE_STATE_FILE.exists():
+        files_to_log.append(VEHICLE_STATE_FILE)
     git_commit_and_push(files_to_log, f"chore: log weekly_reel {ts}")
 
 
