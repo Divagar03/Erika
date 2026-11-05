@@ -3,7 +3,7 @@ name: Instagram Automation
 on:
   schedule:
     # Every 2 hours clean bike/car reels (12 posts/day): 00:00, 02:00, 04:00, 06:00, 08:00, 10:00, 12:00, 14:00, 16:00, 18:00, 20:00, 22:00 UTC
-    - cron: "0 */2 * * *"
+    - cron: "15 */2 * * *"  # Staggered at :15 to prevent GitHub Actions cron queue freeze
     # Exactly at 12:00 AM Midnight (18:30 UTC / 12:00 AM IST) - Daily Study Reel (once per day)
     - cron: "30 18 * * *"
     # 1 Photo post daily at 13:00 UTC
@@ -11,6 +11,7 @@ on:
   push:
     paths:
       - "uploads/*.mp4"
+      - "trigger.txt"
   workflow_dispatch:
     inputs:
       mode:
@@ -71,9 +72,14 @@ jobs:
           # workflow_dispatch takes explicit mode input
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "mode=${{ github.event.inputs.mode }}" >> "$GITHUB_OUTPUT"
-          # Push to uploads/*.mp4 → upload_reel
+          # Push to trigger.txt or uploads/*.mp4
           elif [ "${{ github.event_name }}" = "push" ]; then
-            echo "mode=upload_reel" >> "$GITHUB_OUTPUT"
+            if [ -f "trigger.txt" ]; then
+              MODE=$(cat trigger.txt | tr -d '\r\n ')
+              echo "mode=${MODE:-reel}" >> "$GITHUB_OUTPUT"
+            else
+              echo "mode=upload_reel" >> "$GITHUB_OUTPUT"
+            fi
           else
             # Scheduled runs: hour 13 = daily photo post, all other hours = reel every 2 hours
             # 12:00 AM Midnight (18:30 UTC): Daily Study Journey Reel (once per day)
