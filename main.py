@@ -1620,7 +1620,7 @@ CURATED_SET_METADATA = {
         "tags": ["lamborghini", "diablo", "lamborghinidiablo", "v12", "retrosupercar", "90ssupercars", "montereycarweek", "exoticcars", "supercars", "carlifestyle", "vintageexotics"],
         "audio": "lamborghini_v12_rev.mp3",
         "is_bike": False,
-        "is_fast_motion": True
+        "is_fast_motion": False
     },
     "ferrari_f80": {
         "title": "Ferrari F80 • 1184 HP Hypercar Vanguard 🔴🇮🇹",
@@ -1634,7 +1634,7 @@ CURATED_SET_METADATA = {
         "tags": ["ferrari", "ferrarif80", "f80", "rossocorsa", "hypercars", "maranello", "supercars", "exoticcars", "carspotting", "carlifestyle", "carreels"],
         "audio": "ferrari_v8_rev.mp3",
         "is_bike": False,
-        "is_fast_motion": True
+        "is_fast_motion": False
     },
     "red_sportscar": {
         "title": "Underground Velocity • High-Performance Roadster 🔴🔥",
@@ -1662,7 +1662,7 @@ CURATED_SET_METADATA = {
         "tags": ["astonmartin", "astonmartinvalour", "valour", "v12", "britishracinggreen", "supercars", "hypercars", "manualgearbox", "montereycarweek", "exoticcars", "carlifestyle"],
         "audio": "lamborghini_v12_rev.mp3",
         "is_bike": False,
-        "is_fast_motion": True
+        "is_fast_motion": False
     },
     "white_mustang_sunset": {
         "title": "Sunset Velocity • 5.0L V8 American Muscle 🌅🇺🇸",
@@ -1687,6 +1687,7 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
 
     study_overlay = ""
     # Check if this is a study journey reel
+    meta: dict = {}
     if custom_prompt and ("Day" in custom_prompt or "ug studies" in custom_prompt):
         # Extract Day number if present
         day_match = re.search(r'Day\s+(\d+)', custom_prompt)
@@ -1758,6 +1759,9 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         build_reel_video(image_paths, video_path, theme_hint=set_name, is_bike=is_bike, text_overlay=study_overlay, is_fast_motion=is_fast_motion)
         files_to_commit = image_paths + [video_path]
 
+    # Always include vehicle rotation state so next CI run sees the updated pointer
+    if VEHICLE_STATE_FILE.exists() and VEHICLE_STATE_FILE not in files_to_commit:
+        files_to_commit.append(VEHICLE_STATE_FILE)
     git_commit_and_push(files_to_commit, f"chore: add weekly reel {ts}")
 
     print("Waiting for raw URL...")

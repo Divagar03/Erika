@@ -58,7 +58,7 @@ jobs:
       - name: Set up FFmpeg
         uses: FedericoCarboni/setup-ffmpeg@v3
         with:
-          ffmpeg-version: release
+          ffmpeg-version: "7.1"
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
