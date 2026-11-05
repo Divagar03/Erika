@@ -1110,7 +1110,7 @@ def pick_engine_sfx(theme_hint: str = "", is_bike: bool = False) -> Path | None:
     th = theme_hint.lower()
 
     # Exact matching by vehicle make/model and engine architecture:
-    if any(k in th for k in ["bmw m4", "m4 competition", "m4", "g82"]):
+    if any(k in th for k in ["bmw", "bmw m4", "m4 competition", "m4", "g82", "bmw_m_black"]):
         target = ENGINE_SFX_DIR / "bmw_m4_rev.mp3"
         if target.exists():
             print(f"  Matched exact engine sound: BMW M4 Competition S58 Twin-Turbo I6 ({target.name})")
@@ -1243,6 +1243,8 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         specific = [s for s in available_sets if "ferrari" in s[0]]
     elif any(k in th for k in ["red", "sportscar"]):
         specific = [s for s in available_sets if "red" in s[0] or "sportscar" in s[0]]
+    elif any(k in th for k in ["bmw", "m4", "black"]):
+        specific = [s for s in available_sets if "bmw" in s[0]]
 
     if specific:
         available_sets = specific
@@ -1574,7 +1576,7 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     video_path = MEDIA_DIR / f"reel_{ts}.mp4"
 
     if dry_run:
-        print(f"\n[DRY RUN] Would generate 5 images and build video → {video_path}")
+        print(f"\n[DRY RUN] Would assemble {len(set_shots)} authentic video clips from set '{set_name}' and build reel → {video_path}")
         print(f"[DRY RUN] Vehicle focus: {content.get('format', set_name)} (is_bike={is_bike})")
         print("[DRY RUN] Would commit and publish reel")
         return
