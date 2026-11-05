@@ -1110,7 +1110,7 @@ def pick_engine_sfx(theme_hint: str = "", is_bike: bool = False) -> Path | None:
     th = theme_hint.lower()
 
     # Exact matching by vehicle make/model and engine architecture:
-    if any(k in th for k in ["bmw", "bmw m4", "m4 competition", "m4", "g82", "bmw_m_black"]):
+    if any(k in th for k in ["bmw", "bmw m4", "m4 competition", "m4", "g82"]):
         target = ENGINE_SFX_DIR / "bmw_m4_rev.mp3"
         if target.exists():
             print(f"  Matched exact engine sound: BMW M4 Competition S58 Twin-Turbo I6 ({target.name})")
@@ -1327,11 +1327,26 @@ def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str
 
         last_v = "vxfade" if n > 1 else "v0"
 
+        txt_file: Path | None = None
         # If study journey text overlay is requested (12 AM daily study reel only)
         if text_overlay:
-            clean_text = text_overlay.replace(":", "\\:").replace("'", "").replace("\n", " ")
+            lines_list: list[str] = []
+            for raw_line in text_overlay.split("\n"):
+                raw_line = raw_line.strip()
+                if raw_line:
+                    lines_list.extend(textwrap.wrap(raw_line, width=30))
+                else:
+                    lines_list.append("")
+            wrapped_text = "\n".join(lines_list)
+            txt_file = output_path.with_suffix(".overlay.txt")
+            txt_file.write_text(wrapped_text, encoding="utf-8")
+            try:
+                rel_txt_path = txt_file.relative_to(ROOT).as_posix()
+            except Exception:
+                rel_txt_path = txt_file.as_posix().replace(":", "\\:")
             filter_parts.append(
-                f"[{last_v}]drawtext=text='{clean_text}':fontcolor=white:fontsize=36:box=1:boxcolor=black@0.65:boxborderw=24:x=(w-text_w)/2:y=h*0.72[vfinal]"
+                f"[{last_v}]drawtext=textfile={rel_txt_path}:fontcolor=white:fontsize=36:"
+                f"line_spacing=14:box=1:boxcolor=black@0.75:boxborderw=24:x=(w-text_w)/2:y=(h-text_h)/2[vfinal]"
             )
             last_v = "vfinal"
 
@@ -1435,10 +1450,17 @@ def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str
         ]
 
     print(f"  Running FFmpeg to build reel video...")
-    result = subprocess.run(["ffmpeg", *cmd], capture_output=True, text=True)
-    if result.returncode != 0:
-        print(f"FFmpeg stderr: {result.stderr[-2000:]}")
-        raise RuntimeError(f"FFmpeg failed with code {result.returncode}")
+    try:
+        result = subprocess.run(["ffmpeg", *cmd], capture_output=True, text=True, cwd=str(ROOT))
+        if result.returncode != 0:
+            print(f"FFmpeg stderr: {result.stderr[-2000:]}")
+            raise RuntimeError(f"FFmpeg failed with code {result.returncode}")
+    finally:
+        if 'txt_file' in locals() and txt_file and txt_file.exists():
+            try:
+                txt_file.unlink()
+            except Exception:
+                pass
     print(f"  Video built: {output_path} ({output_path.stat().st_size // 1024} KB)")
 
 
@@ -1545,8 +1567,12 @@ def mode_journey_reel(persona: dict, env: dict, dry_run: bool) -> None:
     print(f"\n=== MODE: journey_reel (Day {day} - 12 AM Daily Study Reel) ===")
 
     # Purely asking for help to complete UG studies — ZERO follower/1k requests, no "men to men"
-    overlay = f"Day {day} of seeking help to complete my ug studies\nI am a college student working hard to graduate, seeking guidance & support for my education"
-    custom_prompt = f'Matte Black BMW M4 Competition G82 with text overlay "{overlay}"'
+    overlay = (
+        f"Day {day} of seeking help to complete my ug studies\n\n"
+        "I am an undergraduate student working hard to finish my education and graduate.\n"
+        "If you have guidance, mentorship, or support to share, every bit helps me keep moving forward."
+    )
+    custom_prompt = f"Day {day} ug studies"
 
     mode_weekly_reel(persona, env, dry_run, custom_prompt=custom_prompt)
 
@@ -1568,19 +1594,6 @@ def mode_journey_reel(persona: dict, env: dict, dry_run: bool) -> None:
 # Curated Video Set Metadata (Guarantees 100% video-to-caption-to-audio sync)
 # ---------------------------------------------------------------------------
 CURATED_SET_METADATA = {
-    "bmw_m_black": {
-        "title": "BMW M4 Competition • Frozen Black Track Beast 🌧️⚡",
-        "make_model": "BMW M4 Competition (G82)",
-        "color": "Frozen Black",
-        "captions": [
-            "Forged in the storm. The BMW M4 Competition slicing through rain-soaked streets with raw twin-turbo S58 power. Cold start thunder and razor-sharp lines. 🌧️⚡ Drop your dream spec below 👇",
-            "Midnight shadows and rain reflections. The BMW M4 Competition G82 in stealth Frozen Black. Listen to that twin-turbo S58 inline-six cold start. Would you daily this beast? 🔑👇",
-            "Rain-slicked asphalt and twin-turbo S58 adrenaline. The BMW M4 Competition G82 in Frozen Black commanding the night. Sound up for that cold start roar 🔊 Drop your thoughts below 👇"
-        ],
-        "tags": ["bmwm4", "bmwm", "mperformance", "g82", "m4competition", "bimmerpost", "supercars", "trackweapon", "carreels", "speedhunters", "carlifestyle"],
-        "audio": "bmw_m4_rev.mp3",
-        "is_bike": False
-    },
     "lamborghini_diablo": {
         "title": "Lamborghini Diablo VT • Pure 90s V12 Heritage 🟡🇮🇹",
         "make_model": "Lamborghini Diablo VT",
@@ -1659,15 +1672,19 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         # Extract Day number if present
         day_match = re.search(r'Day\s+(\d+)', custom_prompt)
         day_num = day_match.group(1) if day_match else "1"
-        study_overlay = f"Day {day_num} of seeking help to complete my ug studies\nI am a college student working hard to graduate, seeking guidance & support for my education"
+        study_overlay = (
+            f"Day {day_num} of seeking help to complete my ug studies\n\n"
+            "I am an undergraduate student working hard to finish my education and graduate.\n"
+            "If you have guidance, mentorship, or support to share, every bit helps me keep moving forward."
+        )
         caption_text = (
-            f"Day {day_num} of seeking help to complete my ug studies.\n"
+            f"Day {day_num} of seeking help to complete my ug studies.\n\n"
             "I am an undergraduate student working hard to finish my education and graduate. "
             "If you have guidance, mentorship, or support to share, every bit helps me keep moving forward. \U0001F4DA\U0001F393\n\n"
             "Thank you for being part of this journey."
         )
         hashtags = ["ugstudies", "collegejourney", "studentlife", "graduationgoals", "educationmatters", "nevergiveup", "dailyjourney"]
-        set_name, set_shots, is_bike = get_next_curated_vehicle_set("bmw_m_black")
+        set_name, set_shots, is_bike = get_next_curated_vehicle_set()
         title = f"Day {day_num} • Seeking Help To Complete UG Studies"
     else:
         # Standard 2-hour clean supercar reel (or custom prompt from dashboard)
