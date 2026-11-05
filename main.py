@@ -1316,24 +1316,30 @@ def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str
         if has_engine:
             inputs += ["-i", str(engine_sfx_path)]
 
+        def get_clip_dur(p: Path) -> float:
+            try:
+                res = subprocess.check_output(
+                    ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(p)],
+                    text=True
+                )
+                return float(res.strip())
+            except Exception:
+                return 2.2
+
+        total_dur = sum(get_clip_dur(p) for p in media_paths)
+
         filter_parts: list[str] = []
+        concat_inputs: list[str] = []
         for i in range(n):
             filter_parts.append(
-                f"[{i}:v]trim=0:{clip_duration},setpts=PTS-STARTPTS,"
-                f"scale={width}:{height}:force_original_aspect_ratio=increase,"
+                f"[{i}:v]scale={width}:{height}:force_original_aspect_ratio=increase,"
                 f"crop={width}:{height},setsar=1,fps=30,format=yuv420p[v{i}]"
             )
+            concat_inputs.append(f"[v{i}]")
 
-        last_out = "v0"
-        for i in range(1, n):
-            offset = i * (clip_duration - fade_duration)
-            out_label = f"x{i}" if i < n - 1 else "vxfade"
-            filter_parts.append(
-                f"[{last_out}][v{i}]xfade=transition=fade:duration={fade_duration}:offset={offset:.2f}[{out_label}]"
-            )
-            last_out = f"x{i}"
-
-        last_v = "vxfade" if n > 1 else "v0"
+        concat_clause = "".join(concat_inputs) + f"concat=n={n}:v=1:a=0[vconcat]"
+        filter_parts.append(concat_clause)
+        last_v = "vconcat"
 
         txt_file: Path | None = None
         # If study journey text overlay is requested (12 AM daily study reel only)
@@ -1358,7 +1364,7 @@ def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str
             )
             last_v = "vfinal"
 
-        total_dur = n * clip_duration - (n - 1) * fade_duration
+# total_dur calculated above from clip durations
 
         if has_music and has_engine:
             m_idx = n
