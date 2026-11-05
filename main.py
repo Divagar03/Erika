@@ -809,25 +809,8 @@ def download_image(
     width: int = 1080,
     height: int = 1920,
 ) -> None:
-    """Generate 4K supercar/superbike image or choose from verified automotive gallery."""
-    print(f"  Preparing automotive image: {output_path.name}")
-
-    # 1. Try Pollinations (instant 4K AI automotive photo)
-    try:
-        if generate_image_pollinations(scene, output_path, width=width, height=height):
-            return
-    except Exception as exc:
-        print(f"  Pollinations generation failed: {exc}")
-
-    # 2. Try AI Horde with automotive prompt
-    try:
-        if generate_image_aihorde(persona, scene, output_path, width=width, height=height):
-            return
-    except Exception as exc:
-        print(f"  AI Horde generation failed: {exc}")
-
-    # 3. Guaranteed fallback: Curated 4K Supercars & Superbikes gallery (Porsche, Ducati, Lamborghini, etc.)
-    print("  Using verified supercar & superbike photography library...")
+    """Select verified 100% human-shot DSLR/mirrorless photography from the automotive gallery."""
+    print(f"  Selecting authentic human-shot automotive photography for: {output_path.name}")
     chosen = get_next_curated_vehicle_image()
     from PIL import Image
     img = Image.open(chosen).convert("RGB")
@@ -835,7 +818,7 @@ def download_image(
         img = img.resize((width, height), Image.Resampling.LANCZOS)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     img.save(output_path, quality=95)
-    print(f"  Curated automotive photo saved: {chosen.name} ({output_path.stat().st_size // 1024} KB)")
+    print(f"  Authentic human-shot photo saved: {chosen.name} ({output_path.stat().st_size // 1024} KB)")
 
 
 # ---------------------------------------------------------------------------
@@ -1199,7 +1182,7 @@ def pick_engine_sfx(theme_hint: str = "", is_bike: bool = False) -> Path | None:
 
 
 def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path], bool]:
-    """Return (set_name, 5_shots, is_bike) from the curated cohesive single-vehicle library."""
+    """Return (set_name, 5_shots, is_bike) from the curated cohesive single-vehicle human photography library."""
     available_sets: list[tuple[str, list[Path]]] = []
     if VEHICLE_SETS_DIR.exists():
         for d in sorted(VEHICLE_SETS_DIR.iterdir()):
@@ -1213,9 +1196,31 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         imgs = sorted(list(v_dir.glob("*.jpg")))[:5]
         return "single_car", imgs, False
 
-    is_bike_hint = any(b in theme_hint.lower() for b in ["bike", "motorcycle", "ducati", "yamaha", "kawasaki", "s1000rr"])
-    if theme_hint:
-        filtered = [s for s in available_sets if ("ducati" in s[0] or "bike" in s[0]) == is_bike_hint]
+    th = theme_hint.lower()
+    # Check if theme_hint specifically requests a known machine:
+    specific = []
+    if any(k in th for k in ["bmw m4", "m4 competition", "m4", "g82"]):
+        specific = [s for s in available_sets if "bmw_m4" in s[0]]
+    elif any(k in th for k in ["porsche", "911 gt3", "gt3 rs", "gt3"]):
+        specific = [s for s in available_sets if "porsche" in s[0]]
+    elif any(k in th for k in ["ducati", "panigale", "v4"]):
+        specific = [s for s in available_sets if "ducati" in s[0]]
+    elif any(k in th for k in ["lamborghini", "revuelto", "huracan", "v12"]):
+        specific = [s for s in available_sets if "lamborghini" in s[0]]
+    elif any(k in th for k in ["ferrari", "sf90", "f8"]):
+        specific = [s for s in available_sets if "ferrari" in s[0]]
+    elif any(k in th for k in ["mclaren", "765lt"]):
+        specific = [s for s in available_sets if "mclaren" in s[0]]
+    elif any(k in th for k in ["s1000rr", "bmw s1000"]):
+        specific = [s for s in available_sets if "s1000rr" in s[0]]
+    elif any(k in th for k in ["gtr", "nismo", "nissan"]):
+        specific = [s for s in available_sets if "gtr" in s[0]]
+
+    if specific:
+        available_sets = specific
+    elif theme_hint:
+        is_bike_hint = any(b in th for b in ["bike", "motorcycle", "ducati", "yamaha", "kawasaki", "s1000rr"])
+        filtered = [s for s in available_sets if any(k in s[0] for k in ["ducati", "bike", "s1000rr"]) == is_bike_hint]
         if filtered:
             available_sets = filtered
 
@@ -1500,23 +1505,15 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         print("[DRY RUN] Would commit and publish reel")
         return
 
-    print(f"\nPreparing 5 detail shots for {content.get('format', set_name)}...")
-    use_curated_set = False
-    for i, sc in enumerate(scenes):
+    print(f"\nAssembling 5 authentic human-shot DSLR photography cuts for {content.get('format', set_name)} ({set_name})...")
+    import shutil
+    for i in range(len(scenes)):
         img_path = MEDIA_DIR / f"reel_{ts}_scene{i + 1}.jpg"
-        if not use_curated_set:
-            success = generate_image_pollinations(sc["scene"], img_path, width=1080, height=1920)
-            if not success:
-                print(f"  AI generation rate-limited or unavailable. Activating cohesive single-vehicle set: '{set_name}'")
-                use_curated_set = True
+        source_photo = set_shots[i % len(set_shots)]
+        shutil.copyfile(source_photo, img_path)
+        print(f"  Cut {i + 1} loaded (100% human-shot photography): {source_photo.name} ({source_photo.stat().st_size // 1024} KB)")
 
-        if use_curated_set:
-            fallback_source = set_shots[i % len(set_shots)]
-            import shutil
-            shutil.copyfile(fallback_source, img_path)
-            print(f"  Applied {set_name} single-vehicle cut {i + 1} ({fallback_source.name})")
-
-        overlay_txt = sc.get("text_overlay", "").strip()
+        overlay_txt = scenes[i].get("text_overlay", "").strip()
         # ONLY apply text overlay if user explicitly requested custom text / study journey
         # Standard automated reels have zero text boxes
         if overlay_txt and not overlay_txt.startswith("0"):
