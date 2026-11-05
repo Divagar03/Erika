@@ -1098,6 +1098,7 @@ def pick_diverse_music_track() -> Path | None:
 
 ENGINE_SFX_DIR = Path(__file__).parent / "assets" / "sfx" / "engine"
 VEHICLE_SETS_DIR = Path(__file__).parent / "assets" / "vehicles" / "sets"
+VEHICLE_VIDEO_SETS_DIR = Path(__file__).parent / "assets" / "vehicles" / "video_sets"
 VEHICLE_STATE_FILE = Path(__file__).parent / "data" / "vehicle_state.json"
 
 
@@ -1131,6 +1132,24 @@ def pick_engine_sfx(theme_hint: str = "", is_bike: bool = False) -> Path | None:
         target = ENGINE_SFX_DIR / "ferrari_v8_rev.mp3"
         if target.exists():
             print(f"  Matched exact engine sound: Ferrari Twin-Turbo Flat-Plane V8 Exhaust ({target.name})")
+            return target
+
+    if any(k in th for k in ["diablo", "lamborghini_diablo"]):
+        target = ENGINE_SFX_DIR / "lamborghini_v12_rev.mp3"
+        if target.exists():
+            print(f"  Matched exact engine sound: Lamborghini Diablo High-RPM V12 ({target.name})")
+            return target
+
+    if any(k in th for k in ["red_sportscar", "sportscar", "ferrari_f80"]):
+        target = ENGINE_SFX_DIR / "ferrari_v8_rev.mp3"
+        if target.exists():
+            print(f"  Matched exact engine sound: High-Performance V8 Twin-Turbo Exhaust ({target.name})")
+            return target
+
+    if any(k in th for k in ["superbike_thrill"]):
+        target = ENGINE_SFX_DIR / "bike_rev_high_rpm.mp3"
+        if target.exists():
+            print(f"  Matched exact engine sound: Superbike 15000 RPM Scream ({target.name})")
             return target
 
     if any(k in th for k in ["audi", "r8", "v10"]):
@@ -1188,9 +1207,21 @@ def pick_engine_sfx(theme_hint: str = "", is_bike: bool = False) -> Path | None:
 
 
 def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path], bool]:
-    """Return (set_name, 5_shots, is_bike) from the curated cohesive single-vehicle human photography library."""
+    """Return (set_name, media_paths, is_bike) from the curated vehicle library.
+    Prioritizes authentic human-shot multi-angle video clip sets (.mp4),
+    falling back to curated DSLR photo sets.
+    """
+    # 1. Try to load authentic video clip sets (.mp4)
     available_sets: list[tuple[str, list[Path]]] = []
-    if VEHICLE_SETS_DIR.exists():
+    if VEHICLE_VIDEO_SETS_DIR.exists():
+        for d in sorted(VEHICLE_VIDEO_SETS_DIR.iterdir()):
+            if d.is_dir():
+                clips = sorted(list(d.glob("clip_*.mp4")))
+                if len(clips) >= 3:
+                    available_sets.append((d.name, clips))
+
+    # 2. Fall back to curated photo sets if no video sets exist
+    if not available_sets and VEHICLE_SETS_DIR.exists():
         for d in sorted(VEHICLE_SETS_DIR.iterdir()):
             if d.is_dir():
                 shots = sorted(list(d.glob("shot_*.jpg")))
@@ -1203,34 +1234,18 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         return "single_car", imgs, False
 
     th = theme_hint.lower()
-    # Check if theme_hint specifically requests a known machine:
     specific = []
-    if any(k in th for k in ["bmw m4", "m4 competition", "m4", "g82"]):
-        specific = [s for s in available_sets if "bmw_m4" in s[0]]
-    elif any(k in th for k in ["porsche", "911 gt3", "gt3 rs", "gt3"]):
-        specific = [s for s in available_sets if "porsche" in s[0]]
-    elif any(k in th for k in ["ducati", "panigale", "v4"]):
-        specific = [s for s in available_sets if "ducati" in s[0]]
-    elif any(k in th for k in ["lamborghini", "revuelto", "huracan", "v12"]):
-        specific = [s for s in available_sets if "lamborghini" in s[0]]
-    elif any(k in th for k in ["ferrari", "sf90", "f8"]):
+    if any(k in th for k in ["bike", "motorcycle", "superbike", "s1000rr", "ducati", "yamaha"]):
+        specific = [s for s in available_sets if any(b in s[0] for b in ["bike", "motorcycle", "ducati", "s1000rr"])]
+    elif any(k in th for k in ["lamborghini", "diablo", "v12"]):
+        specific = [s for s in available_sets if "lamborghini" in s[0] or "diablo" in s[0]]
+    elif any(k in th for k in ["ferrari", "f80"]):
         specific = [s for s in available_sets if "ferrari" in s[0]]
-    elif any(k in th for k in ["mclaren", "765lt"]):
-        specific = [s for s in available_sets if "mclaren" in s[0]]
-    elif any(k in th for k in ["s1000rr", "bmw s1000"]):
-        specific = [s for s in available_sets if "s1000rr" in s[0]]
-    elif any(k in th for k in ["gtr", "nismo", "nissan"]):
-        specific = [s for s in available_sets if "gtr" in s[0]]
-    elif any(k in th for k in ["audi", "r8"]):
-        specific = [s for s in available_sets if "audi_r8" in s[0]]
+    elif any(k in th for k in ["red", "sportscar"]):
+        specific = [s for s in available_sets if "red" in s[0] or "sportscar" in s[0]]
 
     if specific:
         available_sets = specific
-    elif theme_hint:
-        is_bike_hint = any(b in th for b in ["bike", "motorcycle", "ducati", "yamaha", "kawasaki", "s1000rr"])
-        filtered = [s for s in available_sets if any(k in s[0] for k in ["ducati", "bike", "s1000rr"]) == is_bike_hint]
-        if filtered:
-            available_sets = filtered
 
     last_set = ""
     if VEHICLE_STATE_FILE.exists():
@@ -1241,7 +1256,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
             pass
 
     eligible = [s for s in available_sets if s[0] != last_set] or available_sets
-    chosen_name, chosen_shots = random.choice(eligible)
+    chosen_name, chosen_media = random.choice(eligible)
     try:
         VEHICLE_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
         with open(VEHICLE_STATE_FILE, "w", encoding="utf-8") as f:
@@ -1250,111 +1265,162 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         pass
 
     is_bike = any(b in chosen_name for b in ["bike", "ducati", "yamaha", "kawasaki", "s1000rr"])
-    return chosen_name, chosen_shots, is_bike
+    return chosen_name, chosen_media, is_bike
 
 
-def build_reel_video(image_paths: list[Path], output_path: Path, theme_hint: str = "", is_bike: bool = False) -> None:
-    """Build a ~16s 9:16 vertical video from 5 images using dynamic camera motion, crossfades, and mixed engine audio."""
+def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str = "", is_bike: bool = False, text_overlay: str = "") -> None:
+    """Build a ~10-14s 9:16 vertical viral reel from real human-shot video clips (or photo cuts fallback)
+    with seamless crossfades, matched engine ignition + rev audio, and background soundtrack."""
     width, height = 1080, 1920
-    clip_duration = 3.2  # 3.2s per cut (16s total edit - peak viral retention)
-    fade_duration = 0.35 # quick cinematic dissolve
-    n = len(image_paths)
+    is_video_clips = media_paths[0].suffix.lower() == ".mp4"
 
+    music_path = pick_diverse_music_track()
+    engine_sfx_path = pick_engine_sfx(theme_hint=theme_hint, is_bike=is_bike)
+    has_music = music_path is not None
+    has_engine = engine_sfx_path is not None
+
+    n = len(media_paths)
     inputs: list[str] = []
-    for img in image_paths:
-        inputs += ["-loop", "1", "-t", str(clip_duration), "-i", str(img)]
 
-    # Dynamic cinematic camera motion for each detail cut
-    motions = [
-        # Shot 1 (Badge / Emblem / Headlights): Subtle upward tilt & push-in into emblem
-        "x='(in_w-out_w)/2':y='(in_h-out_h)*(1-0.7*t/3.2)'",
-        # Shot 2 (Tyres / Wheels / Brake): Smooth lateral tracking pan across wheel rim & caliper
-        "x='(in_w-out_w)*(0.2+0.6*t/3.2)':y='(in_h-out_h)/2'",
-        # Shot 3 (Cockpit / Ignition button): Smooth push-in toward start button & digital cluster
-        "x='(in_w-out_w)*(0.8-0.6*t/3.2)':y='(in_h-out_h)*(0.3+0.4*t/3.2)'",
-        # Shot 4 (Exhaust / Diffuser): Low-angle upward tilt from quad exhausts to spoiler
-        "x='(in_w-out_w)/2':y='(in_h-out_h)*(0.8-0.6*t/3.2)'",
-        # Shot 5 (Rolling shot): Fast cinematic tracking pan along asphalt
-        "x='(in_w-out_w)*(0.1+0.8*t/3.2)':y='(in_h-out_h)/2'",
-    ]
+    if is_video_clips:
+        clip_duration = 2.2 # 2.2s per human-shot video angle
+        fade_duration = 0.25 # fast cinematic dissolve
+        for p in media_paths:
+            inputs += ["-i", str(p)]
 
-    filter_parts: list[str] = []
-    for i in range(n):
-        motion = motions[i % len(motions)]
-        filter_parts.append(
-            f"[{i}:v]scale=1242:2208:force_original_aspect_ratio=increase,"
-            f"crop={width}:{height}:{motion},setsar=1,format=yuv420p[v{i}]"
-        )
+        if has_music:
+            inputs += ["-i", str(music_path)]
+        if has_engine:
+            inputs += ["-i", str(engine_sfx_path)]
 
-    # Chain xfade transitions
-    if n == 1:
-        last_v = "v0"
+        filter_parts: list[str] = []
+        for i in range(n):
+            filter_parts.append(
+                f"[{i}:v]trim=0:{clip_duration},setpts=PTS-STARTPTS,"
+                f"scale={width}:{height}:force_original_aspect_ratio=increase,"
+                f"crop={width}:{height},setsar=1,fps=30,format=yuv420p[v{i}]"
+            )
+
+        last_out = "v0"
+        for i in range(1, n):
+            offset = i * (clip_duration - fade_duration)
+            out_label = f"x{i}" if i < n - 1 else "vxfade"
+            filter_parts.append(
+                f"[{last_out}][v{i}]xfade=transition=fade:duration={fade_duration}:offset={offset:.2f}[{out_label}]"
+            )
+            last_out = f"x{i}"
+
+        last_v = "vxfade" if n > 1 else "v0"
+
+        # If study journey text overlay is requested (12 AM daily study reel only)
+        if text_overlay:
+            clean_text = text_overlay.replace(":", "\\:").replace("'", "").replace("\n", " ")
+            filter_parts.append(
+                f"[{last_v}]drawtext=text='{clean_text}':fontcolor=white:fontsize=36:box=1:boxcolor=black@0.65:boxborderw=24:x=(w-text_w)/2:y=h*0.72[vfinal]"
+            )
+            last_v = "vfinal"
+
+        total_dur = n * clip_duration - (n - 1) * fade_duration
+
+        if has_music and has_engine:
+            m_idx = n
+            s_idx = n + 1
+            filter_parts.append(f"[{m_idx}:a]volume='if(lt(t,1.8),0.25,if(lt(t,3.2),0.25+(t-1.8)*0.45,0.75))':eval=frame[bgm]")
+            filter_parts.append(f"[{s_idx}:a]volume=1.5[eng]")
+            filter_parts.append(f"[bgm][eng]amix=inputs=2:duration=first:dropout_transition=2[aout]")
+            audio_map = "[aout]"
+        elif has_music:
+            audio_map = f"{n}:a"
+        elif has_engine:
+            audio_map = f"{n}:a"
+        else:
+            audio_map = None
+
+        full_filter = ";".join(filter_parts)
+        cmd = [
+            *inputs,
+            "-filter_complex", full_filter,
+            "-map", f"[{last_v}]",
+        ]
+        if audio_map:
+            cmd += ["-map", audio_map]
+        cmd += [
+            "-t", f"{total_dur:.2f}",
+            "-c:v", "libx264",
+            "-pix_fmt", "yuv420p",
+            "-crf", "22",
+            "-preset", "veryfast",
+            "-threads", "0",
+            "-c:a", "aac",
+            "-b:a", "192k",
+            "-movflags", "+faststart",
+            str(output_path),
+            "-y",
+        ]
     else:
+        # Fallback for still photography sets
+        clip_duration = 3.2
+        fade_duration = 0.35
+        for img in media_paths:
+            inputs += ["-loop", "1", "-t", str(clip_duration), "-i", str(img)]
+        if has_music:
+            inputs += ["-i", str(music_path)]
+        if has_engine:
+            inputs += ["-i", str(engine_sfx_path)]
+
+        motions = [
+            "x='(in_w-out_w)/2':y='(in_h-out_h)*(1-0.7*t/3.2)'",
+            "x='(in_w-out_w)*(0.2+0.6*t/3.2)':y='(in_h-out_h)/2'",
+            "x='(in_w-out_w)*(0.8-0.6*t/3.2)':y='(in_h-out_h)*(0.3+0.4*t/3.2)'",
+            "x='(in_w-out_w)/2':y='(in_h-out_h)*(0.8-0.6*t/3.2)'",
+            "x='(in_w-out_w)*(0.1+0.8*t/3.2)':y='(in_h-out_h)/2'",
+        ]
+        filter_parts = []
+        for i in range(n):
+            motion = motions[i % len(motions)]
+            filter_parts.append(
+                f"[{i}:v]scale=1242:2208:force_original_aspect_ratio=increase,"
+                f"crop={width}:{height}:{motion},setsar=1,format=yuv420p[v{i}]"
+            )
         last_out = "v0"
         for i in range(1, n):
             offset = i * (clip_duration - fade_duration)
             out_label = f"x{i}" if i < n - 1 else "vout"
             filter_parts.append(f"[{last_out}][v{i}]xfade=transition=fade:duration={fade_duration}:offset={offset:.2f}[{out_label}]")
             last_out = f"x{i}"
-        last_v = "vout"
+        last_v = "vout" if n > 1 else "v0"
 
-    music_path = pick_diverse_music_track()
-    engine_sfx_path = pick_engine_sfx(theme_hint=theme_hint, is_bike=is_bike)
+        if has_music and has_engine:
+            m_idx = n
+            s_idx = n + 1
+            filter_parts.append(f"[{m_idx}:a]volume='if(lt(t,1.8),0.25,if(lt(t,3.2),0.25+(t-1.8)*0.45,0.85))':eval=frame[bgm]")
+            filter_parts.append(f"[{s_idx}:a]volume=1.4[eng]")
+            filter_parts.append(f"[bgm][eng]amix=inputs=2:duration=first:dropout_transition=2[aout]")
+            audio_map = "[aout]"
+        elif has_music:
+            audio_map = f"{n}:a"
+        elif has_engine:
+            audio_map = f"{n}:a"
+        else:
+            audio_map = None
 
-    has_music = music_path is not None
-    has_engine = engine_sfx_path is not None
-
-    if has_music:
-        inputs += ["-i", str(music_path)]
-    if has_engine:
-        inputs += ["-i", str(engine_sfx_path)]
-
-    cmd = [*inputs]
-
-    # Mix authentic engine audio with background music
-    if has_music and has_engine:
-        m_idx = n
-        s_idx = n + 1
-        # Duck music to 0.25 while engine ignition/rev roars (0s-2.0s), then swell into the beat drop
-        filter_parts.append(f"[{m_idx}:a]volume='if(lt(t,1.8),0.25,if(lt(t,3.2),0.25+(t-1.8)*0.45,0.85))':eval=frame[bgm]")
-        filter_parts.append(f"[{s_idx}:a]volume=1.4[eng]")
-        filter_parts.append(f"[bgm][eng]amix=inputs=2:duration=first:dropout_transition=2[aout]")
-        audio_map = "[aout]"
-    elif has_music:
-        audio_map = f"{n}:a"
-    elif has_engine:
-        audio_map = f"{n}:a"
-    else:
-        audio_map = None
-
-    full_filter = ";".join(filter_parts)
-    cmd += ["-filter_complex", full_filter, "-map", f"[{last_v}]"]
-
-    if audio_map:
+        full_filter = ";".join(filter_parts)
+        cmd = [*inputs, "-filter_complex", full_filter, "-map", f"[{last_v}]"]
+        if audio_map:
+            cmd += ["-map", audio_map, "-shortest", "-c:a", "aac", "-b:a", "160k"]
         cmd += [
-            "-map", audio_map,
-            "-shortest",
-            "-c:a", "aac",
-            "-b:a", "160k",
+            "-c:v", "libx264",
+            "-pix_fmt", "yuv420p",
+            "-crf", "22",
+            "-preset", "veryfast",
+            "-threads", "0",
+            "-movflags", "+faststart",
+            str(output_path),
+            "-y",
         ]
 
-    cmd += [
-        "-c:v", "libx264",
-        "-pix_fmt", "yuv420p",
-        "-crf", "22",
-        "-preset", "veryfast",
-        "-threads", "0",
-        "-movflags", "+faststart",
-        str(output_path),
-        "-y",
-    ]
-
     print(f"  Running FFmpeg to build reel video...")
-    result = subprocess.run(
-        ["ffmpeg", *cmd],
-        capture_output=True,
-        text=True,
-    )
+    result = subprocess.run(["ffmpeg", *cmd], capture_output=True, text=True)
     if result.returncode != 0:
         print(f"FFmpeg stderr: {result.stderr[-2000:]}")
         raise RuntimeError(f"FFmpeg failed with code {result.returncode}")
@@ -1513,26 +1579,33 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         print("[DRY RUN] Would commit and publish reel")
         return
 
-    print(f"\nAssembling 5 authentic human-shot DSLR photography cuts for {content.get('format', set_name)} ({set_name})...")
-    import shutil
-    for i in range(len(scenes)):
-        img_path = MEDIA_DIR / f"reel_{ts}_scene{i + 1}.jpg"
-        source_photo = set_shots[i % len(set_shots)]
-        shutil.copyfile(source_photo, img_path)
-        print(f"  Cut {i + 1} loaded (100% human-shot photography): {source_photo.name} ({source_photo.stat().st_size // 1024} KB)")
+    is_video_mode = set_shots[0].suffix.lower() == ".mp4"
+    study_overlay = ""
+    # Check if study journey overlay requested
+    for sc in scenes:
+        otxt = sc.get("text_overlay", "").strip()
+        if otxt and not otxt.startswith("0") and ("Day" in otxt or "ug studies" in otxt):
+            study_overlay = otxt
+            break
 
-        overlay_txt = scenes[i].get("text_overlay", "").strip()
-        # ONLY apply text overlay if user explicitly requested custom text / study journey
-        # Standard automated reels have zero text boxes
-        if overlay_txt and not overlay_txt.startswith("0"):
-            apply_text_overlay(img_path, overlay_txt)
-        image_paths.append(img_path)
-
-    print("Building cinematic reel video with FFmpeg & authentic engine audio...")
-    build_reel_video(image_paths, video_path, theme_hint=theme_hint, is_bike=is_bike)
-
-    print("Committing video to repo...")
-    files_to_commit = image_paths + [video_path]
+    if is_video_mode:
+        print(f"\nAssembling {len(set_shots)} authentic human-shot motion video clips for {content.get('format', set_name)} ({set_name})...")
+        for i, clip in enumerate(set_shots):
+            print(f"  Angle {i + 1} loaded (100% real human video): {clip.name} ({clip.stat().st_size // 1024} KB)")
+        build_reel_video(set_shots, video_path, theme_hint=theme_hint, is_bike=is_bike, text_overlay=study_overlay)
+        files_to_commit = [video_path]
+    else:
+        print(f"\nAssembling {len(set_shots)} authentic human-shot DSLR photography cuts for {content.get('format', set_name)} ({set_name})...")
+        import shutil
+        for i in range(len(scenes)):
+            img_path = MEDIA_DIR / f"reel_{ts}_scene{i + 1}.jpg"
+            source_photo = set_shots[i % len(set_shots)]
+            shutil.copyfile(source_photo, img_path)
+            if study_overlay:
+                apply_text_overlay(img_path, study_overlay)
+            image_paths.append(img_path)
+        build_reel_video(image_paths, video_path, theme_hint=theme_hint, is_bike=is_bike)
+        files_to_commit = image_paths + [video_path]
     git_commit_and_push(files_to_commit, f"chore: add weekly reel {ts}")
 
     print("Waiting for raw URL...")
