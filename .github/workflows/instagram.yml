@@ -3,7 +3,7 @@ name: Instagram Automation
 on:
   schedule:
     # Every 2 hours clean bike/car reels (12 posts/day): 00:00, 02:00, 04:00, 06:00, 08:00, 10:00, 12:00, 14:00, 16:00, 18:00, 20:00, 22:00 UTC
-    - cron: "15 */2 * * *"  # Staggered at :15 to prevent GitHub Actions cron queue freeze
+    - cron: "15 */2 * * *"
     # Exactly at 12:00 AM Midnight (18:30 UTC / 12:00 AM IST) - Daily Study Reel (once per day)
     - cron: "30 18 * * *"
     # 1 Photo post daily at 13:00 UTC

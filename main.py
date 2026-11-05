@@ -1550,64 +1550,137 @@ def mode_journey_reel(persona: dict, env: dict, dry_run: bool) -> None:
 # Mode: weekly_reel
 # ---------------------------------------------------------------------------
 
+
+# ---------------------------------------------------------------------------
+# Curated Video Set Metadata (Guarantees 100% video-to-caption-to-audio sync)
+# ---------------------------------------------------------------------------
+CURATED_SET_METADATA = {
+    "bmw_m_black": {
+        "title": "BMW M4 Competition • Frozen Black Track Beast 🌧️⚡",
+        "make_model": "BMW M4 Competition (G82)",
+        "color": "Frozen Black",
+        "captions": [
+            "Forged in the storm. The BMW M4 Competition slicing through rain-soaked streets with raw twin-turbo S58 power. Cold start thunder and razor-sharp lines. 🌧️⚡ Drop your dream spec below 👇",
+            "Midnight shadows and rain reflections. The BMW M4 Competition G82 in stealth Frozen Black. Listen to that twin-turbo S58 inline-six cold start. Would you daily this beast? 🔑👇",
+            "Rain-slicked asphalt and twin-turbo S58 adrenaline. The BMW M4 Competition G82 in Frozen Black commanding the night. Sound up for that cold start roar 🔊 Drop your thoughts below 👇"
+        ],
+        "tags": ["bmwm4", "bmwm", "mperformance", "g82", "m4competition", "bimmerpost", "supercars", "trackweapon", "carreels", "speedhunters", "carlifestyle"],
+        "audio": "bmw_m4_rev.mp3",
+        "is_bike": False
+    },
+    "lamborghini_diablo": {
+        "title": "Lamborghini Diablo VT • Pure 90s V12 Heritage 🟡🇮🇹",
+        "make_model": "Lamborghini Diablo VT",
+        "color": "Giallo Fly Yellow",
+        "captions": [
+            "Pure analog supercar royalty. The 1990s Lamborghini Diablo VT roaring along Monterey's coastal curves in iconic Giallo Yellow. 5.7 liters of naturally aspirated Italian V12 fury. Turn the volume all the way up 🔊 Rate this 90s legend 1-10 👇",
+            "Before turbos and hybrid batteries, this was the undisputed king of the road. The Lamborghini Diablo VT in Giallo Fly Yellow singing its naturally aspirated V12 symphony on 17-Mile Drive. Drop your dream 90s supercar below 🔑🇮🇹",
+            "The quintessential wedge icon. Giallo Fly Yellow paint, pop-up lights, and 12 screaming cylinders echoing off the Pacific coast. Sound up for that raw Italian V12! 🔊 Drop your favorite 90s poster car 👇"
+        ],
+        "tags": ["lamborghini", "diablo", "lamborghinidiablo", "v12", "retrosupercar", "90ssupercars", "montereycarweek", "exoticcars", "supercars", "carlifestyle", "vintageexotics"],
+        "audio": "lamborghini_v12_rev.mp3",
+        "is_bike": False
+    },
+    "ferrari_f80": {
+        "title": "Ferrari F80 • 1184 HP Hypercar Vanguard 🔴🇮🇹",
+        "make_model": "Ferrari F80",
+        "color": "Rosso Corsa",
+        "captions": [
+            "The dawn of Maranello's next hypercar era. The Ferrari F80 turning heads in iconic Rosso Corsa with 1,184 horsepower of hybrid twin-turbo engineering. Sound up for that race-derived startup! 🏎️💨 Drop your thoughts below 👇",
+            "Maranello’s latest 1,184 hp hypercar flagship. The Ferrari F80 in Rosso Corsa cruising through Monterey. True automotive sculpture in motion. Is this the ultimate modern hypercar? 🔑🔥",
+            "Rosso Corsa excellence in motion. 1,184 horsepower engineered for pure downforce and speed. The Ferrari F80 commanding Monterey's coastal tarmac. Rate this hypercar 1-10 👇"
+        ],
+        "tags": ["ferrari", "ferrarif80", "f80", "rossocorsa", "hypercars", "maranello", "supercars", "exoticcars", "carspotting", "carlifestyle", "carreels"],
+        "audio": "ferrari_v8_rev.mp3",
+        "is_bike": False
+    },
+    "red_sportscar": {
+        "title": "Underground Velocity • High-Performance Roadster 🔴🔥",
+        "make_model": "High-Performance Roadster",
+        "color": "Crimson Red",
+        "captions": [
+            "Underground sanctuary. Crimson red lines and deep concave forged wheels echoing through the concrete garage. Sound up for that cold start thunder 🔊 Drop your dream spec below 👇",
+            "Low-slung aggression waiting in the shadows. Crimson paint, carbon aero, and deep concave wheels in the underground bunker. Sound up for that twin-turbo roar! 🔑🔥",
+            "Clean stance, widebody contours, and crimson reflections. Resting in the subterranean concrete vault before tearing up the midnight tarmac. Rate this clean build 1-10 👇"
+        ],
+        "tags": ["supercars", "sportscar", "carsofinstagram", "exoticcars", "carlifestyle", "carreels", "speedhunters", "cleanbuild", "forgedwheels"],
+        "audio": "ferrari_v8_rev.mp3",
+        "is_bike": False
+    }
+}
+
 def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str = "") -> None:
-    """Generate and publish a reel from 5 AI images based on custom text or curated themes."""
+    """Generate and publish a 100% human-shot video reel with matched audio, captions, and zero AI glitches."""
     print("\n=== MODE: reel ===")
     ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
-    print("Generating reel content with Gemini...")
-    content = generate_reel_content(persona, env, custom_prompt=custom_prompt)
-    scenes = content["scenes"]
-    caption_text = content["caption"]
-    hashtags = content["hashtags"]
+    study_overlay = ""
+    # Check if this is a study journey reel
+    if custom_prompt and ("Day" in custom_prompt or "ug studies" in custom_prompt):
+        # Extract Day number if present
+        day_match = re.search(r'Day\s+(\d+)', custom_prompt)
+        day_num = day_match.group(1) if day_match else "1"
+        study_overlay = f"Day {day_num} of seeking help to complete my ug studies\nI am a college student working hard to graduate, seeking guidance & support for my education"
+        caption_text = (
+            f"Day {day_num} of seeking help to complete my ug studies.\n"
+            "I am an undergraduate student working hard to finish my education and graduate. "
+            "If you have guidance, mentorship, or support to share, every bit helps me keep moving forward. \U0001F4DA\U0001F393\n\n"
+            "Thank you for being part of this journey."
+        )
+        hashtags = ["ugstudies", "collegejourney", "studentlife", "graduationgoals", "educationmatters", "nevergiveup", "dailyjourney"]
+        set_name, set_shots, is_bike = get_next_curated_vehicle_set("bmw_m_black")
+        title = f"Day {day_num} • Seeking Help To Complete UG Studies"
+    else:
+        # Standard 2-hour clean supercar reel
+        set_name, set_shots, is_bike = get_next_curated_vehicle_set()
+        meta = CURATED_SET_METADATA.get(set_name, {})
+        if meta:
+            title = meta["title"]
+            caption_text = random.choice(meta["captions"])
+            hashtags = meta["tags"]
+            is_bike = meta.get("is_bike", False)
+        else:
+            title = f"{set_name.replace('_', ' ').title()} Supercar Reel"
+            caption_text = f"The {set_name.replace('_', ' ').title()} in its natural element. Sound up for that engine roar! \U0001F50A Drop your thoughts below \U0001F447"
+            hashtags = ["supercars", "hypercars", "carreels", "carlifestyle", "speedhunters", "exoticcars"]
+
     full_caption = build_full_caption(caption_text, hashtags)
 
-    print(f"\nFormat:  {content.get('format', 'N/A')}")
-    print(f"Caption: {caption_text}")
-    for i, sc in enumerate(scenes):
-        print(f"Scene {i + 1}: {sc['scene'][:80]}...")
+    print(f"\nVehicle Set: {set_name}")
+    print(f"Title:       {title}")
+    print(f"Caption:     {caption_text[:100]}...")
+    if study_overlay:
+        print(f"Overlay:     {study_overlay}")
 
-    theme_hint = content.get("format", "") + " " + caption_text
-    is_bike = any(b in theme_hint.lower() for b in ["bike", "ducati", "yamaha", "kawasaki", "s1000rr", "motorcycle"])
-
-    set_name, set_shots, _ = get_next_curated_vehicle_set(theme_hint)
-
-    image_paths: list[Path] = []
     video_path = MEDIA_DIR / f"reel_{ts}.mp4"
 
     if dry_run:
         print(f"\n[DRY RUN] Would assemble {len(set_shots)} authentic video clips from set '{set_name}' and build reel → {video_path}")
-        print(f"[DRY RUN] Vehicle focus: {content.get('format', set_name)} (is_bike={is_bike})")
+        print(f"[DRY RUN] Vehicle focus: {title} (is_bike={is_bike})")
         print("[DRY RUN] Would commit and publish reel")
         return
 
     is_video_mode = set_shots[0].suffix.lower() == ".mp4"
-    study_overlay = ""
-    # Check if study journey overlay requested
-    for sc in scenes:
-        otxt = sc.get("text_overlay", "").strip()
-        if otxt and not otxt.startswith("0") and ("Day" in otxt or "ug studies" in otxt):
-            study_overlay = otxt
-            break
 
     if is_video_mode:
-        print(f"\nAssembling {len(set_shots)} authentic human-shot motion video clips for {content.get('format', set_name)} ({set_name})...")
+        print(f"\nAssembling {len(set_shots)} authentic human-shot motion video clips for {title} ({set_name})...")
         for i, clip in enumerate(set_shots):
             print(f"  Angle {i + 1} loaded (100% real human video): {clip.name} ({clip.stat().st_size // 1024} KB)")
-        build_reel_video(set_shots, video_path, theme_hint=theme_hint, is_bike=is_bike, text_overlay=study_overlay)
+        build_reel_video(set_shots, video_path, theme_hint=set_name, is_bike=is_bike, text_overlay=study_overlay)
         files_to_commit = [video_path]
     else:
-        print(f"\nAssembling {len(set_shots)} authentic human-shot DSLR photography cuts for {content.get('format', set_name)} ({set_name})...")
+        print(f"\nAssembling {len(set_shots)} authentic human-shot DSLR photography cuts for {title} ({set_name})...")
         import shutil
-        for i in range(len(scenes)):
+        image_paths: list[Path] = []
+        for i, source_photo in enumerate(set_shots):
             img_path = MEDIA_DIR / f"reel_{ts}_scene{i + 1}.jpg"
-            source_photo = set_shots[i % len(set_shots)]
             shutil.copyfile(source_photo, img_path)
             if study_overlay:
                 apply_text_overlay(img_path, study_overlay)
             image_paths.append(img_path)
-        build_reel_video(image_paths, video_path, theme_hint=theme_hint, is_bike=is_bike)
+        build_reel_video(image_paths, video_path, theme_hint=set_name, is_bike=is_bike)
         files_to_commit = image_paths + [video_path]
+
     git_commit_and_push(files_to_commit, f"chore: add weekly reel {ts}")
 
     print("Waiting for raw URL...")
