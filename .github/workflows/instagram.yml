@@ -36,7 +36,7 @@ permissions:
 
 concurrency:
   group: instagram
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   run:
@@ -55,15 +55,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Verify FFmpeg
-        run: |
-          if ! command -v ffmpeg &> /dev/null; then
-            echo "FFmpeg not found, installing..."
-            sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends ffmpeg
-          else
-            echo "FFmpeg is already pre-installed:"
-            ffmpeg -version | head -n 1
-          fi
+      - name: Set up FFmpeg
+        uses: FedericoCarboni/setup-ffmpeg@v3
+        with:
+          ffmpeg-version: release
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
