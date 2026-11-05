@@ -1133,6 +1133,12 @@ def pick_engine_sfx(theme_hint: str = "", is_bike: bool = False) -> Path | None:
             print(f"  Matched exact engine sound: Ferrari Twin-Turbo Flat-Plane V8 Exhaust ({target.name})")
             return target
 
+    if any(k in th for k in ["audi", "r8", "v10"]):
+        target = ENGINE_SFX_DIR / "lamborghini_v12_rev.mp3"
+        if target.exists():
+            print(f"  Matched exact engine sound: Audi R8 5.2L Naturally Aspirated V10 ({target.name})")
+            return target
+
     if any(k in th for k in ["mclaren", "765lt", "720s", "spider"]):
         target = ENGINE_SFX_DIR / "mclaren_v8_rev.mp3"
         if target.exists():
@@ -1215,6 +1221,8 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         specific = [s for s in available_sets if "s1000rr" in s[0]]
     elif any(k in th for k in ["gtr", "nismo", "nissan"]):
         specific = [s for s in available_sets if "gtr" in s[0]]
+    elif any(k in th for k in ["audi", "r8"]):
+        specific = [s for s in available_sets if "audi_r8" in s[0]]
 
     if specific:
         available_sets = specific
