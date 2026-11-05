@@ -75,8 +75,16 @@ jobs:
           # Push to trigger.txt or uploads/*.mp4
           elif [ "${{ github.event_name }}" = "push" ]; then
             if [ -f "trigger.txt" ]; then
-              MODE=$(cat trigger.txt | tr -d '\r\n ')
-              echo "mode=${MODE:-reel}" >> "$GITHUB_OUTPUT"
+              RAW_MODE=$(head -n 1 trigger.txt | awk '{print $1}')
+              case "$RAW_MODE" in
+                post|journey_reel|weekly_reel|reel|upload_reel)
+                  MODE="$RAW_MODE"
+                  ;;
+                *)
+                  MODE="weekly_reel"
+                  ;;
+              esac
+              echo "mode=$MODE" >> "$GITHUB_OUTPUT"
             else
               echo "mode=upload_reel" >> "$GITHUB_OUTPUT"
             fi
