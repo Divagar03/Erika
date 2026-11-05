@@ -1283,14 +1283,22 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     return chosen_name, chosen_media, is_bike
 
 
-def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str = "", is_bike: bool = False, text_overlay: str = "") -> None:
+def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str = "", is_bike: bool = False, text_overlay: str = "", is_fast_motion: bool = False) -> None:
     """Build a ~10-14s 9:16 vertical viral reel from real human-shot video clips (or photo cuts fallback)
-    with seamless crossfades, matched engine ignition + rev audio, and background soundtrack."""
+    with seamless crossfades, matched engine ignition + rev audio (only when car is moving fast), and background soundtrack."""
     width, height = 1080, 1920
     is_video_clips = media_paths[0].suffix.lower() == ".mp4"
 
     music_path = pick_diverse_music_track()
-    engine_sfx_path = pick_engine_sfx(theme_hint=theme_hint, is_bike=is_bike)
+    # User rule: Use the engine rev sound only if the video shows the machine moving fast
+    if is_fast_motion and not text_overlay:
+        engine_sfx_path = pick_engine_sfx(theme_hint=theme_hint, is_bike=is_bike)
+        if engine_sfx_path:
+            print(f"  Fast motion detected: engine rev audio armed ({engine_sfx_path.name})")
+    else:
+        engine_sfx_path = None
+        print(f"  Stationary / showcase / study video: engine rev sound omitted (clean soundtrack only)")
+
     has_music = music_path is not None
     has_engine = engine_sfx_path is not None
 
@@ -1605,7 +1613,8 @@ CURATED_SET_METADATA = {
         ],
         "tags": ["lamborghini", "diablo", "lamborghinidiablo", "v12", "retrosupercar", "90ssupercars", "montereycarweek", "exoticcars", "supercars", "carlifestyle", "vintageexotics"],
         "audio": "lamborghini_v12_rev.mp3",
-        "is_bike": False
+        "is_bike": False,
+        "is_fast_motion": True
     },
     "ferrari_f80": {
         "title": "Ferrari F80 • 1184 HP Hypercar Vanguard 🔴🇮🇹",
@@ -1618,20 +1627,22 @@ CURATED_SET_METADATA = {
         ],
         "tags": ["ferrari", "ferrarif80", "f80", "rossocorsa", "hypercars", "maranello", "supercars", "exoticcars", "carspotting", "carlifestyle", "carreels"],
         "audio": "ferrari_v8_rev.mp3",
-        "is_bike": False
+        "is_bike": False,
+        "is_fast_motion": True
     },
     "red_sportscar": {
         "title": "Underground Velocity • High-Performance Roadster 🔴🔥",
         "make_model": "High-Performance Roadster",
         "color": "Crimson Red",
         "captions": [
-            "Underground sanctuary. Crimson red lines and deep concave forged wheels echoing through the concrete garage. Sound up for that cold start thunder 🔊 Drop your dream spec below 👇",
-            "Low-slung aggression waiting in the shadows. Crimson paint, carbon aero, and deep concave wheels in the underground bunker. Sound up for that twin-turbo roar! 🔑🔥",
-            "Clean stance, widebody contours, and crimson reflections. Resting in the subterranean concrete vault before tearing up the midnight tarmac. Rate this clean build 1-10 👇"
+            "Underground sanctuary. Crimson red lines and deep concave forged wheels in the subterranean bunker. Drop your dream spec below 👇",
+            "Low-slung aggression waiting in the shadows. Crimson paint, carbon aero, and sculpted widebody contours. Rate this clean spec 1-10 🔑🔥",
+            "Pure automotive aesthetics. Resting in the subterranean concrete vault before tearing up the midnight tarmac. Rate this clean build 1-10 👇"
         ],
         "tags": ["supercars", "sportscar", "carsofinstagram", "exoticcars", "carlifestyle", "carreels", "speedhunters", "cleanbuild", "forgedwheels"],
         "audio": "ferrari_v8_rev.mp3",
-        "is_bike": False
+        "is_bike": False,
+        "is_fast_motion": False
     },
     "aston_martin_valour": {
         "title": "Aston Martin Valour • 705 HP Twin-Turbo V12 Manual 🇬🇧🔥",
@@ -1644,7 +1655,8 @@ CURATED_SET_METADATA = {
         ],
         "tags": ["astonmartin", "astonmartinvalour", "valour", "v12", "britishracinggreen", "supercars", "hypercars", "manualgearbox", "montereycarweek", "exoticcars", "carlifestyle"],
         "audio": "lamborghini_v12_rev.mp3",
-        "is_bike": False
+        "is_bike": False,
+        "is_fast_motion": True
     },
     "white_mustang_sunset": {
         "title": "Sunset Velocity • 5.0L V8 American Muscle 🌅🇺🇸",
@@ -1657,7 +1669,8 @@ CURATED_SET_METADATA = {
         ],
         "tags": ["mustang", "mustanggt", "americanmuscle", "v8", "goldenhour", "carreels", "speedhunters", "carlifestyle", "sunsetdrive", "musclecars"],
         "audio": "car_v8_start.mp3",
-        "is_bike": False
+        "is_bike": False,
+        "is_fast_motion": True
     }
 }
 
@@ -1719,11 +1732,12 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
 
     is_video_mode = set_shots[0].suffix.lower() == ".mp4"
 
+    is_fast_motion = meta.get("is_fast_motion", False)
     if is_video_mode:
         print(f"\nAssembling {len(set_shots)} authentic human-shot motion video clips for {title} ({set_name})...")
         for i, clip in enumerate(set_shots):
             print(f"  Angle {i + 1} loaded (100% real human video): {clip.name} ({clip.stat().st_size // 1024} KB)")
-        build_reel_video(set_shots, video_path, theme_hint=set_name, is_bike=is_bike, text_overlay=study_overlay)
+        build_reel_video(set_shots, video_path, theme_hint=set_name, is_bike=is_bike, text_overlay=study_overlay, is_fast_motion=is_fast_motion)
         files_to_commit = [video_path]
     else:
         print(f"\nAssembling {len(set_shots)} authentic human-shot DSLR photography cuts for {title} ({set_name})...")
@@ -1735,7 +1749,7 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
             if study_overlay:
                 apply_text_overlay(img_path, study_overlay)
             image_paths.append(img_path)
-        build_reel_video(image_paths, video_path, theme_hint=set_name, is_bike=is_bike)
+        build_reel_video(image_paths, video_path, theme_hint=set_name, is_bike=is_bike, text_overlay=study_overlay, is_fast_motion=is_fast_motion)
         files_to_commit = image_paths + [video_path]
 
     git_commit_and_push(files_to_commit, f"chore: add weekly reel {ts}")
