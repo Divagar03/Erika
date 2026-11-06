@@ -1206,12 +1206,63 @@ def pick_engine_sfx(theme_hint: str = "", is_bike: bool = False) -> Path | None:
     return chosen
 
 
+def get_last_reel_timestamp() -> datetime | None:
+    """Return datetime of the last successful weekly_reel or reel in log.json."""
+    if not LOG_FILE.exists():
+        return None
+    try:
+        with open(LOG_FILE, encoding="utf-8") as f:
+            entries = json.load(f)
+        for entry in reversed(entries):
+            if entry.get("kind") in ("weekly_reel", "reel") and entry.get("status") == "ok":
+                t_str = entry.get("time")
+                if t_str:
+                    return datetime.fromisoformat(t_str)
+    except Exception:
+        pass
+    return None
+
+
+# ── Interleaved Diverse Rotation Order (Never Clusters Same Brand) ────────
+CURATED_ROTATION_ORDER = [
+    "porsche_911_gt3rs",      # German track supercar (photo)
+    "lamborghini_diablo",     # Italian vintage V12 (video)
+    "bmw_s1000rr",            # German hypersport superbike (photo)
+    "ferrari_f80",            # Italian hypercar (video)
+    "nissan_gtr_r35",         # Japanese twin-turbo AWD (photo)
+    "aston_martin_valour",    # British twin-turbo V12 manual (video)
+    "ducati_panigale_v4s",    # Italian MotoGP-derived superbike (photo)
+    "audi_r8_v10",            # German naturally aspirated V10 (photo)
+    "white_mustang_sunset",   # American V8 muscle (video)
+    "ferrari_sf90",           # Italian hybrid hypercar (photo)
+    "bmw_m4_black",           # German twin-turbo coupe (photo)
+    "red_sportscar",          # Crimson roadster (video)
+    "lamborghini_revuelto",   # Italian V12 hybrid flagship (photo)
+]
+
+SET_BRAND_MAP = {
+    "aston_martin_valour": "aston_martin",
+    "audi_r8_v10": "audi",
+    "bmw_m4_black": "bmw",
+    "bmw_s1000rr": "bmw_bike",
+    "ducati_panigale_v4s": "ducati",
+    "ferrari_f80": "ferrari",
+    "ferrari_sf90": "ferrari",
+    "lamborghini_diablo": "lamborghini",
+    "lamborghini_revuelto": "lamborghini",
+    "nissan_gtr_r35": "nissan",
+    "porsche_911_gt3rs": "porsche",
+    "red_sportscar": "roadster",
+    "white_mustang_sunset": "ford",
+}
+
 def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path], bool]:
     """Return (set_name, media_paths, is_bike) from the curated vehicle library.
     Loads all 13 authentic sets (both video motion clip sets and DSLR photo cuts)
-    and strictly enforces NO REPEATS using the last 5 posts in log.json.
+    and strictly enforces NO REPEATS using the last 5 posts in log.json and
+    ensures NO SAME-BRAND repeats back-to-back.
     """
-    available_sets: list[tuple[str, list[Path]]] = []
+    available_dict: dict[str, list[Path]] = {}
 
     # 1. Video clip sets
     if VEHICLE_VIDEO_SETS_DIR.exists():
@@ -1219,7 +1270,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
             if d.is_dir():
                 clips = sorted(list(d.glob("clip_*.mp4")))
                 if len(clips) >= 3:
-                    available_sets.append((d.name, clips))
+                    available_dict[d.name] = clips
 
     # 2. Curated DSLR photo sets
     if VEHICLE_SETS_DIR.exists():
@@ -1227,15 +1278,17 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
             if d.is_dir():
                 shots = sorted(list(d.glob("shot_*.jpg")))
                 if len(shots) == 5:
-                    available_sets.append((d.name, shots))
+                    available_dict[d.name] = shots
 
-    if not available_sets:
+    if not available_dict:
         v_dir = Path(__file__).parent / "assets" / "vehicles"
         imgs = sorted(list(v_dir.glob("*.jpg")))[:5]
         return "single_car", imgs, False
 
-    available_sets = sorted(available_sets, key=lambda s: s[0])
-    set_names = [s[0] for s in available_sets]
+    # Use ordered interleaved list for diversity
+    active_order = [s for s in CURATED_ROTATION_ORDER if s in available_dict]
+    if not active_order:
+        active_order = sorted(list(available_dict.keys()))
 
     # Map caption keywords to set names for log inspection
     _CAPTION_TO_SET: dict[str, str] = {
@@ -1266,7 +1319,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                 if any(kw in _cap for kw in ["seeking help", "ug studies", "undergraduate"]):
                     continue
                 for _kw, _sname in _CAPTION_TO_SET.items():
-                    if _kw in _cap and _sname in set_names:
+                    if _kw in _cap and _sname in active_order:
                         if _sname not in recent_posted:
                             recent_posted.append(_sname)
                         break
@@ -1274,6 +1327,9 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                     break
     except Exception:
         pass
+
+    last_posted_set = recent_posted[0] if recent_posted else ""
+    last_posted_brand = SET_BRAND_MAP.get(last_posted_set, "")
 
     # 1. If user provided a specific theme hint (from custom reel or prompt)
     th = theme_hint.lower().strip()
@@ -1313,37 +1369,44 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                 matched_names.update(target_sets)
 
         if matched_names:
-            matched_candidates = [s for s in available_sets if s[0] in matched_names]
-            # Prioritize candidate NOT recently posted
-            fresh = [c for c in matched_candidates if c[0] not in recent_posted]
+            matched_candidates = [s for s in active_order if s in matched_names and s in available_dict]
+            # Prioritize candidate NOT recently posted and NOT same brand as last
+            fresh = [c for c in matched_candidates if c not in recent_posted and SET_BRAND_MAP.get(c) != last_posted_brand]
+            if not fresh:
+                fresh = [c for c in matched_candidates if c not in recent_posted]
             if fresh:
-                chosen_name, chosen_media = fresh[0]
+                chosen_name = fresh[0]
                 is_bike = any(b in chosen_name for b in ["bike", "ducati", "s1000rr"])
-                return chosen_name, chosen_media, is_bike
+                return chosen_name, available_dict[chosen_name], is_bike
             # If all were recent, pick the least recently posted
             for r in reversed(recent_posted):
-                for c in matched_candidates:
-                    if c[0] == r:
-                        chosen_name, chosen_media = c
-                        is_bike = any(b in chosen_name for b in ["bike", "ducati", "s1000rr"])
-                        return chosen_name, chosen_media, is_bike
+                if r in matched_candidates:
+                    chosen_name = r
+                    is_bike = any(b in chosen_name for b in ["bike", "ducati", "s1000rr"])
+                    return chosen_name, available_dict[chosen_name], is_bike
 
-    # 2. General round-robin: pick the next set in cycle that is NOT in recent_posted
-    last_set = recent_posted[0] if recent_posted else ""
-    start_idx = (set_names.index(last_set) + 1) % len(set_names) if last_set in set_names else 0
+    # 2. General round-robin through active_order: pick next set NOT in recent_posted AND NOT same brand
+    start_idx = (active_order.index(last_posted_set) + 1) % len(active_order) if last_posted_set in active_order else 0
 
-    chosen_set = None
-    for step in range(len(set_names)):
-        candidate_idx = (start_idx + step) % len(set_names)
-        cand_name = set_names[candidate_idx]
-        if cand_name not in recent_posted:
-            chosen_set = available_sets[candidate_idx]
+    chosen_name = None
+    for step in range(len(active_order)):
+        candidate_idx = (start_idx + step) % len(active_order)
+        cand_name = active_order[candidate_idx]
+        if cand_name not in recent_posted and SET_BRAND_MAP.get(cand_name) != last_posted_brand:
+            chosen_name = cand_name
             break
 
-    if not chosen_set:
-        chosen_set = available_sets[start_idx]
+    # If all non-recent share the brand, relax brand check
+    if not chosen_name:
+        for step in range(len(active_order)):
+            candidate_idx = (start_idx + step) % len(active_order)
+            cand_name = active_order[candidate_idx]
+            if cand_name not in recent_posted:
+                chosen_name = cand_name
+                break
 
-    chosen_name, chosen_media = chosen_set
+    if not chosen_name:
+        chosen_name = active_order[start_idx]
 
     # Cache last set in vehicle_state.json
     try:
@@ -1354,7 +1417,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         pass
 
     is_bike = any(b in chosen_name for b in ["bike", "ducati", "yamaha", "kawasaki", "s1000rr"])
-    return chosen_name, chosen_media, is_bike
+    return chosen_name, available_dict[chosen_name], is_bike
 
 def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str = "", is_bike: bool = False, text_overlay: str = "", is_fast_motion: bool = False) -> None:
     """Build a ~10-14s 9:16 vertical viral reel from real human-shot video clips (or photo cuts fallback)
@@ -1872,6 +1935,20 @@ CURATED_SET_METADATA = {
 def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str = "") -> None:
     """Generate and publish a 100% human-shot video reel with matched audio, captions, and zero AI glitches."""
     print("\n=== MODE: reel ===")
+        # ── Check minimum cooldown for scheduled automated runs ─────────────────
+    # If the user recently posted a reel (e.g. via 'Make Clean Reel Now' or custom reel),
+    # do NOT post another automated reel right on top of it.
+    event_name = os.environ.get("GITHUB_EVENT_NAME", "").lower()
+    is_manual = bool(custom_prompt) or (event_name == "workflow_dispatch")
+    if not is_manual:
+        last_time = get_last_reel_timestamp()
+        if last_time:
+            elapsed = (datetime.now(timezone.utc) - last_time).total_seconds() / 60.0
+            if elapsed < 90:
+                print(f"\n[SKIP SCHEDULED POST] A reel was already posted {elapsed:.1f} minutes ago (via manual button or previous run).")
+                print(f"Minimum interval between automated reels is 90 minutes. Skipping to prevent duplicate/spamming.")
+                return
+
     ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
     study_overlay = ""
