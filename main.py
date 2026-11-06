@@ -1208,11 +1208,12 @@ def pick_engine_sfx(theme_hint: str = "", is_bike: bool = False) -> Path | None:
 
 def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path], bool]:
     """Return (set_name, media_paths, is_bike) from the curated vehicle library.
-    Prioritizes authentic human-shot multi-angle video clip sets (.mp4),
-    falling back to curated DSLR photo sets.
+    Loads all 13 authentic sets (both video motion clip sets and DSLR photo cuts)
+    and strictly enforces NO REPEATS using the last 5 posts in log.json.
     """
-    # 1. Try to load authentic video clip sets (.mp4)
     available_sets: list[tuple[str, list[Path]]] = []
+
+    # 1. Video clip sets
     if VEHICLE_VIDEO_SETS_DIR.exists():
         for d in sorted(VEHICLE_VIDEO_SETS_DIR.iterdir()):
             if d.is_dir():
@@ -1220,8 +1221,8 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                 if len(clips) >= 3:
                     available_sets.append((d.name, clips))
 
-    # 2. Fall back to curated photo sets if no video sets exist
-    if not available_sets and VEHICLE_SETS_DIR.exists():
+    # 2. Curated DSLR photo sets
+    if VEHICLE_SETS_DIR.exists():
         for d in sorted(VEHICLE_SETS_DIR.iterdir()):
             if d.is_dir():
                 shots = sorted(list(d.glob("shot_*.jpg")))
@@ -1233,84 +1234,118 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         imgs = sorted(list(v_dir.glob("*.jpg")))[:5]
         return "single_car", imgs, False
 
-    th = theme_hint.lower()
-    specific = []
-    if any(k in th for k in ["bike", "motorcycle", "superbike", "s1000rr", "ducati", "yamaha"]):
-        specific = [s for s in available_sets if any(b in s[0] for b in ["bike", "motorcycle", "ducati", "s1000rr"])]
-    elif any(k in th for k in ["lamborghini", "diablo", "v12"]):
-        specific = [s for s in available_sets if "lamborghini" in s[0] or "diablo" in s[0]]
-    elif any(k in th for k in ["ferrari", "f80"]):
-        specific = [s for s in available_sets if "ferrari" in s[0]]
-    elif any(k in th for k in ["red", "sportscar"]):
-        specific = [s for s in available_sets if "red" in s[0] or "sportscar" in s[0]]
-    elif any(k in th for k in ["bmw", "m4", "black"]):
-        specific = [s for s in available_sets if "bmw" in s[0]]
-    elif any(k in th for k in ["mustang", "white", "muscle"]):
-        specific = [s for s in available_sets if "mustang" in s[0]]
-    elif any(k in th for k in ["aston", "valour", "green"]):
-        specific = [s for s in available_sets if "aston" in s[0] or "valour" in s[0]]
-
-    if specific:
-        available_sets = specific
-
-    # Sort available sets alphabetically for consistent strict round-robin rotation
     available_sets = sorted(available_sets, key=lambda s: s[0])
     set_names = [s[0] for s in available_sets]
 
-    # ── Determine last posted set from log.json (authoritative ground truth) ──
-    # log.json records every actual post; vehicle_state.json can drift between runs.
-    # We scan log.json backwards and pick the most recent weekly_reel entry whose
-    # media filename maps to a known set name, skipping journey/study reels.
-    last_set = ""
+    # Map caption keywords to set names for log inspection
     _CAPTION_TO_SET: dict[str, str] = {
-        "lamborghini": "lamborghini_diablo",
-        "diablo": "lamborghini_diablo",
-        "ferrari": "ferrari_f80",
-        "f80": "ferrari_f80",
-        "rosso corsa": "ferrari_f80",
-        "crimson": "red_sportscar",
-        "underground": "red_sportscar",
-        "aston": "aston_martin_valour",
-        "valour": "aston_martin_valour",
-        "mustang": "white_mustang_sunset",
-        "oxford white": "white_mustang_sunset",
+        "aston": "aston_martin_valour", "valour": "aston_martin_valour",
+        "audi": "audi_r8_v10", "r8": "audi_r8_v10", "suzuka grey": "audi_r8_v10",
+        "bmw m4": "bmw_m4_black", "m4": "bmw_m4_black", "g82": "bmw_m4_black",
+        "s1000rr": "bmw_s1000rr",
+        "ducati": "ducati_panigale_v4s", "panigale": "ducati_panigale_v4s", "v4 s": "ducati_panigale_v4s", "v4s": "ducati_panigale_v4s",
+        "ferrari f80": "ferrari_f80", "f80": "ferrari_f80",
+        "sf90": "ferrari_sf90", "stradale": "ferrari_sf90",
+        "diablo": "lamborghini_diablo", "giallo fly": "lamborghini_diablo",
+        "revuelto": "lamborghini_revuelto", "arancio apodis": "lamborghini_revuelto",
+        "nissan": "nissan_gtr_r35", "gtr": "nissan_gtr_r35", "godzilla": "nissan_gtr_r35",
+        "porsche": "porsche_911_gt3rs", "gt3": "porsche_911_gt3rs", "shark blue": "porsche_911_gt3rs", "weissach": "porsche_911_gt3rs",
+        "crimson": "red_sportscar", "underground": "red_sportscar", "roadster": "red_sportscar",
+        "mustang": "white_mustang_sunset", "oxford white": "white_mustang_sunset", "sunset velocity": "white_mustang_sunset",
     }
+
+    # Find the last 5 posted vehicle sets from log.json to prevent ANY repetition
+    recent_posted: list[str] = []
     try:
         if LOG_FILE.exists():
             with open(LOG_FILE, encoding="utf-8") as _lf:
                 _log_entries = json.load(_lf)
-            # Walk backwards through log entries to find last car/bike reel
             for _entry in reversed(_log_entries):
                 _cap = _entry.get("caption", "").lower()
-                # Skip study/journey reels (they don't consume a vehicle set slot)
+                # Skip study journey reels (they don't consume vehicle slots)
                 if any(kw in _cap for kw in ["seeking help", "ug studies", "undergraduate"]):
                     continue
-                # Map caption keywords to set names
                 for _kw, _sname in _CAPTION_TO_SET.items():
                     if _kw in _cap and _sname in set_names:
-                        last_set = _sname
+                        if _sname not in recent_posted:
+                            recent_posted.append(_sname)
                         break
-                if last_set:
+                if len(recent_posted) >= 5:
                     break
     except Exception:
         pass
 
-    # Fall back to vehicle_state.json if log lookup failed
-    if not last_set and VEHICLE_STATE_FILE.exists():
-        try:
-            with open(VEHICLE_STATE_FILE, encoding="utf-8") as f:
-                last_set = json.load(f).get("last_set", "")
-        except Exception:
-            pass
+    # 1. If user provided a specific theme hint (from custom reel or prompt)
+    th = theme_hint.lower().strip()
+    if th:
+        KEYWORD_MAP = {
+            "porsche": ["porsche_911_gt3rs"],
+            "gt3": ["porsche_911_gt3rs"],
+            "shark blue": ["porsche_911_gt3rs"],
+            "ducati": ["ducati_panigale_v4s"],
+            "panigale": ["ducati_panigale_v4s"],
+            "s1000rr": ["bmw_s1000rr"],
+            "bike": ["bmw_s1000rr", "ducati_panigale_v4s"],
+            "motorcycle": ["bmw_s1000rr", "ducati_panigale_v4s"],
+            "superbike": ["bmw_s1000rr", "ducati_panigale_v4s"],
+            "bmw": ["bmw_m4_black", "bmw_s1000rr"],
+            "m4": ["bmw_m4_black"],
+            "audi": ["audi_r8_v10"],
+            "r8": ["audi_r8_v10"],
+            "nissan": ["nissan_gtr_r35"],
+            "gtr": ["nissan_gtr_r35"],
+            "godzilla": ["nissan_gtr_r35"],
+            "sf90": ["ferrari_sf90"],
+            "ferrari": ["ferrari_sf90", "ferrari_f80"],
+            "f80": ["ferrari_f80"],
+            "revuelto": ["lamborghini_revuelto"],
+            "diablo": ["lamborghini_diablo"],
+            "lamborghini": ["lamborghini_revuelto", "lamborghini_diablo"],
+            "aston": ["aston_martin_valour"],
+            "valour": ["aston_martin_valour"],
+            "mustang": ["white_mustang_sunset"],
+            "red": ["red_sportscar", "ducati_panigale_v4s"],
+            "sportscar": ["red_sportscar", "audi_r8_v10", "porsche_911_gt3rs"],
+        }
+        matched_names: set[str] = set()
+        for kw, target_sets in KEYWORD_MAP.items():
+            if kw in th:
+                matched_names.update(target_sets)
 
-    # Advance strictly to the next set in the cycle
-    if last_set in set_names:
-        next_idx = (set_names.index(last_set) + 1) % len(set_names)
-    else:
-        next_idx = 0
+        if matched_names:
+            matched_candidates = [s for s in available_sets if s[0] in matched_names]
+            # Prioritize candidate NOT recently posted
+            fresh = [c for c in matched_candidates if c[0] not in recent_posted]
+            if fresh:
+                chosen_name, chosen_media = fresh[0]
+                is_bike = any(b in chosen_name for b in ["bike", "ducati", "s1000rr"])
+                return chosen_name, chosen_media, is_bike
+            # If all were recent, pick the least recently posted
+            for r in reversed(recent_posted):
+                for c in matched_candidates:
+                    if c[0] == r:
+                        chosen_name, chosen_media = c
+                        is_bike = any(b in chosen_name for b in ["bike", "ducati", "s1000rr"])
+                        return chosen_name, chosen_media, is_bike
 
-    chosen_name, chosen_media = available_sets[next_idx]
-    # Update vehicle_state.json as a quick-access cache (log.json remains authoritative)
+    # 2. General round-robin: pick the next set in cycle that is NOT in recent_posted
+    last_set = recent_posted[0] if recent_posted else ""
+    start_idx = (set_names.index(last_set) + 1) % len(set_names) if last_set in set_names else 0
+
+    chosen_set = None
+    for step in range(len(set_names)):
+        candidate_idx = (start_idx + step) % len(set_names)
+        cand_name = set_names[candidate_idx]
+        if cand_name not in recent_posted:
+            chosen_set = available_sets[candidate_idx]
+            break
+
+    if not chosen_set:
+        chosen_set = available_sets[start_idx]
+
+    chosen_name, chosen_media = chosen_set
+
+    # Cache last set in vehicle_state.json
     try:
         VEHICLE_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
         with open(VEHICLE_STATE_FILE, "w", encoding="utf-8") as f:
@@ -1320,7 +1355,6 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
 
     is_bike = any(b in chosen_name for b in ["bike", "ducati", "yamaha", "kawasaki", "s1000rr"])
     return chosen_name, chosen_media, is_bike
-
 
 def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str = "", is_bike: bool = False, text_overlay: str = "", is_fast_motion: bool = False) -> None:
     """Build a ~10-14s 9:16 vertical viral reel from real human-shot video clips (or photo cuts fallback)
@@ -1611,10 +1645,10 @@ def mode_journey_reel(persona: dict, env: dict, dry_run: bool) -> None:
     from datetime import datetime, timezone, timedelta
     today_local_str = (datetime.now(timezone.utc) + timedelta(hours=5, minutes=30)).strftime("%Y-%m-%d")
 
-    # If already posted today, run a standard clean bike/car reel instead (guarantees exactly once per day)
+    # If already posted today, strictly skip (NEVER duplicate daily study reel)
     if not dry_run and state.get("last_post_date") == today_local_str:
-        print(f"\n=== Today's study reel was already posted ({today_local_str}). Running standard clean 2-hour bike/car reel ===")
-        mode_weekly_reel(persona, env, dry_run)
+        print(f"\n[STRICT ONCE-PER-DAY] Daily study reel for today ({today_local_str}) was ALREADY published (Day {state.get('day', 1) - 1}).")
+        print("Skipping to prevent duplicate.")
         return
 
     day = get_current_journey_day()
@@ -1648,16 +1682,17 @@ def mode_journey_reel(persona: dict, env: dict, dry_run: bool) -> None:
 # Curated Video Set Metadata (Guarantees 100% video-to-caption-to-audio sync)
 # ---------------------------------------------------------------------------
 CURATED_SET_METADATA = {
-    "lamborghini_diablo": {
-        "title": "Lamborghini Diablo VT • Pure 90s V12 Heritage 🟡🇮🇹",
-        "make_model": "Lamborghini Diablo VT",
-        "color": "Giallo Fly Yellow",
+    # ── 5 Authentic Human-Shot Video Clip Sets ────────────────────────────────
+    "aston_martin_valour": {
+        "title": "Aston Martin Valour • 705 HP Twin-Turbo V12 Manual 🇬🇧🔥",
+        "make_model": "Aston Martin Valour",
+        "color": "British Racing Green",
         "captions": [
-            "Pure analog supercar royalty. The 1990s Lamborghini Diablo VT roaring along Monterey's coastal curves in iconic Giallo Yellow. 5.7 liters of naturally aspirated Italian V12 fury. Turn the volume all the way up 🔊 Rate this 90s legend 1-10 👇",
-            "Before turbos and hybrid batteries, this was the undisputed king of the road. The Lamborghini Diablo VT in Giallo Fly Yellow singing its naturally aspirated V12 symphony on 17-Mile Drive. Drop your dream 90s supercar below 🔑🇮🇹",
-            "The quintessential wedge icon. Giallo Fly Yellow paint, pop-up lights, and 12 screaming cylinders echoing off the Pacific coast. Sound up for that raw Italian V12! 🔊 Drop your favorite 90s poster car 👇"
+            "Pure analog violence. The ultra-rare Aston Martin Valour commanding Monterey in British Racing Green. 705 horsepower of twin-turbo V12 fury mated strictly to a 6-speed manual gearbox. Rate this modern manual legend 1-10 👇",
+            "A retro-modern titan. The Aston Martin Valour in British Racing Green with circular halo lights and a quad-exhaust soundtrack. Drop your dream spec below 🔑🔥",
+            "110 units built worldwide. The Aston Martin Valour showcasing its aggressive front aero and retro ducktail in Monterey. Rate this clean rolling pass 1-10 👇"
         ],
-        "tags": ["lamborghini", "diablo", "lamborghinidiablo", "v12", "retrosupercar", "90ssupercars", "montereycarweek", "exoticcars", "supercars", "carlifestyle", "vintageexotics"],
+        "tags": ["astonmartin", "astonmartinvalour", "valour", "v12", "britishracinggreen", "supercars", "hypercars", "manualgearbox", "montereycarweek", "exoticcars", "carlifestyle"],
         "audio": "lamborghini_v12_rev.mp3",
         "is_bike": False,
         "is_fast_motion": False
@@ -1667,12 +1702,26 @@ CURATED_SET_METADATA = {
         "make_model": "Ferrari F80",
         "color": "Rosso Corsa",
         "captions": [
-            "The dawn of Maranello's next hypercar era. The Ferrari F80 turning heads in iconic Rosso Corsa with 1,184 horsepower of hybrid twin-turbo engineering. Sound up for that race-derived startup! 🏎️💨 Drop your thoughts below 👇",
-            "Maranello’s latest 1,184 hp hypercar flagship. The Ferrari F80 in Rosso Corsa cruising through Monterey. True automotive sculpture in motion. Is this the ultimate modern hypercar? 🔑🔥",
-            "Rosso Corsa excellence in motion. 1,184 horsepower engineered for pure downforce and speed. The Ferrari F80 commanding Monterey's coastal tarmac. Rate this hypercar 1-10 👇"
+            "The dawn of Maranello's next hypercar era. The Ferrari F80 turning heads in iconic Rosso Corsa with 1,184 horsepower of hybrid twin-turbo engineering. Rate this hypercar 1-10 👇",
+            "Maranello’s latest 1,184 hp hypercar flagship. The Ferrari F80 in Rosso Corsa cruising through Monterey. True automotive sculpture in motion. Drop your dream spec below 🔑🔥",
+            "Rosso Corsa excellence in motion. 1,184 horsepower engineered for pure downforce and speed. The Ferrari F80 commanding Monterey's tarmac. Is this the ultimate modern hypercar? 👇"
         ],
         "tags": ["ferrari", "ferrarif80", "f80", "rossocorsa", "hypercars", "maranello", "supercars", "exoticcars", "carspotting", "carlifestyle", "carreels"],
         "audio": "ferrari_v8_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "lamborghini_diablo": {
+        "title": "Lamborghini Diablo VT • Pure 90s V12 Heritage 🟡🇮🇹",
+        "make_model": "Lamborghini Diablo VT",
+        "color": "Giallo Fly Yellow",
+        "captions": [
+            "Pure analog supercar royalty. The 1990s Lamborghini Diablo VT along Monterey's coastal curves in iconic Giallo Yellow. 5.7 liters of naturally aspirated Italian V12 fury. Rate this 90s legend 1-10 👇",
+            "Before turbos and hybrid batteries, this was the undisputed king of the road. The Lamborghini Diablo VT in Giallo Fly Yellow on 17-Mile Drive. Drop your dream 90s supercar below 🔑🇮🇹",
+            "The quintessential wedge icon. Giallo Fly Yellow paint, pop-up lights, and 12 screaming cylinders echoing off the Pacific coast. Drop your favorite 90s poster car 👇"
+        ],
+        "tags": ["lamborghini", "diablo", "lamborghinidiablo", "v12", "retrosupercar", "90ssupercars", "montereycarweek", "exoticcars", "supercars", "carlifestyle", "vintageexotics"],
+        "audio": "lamborghini_v12_rev.mp3",
         "is_bike": False,
         "is_fast_motion": False
     },
@@ -1690,20 +1739,6 @@ CURATED_SET_METADATA = {
         "is_bike": False,
         "is_fast_motion": False
     },
-    "aston_martin_valour": {
-        "title": "Aston Martin Valour • 705 HP Twin-Turbo V12 Manual 🇬🇧🔥",
-        "make_model": "Aston Martin Valour",
-        "color": "British Racing Green",
-        "captions": [
-            "Pure analog violence. The ultra-rare Aston Martin Valour commanding Monterey in British Racing Green. 705 horsepower of twin-turbo V12 fury mated strictly to a 6-speed manual gearbox. Turn the sound up! 🔊 Drop your dream spec below 👇",
-            "A retro-modern titan. The Aston Martin Valour roaring past in British Racing Green with circular halo lights and a quad-exhaust soundtrack. Rate this modern manual legend 1-10 👇",
-            "110 units built worldwide. The Aston Martin Valour showcasing its aggressive front aero and retro louver ducktail in Monterey. Sound up for that 5.2L Twin-Turbo V12 rumble! 🔊 Drop your thoughts below 👇"
-        ],
-        "tags": ["astonmartin", "astonmartinvalour", "valour", "v12", "britishracinggreen", "supercars", "hypercars", "manualgearbox", "montereycarweek", "exoticcars", "carlifestyle"],
-        "audio": "lamborghini_v12_rev.mp3",
-        "is_bike": False,
-        "is_fast_motion": False
-    },
     "white_mustang_sunset": {
         "title": "Sunset Velocity • 5.0L V8 American Muscle 🌅🇺🇸",
         "make_model": "Ford Mustang GT 5.0",
@@ -1717,6 +1752,120 @@ CURATED_SET_METADATA = {
         "audio": "car_v8_start.mp3",
         "is_bike": False,
         "is_fast_motion": True
+    },
+
+    # ── 8 Authentic DSLR Multi-Angle Photography Sets ─────────────────────────
+    "audi_r8_v10": {
+        "title": "Audi R8 V10 Performance • Naturally Aspirated Perfection ⚪🇩🇪",
+        "make_model": "Audi R8 V10 Performance",
+        "color": "Suzuka Grey Metallic",
+        "captions": [
+            "The twilight of naturally aspirated perfection. 5.2 liters of mid-engine German engineering screaming up to 8,700 RPM. Rate this Suzuka Grey R8 spec 1-10 👇",
+            "Quattro grip and pure naturally aspirated V10 symphony. The Audi R8 V10 Performance standing tall with carbon sideblades and forged wheels. Drop your dream everyday supercar below 🔑🔥",
+            "A timeless silhouette that will never be forgotten. Pure gated-era soul evolved into modern precision. Rate this clean R8 build 1-10 👇"
+        ],
+        "tags": ["audir8", "r8v10", "v10", "audi", "quattro", "supercars", "carlifestyle", "germanmuscle", "exoticcars"],
+        "audio": "car_v8_start.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "bmw_m4_black": {
+        "title": "BMW M4 Competition G82 • Stealth Carbon Aggression ⚫🇩🇪",
+        "make_model": "BMW M4 Competition (G82)",
+        "color": "Black Sapphire Metallic",
+        "captions": [
+            "Stealth mode engaged. The G82 BMW M4 Competition in Black Sapphire with exposed carbon fiber aero splitters and deep-dish forged wheels. Rate this dark spec 1-10 👇",
+            "Twin-turbo S58 inline-six pushing unrelenting Bavarian power. The aggressive contours of the G82 M4 cutting through the night. Drop your favorite M car below 🔑🔥",
+            "Blacked-out presence from every single angle. Laser headlights and a low-slung stance built strictly for high-speed corners. Rate this aggressive M4 spec 1-10 👇"
+        ],
+        "tags": ["bmwm4", "m4competition", "g82", "bmwm", "mpower", "bimmer", "carsofinstagram", "cleanbuild", "supercars"],
+        "audio": "bmw_m4_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "bmw_s1000rr": {
+        "title": "BMW S1000RR M Package • 205 HP Hypersport Superbike ⚪🏍️",
+        "make_model": "BMW S1000RR M Package",
+        "color": "Alpine White / M Motorsport Livery",
+        "captions": [
+            "205 horsepower. 14,500 RPM. The BMW S1000RR M Package in iconic tri-color motorsport livery. The undisputed king of the mountain switchbacks. Drop your dream two-wheel missile below 🔑🏍️",
+            "Carbon aerodynamic winglets, ShiftCam inline-four power, and track-honed precision. The S1000RR commands absolute respect on the tarmac. Rate this superbike 1-10 👇",
+            "Zero to sixty in under three seconds. The BMW S1000RR M Package carving through morning apexes. Turn the sound up and drop your dream bike below 👇"
+        ],
+        "tags": ["bmws1000rr", "s1000rr", "bmwmotorrad", "superbike", "bikelife", "hypersport", "motorcyclesofinstagram", "twowheels", "sportbike"],
+        "audio": "bmw_s1000rr_rev.mp3",
+        "is_bike": True,
+        "is_fast_motion": False
+    },
+    "ducati_panigale_v4s": {
+        "title": "Ducati Panigale V4 S • Pure Borgo Panigale Italian Fury 🔴🏍️",
+        "make_model": "Ducati Panigale V4 S",
+        "color": "Ducati Red",
+        "captions": [
+            "Desmosedici Stradale V4 engineering born directly from MotoGP. The Ducati Panigale V4 S in iconic Ducati Red with biplane aerodynamic wings. Rate this Italian masterpiece 1-10 👇",
+            "Pure rolling sculpture. 214 horsepower singing through an Akrapovic titanium exhaust at 13,000 RPM. Is this the most beautiful superbike ever built? Drop your thoughts below 🔑🇮🇹",
+            "Italian passion on two wheels. Brembo Stylema calipers, Ohlins active suspension, and the ferocious sound of a MotoGP-derived V4. Rate this red rocket 1-10 👇"
+        ],
+        "tags": ["ducatipanigale", "panigalev4s", "ducati", "v4s", "superbike", "bikelife", "italianmotorcycles", "sportbike", "twowheels"],
+        "audio": "ducati_panigale_rev.mp3",
+        "is_bike": True,
+        "is_fast_motion": False
+    },
+    "ferrari_sf90": {
+        "title": "Ferrari SF90 Stradale • 1000 HP Maranello Hybrid Flagship 🔴🇮🇹",
+        "make_model": "Ferrari SF90 Stradale",
+        "color": "Rosso Corsa / Nero Roof",
+        "captions": [
+            "1,000 metric horsepower from Maranello. A twin-turbo V8 paired with three electric motors catapulting from 0 to 60 in 2.0 seconds flat. Rate this SF90 Stradale spec 1-10 👇",
+            "The pinnacle of contemporary Prancing Horse performance. Rosso Corsa coachwork with carbon fiber rear diffuser and active aerodynamic shut-off Gurney. Drop your dream spec below 🔑🔥",
+            "Electric whisper in the city, savage twin-turbo V8 roar on the open tarmac. The Ferrari SF90 Stradale rewriting the laws of physics. Rate this spec 1-10 👇"
+        ],
+        "tags": ["ferrarisf90", "sf90stradale", "ferrari", "maranello", "hypercars", "hybridhypercar", "supercars", "exoticcars", "carlifestyle"],
+        "audio": "ferrari_v8_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "lamborghini_revuelto": {
+        "title": "Lamborghini Revuelto • 1001 HP V12 Hybrid Flagship 🟠🇮🇹",
+        "make_model": "Lamborghini Revuelto",
+        "color": "Arancio Apodis",
+        "captions": [
+            "Sant'Agata's first High Performance Electrified Vehicle. A naturally aspirated 6.5L V12 screaming to 9,500 RPM combined with three electric motors for 1,001 horsepower. Rate this Arancio Apodis spec 1-10 👇",
+            "The Y-shaped LED signature slicing through the dusk. The Lamborghini Revuelto carrying sixty years of V12 heritage into the electrified future. Drop your dream bull below 🔑🐂",
+            "Exposed titanium dual high-exit exhausts and aeronautical monocoque architecture. The Lamborghini Revuelto is pure vehicular theatre. Rate this hypercar 1-10 👇"
+        ],
+        "tags": ["lamborghinirevuelto", "revuelto", "lamborghini", "v12hybrid", "hypercars", "santagatabolognese", "supercars", "carlifestyle"],
+        "audio": "lamborghini_v12_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "nissan_gtr_r35": {
+        "title": "Nissan GT-R Nismo • Godzilla Twin-Turbo AWD Precision ⚪🇯🇵",
+        "make_model": "Nissan GT-R Nismo (R35)",
+        "color": "Stealth Grey / Carbon Aero",
+        "captions": [
+            "Godzilla unleashed. 600 horsepower of hand-crafted twin-turbo VR38DETT fury mated to the world's most sophisticated ATTESA E-TS all-wheel drive. Rate this clean GT-R Nismo 1-10 👇",
+            "From the legendary Nurburgring to the midnight highway. Carbon fiber roof, vented fenders, and iconic circular quad taillights. Drop your dream Japanese performance car below 🔑🇯🇵",
+            "Relentless downforce and analog precision. The Nissan GT-R Nismo standing as a permanent icon of modern performance engineering. Rate this spec 1-10 👇"
+        ],
+        "tags": ["nissangtr", "gtrr35", "nismo", "godzilla", "jdm", "twinturbo", "supercars", "trackweapon", "carreels"],
+        "audio": "car_rev_driveby.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "porsche_911_gt3rs": {
+        "title": "Porsche 911 GT3 RS (992) • Weissach Aero Perfection 🔵🇩🇪",
+        "make_model": "Porsche 911 GT3 RS (992)",
+        "color": "Shark Blue / Weissach Package",
+        "captions": [
+            "Motorsport DNA for the road. The 992 GT3 RS in Shark Blue with full exposed carbon Weissach Package and active swan-neck DRS wing. Rate this track weapon 1-10 👇",
+            "4.0 liters of naturally aspirated flat-six perfection singing all the way to 9,000 RPM. No turbos, no filters, pure mechanical bliss. Drop your dream 911 spec below 🔑🔥",
+            "860 kilograms of downforce at speed. Central radiator concept and race-derived double-wishbone front axle. The Porsche 911 GT3 RS is untouchable. Rate this spec 1-10 👇"
+        ],
+        "tags": ["porsche911gt3rs", "gt3rs", "992gt3rs", "porsche", "weissachpackage", "tracktool", "flatsix", "supercars", "carlifestyle"],
+        "audio": "porsche_gt3rs_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
     }
 }
 
@@ -1751,14 +1900,37 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         hint = custom_prompt if custom_prompt else ""
         set_name, set_shots, is_bike = get_next_curated_vehicle_set(hint)
         meta = CURATED_SET_METADATA.get(set_name, {})
-        if meta:
+
+        if custom_prompt:
+            # Custom prompt from dashboard: Generate a tailored caption reflecting the user's prompt!
+            title = meta.get("title", f"{set_name.replace('_', ' ').title()} • Custom Edit")
+            print(f"Generating custom caption for theme: '{custom_prompt}' with vehicle '{set_name}'...")
+            prompt = (
+                f"You are the creative director of a prestigious supercar & superbike media brand named 'Zenith Motors'.\n"
+                f"Write an aggressive, engaging Instagram caption for a reel featuring {set_name.replace('_', ' ').title()}.\n"
+                f"User theme / prompt: {custom_prompt}\n"
+                f"Guidelines: punchy hook, 2 short lines describing the machine in motion, end with 'Rate this 1-10 👇'.\n"
+                f"Do NOT include hashtags (hashtags are added automatically)."
+            )
+            try:
+                ai_caption = call_gemini(prompt, env).strip()
+                if ai_caption:
+                    caption_text = ai_caption
+                else:
+                    caption_text = f"{custom_prompt}\n\nThe {set_name.replace('_', ' ').title()} performing at the highest tier. Rate this spec 1-10 👇"
+            except Exception as e:
+                print(f"  Gemini caption fallback: {e}")
+                caption_text = f"{custom_prompt}\n\nThe {set_name.replace('_', ' ').title()} performing at the highest tier. Rate this spec 1-10 👇"
+            hashtags = meta.get("tags") or ["supercars", "hypercars", "carreels", "carlifestyle", "speedhunters", "exoticcars"]
+            is_bike = meta.get("is_bike", False)
+        elif meta:
             title = meta["title"]
             caption_text = random.choice(meta["captions"])
             hashtags = meta["tags"]
             is_bike = meta.get("is_bike", False)
         else:
             title = f"{set_name.replace('_', ' ').title()} Supercar Reel"
-            caption_text = f"The {set_name.replace('_', ' ').title()} in its natural element. Sound up for that engine roar! \U0001F50A Drop your thoughts below \U0001F447"
+            caption_text = f"The {set_name.replace('_', ' ').title()} in its natural element. Sound up for that clean soundtrack! 🔊 Rate this spec 1-10 👇"
             hashtags = ["supercars", "hypercars", "carreels", "carlifestyle", "speedhunters", "exoticcars"]
 
     full_caption = build_full_caption(caption_text, hashtags)
@@ -1817,6 +1989,8 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         files_to_log.append(ARCH_INDEX_FILE)
     if VEHICLE_STATE_FILE.exists():
         files_to_log.append(VEHICLE_STATE_FILE)
+    if JOURNEY_STATE_FILE.exists():
+        files_to_log.append(JOURNEY_STATE_FILE)
     git_commit_and_push(files_to_log, f"chore: log weekly_reel {ts}")
 
 
