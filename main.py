@@ -1253,25 +1253,64 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     if specific:
         available_sets = specific
 
+    # Sort available sets alphabetically for consistent strict round-robin rotation
+    available_sets = sorted(available_sets, key=lambda s: s[0])
+    set_names = [s[0] for s in available_sets]
+
+    # ── Determine last posted set from log.json (authoritative ground truth) ──
+    # log.json records every actual post; vehicle_state.json can drift between runs.
+    # We scan log.json backwards and pick the most recent weekly_reel entry whose
+    # media filename maps to a known set name, skipping journey/study reels.
     last_set = ""
-    if VEHICLE_STATE_FILE.exists():
+    _CAPTION_TO_SET: dict[str, str] = {
+        "lamborghini": "lamborghini_diablo",
+        "diablo": "lamborghini_diablo",
+        "ferrari": "ferrari_f80",
+        "f80": "ferrari_f80",
+        "rosso corsa": "ferrari_f80",
+        "crimson": "red_sportscar",
+        "underground": "red_sportscar",
+        "aston": "aston_martin_valour",
+        "valour": "aston_martin_valour",
+        "mustang": "white_mustang_sunset",
+        "oxford white": "white_mustang_sunset",
+    }
+    try:
+        if LOG_FILE.exists():
+            with open(LOG_FILE, encoding="utf-8") as _lf:
+                _log_entries = json.load(_lf)
+            # Walk backwards through log entries to find last car/bike reel
+            for _entry in reversed(_log_entries):
+                _cap = _entry.get("caption", "").lower()
+                # Skip study/journey reels (they don't consume a vehicle set slot)
+                if any(kw in _cap for kw in ["seeking help", "ug studies", "undergraduate"]):
+                    continue
+                # Map caption keywords to set names
+                for _kw, _sname in _CAPTION_TO_SET.items():
+                    if _kw in _cap and _sname in set_names:
+                        last_set = _sname
+                        break
+                if last_set:
+                    break
+    except Exception:
+        pass
+
+    # Fall back to vehicle_state.json if log lookup failed
+    if not last_set and VEHICLE_STATE_FILE.exists():
         try:
             with open(VEHICLE_STATE_FILE, encoding="utf-8") as f:
                 last_set = json.load(f).get("last_set", "")
         except Exception:
             pass
 
-    # Sort available sets alphabetically for consistent strict round-robin rotation
-    available_sets = sorted(available_sets, key=lambda s: s[0])
-    set_names = [s[0] for s in available_sets]
-
-    # Advance strictly to the next set in the cycle (guarantees every post is different)
+    # Advance strictly to the next set in the cycle
     if last_set in set_names:
         next_idx = (set_names.index(last_set) + 1) % len(set_names)
     else:
         next_idx = 0
 
     chosen_name, chosen_media = available_sets[next_idx]
+    # Update vehicle_state.json as a quick-access cache (log.json remains authoritative)
     try:
         VEHICLE_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
         with open(VEHICLE_STATE_FILE, "w", encoding="utf-8") as f:
