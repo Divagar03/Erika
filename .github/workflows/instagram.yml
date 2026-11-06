@@ -55,10 +55,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Set up FFmpeg
-        uses: FedericoCarboni/setup-ffmpeg@v3
-        with:
-          ffmpeg-version: "7.1"
+      - name: Install FFmpeg
+        run: sudo apt-get install -y ffmpeg
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
