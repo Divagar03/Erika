@@ -1344,13 +1344,14 @@ def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str
         txt_file: Path | None = None
         # If study journey text overlay is requested (12 AM daily study reel only)
         if text_overlay:
+            # Strip emoji/non-BMP characters that drawtext cannot render (shows as □)
+            def _strip_emoji(text: str) -> str:
+                return re.sub(r"[^\u0000-\u00FF\u2000-\u206F\u2E00-\u2E7F\s]", "", text).strip()
             lines_list: list[str] = []
             for raw_line in text_overlay.split("\n"):
-                raw_line = raw_line.strip()
-                if raw_line:
-                    lines_list.extend(textwrap.wrap(raw_line, width=30))
-                else:
-                    lines_list.append("")
+                raw_line = _strip_emoji(raw_line.strip())
+                if raw_line:  # Skip blank lines - they render as □ boxes in drawtext
+                    lines_list.extend(textwrap.wrap(raw_line, width=32))
             wrapped_text = "\n".join(lines_list)
             txt_file = output_path.with_suffix(".overlay.txt")
             txt_file.write_text(wrapped_text, encoding="utf-8")
