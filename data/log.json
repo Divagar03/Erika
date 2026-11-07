@@ -678,5 +678,13 @@
     "caption": "",
     "media": "",
     "detail": "name 'JOURNEY_STATE_FILE' is not defined"
+  },
+  {
+    "time": "2026-11-07T08:49:59.846164+00:00",
+    "kind": "weekly_reel",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "name 'JOURNEY_STATE_FILE' is not defined"
   }
 ]
