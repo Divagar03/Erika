@@ -1198,6 +1198,7 @@ VEHICLE_SETS_DIR = Path(__file__).parent / "assets" / "vehicles" / "sets"
 VEHICLE_VIDEO_SETS_DIR = Path(__file__).parent / "assets" / "vehicles" / "video_sets"
 VEHICLE_STATE_FILE = Path(__file__).parent / "data" / "vehicle_state.json"
 REEL_PATTERN_FILE = Path(__file__).parent / "data" / "reel_pattern_state.json"
+JOURNEY_STATE_FILE = Path(__file__).parent / "data" / "journey_state.json"
 
 
 def pick_engine_sfx(theme_hint: str = "", is_bike: bool = False) -> Path | None:
