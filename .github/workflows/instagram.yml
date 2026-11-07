@@ -123,5 +123,8 @@ jobs:
           CUSTOM_PROMPT: ${{ github.event.inputs.prompt }}
           MODE_NAME: ${{ steps.mode.outputs.mode }}
           GITHUB_EVENT_NAME: ${{ github.event_name }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
         run: |
           python main.py "$MODE_NAME"

@@ -82,6 +82,9 @@ def load_env() -> dict:
         "gh_branch": _env("GITHUB_REF_NAME", required=False) or "main",
         "gemini_model": os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip(),
         "gh_token": os.environ.get("GITHUB_TOKEN", "").strip(),
+        "yt_client_id": os.environ.get("YOUTUBE_CLIENT_ID", "").strip(),
+        "yt_client_secret": os.environ.get("YOUTUBE_CLIENT_SECRET", "").strip(),
+        "yt_refresh_token": os.environ.get("YOUTUBE_REFRESH_TOKEN", "").strip(),
     }
 
 
@@ -1028,6 +1031,100 @@ def publish_photo(image_url: str, caption: str, env: dict) -> str:
         {"creation_id": container_id},
     )
     return result["id"]
+
+
+def publish_youtube_short(video_path: Path, title: str, description: str, tags: list[str], env: dict) -> str | None:
+    """Upload vertical MP4 video to YouTube as a YouTube Short via YouTube Data API v3 resumable upload."""
+    client_id = env.get("yt_client_id", "").strip()
+    client_secret = env.get("yt_client_secret", "").strip()
+    refresh_token = env.get("yt_refresh_token", "").strip()
+
+    if not (client_id and client_secret and refresh_token):
+        print("  [YouTube] Notice: YouTube credentials (YOUTUBE_CLIENT_ID / SECRET / REFRESH_TOKEN) not set. Skipping YouTube upload.")
+        return None
+
+    print("  [YouTube] Refreshing Google OAuth2 access token...")
+    try:
+        t_res = requests.post(
+            "https://oauth2.googleapis.com/token",
+            data={
+                "client_id": client_id,
+                "client_secret": client_secret,
+                "refresh_token": refresh_token,
+                "grant_type": "refresh_token",
+            },
+            timeout=25,
+        )
+        if t_res.status_code != 200:
+            print(f"  [YouTube] Token refresh error ({t_res.status_code}): {t_res.text[:200]}")
+            return None
+        access_token = t_res.json().get("access_token")
+    except Exception as exc:
+        print(f"  [YouTube] Token refresh exception: {exc}")
+        return None
+
+    # Title must include #Shorts for automatic placement in Shorts feed
+    yt_title = title if "#shorts" in title.lower() else f"{title[:80]} #Shorts"
+    yt_desc = f"{description}\n\n#Shorts #Supercars #Cars #Reels"
+
+    snippet = {
+        "title": yt_title,
+        "description": yt_desc,
+        "tags": [t for t in (tags or []) if t][:15] + ["Shorts", "supercars", "cars"],
+        "categoryId": "2",  # 2 = Autos & Vehicles
+    }
+    status = {
+        "privacyStatus": "public",
+        "selfDeclaredMadeForKids": False,
+    }
+
+    file_size = video_path.stat().st_size
+    print(f"  [YouTube] Initiating resumable upload for '{yt_title}' ({file_size // 1024} KB)...")
+    try:
+        init_headers = {
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json; charset=UTF-8",
+            "X-Upload-Content-Type": "video/mp4",
+            "X-Upload-Content-Length": str(file_size),
+        }
+        init_res = requests.post(
+            "https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status",
+            headers=init_headers,
+            json={"snippet": snippet, "status": status},
+            timeout=30,
+        )
+        if init_res.status_code not in (200, 201):
+            print(f"  [YouTube] Resumable init error ({init_res.status_code}): {init_res.text[:250]}")
+            return None
+        upload_url = init_res.headers.get("Location")
+        if not upload_url:
+            print("  [YouTube] Missing Location header from YouTube upload API.")
+            return None
+    except Exception as exc:
+        print(f"  [YouTube] Resumable init exception: {exc}")
+        return None
+
+    print(f"  [YouTube] Uploading video binary chunks...")
+    try:
+        with open(video_path, "rb") as f:
+            up_res = requests.put(
+                upload_url,
+                data=f,
+                headers={"Content-Type": "video/mp4"},
+                timeout=300,
+            )
+        if up_res.status_code in (200, 201):
+            data = up_res.json()
+            video_id = data.get("id")
+            print(f"  [YouTube] Successfully published YouTube Short! ID: {video_id}")
+            print(f"  [YouTube] URL: https://youtube.com/shorts/{video_id}")
+            return video_id
+        else:
+            print(f"  [YouTube] Binary upload error ({up_res.status_code}): {up_res.text[:250]}")
+            return None
+    except Exception as exc:
+        print(f"  [YouTube] Binary upload exception: {exc}")
+        return None
 
 
 def publish_reel(video_url: str, caption: str, env: dict) -> str:
@@ -2073,9 +2170,17 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
 
     print("Publishing reel to Instagram...")
     media_id = publish_reel(raw_url, full_caption, env)
-    print(f"Published! media_id={media_id}")
+    print(f"Published to Instagram! media_id={media_id}")
 
-    log_ok("weekly_reel", full_caption, video_path.name, f"media_id={media_id}")
+    # Cross-post to YouTube Shorts if configured
+    yt_id = None
+    try:
+        yt_id = publish_youtube_short(video_path, title, full_caption, hashtags, env)
+    except Exception as yt_err:
+        print(f"  [YouTube] Notice: YouTube upload bypassed ({yt_err})")
+
+    yt_detail = f", yt_id={yt_id}" if yt_id else ""
+    log_ok("weekly_reel", full_caption, video_path.name, f"media_id={media_id}{yt_detail}")
     files_to_log = [LOG_FILE]
     if ARCH_INDEX_FILE.exists():
         files_to_log.append(ARCH_INDEX_FILE)
@@ -2163,7 +2268,12 @@ Return ONLY a JSON array of lowercase strings without # prefix.
         # Publish
         try:
             media_id = publish_reel(raw_url, full_caption, env)
-            print(f"  Published! media_id={media_id}")
+            print(f"  Published to Instagram! media_id={media_id}")
+            yt_id = None
+            try:
+                yt_id = publish_youtube_short(dest_video, title or "Supercar Reel", full_caption, hashtags or ["Shorts"], env)
+            except Exception as yt_err:
+                print(f"  [YouTube] Notice: YouTube upload bypassed ({yt_err})")
         except Exception as exc:
             log_fail("reel_upload", str(exc), full_caption, dest_video.name)
             git_commit_and_push([LOG_FILE], f"chore: log upload_reel failure {ts}")
