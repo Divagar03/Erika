@@ -1406,23 +1406,39 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         "mustang": "white_mustang_sunset", "oxford white": "white_mustang_sunset", "sunset velocity": "white_mustang_sunset",
     }
 
-    # Find the last 5 posted vehicle sets from log.json to prevent ANY repetition
+    # Find recently posted vehicle sets from vehicle_state.json AND log.json
     recent_posted: list[str] = []
+    if VEHICLE_STATE_FILE.exists():
+        try:
+            with open(VEHICLE_STATE_FILE, encoding="utf-8") as _vf:
+                _vdata = json.load(_vf)
+                for _s in _vdata.get("recent_sets", []):
+                    if _s in active_order and _s not in recent_posted:
+                        recent_posted.append(_s)
+                if not recent_posted and "last_set" in _vdata and _vdata["last_set"] in active_order:
+                    recent_posted.append(_vdata["last_set"])
+        except Exception:
+            pass
+
     try:
         if LOG_FILE.exists():
             with open(LOG_FILE, encoding="utf-8") as _lf:
                 _log_entries = json.load(_lf)
             for _entry in reversed(_log_entries):
+                _det = _entry.get("detail", "")
                 _cap = _entry.get("caption", "").lower()
-                # Skip study journey reels (they don't consume vehicle slots)
-                if any(kw in _cap for kw in ["seeking help", "ug studies", "undergraduate"]):
-                    continue
-                for _kw, _sname in _CAPTION_TO_SET.items():
-                    if _kw in _cap and _sname in active_order:
-                        if _sname not in recent_posted:
-                            recent_posted.append(_sname)
-                        break
-                if len(recent_posted) >= 11:  # Expanded 11-post memory (covers all 13 machines)
+                m_set = re.search(r'set=([a-z0-9_]+)', _det)
+                if m_set and m_set.group(1) in active_order:
+                    s_found = m_set.group(1)
+                    if s_found not in recent_posted:
+                        recent_posted.append(s_found)
+                else:
+                    for _kw, _sname in _CAPTION_TO_SET.items():
+                        if _kw in _cap and _sname in active_order:
+                            if _sname not in recent_posted:
+                                recent_posted.append(_sname)
+                            break
+                if len(recent_posted) >= 11:
                     break
     except Exception:
         pass
@@ -1507,11 +1523,13 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     if not chosen_name:
         chosen_name = active_order[start_idx]
 
-    # Cache last set in vehicle_state.json
+    # Cache recent_sets queue (keeps last 11 so all 13 cycle through before repeating)
+    updated_recent = [chosen_name] + [s for s in recent_posted if s != chosen_name]
+    updated_recent = updated_recent[:11]
     try:
         VEHICLE_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
         with open(VEHICLE_STATE_FILE, "w", encoding="utf-8") as f:
-            json.dump({"last_set": chosen_name}, f, indent=2)
+            json.dump({"last_set": chosen_name, "recent_sets": updated_recent}, f, indent=2)
     except Exception:
         pass
 
@@ -2752,7 +2770,7 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         print(f"  [YouTube] Notice: YouTube upload bypassed ({yt_err})")
 
     yt_detail = f", yt_id={yt_id}" if yt_id else ""
-    log_ok("weekly_reel", full_caption, video_path.name, f"format={active_format}, media_id={media_id}{yt_detail}")
+    log_ok("weekly_reel", full_caption, video_path.name, f"set={set_name}, format={active_format}, media_id={media_id}{yt_detail}")
     files_to_log = [LOG_FILE]
     if ARCH_INDEX_FILE.exists():
         files_to_log.append(ARCH_INDEX_FILE)
