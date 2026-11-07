@@ -1323,7 +1323,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                         if _sname not in recent_posted:
                             recent_posted.append(_sname)
                         break
-                if len(recent_posted) >= 5:
+                if len(recent_posted) >= 11:  # Expanded 11-post memory (covers all 13 machines)
                     break
     except Exception:
         pass
@@ -1978,37 +1978,45 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         set_name, set_shots, is_bike = get_next_curated_vehicle_set(hint)
         meta = CURATED_SET_METADATA.get(set_name, {})
 
+        # Retrieve metadata
+        title = meta.get("title", f"{set_name.replace('_', ' ').title()} Supercar Reel")
+        hashtags = meta.get("tags") or ["supercars", "hypercars", "carreels", "carlifestyle", "speedhunters", "exoticcars"]
+        is_bike = meta.get("is_bike", False)
+
+        # ── Generate 100% Fresh AI Caption for EVERY Reel (Zero Repeated Text) ──
         if custom_prompt:
-            # Custom prompt from dashboard: Generate a tailored caption reflecting the user's prompt!
+            theme_desc = f"Custom user theme / prompt: {custom_prompt}"
             title = meta.get("title", f"{set_name.replace('_', ' ').title()} • Custom Edit")
-            print(f"Generating custom caption for theme: '{custom_prompt}' with vehicle '{set_name}'...")
-            prompt = (
-                f"You are the creative director of a prestigious supercar & superbike media brand named 'Zenith Motors'.\n"
-                f"Write an aggressive, engaging Instagram caption for a reel featuring {set_name.replace('_', ' ').title()}.\n"
-                f"User theme / prompt: {custom_prompt}\n"
-                f"Guidelines: punchy hook, 2 short lines describing the machine in motion, end with 'Rate this 1-10 👇'.\n"
-                f"Do NOT include hashtags (hashtags are added automatically)."
-            )
-            try:
-                ai_caption = call_gemini(prompt, env).strip()
-                if ai_caption:
-                    caption_text = ai_caption
-                else:
-                    caption_text = f"{custom_prompt}\n\nThe {set_name.replace('_', ' ').title()} performing at the highest tier. Rate this spec 1-10 👇"
-            except Exception as e:
-                print(f"  Gemini caption fallback: {e}")
-                caption_text = f"{custom_prompt}\n\nThe {set_name.replace('_', ' ').title()} performing at the highest tier. Rate this spec 1-10 👇"
-            hashtags = meta.get("tags") or ["supercars", "hypercars", "carreels", "carlifestyle", "speedhunters", "exoticcars"]
-            is_bike = meta.get("is_bike", False)
-        elif meta:
-            title = meta["title"]
-            caption_text = random.choice(meta["captions"])
-            hashtags = meta["tags"]
-            is_bike = meta.get("is_bike", False)
         else:
-            title = f"{set_name.replace('_', ' ').title()} Supercar Reel"
-            caption_text = f"The {set_name.replace('_', ' ').title()} in its natural element. Sound up for that clean soundtrack! 🔊 Rate this spec 1-10 👇"
-            hashtags = ["supercars", "hypercars", "carreels", "carlifestyle", "speedhunters", "exoticcars"]
+            make_model = meta.get("make_model", set_name.replace("_", " ").title())
+            color = meta.get("color", "")
+            theme_desc = f"Machine: {make_model} in {color}"
+
+        print(f"Generating fresh unique AI caption for '{set_name}'...")
+        prompt = (
+            f"You are the creative director of 'Zenith Motors', an elite supercar & superbike media brand.\n"
+            f"Write an original, punchy, high-energy Instagram caption for a viral reel.\n"
+            f"{theme_desc}\n"
+            f"Requirements:\n"
+            f"- 1 killer opening hook line\n"
+            f"- 2 short sentences capturing the raw performance, exhaust symphony, or aerodynamic styling\n"
+            f"- End with an engagement call-to-action (e.g. 'Rate this spec 1-10 👇' or 'Drop your dream spec below 🔑')\n"
+            f"- Do NOT include hashtags in the caption body (hashtags are added automatically)."
+        )
+        try:
+            ai_caption = call_gemini(prompt, env).strip()
+            if ai_caption and len(ai_caption) > 20:
+                caption_text = ai_caption
+            elif meta and "captions" in meta:
+                caption_text = random.choice(meta["captions"])
+            else:
+                caption_text = f"The {set_name.replace('_', ' ').title()} in its purest element. Rate this 1-10 👇"
+        except Exception as e:
+            print(f"  Gemini caption fallback: {e}")
+            if meta and "captions" in meta:
+                caption_text = random.choice(meta["captions"])
+            else:
+                caption_text = f"The {set_name.replace('_', ' ').title()} in its purest element. Rate this 1-10 👇"
 
     full_caption = build_full_caption(caption_text, hashtags)
 
@@ -2030,10 +2038,17 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
 
     is_fast_motion = meta.get("is_fast_motion", False)
     if is_video_mode:
-        print(f"\nAssembling {len(set_shots)} authentic human-shot motion video clips for {title} ({set_name})...")
-        for i, clip in enumerate(set_shots):
+        # Dynamically vary clip sequence starting angle so repeated machines produce a fresh edit
+        clips_to_use = list(set_shots)
+        if len(clips_to_use) >= 3 and not study_overlay:
+            # Shift starting angle based on current minute so each edit is visually unique
+            shift = (datetime.now(timezone.utc).minute) % len(clips_to_use)
+            clips_to_use = clips_to_use[shift:] + clips_to_use[:shift]
+
+        print(f"\nAssembling {len(clips_to_use)} authentic human-shot motion video clips for {title} ({set_name})...")
+        for i, clip in enumerate(clips_to_use):
             print(f"  Angle {i + 1} loaded (100% real human video): {clip.name} ({clip.stat().st_size // 1024} KB)")
-        build_reel_video(set_shots, video_path, theme_hint=set_name, is_bike=is_bike, text_overlay=study_overlay, is_fast_motion=is_fast_motion)
+        build_reel_video(clips_to_use, video_path, theme_hint=set_name, is_bike=is_bike, text_overlay=study_overlay, is_fast_motion=is_fast_motion)
         files_to_commit = [video_path]
     else:
         print(f"\nAssembling {len(set_shots)} authentic human-shot DSLR photography cuts for {title} ({set_name})...")
@@ -2246,6 +2261,18 @@ def main() -> None:
         env = load_env()
 
     try:
+        # Auto-prioritize Daily Study Journey Reel if it hasn't posted today
+        # (Triggers anywhere in evening window >= 18:00 UTC / 11:30 PM IST)
+        if mode in ("reel", "weekly_reel") and not custom_prompt:
+            from datetime import timedelta
+            now_utc = datetime.now(timezone.utc)
+            today_local_str = (now_utc + timedelta(hours=5, minutes=30)).strftime("%Y-%m-%d")
+            j_state = load_journey_state()
+            if now_utc.hour >= 18 and j_state.get("last_post_date") != today_local_str:
+                print(f"\n[AUTO-PRIORITY] 12 AM Midnight window detected (UTC hour {now_utc.hour}) and today's study reel ({today_local_str}) has not been posted yet.")
+                print("Switching mode from 'reel' to 'journey_reel' to guarantee daily study post!")
+                mode = "journey_reel"
+
         if mode == "post":
             mode_post(persona, env, dry_run, custom_prompt=custom_prompt)
         elif mode == "journey_reel":

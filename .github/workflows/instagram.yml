@@ -97,9 +97,12 @@ jobs:
             # 12:00 AM Midnight (18:30 UTC): Daily Study Journey Reel (once per day)
             # Hour 13:00 UTC: Daily Photo Post
             # All other 2-hour runs: Clean Supercar & Superbike Reel with zero text overlay
+            # Scheduled runs:
+            # Hour >= 18 UTC (11:30 PM+ IST): Study journey reel window
+            # Hour 13:00 UTC: Daily photo post
+            # All other hours: Clean supercar & superbike reel
             HOUR=$(date -u +%H)
-            MIN=$(date -u +%M)
-            if [ "$HOUR" = "18" ] && [ "$MIN" -ge 20 ]; then
+            if [ "$HOUR" -ge 18 ]; then
               echo "mode=journey_reel" >> "$GITHUB_OUTPUT"
             elif [ "$HOUR" = "13" ]; then
               echo "mode=post" >> "$GITHUB_OUTPUT"
