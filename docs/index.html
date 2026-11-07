@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zenith Motors · Supercars & Superbikes Dashboard</title>
-  <meta name="description" content="Control and monitor the automated supercar and superbike curation page — Zenith Motors." />
+  <title>Zenith Motors · Instagram Reels & YouTube Shorts Studio</title>
+  <meta name="description" content="Automated Instagram Reels and YouTube Shorts Studio for Zenith Motors & Lyra Voss." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -159,6 +159,29 @@
     .badge-run-fail { background: rgba(239,68,68,0.1); color: var(--red); }
     .badge-run-skip { background: rgba(107,114,128,0.1); color: var(--muted); }
     .badge-run-progress { background: rgba(234,179,8,0.1); color: var(--yellow); }
+    .badge-yt {
+      background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3);
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem;
+      padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.7rem; font-weight: 600;
+      transition: all var(--transition);
+    }
+    .badge-yt:hover { background: rgba(239,68,68,0.3); color: #fca5a5; transform: translateY(-1px); }
+    .badge-ig {
+      background: rgba(217,70,239,0.15); color: #e879f9; border: 1px solid rgba(217,70,239,0.3);
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem;
+      padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.7rem; font-weight: 600;
+      transition: all var(--transition);
+    }
+    .badge-ig:hover { background: rgba(217,70,239,0.3); color: #f0abfc; transform: translateY(-1px); }
+    .platform-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.25rem 0.65rem; border-radius: 999px;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em;
+      border: 1px solid var(--border); background: var(--bg3);
+    }
+    .platform-pill.ig { border-color: rgba(236,72,153,0.35); color: #f472b6; }
+    .platform-pill.yt { border-color: rgba(239,68,68,0.35); color: #f87171; }
+    .platform-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
     /* ── Schedule ── */
     .schedule-list { display: flex; flex-direction: column; gap: 0.75rem; }
@@ -369,10 +392,12 @@
   <header>
     <div>
       <div class="logo">✦ Lyra Voss</div>
-      <div class="logo-sub">AI Influencer Dashboard</div>
+      <div class="logo-sub">Instagram Reels &amp; YouTube Shorts Studio</div>
     </div>
     <div class="spacer"></div>
     <div class="header-actions">
+      <span class="platform-pill ig"><span class="dot"></span>Instagram Reels</span>
+      <span class="platform-pill yt"><span class="dot"></span>YouTube Shorts</span>
       <button class="btn-icon" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">🌙</button>
       <button class="btn btn-secondary btn-sm" id="refresh-btn">↻ Refresh</button>
       <button class="btn btn-primary btn-sm" id="settings-btn">⚙ Settings</button>
@@ -393,8 +418,8 @@
     <!-- Stats -->
     <div class="stats-grid" id="stats-grid">
       <div class="stat-card"><div class="stat-label">Total Published</div><div class="stat-value" id="s-total">–</div></div>
-      <div class="stat-card"><div class="stat-label">Photo Posts</div><div class="stat-value" id="s-posts">–</div></div>
-      <div class="stat-card"><div class="stat-label">Reels</div><div class="stat-value" id="s-reels">–</div></div>
+      <div class="stat-card"><div class="stat-label">IG Photo Posts</div><div class="stat-value" id="s-posts">–</div></div>
+      <div class="stat-card"><div class="stat-label">Reels &amp; Shorts</div><div class="stat-value" id="s-reels">–</div></div>
       <div class="stat-card"><div class="stat-label">Last 7 Days</div><div class="stat-value" id="s-week">–</div></div>
       <div class="stat-card"><div class="stat-label">Failures (7d)</div><div class="stat-value red" id="s-fails">–</div></div>
       <div class="stat-card"><div class="stat-label">Last Published</div><div class="stat-value" id="s-last" style="font-size:1rem;margin-top:0.2rem">–</div><div class="stat-sub" id="s-last-rel"></div></div>
@@ -412,7 +437,7 @@
           <div class="schedule-item">
             <div class="schedule-icon">📸</div>
             <div class="schedule-info">
-              <div class="schedule-name">Photo Post</div>
+              <div class="schedule-name">Photo Post (IG)</div>
               <div class="schedule-time" id="next-post-time">–</div>
             </div>
             <div class="schedule-countdown" id="next-post-cd">–</div>
@@ -420,7 +445,7 @@
           <div class="schedule-item">
             <div class="schedule-icon">🎬</div>
             <div class="schedule-info">
-              <div class="schedule-name">Weekly Reel</div>
+              <div class="schedule-name">Reel &amp; YouTube Short</div>
               <div class="schedule-time" id="next-reel-time">–</div>
             </div>
             <div class="schedule-countdown" id="next-reel-cd">–</div>
@@ -431,7 +456,7 @@
 
     <!-- Activity table -->
     <div class="card">
-      <div class="card-title">Recent Activity (last 15)</div>
+      <div class="card-title">Recent Activity (Reels, Shorts &amp; Posts)</div>
       <div class="table-wrap">
         <table id="activity-table">
           <thead>
@@ -469,30 +494,35 @@
 
     <!-- Actions -->
     <div class="card">
-      <div class="card-title">Actions</div>
+      <div class="card-title">Dual-Platform Publishing Controls</div>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;">
+        <span style="font-size:0.75rem;color:var(--muted);font-weight:600;">ACTIVE DESTINATIONS:</span>
+        <span class="platform-pill ig"><span class="dot"></span>📸 Instagram Reels (@apex_rich_)</span>
+        <span class="platform-pill yt"><span class="dot"></span>▶ YouTube Shorts (Auto #Shorts)</span>
+      </div>
       <div id="actions-area" style="display:flex;flex-direction:column;gap:1.25rem;">
 
-        <!-- Generate Reel From Text -->
+        <!-- Generate Reel & Short From Text -->
         <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.25rem;">
-          <div class="section-title" style="margin-bottom:0.5rem;">✨ Generate Reel from Text</div>
-          <div class="info-text" style="margin-bottom:0.75rem;">Type any supercar/superbike concept or viral journey prompt. The system generates a cohesive 5-shot cinematic edit, pairs trending audio, and posts directly to Instagram.</div>
+          <div class="section-title" style="margin-bottom:0.5rem;">✨ Generate Reel &amp; Short from Text</div>
+          <div class="info-text" style="margin-bottom:0.75rem;">Type any supercar/superbike concept or viral journey prompt. The system generates a cohesive 5-shot cinematic edit, pairs trending audio, and cross-posts directly to both <strong>Instagram Reels</strong> and <strong>YouTube Shorts</strong>.</div>
           <div class="form-group" style="margin-bottom:0.75rem;">
             <textarea id="custom-prompt-input" rows="3" placeholder="e.g. Porsche 911 GT3 RS in Shark Blue drifting on wet Tokyo asphalt under midnight neon lights..."></textarea>
           </div>
           <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;">
-            <button class="btn btn-primary" id="btn-custom-reel-now" style="background:linear-gradient(135deg, #6366f1, #a855f7);border:none;">✨ Post Reel From Text</button>
-            <button class="btn btn-secondary" id="btn-custom-post-now">📸 Post Photo From Text</button>
+            <button class="btn btn-primary" id="btn-custom-reel-now" style="background:linear-gradient(135deg, #6366f1, #a855f7);border:none;">✨ Post Reel &amp; YouTube Short</button>
+            <button class="btn btn-secondary" id="btn-custom-post-now">📸 Post Photo to Instagram</button>
           </div>
         </div>
 
-        <!-- Upload reel -->
+        <!-- Upload reel & short -->
         <div>
-          <div class="section-title" style="margin-bottom:0.75rem;">📤 Upload a Reel</div>
+          <div class="section-title" style="margin-bottom:0.75rem;">📤 Upload Reel &amp; YouTube Short</div>
           <div class="upload-form">
             <label for="reel-file-input" style="cursor:pointer;">
               <div class="upload-area" id="upload-drop-zone">
                 <div class="upload-area-icon">🎬</div>
-                <div id="upload-label-text" class="upload-area-text">Drop an <strong>.mp4</strong> here or click to browse</div>
+                <div id="upload-label-text" class="upload-area-text">Drop an <strong>.mp4</strong> here to cross-post to Instagram &amp; YouTube</div>
               </div>
             </label>
             <input type="file" id="reel-file-input" accept=".mp4" />
@@ -502,7 +532,7 @@
             </div>
             <div id="reel-size-warning" class="warning-text" style="display:none;">⚠ File is over 50 MB — GitHub API has a 100 MB limit via base64; large files may fail or take a while.</div>
             <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;">
-              <button class="btn btn-primary" id="upload-reel-btn" disabled>Upload &amp; Publish Reel</button>
+              <button class="btn btn-primary" id="upload-reel-btn" disabled>Upload &amp; Cross-Post Reel + Short</button>
               <span class="info-text">Will post in ~2–4 minutes after upload.</span>
             </div>
             <div id="upload-status" class="info-text" style="display:none;"></div>
@@ -511,11 +541,11 @@
 
         <!-- Dispatch actions -->
         <div>
-          <div class="section-title" style="margin-bottom:0.75rem;">⚡ Quick Actions</div>
+          <div class="section-title" style="margin-bottom:0.75rem;">⚡ Quick Actions (Instant Trigger)</div>
           <div class="actions-grid">
-            <button class="btn btn-primary" id="btn-post-now">📸 Post a Photo Now</button>
-            <button class="btn btn-secondary" id="btn-reel-now">🎬 Make Clean Reel Now</button>
-            <button class="btn btn-primary" id="btn-journey-now" style="background:linear-gradient(135deg, #10b981, #059669);border:none;">🚀 Post Day X Study Reel Now</button>
+            <button class="btn btn-primary" id="btn-post-now">📸 Post IG Photo Now</button>
+            <button class="btn btn-secondary" id="btn-reel-now">🎬 Clean Reel &amp; YouTube Short</button>
+            <button class="btn btn-primary" id="btn-journey-now" style="background:linear-gradient(135deg, #10b981, #059669);border:none;">🚀 Day X Study Reel &amp; Short</button>
             <button class="btn btn-pause" id="btn-pause-resume">⏸ Pause Automation</button>
           </div>
           <div id="dispatch-status" class="info-text" style="margin-top:0.5rem;display:none;"></div>
@@ -540,6 +570,17 @@
       <div class="form-group">
         <div class="form-label">Branch</div>
         <input type="text" id="setting-branch" placeholder="main" />
+      </div>
+      <div style="margin-top:1.25rem;padding:1rem;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;">
+        <div style="font-weight:600;font-size:0.85rem;margin-bottom:0.35rem;color:var(--text);display:flex;align-items:center;gap:6px;">
+          <span>▶ YouTube Shorts Setup</span>
+        </div>
+        <div class="info-text" style="font-size:0.75rem;line-height:1.5;">
+          YouTube Shorts uses 3 GitHub Repository Secrets: <code>YOUTUBE_CLIENT_ID</code>, <code>YOUTUBE_CLIENT_SECRET</code>, <code>YOUTUBE_REFRESH_TOKEN</code>.<br>
+          • In Google Cloud Console: Add your Gmail under <strong>Audience</strong> &rarr; <em>Test Users</em>.<br>
+          • Under <strong>Clients</strong>: Click <em>Create OAuth client</em> &rarr; <em>Desktop app</em>.<br>
+          • Run <code>python scripts/setup_youtube.py</code> to connect your YouTube channel and generate your refresh token in seconds!
+        </div>
       </div>
       <div class="settings-footer">
         <button class="btn btn-secondary" id="settings-cancel">Cancel</button>
@@ -873,14 +914,39 @@
 
     // ── Render table ───────────────────────────────────────────────────────
     function kindBadge(kind) {
-      if (kind === "post") return '<span class="badge badge-post">📸 post</span>';
-      if (kind === "weekly_reel") return '<span class="badge badge-reel">🎬 weekly</span>';
-      if (kind === "reel_upload") return '<span class="badge badge-upload">📤 upload</span>';
+      if (kind === "post") return '<span class="badge badge-post">📸 IG Post</span>';
+      if (kind === "weekly_reel") return '<span class="badge badge-reel">🎬 Reel &amp; Short</span>';
+      if (kind === "journey_reel") return '<span class="badge badge-reel">🚀 Journey Reel &amp; Short</span>';
+      if (kind === "reel_upload") return '<span class="badge badge-upload">📤 Upload Reel &amp; Short</span>';
       return '<span class="badge">' + esc(kind) + '</span>';
     }
     function statusBadge(status) {
       if (status === "ok") return '<span class="badge badge-ok">✓ ok</span>';
       return '<span class="badge badge-fail">✗ failed</span>';
+    }
+
+    function formatDetail(detail, kind) {
+      if (!detail) return kind === "post" ? '<a href="https://www.instagram.com/apex_rich_/" target="_blank" rel="noopener noreferrer" class="badge-ig">📸 View IG</a>' : '';
+      let links = [];
+      const ytMatch = detail.match(/yt_id=([a-zA-Z0-9_-]+)/);
+      const igMatch = detail.match(/media_id=([0-9_]+)/);
+
+      if (ytMatch && ytMatch[1] && ytMatch[1] !== "skipped" && ytMatch[1] !== "failed") {
+        links.push(`<a href="https://www.youtube.com/shorts/${esc(ytMatch[1])}" target="_blank" rel="noopener noreferrer" class="badge-yt" title="Watch Short on YouTube">▶ View Short</a>`);
+      } else if (detail.includes("yt_id=skipped")) {
+        links.push(`<span class="badge" style="color:var(--muted);font-size:0.68rem;" title="YouTube keys pending">▶ YT (pending)</span>`);
+      }
+
+      if (igMatch || kind === "post" || kind === "weekly_reel" || kind === "journey_reel" || kind === "reel_upload") {
+        links.push(`<a href="https://www.instagram.com/apex_rich_/" target="_blank" rel="noopener noreferrer" class="badge-ig" title="View on Instagram @apex_rich_">📸 View IG</a>`);
+      }
+
+      const cleanDetail = esc(detail.replace(/media_id=\d+,?\s*/, "").replace(/yt_id=[a-zA-Z0-9_-]+,?\s*/, "").trim());
+      let res = links.join(" ");
+      if (cleanDetail) {
+        res += (res ? "<br>" : "") + `<span style="color:var(--muted);font-size:0.72rem;">${cleanDetail}</span>`;
+      }
+      return res || esc(detail);
     }
 
     function renderTable(entries) {
@@ -897,7 +963,7 @@
           <td>${statusBadge(e.status)}</td>
           <td style="max-width:220px">${esc(e.caption || "").slice(0, 120)}${(e.caption || "").length > 120 ? "…" : ""}</td>
           <td style="max-width:140px;word-break:break-all;font-size:0.75rem">${esc(e.media || "")}</td>
-          <td style="max-width:160px;font-size:0.75rem">${esc(e.detail || "")}</td>
+          <td style="max-width:180px">${formatDetail(e.detail || "", e.kind)}</td>
         </tr>
       `).join("");
     }
@@ -1105,8 +1171,8 @@
     }
 
     document.getElementById("btn-post-now").addEventListener("click", () => doDispatch("post", "photo post"));
-    document.getElementById("btn-reel-now").addEventListener("click", () => doDispatch("weekly_reel", "clean automotive reel"));
-    document.getElementById("btn-journey-now").addEventListener("click", () => doDispatch("journey_reel", "Day X Study Journey Reel"));
+    document.getElementById("btn-reel-now").addEventListener("click", () => doDispatch("weekly_reel", "clean automotive reel & YouTube short"));
+    document.getElementById("btn-journey-now").addEventListener("click", () => doDispatch("journey_reel", "Day X Study Reel & YouTube Short"));
     
     document.getElementById("btn-custom-reel-now").addEventListener("click", () => {
       const prompt = document.getElementById("custom-prompt-input").value.trim();
@@ -1114,7 +1180,7 @@
         notify("Please type a description or theme in the box first!", "warn");
         return;
       }
-      doDispatch("reel", "custom reel from text ('" + prompt.slice(0, 30) + "…')", prompt);
+      doDispatch("reel", "custom reel & YouTube short ('" + prompt.slice(0, 30) + "…')", prompt);
     });
 
     document.getElementById("btn-custom-post-now").addEventListener("click", () => {
