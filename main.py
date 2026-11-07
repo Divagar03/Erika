@@ -1033,7 +1033,7 @@ def publish_photo(image_url: str, caption: str, env: dict) -> str:
     return result["id"]
 
 
-def publish_youtube_short(video_path: Path, title: str, description: str, tags: list[str], env: dict) -> str | None:
+def publish_youtube_short(video_path: Path, title: str, description: str, tags: list[str], env: dict) -> tuple[str | None, str]:
     """Upload vertical MP4 video to YouTube as a YouTube Short via YouTube Data API v3 resumable upload."""
     client_id = env.get("yt_client_id", "").strip()
     client_secret = env.get("yt_client_secret", "").strip()
@@ -1041,7 +1041,7 @@ def publish_youtube_short(video_path: Path, title: str, description: str, tags: 
 
     if not (client_id and client_secret and refresh_token):
         print("  [YouTube] Notice: YouTube credentials (YOUTUBE_CLIENT_ID / SECRET / REFRESH_TOKEN) not set. Skipping YouTube upload.")
-        return None
+        return None, "credentials_not_set"
 
     print("  [YouTube] Refreshing Google OAuth2 access token...")
     try:
@@ -1056,12 +1056,13 @@ def publish_youtube_short(video_path: Path, title: str, description: str, tags: 
             timeout=25,
         )
         if t_res.status_code != 200:
+            err_msg = f"token_refresh_failed_{t_res.status_code}_{t_res.text[:100]}"
             print(f"  [YouTube] Token refresh error ({t_res.status_code}): {t_res.text[:200]}")
-            return None
+            return None, err_msg
         access_token = t_res.json().get("access_token")
     except Exception as exc:
         print(f"  [YouTube] Token refresh exception: {exc}")
-        return None
+        return None, f"token_refresh_exception_{exc}"
 
     # Title must include #Shorts for automatic placement in Shorts feed
     yt_title = title if "#shorts" in title.lower() else f"{title[:80]} #Shorts"
@@ -1094,15 +1095,16 @@ def publish_youtube_short(video_path: Path, title: str, description: str, tags: 
             timeout=30,
         )
         if init_res.status_code not in (200, 201):
+            err_msg = f"init_upload_{init_res.status_code}_{init_res.text[:100]}"
             print(f"  [YouTube] Resumable init error ({init_res.status_code}): {init_res.text[:250]}")
-            return None
+            return None, err_msg
         upload_url = init_res.headers.get("Location")
         if not upload_url:
             print("  [YouTube] Missing Location header from YouTube upload API.")
-            return None
+            return None, "missing_location_header"
     except Exception as exc:
         print(f"  [YouTube] Resumable init exception: {exc}")
-        return None
+        return None, f"resumable_init_exception_{exc}"
 
     print(f"  [YouTube] Uploading video binary chunks...")
     try:
@@ -1118,13 +1120,14 @@ def publish_youtube_short(video_path: Path, title: str, description: str, tags: 
             video_id = data.get("id")
             print(f"  [YouTube] Successfully published YouTube Short! ID: {video_id}")
             print(f"  [YouTube] URL: https://youtube.com/shorts/{video_id}")
-            return video_id
+            return video_id, ""
         else:
+            err_msg = f"binary_upload_{up_res.status_code}_{up_res.text[:100]}"
             print(f"  [YouTube] Binary upload error ({up_res.status_code}): {up_res.text[:250]}")
-            return None
+            return None, err_msg
     except Exception as exc:
         print(f"  [YouTube] Binary upload exception: {exc}")
-        return None
+        return None, f"binary_upload_exception_{exc}"
 
 
 def publish_reel(video_url: str, caption: str, env: dict) -> str:
@@ -2682,7 +2685,8 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         except Exception:
             caption_text = random.choice(battle["captions"])
 
-    # 3. Deep Dive (Part of Car Explained Deeply in Bottom Half, Clean Image on Top Half)
+    # 3. Deep Dive (Part of Car Explained Deeply in Caption, 100% CLEAN FULL-SCREEN Normal Reel)
+    # Split screen is ONLY for multi-car battles! Single cars are always 100% clean full-screen reels.
     elif active_format == "deep_dive":
         deep_keys = list(DEEP_DIVE_TOPICS.keys())
         matched_key = None
@@ -2697,30 +2701,26 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         title = topic["title"]
         hashtags = topic["tags"]
         is_bike = "ducati" in set_name or "bike" in set_name
-        is_static_slides = True
+        is_static_slides = False  # 100% CLEAN FULL SCREEN! ZERO split-screen for a single car.
 
         car_assets = available_dict.get(set_name, [])
-        shots_to_use = car_assets if len(car_assets) >= 3 else [get_next_curated_vehicle_image()] * 3
+        if car_assets:
+            set_shots = car_assets
+        else:
+            set_shots = [get_next_curated_vehicle_image()] * 5
 
-        # Create split slides explaining the part
-        for idx in range(min(4, len(shots_to_use))):
-            slide_path = MEDIA_DIR / f"slide_dd_{ts}_{idx+1}.jpg"
-            make_split_comparison_slide(
-                shots_to_use[idx],
-                idx + 1,
-                min(4, len(shots_to_use)),
-                f"{topic['title'].split('•')[0].strip()} • {topic['component']}",
-                topic["points"],
-                slide_path
-            )
-            temp_slide_files.append(slide_path)
-
-        set_shots = temp_slide_files
+        points_summary = "\n".join([f"• {label}: {val}" for label, val in topic.get("points", [])[:5]])
         prompt = (
-            f"Write an informative Instagram Reel caption breaking down: {topic['title']}.\n"
-            f"Component in focus: {topic['component']}.\n"
-            f"Explain why this engineering is groundbreaking in 2-3 sentences.\n"
-            f"End with an interactive question to drive comments. No hashtags in caption body."
+            f"You are the automotive engineering director of Zenith Motors.\n"
+            f"Write an in-depth, viral Instagram Reel & YouTube Shorts caption breaking down this engineering marvel:\n"
+            f"Machine: {topic['title']}\n"
+            f"Component in focus: {topic['component']}\n"
+            f"Key Specs:\n{points_summary}\n\n"
+            f"Requirements:\n"
+            f"- 1 killer opening hook line explaining why this tech is revolutionary\n"
+            f"- 2-3 sentences explaining exactly how the {topic['component']} performs on track\n"
+            f"- End with an interactive question for enthusiasts (e.g. 'Drop your thoughts below 👇')\n"
+            f"- Do NOT include hashtags in the caption body."
         )
         try:
             ai_caption = call_gemini(prompt, env).strip()
@@ -2889,12 +2889,14 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
 
     # Cross-post to YouTube Shorts
     yt_id = None
+    yt_err_msg = ""
     try:
-        yt_id = publish_youtube_short(video_path, title, full_caption, hashtags, env)
+        yt_id, yt_err_msg = publish_youtube_short(video_path, title, full_caption, hashtags, env)
     except Exception as yt_err:
+        yt_err_msg = str(yt_err)
         print(f"  [YouTube] Notice: YouTube upload bypassed ({yt_err})")
 
-    yt_detail = f", yt_id={yt_id}" if yt_id else ""
+    yt_detail = f", yt_id={yt_id}" if yt_id else (f", yt_err={yt_err_msg}" if yt_err_msg else "")
     log_ok("weekly_reel", full_caption, video_path.name, f"set={set_name}, format={active_format}, media_id={media_id}{yt_detail}")
     files_to_log = [LOG_FILE]
     if ARCH_INDEX_FILE.exists():
@@ -2987,9 +2989,11 @@ Return ONLY a JSON array of lowercase strings without # prefix.
             media_id = publish_reel(raw_url, full_caption, env)
             print(f"  Published to Instagram! media_id={media_id}")
             yt_id = None
+            yt_err_msg = ""
             try:
-                yt_id = publish_youtube_short(dest_video, title or "Supercar Reel", full_caption, hashtags or ["Shorts"], env)
+                yt_id, yt_err_msg = publish_youtube_short(dest_video, title or "Supercar Reel", full_caption, hashtags or ["Shorts"], env)
             except Exception as yt_err:
+                yt_err_msg = str(yt_err)
                 print(f"  [YouTube] Notice: YouTube upload bypassed ({yt_err})")
         except Exception as exc:
             log_fail("reel_upload", str(exc), full_caption, dest_video.name)
