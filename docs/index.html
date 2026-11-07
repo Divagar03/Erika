@@ -507,7 +507,7 @@
           <div class="section-title" style="margin-bottom:0.5rem;">✨ Generate Reel &amp; Short from Text</div>
           <div class="info-text" style="margin-bottom:0.75rem;">Type any supercar/superbike concept or viral journey prompt. The system generates a cohesive 5-shot cinematic edit, pairs trending audio, and cross-posts directly to both <strong>Instagram Reels</strong> and <strong>YouTube Shorts</strong>.</div>
           <div class="form-group" style="margin-bottom:0.75rem;">
-            <textarea id="custom-prompt-input" rows="3" placeholder="e.g. Porsche 911 GT3 RS in Shark Blue drifting on wet Tokyo asphalt under midnight neon lights..."></textarea>
+            <textarea id="custom-prompt-input" rows="3" placeholder="e.g. Deep dive on GT3 RS active aero wing, or compare GT3 RS vs Revuelto vs SF90, or 2026 Bugatti Tourbillon V16..."></textarea>
           </div>
           <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;">
             <button class="btn btn-primary" id="btn-custom-reel-now" style="background:linear-gradient(135deg, #6366f1, #a855f7);border:none;">✨ Post Reel &amp; YouTube Short</button>
@@ -542,9 +542,18 @@
         <!-- Dispatch actions -->
         <div>
           <div class="section-title" style="margin-bottom:0.75rem;">⚡ Quick Actions (Instant Trigger)</div>
+
+          <div style="font-size:0.75rem;font-weight:600;color:var(--muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.05em;">New Formats (High Retention &amp; Debate):</div>
+          <div class="actions-grid" style="margin-bottom:0.85rem;">
+            <button class="btn btn-primary" id="btn-deepdive-now" style="background:linear-gradient(135deg, #0284c7, #0369a1);border:none;">🔬 Deep Dive (Car Part Explained)</button>
+            <button class="btn btn-primary" id="btn-comparison-now" style="background:linear-gradient(135deg, #dc2626, #b91c1c);border:none;">⚔️ 3-Car Comparison Battle</button>
+            <button class="btn btn-primary" id="btn-future-now" style="background:linear-gradient(135deg, #7c3aed, #6d28d9);border:none;">🔮 2026 Future Hypercars</button>
+          </div>
+
+          <div style="font-size:0.75rem;font-weight:600;color:var(--muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.05em;">Standard Curation:</div>
           <div class="actions-grid">
+            <button class="btn btn-secondary" id="btn-reel-now">🎬 Clean Reel &amp; Short</button>
             <button class="btn btn-primary" id="btn-post-now">📸 Post IG Photo Now</button>
-            <button class="btn btn-secondary" id="btn-reel-now">🎬 Clean Reel &amp; YouTube Short</button>
             <button class="btn btn-primary" id="btn-journey-now" style="background:linear-gradient(135deg, #10b981, #059669);border:none;">🚀 Day X Study Reel &amp; Short</button>
             <button class="btn btn-pause" id="btn-pause-resume">⏸ Pause Automation</button>
           </div>
@@ -915,6 +924,9 @@
     // ── Render table ───────────────────────────────────────────────────────
     function kindBadge(kind) {
       if (kind === "post") return '<span class="badge badge-post">📸 IG Post</span>';
+      if (kind === "deep_dive") return '<span class="badge" style="background:rgba(2,132,199,0.18);color:#38bdf8;border:1px solid rgba(2,132,199,0.35);">🔬 Deep Dive</span>';
+      if (kind === "comparison") return '<span class="badge" style="background:rgba(220,38,38,0.18);color:#f87171;border:1px solid rgba(220,38,38,0.35);">⚔️ 3-Car Battle</span>';
+      if (kind === "future_release") return '<span class="badge" style="background:rgba(124,58,237,0.18);color:#c084fc;border:1px solid rgba(124,58,237,0.35);">🔮 Future Hypercar</span>';
       if (kind === "weekly_reel") return '<span class="badge badge-reel">🎬 Reel &amp; Short</span>';
       if (kind === "journey_reel") return '<span class="badge badge-reel">🚀 Journey Reel &amp; Short</span>';
       if (kind === "reel_upload") return '<span class="badge badge-upload">📤 Upload Reel &amp; Short</span>';
@@ -941,8 +953,14 @@
         links.push(`<a href="https://www.instagram.com/apex_rich_/" target="_blank" rel="noopener noreferrer" class="badge-ig" title="View on Instagram @apex_rich_">📸 View IG</a>`);
       }
 
-      const cleanDetail = esc(detail.replace(/media_id=\d+,?\s*/, "").replace(/yt_id=[a-zA-Z0-9_-]+,?\s*/, "").trim());
-      let res = links.join(" ");
+      let fmtTag = "";
+      if (detail.includes("format=deep_dive")) fmtTag = '<span class="badge" style="background:rgba(2,132,199,0.15);color:#38bdf8;font-size:0.68rem;">🔬 Deep Dive</span> ';
+      else if (detail.includes("format=comparison")) fmtTag = '<span class="badge" style="background:rgba(220,38,38,0.15);color:#f87171;font-size:0.68rem;">⚔️ 3-Car Battle</span> ';
+      else if (detail.includes("format=future_release")) fmtTag = '<span class="badge" style="background:rgba(124,58,237,0.15);color:#c084fc;font-size:0.68rem;">🔮 Future Hypercar</span> ';
+      else if (detail.includes("format=pure_cinematic")) fmtTag = '<span class="badge badge-reel" style="font-size:0.68rem;">🎬 Pure Cinema</span> ';
+
+      const cleanDetail = esc(detail.replace(/format=[a-z_]+,?\s*/, "").replace(/media_id=\d+,?\s*/, "").replace(/yt_id=[a-zA-Z0-9_-]+,?\s*/, "").trim());
+      let res = (fmtTag ? fmtTag + " " : "") + links.join(" ");
       if (cleanDetail) {
         res += (res ? "<br>" : "") + `<span style="color:var(--muted);font-size:0.72rem;">${cleanDetail}</span>`;
       }
@@ -1169,6 +1187,10 @@
         notify("Dispatch failed: " + e.message, "err", 8000);
       }
     }
+
+    document.getElementById("btn-deepdive-now").addEventListener("click", () => doDispatch("deep_dive", "Deep Dive (Car Part Explained)"));
+    document.getElementById("btn-comparison-now").addEventListener("click", () => doDispatch("comparison", "3-Car Comparison Battle"));
+    document.getElementById("btn-future-now").addEventListener("click", () => doDispatch("future_release", "2026 Future Hypercars Reel"));
 
     document.getElementById("btn-post-now").addEventListener("click", () => doDispatch("post", "photo post"));
     document.getElementById("btn-reel-now").addEventListener("click", () => doDispatch("weekly_reel", "clean automotive reel & YouTube short"));

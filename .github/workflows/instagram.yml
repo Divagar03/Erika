@@ -21,6 +21,9 @@ on:
         type: choice
         options:
           - reel
+          - deep_dive
+          - comparison
+          - future_release
           - journey_reel
           - weekly_reel
           - post
@@ -81,7 +84,7 @@ jobs:
             if [ -f "trigger.txt" ]; then
               RAW_MODE=$(head -n 1 trigger.txt | awk '{print $1}')
               case "$RAW_MODE" in
-                post|journey_reel|weekly_reel|reel|upload_reel)
+                post|journey_reel|weekly_reel|reel|upload_reel|deep_dive|comparison|future_release)
                   MODE="$RAW_MODE"
                   ;;
                 *)

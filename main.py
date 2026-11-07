@@ -1197,6 +1197,7 @@ ENGINE_SFX_DIR = Path(__file__).parent / "assets" / "sfx" / "engine"
 VEHICLE_SETS_DIR = Path(__file__).parent / "assets" / "vehicles" / "sets"
 VEHICLE_VIDEO_SETS_DIR = Path(__file__).parent / "assets" / "vehicles" / "video_sets"
 VEHICLE_STATE_FILE = Path(__file__).parent / "data" / "vehicle_state.json"
+REEL_PATTERN_FILE = Path(__file__).parent / "data" / "reel_pattern_state.json"
 
 
 def pick_engine_sfx(theme_hint: str = "", is_bike: bool = False) -> Path | None:
@@ -1516,7 +1517,276 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     is_bike = any(b in chosen_name for b in ["bike", "ducati", "yamaha", "kawasaki", "s1000rr"])
     return chosen_name, available_dict[chosen_name], is_bike
 
-def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str = "", is_bike: bool = False, text_overlay: str = "", is_fast_motion: bool = False) -> None:
+
+# ---------------------------------------------------------------------------
+# Dynamic Content Pattern Engine (Deep Dives, 3-Car Battles, Future Hypercars)
+# ---------------------------------------------------------------------------
+
+def make_overlay_card(top_badge: str, title: str, subtitle: str, out_path: Path) -> Path:
+    """Generate a high-resolution 1080x1920 transparent PNG card with modern typography."""
+    from PIL import Image, ImageDraw
+    im = Image.new("RGBA", (1080, 1920), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(im)
+
+    # Top Pill Badge
+    top_badge_clean = top_badge.strip().upper()
+    top_w = min(820, max(520, len(top_badge_clean) * 22))
+    top_h = 66
+    top_x = (1080 - top_w) // 2
+    top_y = 220
+    draw.rounded_rectangle(
+        [top_x, top_y, top_x + top_w, top_y + top_h],
+        radius=16,
+        fill=(13, 16, 23, 215),
+        outline=(255, 255, 255, 75),
+        width=2
+    )
+    draw.text((1080 // 2, top_y + top_h // 2), top_badge_clean, fill=(255, 255, 255, 255), anchor="mm")
+
+    # Lower-Third Info Card
+    sub_lines = [l.strip() for l in subtitle.split("\n") if l.strip()]
+    card_h = 135 + max(0, len(sub_lines) - 1) * 38
+    card_w = 950
+    card_x = (1080 - card_w) // 2
+    card_y = 1920 - 450
+    draw.rounded_rectangle(
+        [card_x, card_y, card_x + card_w, card_y + card_h],
+        radius=22,
+        fill=(11, 14, 20, 225),
+        outline=(255, 255, 255, 75),
+        width=2
+    )
+
+    # Card Title
+    draw.text((1080 // 2, card_y + 42), title.strip().upper(), fill=(255, 255, 255, 255), anchor="mm")
+
+    # Card Subtitle Lines
+    for i, line in enumerate(sub_lines):
+        color = (165, 195, 235, 255) if i == 0 else (210, 220, 235, 255)
+        draw.text((1080 // 2, card_y + 84 + i * 38), line, fill=color, anchor="mm")
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    im.save(out_path, "PNG")
+    return out_path
+
+
+DEEP_DIVE_TOPICS = {
+    "porsche_911_gt3rs": {
+        "badge": "🔬 DEEP DIVE • GT3 RS",
+        "title": "Porsche 911 GT3 RS • Active DRS Aero Breakdown 🏁",
+        "scenes": [
+            ("🔬 DEEP DIVE: GT3 RS", "SWAN-NECK ACTIVE AERO", "860 KG of downforce at 285 km/h\nDouble the downforce of the 991.2 generation"),
+            ("🔬 DEEP DIVE: GT3 RS", "HYDRAULIC DRS ACTUATOR", "Hydraulic ram flattens the top blade on straights\nReduces drag for maximum terminal velocity"),
+            ("🔬 DEEP DIVE: GT3 RS", "STEERING DRS CONTROL", "Carbon steering wheel with dedicated DRS trigger\nManual override for full driver command"),
+            ("🔬 DEEP DIVE: GT3 RS", "4.0L NATURALLY ASPIRATED", "518 HP screaming all the way to 9,000 RPM\nPure motorsport flat-6 throttle response"),
+            ("🔬 THE VERDICT", "TRACK WEAPON BENCHMARK", "Is this the greatest road-legal track scalpel?\nRate this engineering 1-10 👇")
+        ],
+        "captions": [
+            "Under the skin of the Porsche 911 GT3 RS lies an aerodynamic marvel: swan-neck active DRS generating an insane 860 kg of downforce. At speed, a hydraulic actuator tilts the upper wing blade flat, dropping drag instantly for high-speed straights. Does any road-legal machine rival Porsche's track engineering? Drop your rating 1-10 below 👇",
+            "860 kg of downforce. 9,000 RPM redline. Hydraulic DRS wing that flattens on demand. The Porsche 911 GT3 RS blurs the line between GT3 Cup race car and street machine. Would you daily this track monster? Drop your dream spec below 👇"
+        ],
+        "tags": ["porsche", "porsche911", "gt3rs", "activedrs", "aerodynamics", "trackweapon", "speedhunters", "carlifestyle", "downforce", "hypercars"]
+    },
+    "ferrari_sf90": {
+        "badge": "🔬 DEEP DIVE • SF90",
+        "title": "Ferrari SF90 • RAC-e Torque Vectoring Breakdown 🔴⚡",
+        "scenes": [
+            ("🔬 DEEP DIVE: SF90", "HYBRID POWERTRAIN", "3 Electric Motors + Twin-Turbo V8\nTotal combined output: 986 Horsepower"),
+            ("🔬 DEEP DIVE: SF90", "RAC-e FRONT AXLE", "Dual independent front electric motors\nSteers the car through corners using torque"),
+            ("🔬 DEEP DIVE: SF90", "SUB-2.5s AWD LAUNCH", "Instant electric torque-fill eliminates turbo lag\n0-100 km/h in an eye-watering 2.4 seconds"),
+            ("🔬 DEEP DIVE: SF90", "SHUT-OFF GURNEY FLAP", "Patented active aero element lowers in bends\nGenerates 390 kg downforce at 250 km/h"),
+            ("🔬 THE VERDICT", "HYBRID OR PURE V8?", "Is instant electric torque superior to pure analog V8s?\nDrop your verdict in the comments 👇")
+        ],
+        "captions": [
+            "How does the Ferrari SF90 Stradale hit 0-100 km/h in 2.4 seconds? The secret is Ferrari's RAC-e torque vectoring system. Dual independent electric motors on the front axle pull the nose through turns before the 4.0L twin-turbo V8 even hits peak boost. Is this Maranello's most brilliant powertrain? Drop your thoughts below 👇",
+            "986 horsepower. 3 electric motors. Sub-2.5 second launch. The Ferrari SF90 Stradale rewrites the physics of all-wheel drive supercars. Would you take this over an analog V12? Drop your vote below 👇"
+        ],
+        "tags": ["ferrari", "sf90", "sf90stradale", "torquevectoring", "hybridhypercar", "maranello", "supercars", "carlifestyle", "speedhunters", "carreels"]
+    },
+    "lamborghini_revuelto": {
+        "badge": "🔬 DEEP DIVE • REVUELTO",
+        "title": "Lamborghini Revuelto • V12 Hybrid Monofuselage Breakdown 🟡⚡",
+        "scenes": [
+            ("🔬 DEEP DIVE: REVUELTO", "AERONAUTIC MONOFUSELAGE", "100% Forged Composite carbon monocoque\n10% lighter, 25% stiffer than Aventador"),
+            ("🔬 DEEP DIVE: REVUELTO", "6.5L NATURALLY ASPIRATED V12", "Revving to an ear-splitting 9,500 RPM\nOutputs 814 HP from pure displacement"),
+            ("🔬 DEEP DIVE: REVUELTO", "TRIPLE ELECTRIC MOTORS", "Two front axial-flux + one rear radial-flux\nPushes total hypercar power past 1,001 HP"),
+            ("🔬 DEEP DIVE: REVUELTO", "TRANSVERSE 8-SPEED DCT", "Mounted behind V12 to free central tunnel\nHouses 3.8 kWh high-density battery pack"),
+            ("🔬 THE VERDICT", "THE V12 LIVES ON", "Can any modern hybrid rival this naturally aspirated roar?\nDrop your thoughts in comments 👇")
+        ],
+        "captions": [
+            "While others downsized, Lamborghini doubled down. The Revuelto pairs a screaming 6.5L naturally aspirated V12 (9,500 RPM redline) with triple electric motors for 1,001 horsepower. Mounted in a fighter-jet inspired carbon monofuselage, it defines the new hypercar era. Rate this V12 hybrid beast 1-10 👇",
+            "1,001 horsepower without sacrificing the sacred naturally aspirated V12 sound. The Lamborghini Revuelto is engineering poetry in motion. Drop your favorite Lamborghini in the comments 👇"
+        ],
+        "tags": ["lamborghini", "revuelto", "v12", "monofuselage", "hybridhypercar", "hypercars", "supercars", "carlifestyle", "carspotting", "speedhunters"]
+    },
+    "ducati_panigale_v4s": {
+        "badge": "🔬 DEEP DIVE • PANIGALE V4 S",
+        "title": "Ducati Panigale V4 S • MotoGP Counter-Rotating Crank 🏍️🔥",
+        "scenes": [
+            ("🔬 DEEP DIVE: PANIGALE V4 S", "MOTOGP CRANKSHAFT", "Counter-rotating crank spins opposite to wheels\nCancels gyroscopic inertia for instant turn-in"),
+            ("🔬 DEEP DIVE: PANIGALE V4 S", "BIPLANE CARBON WINGS", "Aerodynamic winglets push front tire into asphalt\n37 kg of downforce at 270 km/h"),
+            ("🔬 DEEP DIVE: PANIGALE V4 S", "DESMOSEDICI STRADALE", "1,103cc 90-degree V4 engine\n215.5 HP moving only 175 kg dry weight"),
+            ("🔬 DEEP DIVE: PANIGALE V4 S", "BREMBO STYLEMA CALIPERS", "Twin 330mm semi-floating front discs\nPrecision stopping power under extreme Gs"),
+            ("🔬 THE VERDICT", "THE KING OF TWO WHEELS", "Is this the pinnacle of motorcycle engineering?\nTag a rider who needs to see this 🔥")
+        ],
+        "captions": [
+            "Why does the Ducati Panigale V4 S turn in faster than any road bike? It features a MotoGP-derived counter-rotating crankshaft that spins in reverse relative to the wheels, cancelling out gyroscopic inertia. Paired with biplane carbon wings, it glues 215.5 HP to the tarmac. Is this the ultimate superbike? Drop your thoughts below 👇",
+            "215.5 horsepower. 175 kg dry weight. MotoGP aerodynamic winglets. The Ducati Panigale V4 S is pure adrenaline on two wheels. Rate this Italian masterpiece 1-10 👇"
+        ],
+        "tags": ["ducati", "panigalev4s", "superbikes", "motogp", "bikersofinstagram", "twowheels", "sportbike", "bikelife", "ducatistagram"]
+    },
+    "nissan_gtr_r35": {
+        "badge": "🔬 DEEP DIVE • NISSAN GT-R",
+        "title": "Nissan GT-R • ATTESA E-TS All-Wheel Drive Breakdown 🇯🇵⚡",
+        "scenes": [
+            ("🔬 DEEP DIVE: NISSAN GT-R", "HANDBUILT TAKUMI ENGINE", "Twin-turbo 3.8L VR38DETT V6\nHandcrafted by one of only 5 master craftsmen"),
+            ("🔬 DEEP DIVE: NISSAN GT-R", "REAR TRANSAXLE AWD", "World's first independent rear transaxle AWD\nDual driveshafts balance 50:50 weight distribution"),
+            ("🔬 DEEP DIVE: NISSAN GT-R", "ATTESA E-TS PRO TORQUE", "Electro-hydraulic clutch shifts power to front\nCalculates slip and G-force 100 times per second"),
+            ("🔬 DEEP DIVE: NISSAN GT-R", "SUB-2.8s LAUNCH CONTROL", "Aggressive launch control on any surface\nEarned the legendary moniker 'Godzilla'"),
+            ("🔬 THE VERDICT", "THE GIANT KILLER", "Will any modern supercar ever match the GT-R legacy?\nDrop your thoughts below 👇")
+        ],
+        "captions": [
+            "How did the Nissan GT-R humiliate supercars twice its price? The secret was ATTESA E-TS Pro all-wheel drive paired with an independent rear transaxle. Calculating slip 100 times per second, it channels 600 horsepower from a handbuilt Takumi twin-turbo V6 with surgical grip. Will Godzilla ever be topped? Drop your thoughts below 👇",
+            "Dual driveshafts. Handbuilt Takumi twin-turbo V6. Independent rear transaxle. The Nissan GT-R revolutionized modern all-wheel drive performance. Rate this JDM legend 1-10 👇"
+        ],
+        "tags": ["nissangtr", "gtr", "r35", "godzilla", "attesa", "takumi", "jdm", "supercars", "carlifestyle", "speedhunters"]
+    },
+    "aston_martin_valour": {
+        "badge": "🔬 DEEP DIVE • VALOUR",
+        "title": "Aston Martin Valour • 705 HP Twin-Turbo V12 Manual 🇬🇧🔥",
+        "scenes": [
+            ("🔬 DEEP DIVE: VALOUR", "5.2L TWIN-TURBO V12", "705 Horsepower and 753 Nm of torque\nA front-mid mounted British sledgehammer"),
+            ("🔬 DEEP DIVE: VALOUR", "BESPOKE 6-SPEED MANUAL", "Pure mechanical linkage with exposed knob\nBuilt to withstand extreme V12 torque forces"),
+            ("🔬 DEEP DIVE: VALOUR", "CARBON FIBER BODYWORK", "Sculpted carbon body with retro twin aero vents\nInspired by the legendary 1970s V8 Vantage"),
+            ("🔬 DEEP DIVE: VALOUR", "110 UNITS WORLDWIDE", "Ultra-rare collector flagship celebrating 110 years\nThe final analog manual V12 era"),
+            ("🔬 THE VERDICT", "THE MANUAL REIGN", "Manual 6-speed or lightning-fast dual clutch?\nWhere does your passion lie? 👇")
+        ],
+        "captions": [
+            "In an era of automated paddle shifters, Aston Martin built the Valour: a 705 HP twin-turbo V12 mated strictly to a bespoke 6-speed manual gearbox. With only 110 units worldwide and an exposed mechanical shifter linkage, it is the ultimate tribute to analog driving soul. Manual or DCT? Drop your answer below 👇",
+            "705 horsepower. 6-speed manual transmission. Twin-turbo V12 fury. The Aston Martin Valour proves that driving soul will never die. Rate this manual masterpiece 1-10 👇"
+        ],
+        "tags": ["astonmartin", "valour", "v12manual", "savethemanuals", "analogsupercar", "hypercars", "supercars", "carlifestyle", "speedhunters"]
+    }
+}
+
+
+COMPARISON_BATTLES = [
+    {
+        "id": "battle_hyper_track",
+        "title": "Track Titans Battle • GT3 RS vs Revuelto vs SF90 ⚔️🏁",
+        "cars": [
+            ("porsche_911_gt3rs", ("⚔️ CONTENDER 1: PORSCHE", "PORSCHE 911 GT3 RS", "518 HP • 9,000 RPM FLAT-6\n0-100: 3.2s • 860 KG ACTIVE AERO")),
+            ("lamborghini_revuelto", ("⚔️ CONTENDER 2: LAMBORGHINI", "LAMBO REVUELTO", "1,001 HP • 6.5L V12 HYBRID\n0-100: 2.5s • CARBON MONOFUSELAGE")),
+            ("ferrari_sf90", ("⚔️ CONTENDER 3: FERRARI", "FERRARI SF90 STRADALE", "986 HP • TWIN-TURBO V8 AWD\n0-100: 2.4s • RAC-e TORQUE VECTORING")),
+        ],
+        "outro": ("⚔️ THE SHOWDOWN", "WHICH KEYS ARE YOU TAKING?", "GT3 RS, REVUELTO, OR SF90?\nVOTE 1, 2, OR 3 IN COMMENTS 👇"),
+        "captions": [
+            "3 philosophies of speed. The aerodynamic precision of the Porsche 911 GT3 RS (518 HP, 9,000 RPM). The thunderous 1,001 HP V12 hybrid fury of the Lamborghini Revuelto. The surgical 2.4s AWD launch of the Ferrari SF90 Stradale. Which key are you grabbing for a weekend on the track? Drop 1, 2, or 3 below! 🔑👇",
+            "German precision vs Italian V12 fury vs Maranello hybrid speed. Porsche 911 GT3 RS, Lamborghini Revuelto, or Ferrari SF90 Stradale? Vote your champion below 👇🔥"
+        ],
+        "tags": ["carbattle", "supercars", "hypercars", "porsche", "lamborghini", "ferrari", "gt3rs", "revuelto", "sf90", "carreels", "carlifestyle"]
+    },
+    {
+        "id": "battle_sound_symphony",
+        "title": "Exhaust Symphony Battle • V10 vs V8 vs Twin-Turbo 🔊⚔️",
+        "cars": [
+            ("audi_r8_v10", ("⚔️ CONTENDER 1: GERMAN V10", "AUDI R8 V10 PERFORMANCE", "602 HP • 5.2L NA V10 • 8,700 RPM\nMid-engine naturally aspirated symphony")),
+            ("white_mustang_sunset", ("⚔️ CONTENDER 2: AMERICAN V8", "FORD MUSTANG GT 5.0", "480 HP • 5.0L COYOTE V8\nNaturally aspirated American muscle roar")),
+            ("nissan_gtr_r35", ("⚔️ CONTENDER 3: JDM GODZILLA", "NISSAN GT-R NISMO", "600 HP • TWIN-TURBO V6 AWD\nTakumi handbuilt launch control")),
+        ],
+        "outro": ("⚔️ THE SOUND BATTLE", "WHICH EXHAUST NOTE WINS?", "High-revving V10, American V8, or Twin-Turbo V6?\nDrop your favorite sound below 🔊👇"),
+        "captions": [
+            "The ultimate exhaust sound battle. 5.2 liters of screaming naturally aspirated German V10 (Audi R8). 5.0 liters of deep naturally aspirated American muscle rumble (Mustang GT). Or the twin-turbo whistle and all-wheel drive launch of Godzilla (Nissan GT-R). Which soundtrack reigns supreme? Turn your volume UP and vote below! 🔊👇",
+            "V10 scream vs American V8 rumble vs Twin-Turbo JDM whistle. Sound up for this 3-way exhaust battle! Which one gives you goosebumps? Drop your vote below 👇🔊"
+        ],
+        "tags": ["soundbattle", "exhaustsound", "v10", "v8", "twinturbo", "audir8", "mustang", "nissangtr", "carreels", "carlifestyle"]
+    },
+    {
+        "id": "battle_two_vs_four",
+        "title": "Two Wheels vs Four Wheels • Ducati vs BMW vs Porsche ⚔️🔥",
+        "cars": [
+            ("ducati_panigale_v4s", ("⚔️ CONTENDER 1: DUCATI", "DUCATI PANIGALE V4 S", "215.5 HP • 175 KG • MOTOGP TECH\nPower-to-weight ratio: 1.23 HP/kg")),
+            ("bmw_s1000rr", ("⚔️ CONTENDER 2: BMW", "BMW S1000RR M PACKAGE", "205 HP • SHIFTCAM INLINE-4\nCarbon wheels • 0-100: 2.8s")),
+            ("porsche_911_gt3rs", ("⚔️ CONTENDER 3: PORSCHE", "PORSCHE 911 GT3 RS", "518 HP • 860 KG DOWNFORCE\n4.0L Flat-6 • Nürburgring master")),
+        ],
+        "outro": ("⚔️ 2 WHEELS OR 4 WHEELS?", "WHERE IS THE REAL ADRENALINE?", "1,000+ HP/ton superbikes or maximum G-force downforce?\nDrop your answer below 👇"),
+        "captions": [
+            "Two wheels vs four wheels: where does the true rush live? The Ducati Panigale V4 S packs 215 HP into 175 kg. The BMW S1000RR M brings ShiftCam precision. The Porsche 911 GT3 RS brings 860 kg of active aerodynamic downforce. Would you rather lean into the apex on two wheels or pull 2G in the GT3 RS? Vote below! 🔥👇",
+            "Superbike vs Supercar. Would you rather pilot a 215 HP Ducati on the limit or strap into the cockpit of a Porsche 911 GT3 RS? Drop your allegiance below 👇🏍️🏎️"
+        ],
+        "tags": ["bikesvscars", "ducati", "bmwmotorrad", "porsche", "panigale", "s1000rr", "gt3rs", "superbikes", "supercars", "carlifestyle"]
+    },
+    {
+        "id": "battle_modern_vs_analog",
+        "title": "Le Mans Vanguard vs Pure Analog V12 • F80 vs Valour vs Diablo ⚔️🇮🇹",
+        "cars": [
+            ("ferrari_f80", ("⚔️ CONTENDER 1: FERRARI F80 (2026)", "FERRARI F80 FLAGSHIP", "1,184 HP • LE MANS HYBRID V6\n$3.9M Successor to LaFerrari")),
+            ("aston_martin_valour", ("⚔️ CONTENDER 2: ASTON VALOUR", "ASTON MARTIN VALOUR", "705 HP • 5.2L TWIN-TURBO V12\nBespoke 6-speed manual gearbox")),
+            ("lamborghini_diablo", ("⚔️ CONTENDER 3: LAMBORGHINI DIABLO", "LAMBO DIABLO VT", "492 HP • 5.7L NA V12 ICON\n5-speed gated manual • Pop-up headlights")),
+        ],
+        "outro": ("⚔️ MODERN OR ANALOG?", "WHERE DOES YOUR SOUL BELONG?", "1,184 HP Le Mans hybrid or pure 90s gated manual V12?\nVOTE IN COMMENTS 👇"),
+        "captions": [
+            "The clash of eras. The 1,184 HP Ferrari F80 hypercar with Le Mans hybrid technology. The ultra-exclusive 705 HP Aston Martin Valour with a 6-speed manual V12. Or the poster-car icon: the 1990s Lamborghini Diablo VT with naturally aspirated V12 purity. If you could own one forever, which keys are you taking? Vote below! 👇",
+            "1,184 HP modern hybrid spaceship or 90s gated manual V12 royalty? Where does your true passion lie? Drop your choice below 👇🔥"
+        ],
+        "tags": ["analogvsmodern", "ferrarif80", "astonvalour", "lamborghinidiablo", "v12", "manualsupercar", "hypercars", "carreels", "carlifestyle"]
+    }
+]
+
+
+FUTURE_HYPERCARS_TOPIC = {
+    "title": "2025/2026 Hypercar Vanguard • F80 vs Tourbillon vs Temerario 🔮⚡",
+    "sets": ["ferrari_f80", "aston_martin_valour", "lamborghini_diablo", "red_sportscar"],
+    "scenes": [
+        ("🔮 FUTURE HYPERCARS • 2026", "FERRARI F80 (2025/2026)", "1,184 HP • LE MANS HYBRID V6\nMaranello's $3.9M Flagship • 799 units worldwide"),
+        ("🔮 FUTURE HYPERCARS • 2026", "BUGATTI TOURBILLON", "1,800 HP • 8.3L COSWORTH V16\nNaturally aspirated • Revs to 9,000 RPM"),
+        ("🔮 FUTURE HYPERCARS • 2026", "LAMBORGHINI TEMERARIO", "907 HP • TWIN-TURBO 4.0L V8\nRevving to an astonishing 10,000 RPM"),
+        ("🔮 FUTURE HYPERCARS • 2026", "ASTON MARTIN VALOUR", "705 HP • 5.2L TWIN-TURBO V12\nBespoke 6-speed manual transmission"),
+        ("🔮 THE FUTURE OF SPEED", "WHICH ERA WILL REIGN?", "Hybrid V6, 10,000 RPM V8, or Cosworth V16?\nDrop your dream future spec below 👇")
+    ],
+    "captions": [
+        "The 2025/2026 hypercar war has officially ignited. The 1,184 HP Ferrari F80 Le Mans hybrid hypercar. The 1,800 HP naturally aspirated Bugatti Tourbillon V16. The 907 HP Lamborghini Temerario revving to 10,000 RPM. And the analog manual Aston Martin Valour V12. Which of these future release titans are you crowning king? Drop your verdict below! 🔮👇",
+        "Are we living in the greatest hypercar golden era? 1,800 HP naturally aspirated V16 engines and 10,000 RPM twin-turbo V8s are coming to the road. Which future release hypercar are you most excited for? Drop your choice in the comments 👇🔥"
+    ],
+    "tags": ["futurecars", "2026hypercars", "ferrarif80", "bugattitourbillon", "temerario", "astonmartinvalour", "hypercars", "supercars", "carreels", "carlifestyle"]
+}
+
+
+def get_next_reel_pattern(requested_format: str = "") -> str:
+    """Cycle sequentially through ['deep_dive', 'comparison', 'future_release', 'pure_cinematic']
+    to guarantee followers always get a fresh, exciting mix of content formats."""
+    ALLOWED = ["deep_dive", "comparison", "future_release", "pure_cinematic"]
+    if requested_format and requested_format in ALLOWED:
+        try:
+            REEL_PATTERN_FILE.parent.mkdir(parents=True, exist_ok=True)
+            with open(REEL_PATTERN_FILE, "w", encoding="utf-8") as f:
+                json.dump({"last_format": requested_format}, f, indent=2)
+        except Exception:
+            pass
+        return requested_format
+
+    last_fmt = "pure_cinematic"
+    if REEL_PATTERN_FILE.exists():
+        try:
+            with open(REEL_PATTERN_FILE, encoding="utf-8") as f:
+                data = json.load(f)
+                last_fmt = data.get("last_format", "pure_cinematic")
+        except Exception:
+            pass
+
+    idx = (ALLOWED.index(last_fmt) + 1) % len(ALLOWED) if last_fmt in ALLOWED else 0
+    next_fmt = ALLOWED[idx]
+
+    try:
+        REEL_PATTERN_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(REEL_PATTERN_FILE, "w", encoding="utf-8") as f:
+            json.dump({"last_format": next_fmt}, f, indent=2)
+    except Exception:
+        pass
+
+    return next_fmt
+
+def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str = "", is_bike: bool = False, text_overlay: str = "", is_fast_motion: bool = False, scene_cards: list[tuple[str, str, str]] | None = None) -> None:
     """Build a ~10-14s 9:16 vertical viral reel from real human-shot video clips (or photo cuts fallback)
     with seamless crossfades, matched engine ignition + rev audio (only when car is moving fast), and background soundtrack."""
     width, height = 1080, 1920
@@ -1538,11 +1808,25 @@ def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str
     n = len(media_paths)
     inputs: list[str] = []
 
+    created_card_files: list[Path] = []
     if is_video_clips:
         clip_duration = 2.2 # 2.2s per human-shot video angle
         fade_duration = 0.25 # fast cinematic dissolve
         for p in media_paths:
             inputs += ["-i", str(p)]
+
+        # Prepare scene cards as overlay inputs if provided
+        num_cards = 0
+        if scene_cards:
+            for i, card_info in enumerate(scene_cards[:n]):
+                c_path = MEDIA_DIR / f"card_{output_path.stem}_{i}.png"
+                make_overlay_card(card_info[0], card_info[1], card_info[2], c_path)
+                created_card_files.append(c_path)
+                inputs += ["-i", str(c_path)]
+            num_cards = len(created_card_files)
+
+        music_input_idx = n + num_cards
+        engine_input_idx = n + num_cards + (1 if has_music else 0)
 
         if has_music:
             inputs += ["-i", str(music_path)]
@@ -1564,10 +1848,18 @@ def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str
         filter_parts: list[str] = []
         concat_inputs: list[str] = []
         for i in range(n):
-            filter_parts.append(
-                f"[{i}:v]scale={width}:{height}:force_original_aspect_ratio=increase,"
-                f"crop={width}:{height},setsar=1,fps=30,format=yuv420p[v{i}]"
-            )
+            if i < num_cards:
+                card_idx = n + i
+                filter_parts.append(
+                    f"[{i}:v]scale={width}:{height}:force_original_aspect_ratio=increase,"
+                    f"crop={width}:{height},setsar=1,fps=30,format=yuv420p[vraw{i}];"
+                    f"[vraw{i}][{card_idx}:v]overlay=0:0[v{i}]"
+                )
+            else:
+                filter_parts.append(
+                    f"[{i}:v]scale={width}:{height}:force_original_aspect_ratio=increase,"
+                    f"crop={width}:{height},setsar=1,fps=30,format=yuv420p[v{i}]"
+                )
             concat_inputs.append(f"[v{i}]")
 
         concat_clause = "".join(concat_inputs) + f"concat=n={n}:v=1:a=0[vconcat]"
@@ -1601,16 +1893,16 @@ def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str
 # total_dur calculated above from clip durations
 
         if has_music and has_engine:
-            m_idx = n
-            s_idx = n + 1
+            m_idx = music_input_idx
+            s_idx = engine_input_idx
             filter_parts.append(f"[{m_idx}:a]volume='if(lt(t,1.8),0.25,if(lt(t,3.2),0.25+(t-1.8)*0.45,0.75))':eval=frame[bgm]")
             filter_parts.append(f"[{s_idx}:a]volume=1.5[eng]")
             filter_parts.append(f"[bgm][eng]amix=inputs=2:duration=first:dropout_transition=2[aout]")
             audio_map = "[aout]"
         elif has_music:
-            audio_map = f"{n}:a"
+            audio_map = f"{music_input_idx}:a"
         elif has_engine:
-            audio_map = f"{n}:a"
+            audio_map = f"{engine_input_idx}:a"
         else:
             audio_map = None
 
@@ -1709,6 +2001,12 @@ def build_reel_video(media_paths: list[Path], output_path: Path, theme_hint: str
                 txt_file.unlink()
             except Exception:
                 pass
+        for c_file in created_card_files:
+            if c_file.exists():
+                try:
+                    c_file.unlink()
+                except Exception:
+                    pass
     print(f"  Video built: {output_path} ({output_path.stat().st_size // 1024} KB)")
 
 
@@ -2030,11 +2328,16 @@ CURATED_SET_METADATA = {
 }
 
 def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str = "") -> None:
-    """Generate and publish a 100% human-shot video reel with matched audio, captions, and zero AI glitches."""
-    print("\n=== MODE: reel ===")
-        # ── Check minimum cooldown for scheduled automated runs ─────────────────
-    # If the user recently posted a reel (e.g. via 'Make Clean Reel Now' or custom reel),
-    # do NOT post another automated reel right on top of it.
+    """Generate and publish a dynamic, high-engagement automotive reel with multi-format pattern rotation:
+    - deep_dive: explains technical components/engineering deeply with on-screen cards
+    - comparison: head-to-head 3-car battle comparing specs and exhaust notes
+    - future_release: breaks down upcoming 2025/2026 hypercars & concept releases
+    - pure_cinematic: high-octane single-machine audio/visual aesthetic cut
+    - journey_reel: Day X student journey reel (12 AM daily or explicit button)
+    """
+    print("\n=== MODE: reel (Dynamic Multi-Format Engine) ===")
+
+    # ── Check minimum cooldown for scheduled automated runs ─────────────────
     event_name = os.environ.get("GITHUB_EVENT_NAME", "").lower()
     is_manual = bool(custom_prompt) or (event_name == "workflow_dispatch")
     if not is_manual:
@@ -2042,18 +2345,36 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         if last_time:
             elapsed = (datetime.now(timezone.utc) - last_time).total_seconds() / 60.0
             if elapsed < 90:
-                print(f"\n[SKIP SCHEDULED POST] A reel was already posted {elapsed:.1f} minutes ago (via manual button or previous run).")
+                print(f"\n[SKIP SCHEDULED POST] A reel was already posted {elapsed:.1f} minutes ago.")
                 print(f"Minimum interval between automated reels is 90 minutes. Skipping to prevent duplicate/spamming.")
                 return
 
     ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
+    # Load all available vehicle assets
+    available_dict: dict[str, list[Path]] = {}
+    if VEHICLE_VIDEO_SETS_DIR.exists():
+        for d in sorted(VEHICLE_VIDEO_SETS_DIR.iterdir()):
+            if d.is_dir():
+                clips = sorted(list(d.glob("clip_*.mp4")))
+                if len(clips) >= 3:
+                    available_dict[d.name] = clips
+    if VEHICLE_SETS_DIR.exists():
+        for d in sorted(VEHICLE_SETS_DIR.iterdir()):
+            if d.is_dir():
+                shots = sorted(list(d.glob("shot_*.jpg")))
+                if len(shots) == 5:
+                    available_dict[d.name] = shots
+
+    prompt_lower = custom_prompt.lower().strip()
     study_overlay = ""
-    # Check if this is a study journey reel
-    meta: dict = {}
-    if custom_prompt and ("Day" in custom_prompt or "ug studies" in custom_prompt):
-        # Extract Day number if present
-        day_match = re.search(r'Day\s+(\d+)', custom_prompt)
+    scene_cards: list[tuple[str, str, str]] = []
+    active_format = "pure_cinematic"
+
+    # 1. Study Journey Reel Detection
+    if custom_prompt and ("day" in prompt_lower or "ug studies" in prompt_lower):
+        active_format = "journey_reel"
+        day_match = re.search(r'Day\s+(\d+)', custom_prompt, re.IGNORECASE)
         day_num = day_match.group(1) if day_match else "1"
         study_overlay = (
             f"Day {day_num} of seeking help to complete my ug studies\n\n"
@@ -2063,33 +2384,179 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         caption_text = (
             f"Day {day_num} of seeking help to complete my ug studies.\n\n"
             "I am an undergraduate student working hard to finish my education and graduate. "
-            "If you have guidance, mentorship, or support to share, every bit helps me keep moving forward. \U0001F4DA\U0001F393\n\n"
+            "If you have guidance, mentorship, or support to share, every bit helps me keep moving forward. 📚🎓\n\n"
             "Thank you for being part of this journey."
         )
         hashtags = ["ugstudies", "collegejourney", "studentlife", "graduationgoals", "educationmatters", "nevergiveup", "dailyjourney"]
         set_name, set_shots, is_bike = get_next_curated_vehicle_set()
         title = f"Day {day_num} • Seeking Help To Complete UG Studies"
+
+    # 2. Deep Dive: Component / Engineering Breakdown Format
+    elif (
+        prompt_lower.startswith("deep_dive") or
+        "deep dive" in prompt_lower or
+        "part of car" in prompt_lower or
+        "explain" in prompt_lower or
+        "aero" in prompt_lower or
+        "engine" in prompt_lower or
+        (not custom_prompt and get_next_reel_pattern() == "deep_dive")
+    ):
+        active_format = "deep_dive"
+        # Select matching deep dive topic or pick next in rotation
+        matched_topic_key = None
+        TOPIC_ALIASES = {
+            "porsche": "porsche_911_gt3rs", "gt3": "porsche_911_gt3rs", "aero": "porsche_911_gt3rs", "wing": "porsche_911_gt3rs",
+            "sf90": "ferrari_sf90", "stradale": "ferrari_sf90", "torque": "ferrari_sf90", "hybrid": "ferrari_sf90",
+            "revuelto": "lamborghini_revuelto", "lambo": "lamborghini_revuelto", "monofuselage": "lamborghini_revuelto",
+            "ducati": "ducati_panigale_v4s", "panigale": "ducati_panigale_v4s", "crank": "ducati_panigale_v4s", "bike": "ducati_panigale_v4s",
+            "gtr": "nissan_gtr_r35", "godzilla": "nissan_gtr_r35", "attesa": "nissan_gtr_r35", "nissan": "nissan_gtr_r35",
+            "valour": "aston_martin_valour", "aston": "aston_martin_valour", "manual": "aston_martin_valour"
+        }
+        for kw, target_key in TOPIC_ALIASES.items():
+            if kw in prompt_lower and target_key in DEEP_DIVE_TOPICS:
+                matched_topic_key = target_key
+                break
+        if not matched_topic_key:
+            for k in DEEP_DIVE_TOPICS:
+                if k in prompt_lower or k.replace("_", " ") in prompt_lower:
+                    matched_topic_key = k
+                    break
+        if not matched_topic_key:
+            # Pick a topic whose assets exist
+            valid_keys = [k for k in DEEP_DIVE_TOPICS if k in available_dict]
+            matched_topic_key = random.choice(valid_keys) if valid_keys else "porsche_911_gt3rs"
+
+        topic = DEEP_DIVE_TOPICS[matched_topic_key]
+        set_name = matched_topic_key
+        set_shots = available_dict.get(set_name, [])
+        if not set_shots:
+            set_name, set_shots, _ = get_next_curated_vehicle_set()
+
+        scene_cards = topic["scenes"]
+        title = topic["title"]
+        hashtags = topic["tags"]
+        is_bike = "bike" in set_name or "ducati" in set_name or "s1000rr" in set_name
+
+        # Generate fresh Gemini caption or use high-yield technical caption
+        prompt = (
+            f"You are the technical director of Zenith Motors.\n"
+            f"Write an educational, high-retention Instagram Reel caption explaining this component: {topic['title']}.\n"
+            f"Breakdown: {topic['scenes'][0][2]}.\n"
+            f"Explain why this engineering is groundbreaking in 2-3 engaging sentences.\n"
+            f"End with a debate question to drive comments (e.g. 'Does active aero belong on road cars?').\n"
+            f"Do not include hashtags in the caption body."
+        )
+        try:
+            ai_caption = call_gemini(prompt, env).strip()
+            caption_text = ai_caption if len(ai_caption) > 20 else random.choice(topic["captions"])
+        except Exception:
+            caption_text = random.choice(topic["captions"])
+
+    # 3. 3-Car Comparison Battle Format
+    elif (
+        prompt_lower.startswith("comparison") or
+        "compare" in prompt_lower or
+        " vs " in prompt_lower or
+        "battle" in prompt_lower or
+        (not custom_prompt and get_next_reel_pattern() == "comparison")
+    ):
+        active_format = "comparison"
+        battle = random.choice(COMPARISON_BATTLES)
+        set_name = battle["id"]
+        title = battle["title"]
+        hashtags = battle["tags"]
+        is_bike = any("ducati" in c[0] or "s1000rr" in c[0] for c in battle["cars"])
+
+        # Gather 1 shot from each contender car, plus 1 dramatic outro shot
+        collected_shots: list[Path] = []
+        assembled_cards: list[tuple[str, str, str]] = []
+
+        for car_key, card_info in battle["cars"]:
+            car_assets = available_dict.get(car_key, [])
+            if car_assets:
+                collected_shots.append(car_assets[0])
+                assembled_cards.append(card_info)
+
+        # Add outro shot from the first car
+        first_car_assets = available_dict.get(battle["cars"][0][0], [])
+        if first_car_assets:
+            collected_shots.append(first_car_assets[-1])
+            assembled_cards.append(battle["outro"])
+
+        set_shots = collected_shots
+        scene_cards = assembled_cards
+
+        # Generate fresh Gemini caption or use high-yield battle caption
+        prompt = (
+            f"You are the creative director of Zenith Motors.\n"
+            f"Write a viral, debate-sparking Instagram Reel caption for this supercar showdown: {battle['title']}.\n"
+            f"Compare the horsepower, engine sound, and driving dynamics of the contenders in 2-3 punchy sentences.\n"
+            f"End with an interactive voting question (e.g. 'Vote 1, 2, or 3 below! 👇').\n"
+            f"Do not include hashtags in the caption body."
+        )
+        try:
+            ai_caption = call_gemini(prompt, env).strip()
+            caption_text = ai_caption if len(ai_caption) > 20 else random.choice(battle["captions"])
+        except Exception:
+            caption_text = random.choice(battle["captions"])
+
+    # 4. Future Releases & Concept Cars Format
+    elif (
+        prompt_lower.startswith("future_release") or
+        "future" in prompt_lower or
+        "2026" in prompt_lower or
+        "concept" in prompt_lower or
+        "release" in prompt_lower or
+        (not custom_prompt and get_next_reel_pattern() == "future_release")
+    ):
+        active_format = "future_release"
+        set_name = "future_hypercars_2026"
+        topic = FUTURE_HYPERCARS_TOPIC
+        title = topic["title"]
+        hashtags = topic["tags"]
+        is_bike = False
+
+        # Gather futuristic cuts from Ferrari F80, Aston Martin Valour, and Red Roadster
+        future_sources = ["ferrari_f80", "aston_martin_valour", "red_sportscar", "ferrari_f80"]
+        collected_shots: list[Path] = []
+        for s in future_sources:
+            s_assets = available_dict.get(s, [])
+            if s_assets:
+                collected_shots.append(random.choice(s_assets))
+
+        if len(collected_shots) < 4:
+            set_name, set_shots, is_bike = get_next_curated_vehicle_set("ferrari")
+        else:
+            set_shots = collected_shots
+
+        scene_cards = topic["scenes"]
+
+        prompt = (
+            f"You are the automotive editor of Zenith Motors.\n"
+            f"Write a thrilling, viral Instagram Reel caption discussing the upcoming 2025/2026 hypercars (Ferrari F80, Bugatti Tourbillon, Lamborghini Temerario).\n"
+            f"Highlight the mind-boggling specs (1,800 HP V16, 10,000 RPM V8, Le Mans hybrid tech) in 2-3 sentences.\n"
+            f"End with a question asking the audience which future hypercar they are most hyped for.\n"
+            f"Do not include hashtags in the caption body."
+        )
+        try:
+            ai_caption = call_gemini(prompt, env).strip()
+            caption_text = ai_caption if len(ai_caption) > 20 else random.choice(topic["captions"])
+        except Exception:
+            caption_text = random.choice(topic["captions"])
+
+    # 5. Pure Cinematic Symphony Format (Default Single-Machine Aesthetic Cut)
     else:
-        # Standard 2-hour clean supercar reel (or custom prompt from dashboard)
+        active_format = "pure_cinematic"
         hint = custom_prompt if custom_prompt else ""
         set_name, set_shots, is_bike = get_next_curated_vehicle_set(hint)
         meta = CURATED_SET_METADATA.get(set_name, {})
-
-        # Retrieve metadata
         title = meta.get("title", f"{set_name.replace('_', ' ').title()} Supercar Reel")
         hashtags = meta.get("tags") or ["supercars", "hypercars", "carreels", "carlifestyle", "speedhunters", "exoticcars"]
         is_bike = meta.get("is_bike", False)
 
-        # ── Generate 100% Fresh AI Caption for EVERY Reel (Zero Repeated Text) ──
-        if custom_prompt:
-            theme_desc = f"Custom user theme / prompt: {custom_prompt}"
-            title = meta.get("title", f"{set_name.replace('_', ' ').title()} • Custom Edit")
-        else:
-            make_model = meta.get("make_model", set_name.replace("_", " ").title())
-            color = meta.get("color", "")
-            theme_desc = f"Machine: {make_model} in {color}"
-
-        print(f"Generating fresh unique AI caption for '{set_name}'...")
+        make_model = meta.get("make_model", set_name.replace("_", " ").title())
+        color = meta.get("color", "")
+        theme_desc = f"Machine: {make_model} in {color}"
         prompt = (
             f"You are the creative director of 'Zenith Motors', an elite supercar & superbike media brand.\n"
             f"Write an original, punchy, high-energy Instagram caption for a viral reel.\n"
@@ -2097,58 +2564,59 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
             f"Requirements:\n"
             f"- 1 killer opening hook line\n"
             f"- 2 short sentences capturing the raw performance, exhaust symphony, or aerodynamic styling\n"
-            f"- End with an engagement call-to-action (e.g. 'Rate this spec 1-10 👇' or 'Drop your dream spec below 🔑')\n"
-            f"- Do NOT include hashtags in the caption body (hashtags are added automatically)."
+            f"- End with an engagement call-to-action (e.g. 'Rate this spec 1-10 👇')\n"
+            f"- Do NOT include hashtags in the caption body."
         )
         try:
             ai_caption = call_gemini(prompt, env).strip()
-            if ai_caption and len(ai_caption) > 20:
-                caption_text = ai_caption
-            elif meta and "captions" in meta:
-                caption_text = random.choice(meta["captions"])
-            else:
-                caption_text = f"The {set_name.replace('_', ' ').title()} in its purest element. Rate this 1-10 👇"
-        except Exception as e:
-            print(f"  Gemini caption fallback: {e}")
-            if meta and "captions" in meta:
-                caption_text = random.choice(meta["captions"])
-            else:
-                caption_text = f"The {set_name.replace('_', ' ').title()} in its purest element. Rate this 1-10 👇"
+            caption_text = ai_caption if len(ai_caption) > 20 else (random.choice(meta["captions"]) if "captions" in meta else f"The {set_name.replace('_', ' ').title()} in its purest element. Rate this 1-10 👇")
+        except Exception:
+            caption_text = random.choice(meta["captions"]) if meta and "captions" in meta else f"The {set_name.replace('_', ' ').title()} in its purest element. Rate this 1-10 👇"
 
     full_caption = build_full_caption(caption_text, hashtags)
 
-    print(f"\nVehicle Set: {set_name}")
+    print(f"\n[FORMAT]:    {active_format.upper()}")
+    print(f"Vehicle Set: {set_name}")
     print(f"Title:       {title}")
     print(f"Caption:     {caption_text[:100]}...")
+    if scene_cards:
+        print(f"Cards Armed: {len(scene_cards)} custom graphic overlay cards")
     if study_overlay:
         print(f"Overlay:     {study_overlay}")
 
     video_path = MEDIA_DIR / f"reel_{ts}.mp4"
 
     if dry_run:
-        print(f"\n[DRY RUN] Would assemble {len(set_shots)} authentic video clips from set '{set_name}' and build reel → {video_path}")
+        print(f"\n[DRY RUN] Would assemble {len(set_shots)} clips/photos for format '{active_format}' → {video_path}")
         print(f"[DRY RUN] Vehicle focus: {title} (is_bike={is_bike})")
         print("[DRY RUN] Would commit and publish reel")
         return
 
     is_video_mode = set_shots[0].suffix.lower() == ".mp4"
-
+    meta = CURATED_SET_METADATA.get(set_name, {})
     is_fast_motion = meta.get("is_fast_motion", False)
+
     if is_video_mode:
-        # Dynamically vary clip sequence starting angle so repeated machines produce a fresh edit
         clips_to_use = list(set_shots)
-        if len(clips_to_use) >= 3 and not study_overlay:
-            # Shift starting angle based on current minute so each edit is visually unique
+        if len(clips_to_use) >= 3 and not study_overlay and not scene_cards:
             shift = (datetime.now(timezone.utc).minute) % len(clips_to_use)
             clips_to_use = clips_to_use[shift:] + clips_to_use[:shift]
 
-        print(f"\nAssembling {len(clips_to_use)} authentic human-shot motion video clips for {title} ({set_name})...")
+        print(f"\nAssembling {len(clips_to_use)} video clips for {title}...")
         for i, clip in enumerate(clips_to_use):
-            print(f"  Angle {i + 1} loaded (100% real human video): {clip.name} ({clip.stat().st_size // 1024} KB)")
-        build_reel_video(clips_to_use, video_path, theme_hint=set_name, is_bike=is_bike, text_overlay=study_overlay, is_fast_motion=is_fast_motion)
+            print(f"  Angle {i + 1}: {clip.name} ({clip.stat().st_size // 1024} KB)")
+        build_reel_video(
+            clips_to_use,
+            video_path,
+            theme_hint=set_name,
+            is_bike=is_bike,
+            text_overlay=study_overlay,
+            is_fast_motion=is_fast_motion,
+            scene_cards=scene_cards if scene_cards else None
+        )
         files_to_commit = [video_path]
     else:
-        print(f"\nAssembling {len(set_shots)} authentic human-shot DSLR photography cuts for {title} ({set_name})...")
+        print(f"\nAssembling {len(set_shots)} DSLR photography cuts for {title}...")
         import shutil
         image_paths: list[Path] = []
         for i, source_photo in enumerate(set_shots):
@@ -2156,14 +2624,36 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
             shutil.copyfile(source_photo, img_path)
             if study_overlay:
                 apply_text_overlay(img_path, study_overlay)
+            elif scene_cards and i < len(scene_cards):
+                # Composite transparent card directly onto photo cut for razor-sharp rendering
+                c_temp = MEDIA_DIR / f"temp_card_{ts}_{i}.png"
+                make_overlay_card(scene_cards[i][0], scene_cards[i][1], scene_cards[i][2], c_temp)
+                from PIL import Image
+                with Image.open(img_path).convert("RGBA") as base_im:
+                    base_resized = base_im.resize((1080, 1920), Image.Resampling.LANCZOS)
+                    with Image.open(c_temp) as card_im:
+                        comp = Image.alpha_composite(base_resized, card_im)
+                        comp.convert("RGB").save(img_path, "JPEG", quality=95)
+                if c_temp.exists():
+                    c_temp.unlink()
             image_paths.append(img_path)
-        build_reel_video(image_paths, video_path, theme_hint=set_name, is_bike=is_bike, text_overlay=study_overlay, is_fast_motion=is_fast_motion)
+
+        build_reel_video(
+            image_paths,
+            video_path,
+            theme_hint=set_name,
+            is_bike=is_bike,
+            text_overlay=study_overlay,
+            is_fast_motion=is_fast_motion
+        )
         files_to_commit = image_paths + [video_path]
 
-    # Always include vehicle rotation state so next CI run sees the updated pointer
+    # Save state files
     if VEHICLE_STATE_FILE.exists() and VEHICLE_STATE_FILE not in files_to_commit:
         files_to_commit.append(VEHICLE_STATE_FILE)
-    git_commit_and_push(files_to_commit, f"chore: add weekly reel {ts}")
+    if REEL_PATTERN_FILE.exists() and REEL_PATTERN_FILE not in files_to_commit:
+        files_to_commit.append(REEL_PATTERN_FILE)
+    git_commit_and_push(files_to_commit, f"chore: add {active_format} reel {ts}")
 
     print("Waiting for raw URL...")
     raw_url = wait_for_raw_url(env["gh_repo"], env["gh_branch"], video_path)
@@ -2172,7 +2662,7 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     media_id = publish_reel(raw_url, full_caption, env)
     print(f"Published to Instagram! media_id={media_id}")
 
-    # Cross-post to YouTube Shorts if configured
+    # Cross-post to YouTube Shorts
     yt_id = None
     try:
         yt_id = publish_youtube_short(video_path, title, full_caption, hashtags, env)
@@ -2180,15 +2670,17 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         print(f"  [YouTube] Notice: YouTube upload bypassed ({yt_err})")
 
     yt_detail = f", yt_id={yt_id}" if yt_id else ""
-    log_ok("weekly_reel", full_caption, video_path.name, f"media_id={media_id}{yt_detail}")
+    log_ok("weekly_reel", full_caption, video_path.name, f"format={active_format}, media_id={media_id}{yt_detail}")
     files_to_log = [LOG_FILE]
     if ARCH_INDEX_FILE.exists():
         files_to_log.append(ARCH_INDEX_FILE)
     if VEHICLE_STATE_FILE.exists():
         files_to_log.append(VEHICLE_STATE_FILE)
+    if REEL_PATTERN_FILE.exists():
+        files_to_log.append(REEL_PATTERN_FILE)
     if JOURNEY_STATE_FILE.exists():
         files_to_log.append(JOURNEY_STATE_FILE)
-    git_commit_and_push(files_to_log, f"chore: log weekly_reel {ts}")
+    git_commit_and_push(files_to_log, f"chore: log {active_format} reel {ts}")
 
 
 # ---------------------------------------------------------------------------
@@ -2307,7 +2799,7 @@ Return ONLY a JSON array of lowercase strings without # prefix.
 # Main entry point
 # ---------------------------------------------------------------------------
 
-MODES = {"post", "weekly_reel", "reel", "upload_reel", "journey_reel"}
+MODES = {"post", "weekly_reel", "reel", "upload_reel", "journey_reel", "deep_dive", "comparison", "future_release"}
 
 
 def main() -> None:
@@ -2389,6 +2881,12 @@ def main() -> None:
             mode_journey_reel(persona, env, dry_run)
         elif mode in {"weekly_reel", "reel"}:
             mode_weekly_reel(persona, env, dry_run, custom_prompt=custom_prompt)
+        elif mode == "deep_dive":
+            mode_weekly_reel(persona, env, dry_run, custom_prompt="deep_dive " + custom_prompt)
+        elif mode == "comparison":
+            mode_weekly_reel(persona, env, dry_run, custom_prompt="comparison " + custom_prompt)
+        elif mode == "future_release":
+            mode_weekly_reel(persona, env, dry_run, custom_prompt="future_release " + custom_prompt)
         elif mode == "upload_reel":
             mode_upload_reel(persona, env, dry_run)
     except Exception as exc:
