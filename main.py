@@ -1562,8 +1562,28 @@ def get_clean_font(size: int = 36, bold: bool = True):
     except TypeError:
         return ImageFont.load_default()
 
+def ensure_image_path(media_path: Path) -> Path:
+    """If media_path is an mp4 video, extract a pristine 1080p frame snapshot. Otherwise return as is."""
+    if not media_path or not media_path.exists():
+        return media_path
+    if media_path.suffix.lower() == ".mp4":
+        frame_out = media_path.parent / f"{media_path.stem}_frame.jpg"
+        if not frame_out.exists():
+            import subprocess
+            subprocess.run([
+                "ffmpeg", "-y", "-ss", "00:00:01.000",
+                "-i", str(media_path),
+                "-vframes", "1", "-q:v", "2",
+                str(frame_out)
+            ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if frame_out.exists():
+            return frame_out
+    return media_path
+
+
 def make_split_comparison_slide(car_img_path: Path, contender_num: int, total_contenders: int, car_name: str, points: list[tuple[str, str]], out_path: Path) -> Path:
     """Render a 9:16 vertical slide with image on top half (1080x980) and specs points on bottom half (1080x940)."""
+    car_img_path = ensure_image_path(car_img_path)
     from PIL import Image, ImageDraw
     W, H = 1080, 1920
     frame = Image.new("RGB", (W, H), (11, 14, 21))
@@ -1627,6 +1647,7 @@ def make_split_comparison_slide(car_img_path: Path, contender_num: int, total_co
 
 def make_split_showdown_slide(car_img_path: Path, car_names: list[str], out_path: Path) -> Path:
     """Render the outro voting slide with image on top half and 3-car selection on bottom half."""
+    car_img_path = ensure_image_path(car_img_path)
     from PIL import Image, ImageDraw
     W, H = 1080, 1920
     frame = Image.new("RGB", (W, H), (11, 14, 21))
@@ -1953,6 +1974,80 @@ FUTURE_HYPERCARS_TOPIC = {
     "tags": ["futurecars", "2026hypercars", "ferrarif80", "bugattitourbillon", "temerario", "hypercars", "supercars", "carreels", "carlifestyle"]
 }
 
+
+
+# ---------------------------------------------------------------------------
+# Automated Mixed Pattern Cycler
+# Ensures EVERY reel alternates format on both Instagram and YouTube:
+#   1. comparison (3-Car Comparison Battle with split screen: top image, bottom specs)
+#   2. deep_dive (Deep engineering breakdown: top image, bottom technical analysis)
+#   3. pure_cinematic (100% clean full-screen supercar/superbike cinematography, zero text)
+#   4. future_release (2026 Upcoming Hypercars breakdown)
+# ---------------------------------------------------------------------------
+REEL_PATTERN_CYCLE = ["comparison", "deep_dive", "pure_cinematic", "future_release"]
+
+def get_next_reel_pattern() -> tuple[str, int]:
+    """Return (chosen_format, sub_index) ensuring automated scheduled runs never repeat.
+    Rotates in a continuous round-robin cycle through all 4 formats.
+    """
+    state = {
+        "last_format": "",
+        "format_idx": 0,
+        "battle_idx": 0,
+        "deep_dive_idx": 0,
+        "history": []
+    }
+    if REEL_PATTERN_FILE.exists():
+        try:
+            with open(REEL_PATTERN_FILE, encoding="utf-8") as f:
+                state.update(json.load(f))
+        except Exception:
+            pass
+
+    last_fmt = state.get("last_format", "")
+    if not last_fmt and LOG_FILE.exists():
+        try:
+            with open(LOG_FILE, encoding="utf-8") as lf:
+                logs = json.load(lf)
+            for entry in reversed(logs):
+                det = entry.get("detail", "")
+                m = re.search(r'format=([a-z0-9_]+)', det)
+                if m and m.group(1) in REEL_PATTERN_CYCLE:
+                    last_fmt = m.group(1)
+                    break
+        except Exception:
+            pass
+
+    if last_fmt in REEL_PATTERN_CYCLE:
+        cur_idx = (REEL_PATTERN_CYCLE.index(last_fmt) + 1) % len(REEL_PATTERN_CYCLE)
+    else:
+        cur_idx = state.get("format_idx", 0) % len(REEL_PATTERN_CYCLE)
+
+    chosen_format = REEL_PATTERN_CYCLE[cur_idx]
+
+    sub_idx = 0
+    if chosen_format == "comparison":
+        sub_idx = state.get("battle_idx", 0) % len(COMPARISON_BATTLES)
+        state["battle_idx"] = (sub_idx + 1) % len(COMPARISON_BATTLES)
+    elif chosen_format == "deep_dive":
+        deep_keys = list(DEEP_DIVE_TOPICS.keys())
+        sub_idx = state.get("deep_dive_idx", 0) % len(deep_keys)
+        state["deep_dive_idx"] = (sub_idx + 1) % len(deep_keys)
+
+    state["last_format"] = chosen_format
+    state["format_idx"] = (cur_idx + 1) % len(REEL_PATTERN_CYCLE)
+    hist = state.get("history", [])
+    hist.append(chosen_format)
+    state["history"] = hist[-10:]
+
+    try:
+        REEL_PATTERN_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(REEL_PATTERN_FILE, "w", encoding="utf-8") as f:
+            json.dump(state, f, indent=2)
+    except Exception:
+        pass
+
+    return chosen_format, sub_idx
 
 def build_reel_video(
     media_paths: list[Path],
@@ -2471,13 +2566,52 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
                     available_dict[d.name] = shots
 
     prompt_lower = custom_prompt.lower().strip()
-    active_format = "pure_cinematic"
+    active_format = ""
+    sub_idx = 0
     study_overlay = ""
     is_static_slides = False
     temp_slide_files: list[Path] = []
 
-    # 1. Study Journey Reel (Only at 12 AM IST or explicit Day X trigger)
+    # Determine format: explicit user prompt OR automatic mixed pattern scheduler
     if custom_prompt and ("day" in prompt_lower or "ug studies" in prompt_lower):
+        active_format = "journey_reel"
+    elif custom_prompt and (
+        prompt_lower.startswith("comparison") or
+        "compare" in prompt_lower or
+        " vs " in prompt_lower or
+        "battle" in prompt_lower
+    ):
+        active_format = "comparison"
+    elif custom_prompt and (
+        prompt_lower.startswith("deep_dive") or
+        "deep dive" in prompt_lower or
+        "part of car" in prompt_lower or
+        "explain" in prompt_lower
+    ):
+        active_format = "deep_dive"
+    elif custom_prompt and (
+        prompt_lower.startswith("future_release") or
+        "future" in prompt_lower or
+        "2026" in prompt_lower or
+        "concept" in prompt_lower or
+        "release" in prompt_lower
+    ):
+        active_format = "future_release"
+    elif custom_prompt and (
+        prompt_lower.startswith("pure_cinematic") or
+        "cinematic" in prompt_lower or
+        "clean" in prompt_lower
+    ):
+        active_format = "pure_cinematic"
+    else:
+        # AUTOMATED MIXUP PATTERN SCHEDULER:
+        # When running on schedule or without explicit format override,
+        # automatically rotate formats so every reel is completely distinct!
+        active_format, sub_idx = get_next_reel_pattern()
+        print(f"  [Mixup Pattern Engine] Automated mixed format selected: '{active_format}' (sub_idx={sub_idx})")
+
+    # 1. Study Journey Reel (Only at 12 AM IST or explicit Day X trigger)
+    if active_format == "journey_reel":
         active_format = "journey_reel"
         day_match = re.search(r'Day\s+(\d+)', custom_prompt, re.IGNORECASE)
         day_num = day_match.group(1) if day_match else "1"
@@ -2497,14 +2631,14 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         title = f"Day {day_num} • Seeking Help To Complete UG Studies"
 
     # 2. Comparison Battle (Image on Top Half, Points on Bottom Half, One-by-One Car)
-    elif (
-        prompt_lower.startswith("comparison") or
-        "compare" in prompt_lower or
-        " vs " in prompt_lower or
-        "battle" in prompt_lower
-    ):
-        active_format = "comparison"
-        battle = random.choice(COMPARISON_BATTLES)
+    elif active_format == "comparison":
+        battle = None
+        for b in COMPARISON_BATTLES:
+            if b["id"] in prompt_lower:
+                battle = b
+                break
+        if not battle:
+            battle = COMPARISON_BATTLES[sub_idx % len(COMPARISON_BATTLES)]
         set_name = battle["id"]
         title = battle["title"]
         hashtags = battle["tags"]
@@ -2549,19 +2683,16 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
             caption_text = random.choice(battle["captions"])
 
     # 3. Deep Dive (Part of Car Explained Deeply in Bottom Half, Clean Image on Top Half)
-    elif (
-        prompt_lower.startswith("deep_dive") or
-        "deep dive" in prompt_lower or
-        "part of car" in prompt_lower or
-        "explain" in prompt_lower
-    ):
-        active_format = "deep_dive"
-        matched_key = "porsche_911_gt3rs"
-        for k in DEEP_DIVE_TOPICS:
+    elif active_format == "deep_dive":
+        deep_keys = list(DEEP_DIVE_TOPICS.keys())
+        matched_key = None
+        for k in deep_keys:
             if k in prompt_lower or k.replace("_", " ") in prompt_lower:
                 matched_key = k
                 break
-        topic = DEEP_DIVE_TOPICS.get(matched_key, DEEP_DIVE_TOPICS["porsche_911_gt3rs"])
+        if not matched_key:
+            matched_key = deep_keys[sub_idx % len(deep_keys)]
+        topic = DEEP_DIVE_TOPICS.get(matched_key, DEEP_DIVE_TOPICS[deep_keys[0]])
         set_name = matched_key
         title = topic["title"]
         hashtags = topic["tags"]
@@ -2598,13 +2729,7 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
             caption_text = random.choice(topic["captions"])
 
     # 4. Future Release Cars (Split Screen Layout)
-    elif (
-        prompt_lower.startswith("future_release") or
-        "future" in prompt_lower or
-        "2026" in prompt_lower or
-        "concept" in prompt_lower or
-        "release" in prompt_lower
-    ):
+    elif active_format == "future_release":
         active_format = "future_release"
         set_name = "future_hypercars_2026"
         topic = FUTURE_HYPERCARS_TOPIC
