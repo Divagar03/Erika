@@ -1,8 +1,8 @@
 {
-  "last_format": "comparison",
-  "format_idx": 1,
+  "last_format": "deep_dive",
+  "format_idx": 2,
   "battle_idx": 2,
-  "deep_dive_idx": 1,
+  "deep_dive_idx": 2,
   "history": [
     "pure_cinematic",
     "future_release",
@@ -10,6 +10,7 @@
     "deep_dive",
     "pure_cinematic",
     "future_release",
-    "comparison"
+    "comparison",
+    "deep_dive"
   ]
 }
