@@ -670,5 +670,13 @@
     "caption": "Meet the Valour’s beating heart: a 705 HP twin‑turbo V12 built with a manual gearbox so the driver *feels* the power.  \n- 705 HP, 753 Nm of torque (that’s 525 lb‑ft of feeling).  \n- Front‑mid mounted ― keeps the weight balanced and slashes braking distance.  \n\nWhy it rocks the engineering world? The",
     "media": "reel_20261107_082134.mp4",
     "detail": "format=deep_dive, media_id=17876845326594822, yt_id=fnLMZHqj2oA"
+  },
+  {
+    "time": "2026-11-07T08:42:26.707565+00:00",
+    "kind": "reel",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "name 'JOURNEY_STATE_FILE' is not defined"
   }
 ]
