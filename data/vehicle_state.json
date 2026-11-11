@@ -1,6 +1,7 @@
 {
-  "last_set": "bmw_s1000rr",
+  "last_set": "bugatti_chiron",
   "recent_sets": [
+    "bugatti_chiron",
     "bmw_s1000rr",
     "lamborghini_revuelto",
     "bmw_m4_black",
@@ -11,6 +12,8 @@
     "white_mustang_sunset",
     "ferrari_f80",
     "lamborghini_diablo",
-    "porsche_911_gt3rs"
+    "porsche_911_gt3rs",
+    "ferrari_sf90",
+    "nissan_gtr_r35"
   ]
 }
