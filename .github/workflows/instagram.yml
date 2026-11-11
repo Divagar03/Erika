@@ -6,10 +6,6 @@ on:
     - cron: "15 */2 * * *"
     # Daily YouTube Top 10 Short at 6:00 PM UTC
     - cron: "0 18 * * *"
-    # Daily Study Journey Reel at 12:00 AM IST (18:30 UTC)
-    - cron: "30 18 * * *"
-    # Daily photo post at 1:00 PM UTC
-    - cron: "0 13 * * *"
     # Daily metrics collection at 7:00 AM UTC
     - cron: "0 7 * * *"
   push:
@@ -25,12 +21,12 @@ on:
         type: choice
         options:
           - reel
-          - deep_dive
-          - comparison
-          - future_release
-          - journey_reel
-          - weekly_reel
-          - post
+          - cinematic_slow_mo
+          - speed_ramp
+          - phonk_bass_drop
+          - night_city
+          - rolling_shots
+          - engine_sound_showcase
           - upload_reel
           - youtube_short
           - youtube_top10
@@ -101,19 +97,12 @@ jobs:
             fi
           else
             HOUR=$(date -u +%H)
-            MIN=$(date -u +%M)
-            # 18:30 UTC = Study journey reel (runs at :30)
-            if [ "$HOUR" = "18" ] && [ "$MIN" -ge 20 ] && [ "$MIN" -le 45 ]; then
-              echo "mode=journey_reel" >> "$GITHUB_OUTPUT"
-            # 18:00 UTC = YouTube Top 10 compilation Short (runs at :00)
-            elif [ "$HOUR" = "18" ]; then
+            # 18:00 UTC = YouTube Top 10 compilation Short
+            if [ "$HOUR" = "18" ]; then
               echo "mode=youtube_top10" >> "$GITHUB_OUTPUT"
             # 07:00 UTC = Daily metrics collection
             elif [ "$HOUR" = "07" ]; then
               echo "mode=collect_metrics" >> "$GITHUB_OUTPUT"
-            # 13:00 UTC = Daily photo post
-            elif [ "$HOUR" = "13" ]; then
-              echo "mode=post" >> "$GITHUB_OUTPUT"
             else
               echo "mode=reel" >> "$GITHUB_OUTPUT"
             fi

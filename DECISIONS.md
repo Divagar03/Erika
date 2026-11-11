@@ -30,3 +30,13 @@
 ### 6. Media Retention Window (48 Hours)
 - **Decision:** Retain generated `media/reel_*.mp4` files for at least 48 hours before any cleanup.
 - **Reason:** Yesterday's Instagram Reels must remain accessible on disk so they can be uploaded to YouTube Shorts on the following day.
+
+### 7. Viral Automotive Video Edit Engine (AGENT_SPEC §5 & §7)
+- **Decision:** Replace slow static photo slideshows with the high-velocity `scripts/reel_engine.py`:
+  - **Hook in First 1–2 Seconds:** Explosive action (launch, rev limiter pops, high-speed flyby) placed at second 0.
+  - **Beat-Synced Cuts:** 8 to 12 rapid cuts (0.6s–1.4s per cut) with dynamic camera zooms, whip pans, and white flash transitions synced to the beat.
+  - **6 Edit Templates in Active Rotation:** `cinematic_slow_mo`, `speed_ramp`, `phonk_bass_drop`, `night_city`, `rolling_shots`, `engine_sound_showcase`.
+  - **Dual-Stem Audio Architecture:** Authentic high-rpm engine scream (V12, V10, V8, Superbike) mixed with aggressive drift phonk (808 bass, cowbell rhythm).
+  - **Loudness Normalization:** Integrated EBU R128 (`loudnorm`) targeting -14 LUFS, TP -1.0 dB so the audio is loud, punchy, and never muted on phone speakers.
+  - **Automated Quality Gates:** Strict pre-publish checks for 1080x1920 9:16 aspect ratio, 8–14s duration, stereo AAC audio present, and loudness thresholds.
+  - **Full Supercar Focus:** Eliminated study journey text overlays and static single photo post crons (`0 13 * * *`). Automated pipeline runs 100% viral supercar/superbike Reels and Shorts.

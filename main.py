@@ -82,6 +82,23 @@ except ImportError:
     YT_QUEUE_FILE = ROOT / "data" / "youtube_queue.json"
     MAX_DAILY_YOUTUBE_SHORTS = 10
 
+# ---------------------------------------------------------------------------
+# Trending Automotive Reel Engine (AGENT_SPEC §5 & §7)
+# ---------------------------------------------------------------------------
+try:
+    from reel_engine import (
+        build_trending_reel,
+        verify_video_quality,
+        get_next_edit_template,
+        TEMPLATES as EDIT_TEMPLATES,
+        pick_trending_phonk_track,
+        pick_authentic_engine_sfx
+    )
+    REEL_ENGINE_AVAILABLE = True
+except ImportError:
+    REEL_ENGINE_AVAILABLE = False
+    print("  [Reel Engine] Warning: reel_engine module not found.")
+
 IG_API_BASE = "https://graph.facebook.com/v21.0"
 GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta"
 POLLINATIONS_BASE = "https://image.pollinations.ai/prompt"
@@ -2016,24 +2033,32 @@ FUTURE_HYPERCARS_TOPIC = {
 
 
 # ---------------------------------------------------------------------------
-# Automated Mixed Pattern Cycler
-# Ensures EVERY reel alternates format on both Instagram and YouTube:
-#   1. comparison (3-Car Comparison Battle with split screen: top image, bottom specs)
-#   2. deep_dive (Deep engineering breakdown: top image, bottom technical analysis)
-#   3. pure_cinematic (100% clean full-screen supercar/superbike cinematography, zero text)
-#   4. future_release (2026 Upcoming Hypercars breakdown)
+# Automated 6-Template Viral Pattern Cycler (AGENT_SPEC §5)
+# Ensures EVERY reel alternates between the 6 distinct edit templates:
+#   1. cinematic_slow_mo (Half-speed 60fps tracking, warm golden grade, V8/V12 bass rumble)
+#   2. speed_ramp (Acceleration snap zooms, high contrast, phonk beat drop)
+#   3. phonk_bass_drop (Rapid 0.6s cuts synced to 808 cowbell phonk, white flash transitions)
+#   4. night_city (Neon cold cyan/purple grade, cyberpunk synthwave, specular reflections)
+#   5. rolling_shots (Highway chase-car angle, flowing motion blur, high-rpm flyby audio)
+#   6. engine_sound_showcase (Unadulterated engine symphony prioritized: launch, revs, two-step)
 # ---------------------------------------------------------------------------
-REEL_PATTERN_CYCLE = ["comparison", "deep_dive", "pure_cinematic", "future_release"]
+REEL_PATTERN_CYCLE = [
+    "cinematic_slow_mo",
+    "speed_ramp",
+    "phonk_bass_drop",
+    "night_city",
+    "rolling_shots",
+    "engine_sound_showcase"
+]
 
 def get_next_reel_pattern() -> tuple[str, int]:
-    """Return (chosen_format, sub_index) ensuring automated scheduled runs never repeat.
-    Rotates in a continuous round-robin cycle through all 4 formats.
-    """
+    """Return (chosen_template, 0) ensuring automated scheduled runs rotate through all 6 viral templates."""
+    if REEL_ENGINE_AVAILABLE:
+        return get_next_edit_template(), 0
+
     state = {
         "last_format": "",
         "format_idx": 0,
-        "battle_idx": 0,
-        "deep_dive_idx": 0,
         "history": []
     }
     if REEL_PATTERN_FILE.exists():
@@ -2044,35 +2069,12 @@ def get_next_reel_pattern() -> tuple[str, int]:
             pass
 
     last_fmt = state.get("last_format", "")
-    if not last_fmt and LOG_FILE.exists():
-        try:
-            with open(LOG_FILE, encoding="utf-8") as lf:
-                logs = json.load(lf)
-            for entry in reversed(logs):
-                det = entry.get("detail", "")
-                m = re.search(r'format=([a-z0-9_]+)', det)
-                if m and m.group(1) in REEL_PATTERN_CYCLE:
-                    last_fmt = m.group(1)
-                    break
-        except Exception:
-            pass
-
     if last_fmt in REEL_PATTERN_CYCLE:
         cur_idx = (REEL_PATTERN_CYCLE.index(last_fmt) + 1) % len(REEL_PATTERN_CYCLE)
     else:
         cur_idx = state.get("format_idx", 0) % len(REEL_PATTERN_CYCLE)
 
     chosen_format = REEL_PATTERN_CYCLE[cur_idx]
-
-    sub_idx = 0
-    if chosen_format == "comparison":
-        sub_idx = state.get("battle_idx", 0) % len(COMPARISON_BATTLES)
-        state["battle_idx"] = (sub_idx + 1) % len(COMPARISON_BATTLES)
-    elif chosen_format == "deep_dive":
-        deep_keys = list(DEEP_DIVE_TOPICS.keys())
-        sub_idx = state.get("deep_dive_idx", 0) % len(deep_keys)
-        state["deep_dive_idx"] = (sub_idx + 1) % len(deep_keys)
-
     state["last_format"] = chosen_format
     state["format_idx"] = (cur_idx + 1) % len(REEL_PATTERN_CYCLE)
     hist = state.get("history", [])
@@ -2086,7 +2088,7 @@ def get_next_reel_pattern() -> tuple[str, int]:
     except Exception:
         pass
 
-    return chosen_format, sub_idx
+    return chosen_format, 0
 
 def build_reel_video(
     media_paths: list[Path],
@@ -2612,231 +2614,47 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
                     available_dict[d.name] = shots
 
     prompt_lower = custom_prompt.lower().strip()
-    active_format = ""
-    sub_idx = 0
-    study_overlay = ""
-    is_static_slides = False
-    temp_slide_files: list[Path] = []
+    active_template = ""
+    for t in (EDIT_TEMPLATES if REEL_ENGINE_AVAILABLE else REEL_PATTERN_CYCLE):
+        if t in prompt_lower or t.replace("_", " ") in prompt_lower:
+            active_template = t
+            break
 
-    # Determine format: explicit user prompt OR automatic mixed pattern scheduler
-    if custom_prompt and ("day" in prompt_lower or "ug studies" in prompt_lower):
-        active_format = "journey_reel"
-    elif custom_prompt and (
-        prompt_lower.startswith("comparison") or
-        "compare" in prompt_lower or
-        " vs " in prompt_lower or
-        "battle" in prompt_lower
-    ):
-        active_format = "comparison"
-    elif custom_prompt and (
-        prompt_lower.startswith("deep_dive") or
-        "deep dive" in prompt_lower or
-        "part of car" in prompt_lower or
-        "explain" in prompt_lower
-    ):
-        active_format = "deep_dive"
-    elif custom_prompt and (
-        prompt_lower.startswith("future_release") or
-        "future" in prompt_lower or
-        "2026" in prompt_lower or
-        "concept" in prompt_lower or
-        "release" in prompt_lower
-    ):
-        active_format = "future_release"
-    elif custom_prompt and (
-        prompt_lower.startswith("pure_cinematic") or
-        "cinematic" in prompt_lower or
-        "clean" in prompt_lower
-    ):
-        active_format = "pure_cinematic"
-    else:
-        # AUTOMATED MIXUP PATTERN SCHEDULER:
-        # When running on schedule or without explicit format override,
-        # automatically rotate formats so every reel is completely distinct!
-        active_format, sub_idx = get_next_reel_pattern()
-        print(f"  [Mixup Pattern Engine] Automated mixed format selected: '{active_format}' (sub_idx={sub_idx})")
+    if not active_template:
+        active_template, _ = get_next_reel_pattern()
 
-    # 1. Study Journey Reel (Only at 12 AM IST or explicit Day X trigger)
-    if active_format == "journey_reel":
-        active_format = "journey_reel"
-        day_match = re.search(r'Day\s+(\d+)', custom_prompt, re.IGNORECASE)
-        day_num = day_match.group(1) if day_match else "1"
-        study_overlay = (
-            f"Day {day_num} of seeking help to complete my ug studies\n\n"
-            "I am an undergraduate student working hard to finish my education and graduate.\n"
-            "If you have guidance, mentorship, or support to share, every bit helps me keep moving forward."
-        )
-        caption_text = (
-            f"Day {day_num} of seeking help to complete my ug studies.\n\n"
-            "I am an undergraduate student working hard to finish my education and graduate. "
-            "If you have guidance, mentorship, or support to share, every bit helps me keep moving forward. 📚🎓\n\n"
-            "Thank you for being part of this journey."
-        )
-        hashtags = ["ugstudies", "collegejourney", "studentlife", "graduationgoals", "educationmatters", "nevergiveup", "dailyjourney"]
-        set_name, set_shots, is_bike = get_next_curated_vehicle_set()
-        title = f"Day {day_num} • Seeking Help To Complete UG Studies"
+    active_format = active_template
+    print(f"  [Viral Edit Engine] Template selected: '{active_template}'")
 
-    # 2. Comparison Battle (Image on Top Half, Points on Bottom Half, One-by-One Car)
-    elif active_format == "comparison":
-        battle = None
-        for b in COMPARISON_BATTLES:
-            if b["id"] in prompt_lower:
-                battle = b
-                break
-        if not battle:
-            battle = COMPARISON_BATTLES[sub_idx % len(COMPARISON_BATTLES)]
-        set_name = battle["id"]
-        title = battle["title"]
-        hashtags = battle["tags"]
-        is_bike = any("ducati" in c or "s1000rr" in c for c in battle["cars"])
-        is_static_slides = True
+    hint = custom_prompt if custom_prompt else ""
+    set_name, set_shots, is_bike = get_next_curated_vehicle_set(hint)
+    meta = CURATED_SET_METADATA.get(set_name, {})
+    title = meta.get("title", f"{set_name.replace('_', ' ').title()} Supercar Reel")
+    hashtags = meta.get("tags") or ["supercars", "hypercars", "carreels", "carlifestyle", "speedhunters", "exoticcars"]
+    is_bike = meta.get("is_bike", is_bike)
 
-        car_keys = battle["cars"]
-        car_names = [CAR_SPECS_DATABASE.get(k, {}).get("name", k.replace("_", " ").title()) for k in car_keys]
+    make_model = meta.get("make_model", set_name.replace("_", " ").title())
+    color = meta.get("color", "")
+    theme_desc = f"Machine: {make_model} in {color}" if color else f"Machine: {make_model}"
 
-        # Generate split-screen slide for each car one by one
-        for idx, k in enumerate(car_keys):
-            spec = CAR_SPECS_DATABASE.get(k, {
-                "name": k.replace("_", " ").title(),
-                "points": [("🐎 Power", "High Performance"), ("⚡ Engine", "V8 / V10 / V12")]
-            })
-            car_assets = available_dict.get(k, [])
-            car_img = car_assets[0] if car_assets else get_next_curated_vehicle_image()
-            slide_path = MEDIA_DIR / f"slide_{ts}_{idx+1}.jpg"
-            make_split_comparison_slide(car_img, idx + 1, len(car_keys), spec["name"], spec["points"], slide_path)
-            temp_slide_files.append(slide_path)
-
-        # Generate the showdown outro slide
-        first_assets = available_dict.get(car_keys[0], [])
-        outro_img = first_assets[-1] if first_assets else get_next_curated_vehicle_image()
-        outro_slide_path = MEDIA_DIR / f"slide_{ts}_outro.jpg"
-        make_split_showdown_slide(outro_img, car_names, outro_slide_path)
-        temp_slide_files.append(outro_slide_path)
-
-        set_shots = temp_slide_files
-
-        # Caption
-        prompt = (
-            f"Write a debate-sparking Instagram Reel caption comparing these 3 cars: {', '.join(car_names)}.\n"
-            f"Compare their power, engine symphony, and driving feel in 2-3 sentences.\n"
-            f"End with an interactive voting question: 'Which one are you taking? Vote 1, 2, or 3 below! 👇'.\n"
-            f"Do not include hashtags in the caption body."
-        )
-        try:
-            ai_caption = call_gemini(prompt, env).strip()
-            caption_text = ai_caption if len(ai_caption) > 20 else random.choice(battle["captions"])
-        except Exception:
-            caption_text = random.choice(battle["captions"])
-
-    # 3. Deep Dive (Part of Car Explained Deeply in Caption, 100% CLEAN FULL-SCREEN Normal Reel)
-    # Split screen is ONLY for multi-car battles! Single cars are always 100% clean full-screen reels.
-    elif active_format == "deep_dive":
-        deep_keys = list(DEEP_DIVE_TOPICS.keys())
-        matched_key = None
-        for k in deep_keys:
-            if k in prompt_lower or k.replace("_", " ") in prompt_lower:
-                matched_key = k
-                break
-        if not matched_key:
-            matched_key = deep_keys[sub_idx % len(deep_keys)]
-        topic = DEEP_DIVE_TOPICS.get(matched_key, DEEP_DIVE_TOPICS[deep_keys[0]])
-        set_name = matched_key
-        title = topic["title"]
-        hashtags = topic["tags"]
-        is_bike = "ducati" in set_name or "bike" in set_name
-        is_static_slides = False  # 100% CLEAN FULL SCREEN! ZERO split-screen for a single car.
-
-        car_assets = available_dict.get(set_name, [])
-        if car_assets:
-            set_shots = car_assets
-        else:
-            set_shots = [get_next_curated_vehicle_image()] * 5
-
-        points_summary = "\n".join([f"• {label}: {val}" for label, val in topic.get("points", [])[:5]])
-        prompt = (
-            f"You are the automotive engineering director of Zenith Motors.\n"
-            f"Write an in-depth, viral Instagram Reel & YouTube Shorts caption breaking down this engineering marvel:\n"
-            f"Machine: {topic['title']}\n"
-            f"Component in focus: {topic['component']}\n"
-            f"Key Specs:\n{points_summary}\n\n"
-            f"Requirements:\n"
-            f"- 1 killer opening hook line explaining why this tech is revolutionary\n"
-            f"- 2-3 sentences explaining exactly how the {topic['component']} performs on track\n"
-            f"- End with an interactive question for enthusiasts (e.g. 'Drop your thoughts below 👇')\n"
-            f"- Do NOT include hashtags in the caption body."
-        )
-        try:
-            ai_caption = call_gemini(prompt, env).strip()
-            caption_text = ai_caption if len(ai_caption) > 20 else random.choice(topic["captions"])
-        except Exception:
-            caption_text = random.choice(topic["captions"])
-
-    # 4. Future Release Cars (Split Screen Layout)
-    elif active_format == "future_release":
-        active_format = "future_release"
-        set_name = "future_hypercars_2026"
-        topic = FUTURE_HYPERCARS_TOPIC
-        title = topic["title"]
-        hashtags = topic["tags"]
-        is_bike = False
-        is_static_slides = True
-
-        car_names = [c[1] for c in topic["cars"]]
-        for idx, (source_key, c_name, c_points) in enumerate(topic["cars"]):
-            car_assets = available_dict.get(source_key, [])
-            car_img = car_assets[0] if car_assets else get_next_curated_vehicle_image()
-            slide_path = MEDIA_DIR / f"slide_future_{ts}_{idx+1}.jpg"
-            make_split_comparison_slide(car_img, idx + 1, len(topic["cars"]), c_name, c_points, slide_path)
-            temp_slide_files.append(slide_path)
-
-        # Outro slide
-        first_assets = available_dict.get(topic["cars"][0][0], [])
-        outro_img = first_assets[-1] if first_assets else get_next_curated_vehicle_image()
-        outro_slide_path = MEDIA_DIR / f"slide_future_{ts}_outro.jpg"
-        make_split_showdown_slide(outro_img, car_names, outro_slide_path)
-        temp_slide_files.append(outro_slide_path)
-
-        set_shots = temp_slide_files
-        try:
-            prompt = (
-                f"Write a viral Instagram Reel caption about upcoming 2026 hypercars ({', '.join(car_names)}).\n"
-                f"Highlight the astronomical horsepower and engines in 2-3 sentences.\n"
-                f"End with a question asking which future hypercar they would choose. No hashtags in caption body."
-            )
-            ai_caption = call_gemini(prompt, env).strip()
-            caption_text = ai_caption if len(ai_caption) > 20 else random.choice(topic["captions"])
-        except Exception:
-            caption_text = random.choice(topic["captions"])
-
-    # 5. NORMAL REELS (Default for all automated scheduled runs and standard curation)
-    # 100% CLEAN: ZERO text overlay on screen! Pure raw cinematic footage.
-    else:
-        active_format = "pure_cinematic"
-        hint = custom_prompt if custom_prompt else ""
-        set_name, set_shots, is_bike = get_next_curated_vehicle_set(hint)
-        meta = CURATED_SET_METADATA.get(set_name, {})
-        title = meta.get("title", f"{set_name.replace('_', ' ').title()} Supercar Reel")
-        hashtags = meta.get("tags") or ["supercars", "hypercars", "carreels", "carlifestyle", "speedhunters", "exoticcars"]
-        is_bike = meta.get("is_bike", False)
-
-        make_model = meta.get("make_model", set_name.replace("_", " ").title())
-        color = meta.get("color", "")
-        theme_desc = f"Machine: {make_model} in {color}"
-        prompt = (
-            f"You are the creative director of Zenith Motors.\n"
-            f"Write an original, punchy, high-energy Instagram caption for a viral reel.\n"
-            f"{theme_desc}\n"
-            f"Requirements:\n"
-            f"- 1 killer opening hook line\n"
-            f"- 2 short sentences capturing the raw performance, exhaust symphony, or aerodynamic styling\n"
-            f"- End with an engagement call-to-action (e.g. 'Rate this spec 1-10 👇')\n"
-            f"- Do NOT include hashtags in the caption body."
-        )
-        try:
-            ai_caption = call_gemini(prompt, env).strip()
-            caption_text = ai_caption if len(ai_caption) > 20 else (random.choice(meta["captions"]) if "captions" in meta else f"The {set_name.replace('_', ' ').title()} in its purest element. Rate this 1-10 👇")
-        except Exception:
-            caption_text = random.choice(meta["captions"]) if meta and "captions" in meta else f"The {set_name.replace('_', ' ').title()} in its purest element. Rate this 1-10 👇"
+    prompt = (
+        f"You are the creative director of Zenith Motors.\n"
+        f"Write an original, punchy, high-energy Instagram caption for a viral supercar reel edited in '{active_template}' style.\n"
+        f"{theme_desc}\n"
+        f"Requirements:\n"
+        f"- 1 killer opening hook line\n"
+        f"- 2 short sentences capturing the raw performance, exhaust symphony, or aerodynamic styling\n"
+        f"- End with an engagement call-to-action (e.g. 'Rate this spec 1-10 👇' or 'Drop your dream spec below 🔑🔥')\n"
+        f"- Do NOT use markdown asterisks (no bold **).\n"
+        f"- Do NOT include hashtags in the caption body."
+    )
+    try:
+        ai_caption = call_gemini(prompt, env).strip()
+        ai_caption = ai_caption.replace("**", "").replace("__", "")
+        caption_text = ai_caption if len(ai_caption) > 20 else (random.choice(meta["captions"]) if "captions" in meta else f"The {set_name.replace('_', ' ').title()} in its purest element. Rate this 1-10 👇")
+    except Exception:
+        caption_text = random.choice(meta["captions"]) if meta and "captions" in meta else f"The {set_name.replace('_', ' ').title()} in its purest element. Rate this 1-10 👇"
+    caption_text = caption_text.replace("**", "").replace("__", "")
 
     full_caption = build_full_caption(caption_text, hashtags)
 
@@ -2848,79 +2666,48 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     print(f"Vehicle Set: {set_name}")
     print(f"Title:       {title}")
     print(f"Caption:     {caption_text[:100]}...")
-    if is_static_slides:
-        print(f"Slides:      {len(set_shots)} split-screen slides (image on top, points on bottom)")
-    else:
-        print("Aesthetic:   100% CLEAN normal reel (ZERO text overlay on screen)")
 
     video_path = MEDIA_DIR / f"reel_{ts}.mp4"
 
     if dry_run:
         print(f"\n[DRY RUN] Would assemble {len(set_shots)} items for format '{active_format}' → {video_path}")
-        print(f"[DRY RUN] Vehicle focus: {title} (is_bike={is_bike}, is_static_slides={is_static_slides})")
+        print(f"[DRY RUN] Vehicle focus: {title} (is_bike={is_bike})")
         print("[DRY RUN] Would commit and publish reel")
         return
 
-    is_video_mode = set_shots[0].suffix.lower() == ".mp4"
-    meta = CURATED_SET_METADATA.get(set_name, {})
-    is_fast_motion = meta.get("is_fast_motion", False)
-
-    if is_static_slides:
-        # Split-screen comparison or deep dive slides
+    print(f"\n[REEL PIPELINE] Assembling viral {active_format} reel for {title}...")
+    if REEL_ENGINE_AVAILABLE:
+        render_ok, template_used = build_trending_reel(
+            set_shots,
+            video_path,
+            vehicle_name=set_name,
+            is_bike=is_bike,
+            template_override=active_format
+        )
+        if not render_ok:
+            print(f"  Warning: Primary template render failed ({template_used}). Retrying with fallback template...")
+            render_ok, template_used = build_trending_reel(
+                set_shots,
+                video_path,
+                vehicle_name=set_name,
+                is_bike=is_bike,
+                template_override="speed_ramp" if active_format != "speed_ramp" else "phonk_bass_drop"
+            )
+            if not render_ok:
+                raise RuntimeError(f"Reel video generation failed quality gate: {template_used}")
+    else:
         build_reel_video(
             set_shots,
             video_path,
             theme_hint=set_name,
             is_bike=is_bike,
             text_overlay="",
-            is_fast_motion=False,
-            is_static_slides=True
-        )
-        files_to_commit = list(set_shots) + [video_path]
-    elif is_video_mode:
-        # Normal video compilation: 100% clean video clips, zero overlay
-        clips_to_use = list(set_shots)
-        if len(clips_to_use) >= 3 and not study_overlay:
-            shift = (datetime.now(timezone.utc).minute) % len(clips_to_use)
-            clips_to_use = clips_to_use[shift:] + clips_to_use[:shift]
-
-        print(f"\nAssembling {len(clips_to_use)} clean video clips for {title}...")
-        for i, clip in enumerate(clips_to_use):
-            print(f"  Angle {i + 1}: {clip.name} ({clip.stat().st_size // 1024} KB)")
-        build_reel_video(
-            clips_to_use,
-            video_path,
-            theme_hint=set_name,
-            is_bike=is_bike,
-            text_overlay=study_overlay,
-            is_fast_motion=is_fast_motion,
+            is_fast_motion=True,
             is_static_slides=False
         )
-        files_to_commit = [video_path]
-    else:
-        # Normal DSLR photography cuts: 100% clean photos, zero overlay
-        print(f"\nAssembling {len(set_shots)} clean DSLR photography cuts for {title}...")
-        import shutil
-        image_paths: list[Path] = []
-        for i, source_photo in enumerate(set_shots):
-            img_path = MEDIA_DIR / f"reel_{ts}_scene{i + 1}.jpg"
-            shutil.copyfile(source_photo, img_path)
-            if study_overlay:
-                apply_text_overlay(img_path, study_overlay)
-            image_paths.append(img_path)
 
-        build_reel_video(
-            image_paths,
-            video_path,
-            theme_hint=set_name,
-            is_bike=is_bike,
-            text_overlay=study_overlay,
-            is_fast_motion=is_fast_motion,
-            is_static_slides=False
-        )
-        files_to_commit = image_paths + [video_path]
-
-    # Save state files
+    # Commit ONLY the final video and state files (never commit individual scene JPGs)
+    files_to_commit = [video_path]
     if VEHICLE_STATE_FILE.exists() and VEHICLE_STATE_FILE not in files_to_commit:
         files_to_commit.append(VEHICLE_STATE_FILE)
     if REEL_PATTERN_FILE.exists() and REEL_PATTERN_FILE not in files_to_commit:
@@ -3426,30 +3213,10 @@ def main() -> None:
         env = load_env()
 
     try:
-        # Auto-prioritize Daily Study Journey Reel if it hasn't posted today
-        # (Triggers anywhere in evening window >= 18:00 UTC / 11:30 PM IST)
-        if mode in ("reel", "weekly_reel") and not custom_prompt:
-            from datetime import timedelta
-            now_utc = datetime.now(timezone.utc)
-            today_local_str = (now_utc + timedelta(hours=5, minutes=30)).strftime("%Y-%m-%d")
-            j_state = load_journey_state()
-            if now_utc.hour >= 18 and j_state.get("last_post_date") != today_local_str:
-                print(f"\n[AUTO-PRIORITY] 12 AM Midnight window detected (UTC hour {now_utc.hour}) and today's study reel ({today_local_str}) has not been posted yet.")
-                print("Switching mode from 'reel' to 'journey_reel' to guarantee daily study post!")
-                mode = "journey_reel"
-
-        if mode == "post":
-            mode_post(persona, env, dry_run, custom_prompt=custom_prompt)
-        elif mode == "journey_reel":
-            mode_journey_reel(persona, env, dry_run)
-        elif mode in {"weekly_reel", "reel"}:
+        if mode in ("reel", "weekly_reel", "post"):
             mode_weekly_reel(persona, env, dry_run, custom_prompt=custom_prompt)
-        elif mode == "deep_dive":
-            mode_weekly_reel(persona, env, dry_run, custom_prompt="deep_dive " + custom_prompt)
-        elif mode == "comparison":
-            mode_weekly_reel(persona, env, dry_run, custom_prompt="comparison " + custom_prompt)
-        elif mode == "future_release":
-            mode_weekly_reel(persona, env, dry_run, custom_prompt="future_release " + custom_prompt)
+        elif mode in ("cinematic_slow_mo", "speed_ramp", "phonk_bass_drop", "night_city", "rolling_shots", "engine_sound_showcase"):
+            mode_weekly_reel(persona, env, dry_run, custom_prompt=f"{mode} {custom_prompt}".strip())
         elif mode == "upload_reel":
             mode_upload_reel(persona, env, dry_run)
         elif mode == "youtube_short":
@@ -3458,6 +3225,8 @@ def main() -> None:
             mode_youtube_top10(persona, env, dry_run)
         elif mode == "collect_metrics":
             mode_collect_metrics(persona, env, dry_run)
+        else:
+            mode_weekly_reel(persona, env, dry_run, custom_prompt=custom_prompt)
     except Exception as exc:
         print(f"\nFATAL ERROR in mode '{mode}': {exc}")
         if not dry_run:
