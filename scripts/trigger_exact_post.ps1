@@ -7,7 +7,8 @@ param(
 $ErrorActionPreference = "Stop"
 
 $workDir = Join-Path $env:LOCALAPPDATA "ErikaTrigger"
-$logFile = Join-Path $env:LOCALAPPDATA "ErikaTrigger\trigger.log"
+$repoDir = Join-Path $workDir "repo"
+$logFile = Join-Path $workDir "trigger.log"
 New-Item -ItemType Directory -Force -Path $workDir | Out-Null
 
 function Write-Log([string]$msg) {
@@ -17,14 +18,19 @@ function Write-Log([string]$msg) {
 }
 
 try {
-    if (-not (Test-Path (Join-Path $workDir ".git"))) {
-        Write-Log "Initializing lightweight sparse checkout in $workDir..."
-        git clone --depth 1 --filter=blob:none --no-checkout $RepoUrl $workDir | Out-Null
-        Push-Location $workDir
+    if (-not (Test-Path (Join-Path $repoDir ".git"))) {
+        if (Test-Path $repoDir) {
+            Remove-Item -Recurse -Force $repoDir
+        }
+        Write-Log "Initializing lightweight sparse checkout in $repoDir..."
+        git clone --depth 1 --filter=blob:none --no-checkout $RepoUrl $repoDir
+        if ($LASTEXITCODE -ne 0) { throw "git clone failed with exit code $LASTEXITCODE" }
+        Push-Location $repoDir
         try {
-            git sparse-checkout init --no-cone | Out-Null
-            git sparse-checkout set /trigger.txt | Out-Null
-            git checkout $Branch | Out-Null
+            git sparse-checkout init --no-cone
+            git sparse-checkout set /trigger.txt
+            git checkout $Branch
+            if ($LASTEXITCODE -ne 0) { throw "git checkout failed with exit code $LASTEXITCODE" }
             git config user.name "zenith-exact-cron"
             git config user.email "zenith-exact-cron@users.noreply.github.com"
         } finally {
@@ -32,7 +38,7 @@ try {
         }
     }
 
-    Push-Location $workDir
+    Push-Location $repoDir
     try {
         for ($attempt = 1; $attempt -le 3; $attempt++) {
             git fetch origin $Branch --depth 1 | Out-Null
@@ -40,7 +46,7 @@ try {
 
             $ts = (Get-Date).ToUniversalTime().ToString("yyyyMMdd_HHmmss")
             $content = "$Mode $ts`n"
-            [System.IO.File]::WriteAllText((Join-Path $workDir "trigger.txt"), $content, [System.Text.UTF8Encoding]::new($false))
+            [System.IO.File]::WriteAllText((Join-Path $repoDir "trigger.txt"), $content, [System.Text.UTF8Encoding]::new($false))
 
             git add trigger.txt | Out-Null
             git commit -m "chore: exact trigger ($Mode $ts)" | Out-Null
