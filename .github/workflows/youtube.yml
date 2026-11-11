@@ -1,0 +1,72 @@
+name: YouTube Daily Shorts
+
+on:
+  schedule:
+    # Daily YouTube Top 10 compilation Short at 18:00 UTC (11:30 PM IST)
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "YouTube mode to run"
+        required: true
+        default: "youtube_top10"
+        type: choice
+        options:
+          - youtube_top10
+          - youtube_short
+
+permissions:
+  contents: write
+
+concurrency:
+  group: youtube-short
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install FFmpeg
+        run: |
+          curl -fsSL https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz \
+            | tar -xJ --strip-components=2 -C /usr/local/bin --wildcards '*/bin/ffmpeg' '*/bin/ffprobe'
+          ffmpeg -version 2>&1 | head -1
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Configure Git identity
+        run: |
+          git config user.name "ig-influencer-bot"
+          git config user.email "ig-influencer-bot@users.noreply.github.com"
+
+      - name: Run YouTube mode
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODE_NAME: ${{ github.event.inputs.mode || 'youtube_top10' }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: |
+          python main.py "$MODE_NAME"

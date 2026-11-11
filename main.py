@@ -2960,7 +2960,16 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     print("\n=== MODE: reel ===")
 
     event_name = os.environ.get("GITHUB_EVENT_NAME", "").lower()
-    is_manual = bool(custom_prompt) or (event_name == "workflow_dispatch")
+    force_env = os.environ.get("FORCE_RUN", "").strip().lower()
+    if force_env in ("true", "1", "yes"):
+        force_run = True
+    elif force_env in ("false", "0", "no"):
+        force_run = False
+    else:
+        # Preserve default immediate execution for manual UI workflow_dispatch if FORCE_RUN unset
+        force_run = (event_name == "workflow_dispatch")
+
+    is_manual = bool(custom_prompt) or (event_name == "workflow_dispatch" and force_run)
     if not is_manual:
         # AGENT_SPEC §2 & §3: Slot idempotency (prevent duplicate posts in same 2-hour UTC slot)
         if REGISTRY_AVAILABLE:
@@ -2972,9 +2981,9 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         last_time = get_last_reel_timestamp()
         if last_time:
             elapsed = (datetime.now(timezone.utc) - last_time).total_seconds() / 60.0
-            if elapsed < 90:
+            if elapsed < 30:
                 print(f"\n[SKIP SCHEDULED POST] A reel was already posted {elapsed:.1f} minutes ago.")
-                print("Minimum interval between automated reels is 90 minutes. Skipping to prevent duplicate/spamming.")
+                print("Minimum anti-burst guard is 30 minutes across triggers. Skipping to prevent duplicate/spamming.")
                 return
 
     ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")

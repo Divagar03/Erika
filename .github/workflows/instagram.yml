@@ -1,13 +1,11 @@
-name: Instagram & YouTube Automation
+name: Instagram Reels Automation
 
 on:
   schedule:
-    # Instagram Reels: every 2 hours, 24/7 (12 reels/day)
+    # Backup GitHub schedule: every 2 hours at :15 UTC (:45 IST), 24/7
+    # Exact-time triggers run via push (trigger.txt) or workflow_dispatch (force=false);
+    # slot idempotency skips duplicates automatically.
     - cron: "15 */2 * * *"
-    # Daily YouTube Top 10 Short at 6:00 PM UTC
-    - cron: "0 18 * * *"
-    # Daily metrics collection at 7:00 AM UTC
-    - cron: "0 7 * * *"
   push:
     paths:
       - "uploads/*.mp4"
@@ -29,20 +27,23 @@ on:
           - engine_sound_showcase
           - upload_reel
           - youtube_short
-          - youtube_top10
-          - collect_metrics
       prompt:
-        description: "Custom text/prompt for the reel or post (leave empty for auto theme)"
+        description: "Custom text/prompt for the reel (leave empty for auto theme)"
         required: false
         default: ""
         type: string
+      force:
+        description: "Bypass 2-hour slot cooldown (keep true for manual runs, false for external exact cron)"
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: write
 
 concurrency:
-  group: instagram
-  cancel-in-progress: true
+  group: instagram-reel
+  cancel-in-progress: false
 
 jobs:
   run:
@@ -60,6 +61,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: "pip"
 
       - name: Install FFmpeg
         run: |
@@ -88,7 +90,7 @@ jobs:
                   MODE="$RAW_MODE"
                   ;;
                 *)
-                  MODE="weekly_reel"
+                  MODE="reel"
                   ;;
               esac
               echo "mode=$MODE" >> "$GITHUB_OUTPUT"
@@ -96,16 +98,8 @@ jobs:
               echo "mode=upload_reel" >> "$GITHUB_OUTPUT"
             fi
           else
-            HOUR=$(date -u +%H)
-            # 18:00 UTC = YouTube Top 10 compilation Short
-            if [ "$HOUR" = "18" ]; then
-              echo "mode=youtube_top10" >> "$GITHUB_OUTPUT"
-            # 07:00 UTC = Daily metrics collection
-            elif [ "$HOUR" = "07" ]; then
-              echo "mode=collect_metrics" >> "$GITHUB_OUTPUT"
-            else
-              echo "mode=reel" >> "$GITHUB_OUTPUT"
-            fi
+            # Dedicated reel workflow: scheduled triggers ALWAYS run reel mode
+            echo "mode=reel" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Run automation
@@ -118,6 +112,7 @@ jobs:
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CUSTOM_PROMPT: ${{ github.event.inputs.prompt }}
+          FORCE_RUN: ${{ github.event.inputs.force }}
           MODE_NAME: ${{ steps.mode.outputs.mode }}
           GITHUB_EVENT_NAME: ${{ github.event_name }}
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
