@@ -1,0 +1,51 @@
+# Supercar & Superbike Auto-Posting App Configuration
+# Controls schedules, cooldowns, quality gates, and edit templates
+
+instagram:
+  interval_hours: 2
+  slot_jitter_minutes: 5
+  retry_window_minutes: 30
+  supercar_to_superbike_ratio: 0.6  # 60% supercars, 40% superbikes
+  min_interval_minutes: 90
+
+youtube:
+  posts_per_day: 1
+  post_time_utc: "18:00"
+  target_length_sec: 150  # 2.5 minutes target for daily compilation
+  min_clips: 5
+  max_clips: 10
+  shorts_max_seconds: 180
+
+content:
+  model_cooldown_days: 7
+  music_cooldown_days: 3
+  low_pool_threshold: 48  # Alert when fewer unused clips exist
+  min_original_ratio: 0.70  # At least 70% original/generated
+
+quality_gates:
+  resolution: [1080, 1920]
+  min_duration_sec: 7
+  max_duration_sec: 60
+  max_caption_chars: 2200
+  max_hashtags: 30
+  aspect_ratio: "9:16"
+
+metrics:
+  collection_interval_hours: 24
+  ranking_weights:
+    views: 0.40
+    shares: 0.30
+    saves: 0.20
+    likes: 0.10
+
+edit_templates:
+  - cinematic_slow_mo
+  - speed_ramp
+  - phonk_bass_drop
+  - night_city
+  - rolling_shots
+  - engine_sound_showcase
+
+logging:
+  daily_summary_path: "logs/daily_summary.md"
+  max_log_entries: 500

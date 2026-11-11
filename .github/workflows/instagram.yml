@@ -1,13 +1,17 @@
-name: Instagram Automation
+name: Instagram & YouTube Automation
 
 on:
   schedule:
-    # Every 2 hours clean bike/car reels (12 posts/day): 00:00, 02:00, 04:00, 06:00, 08:00, 10:00, 12:00, 14:00, 16:00, 18:00, 20:00, 22:00 UTC
+    # Instagram Reels: every 2 hours, 24/7 (12 reels/day)
     - cron: "15 */2 * * *"
-    # Exactly at 12:00 AM Midnight (18:30 UTC / 12:00 AM IST) - Daily Study Reel (once per day)
+    # Daily YouTube Top 10 Short at 6:00 PM UTC
+    - cron: "0 18 * * *"
+    # Daily Study Journey Reel at 12:00 AM IST (18:30 UTC)
     - cron: "30 18 * * *"
-    # 1 Photo post daily at 13:00 UTC
+    # Daily photo post at 1:00 PM UTC
     - cron: "0 13 * * *"
+    # Daily metrics collection at 7:00 AM UTC
+    - cron: "0 7 * * *"
   push:
     paths:
       - "uploads/*.mp4"
@@ -28,6 +32,8 @@ on:
           - weekly_reel
           - post
           - upload_reel
+          - youtube_top10
+          - collect_metrics
       prompt:
         description: "Custom text/prompt for the reel or post (leave empty for auto theme)"
         required: false
@@ -60,7 +66,6 @@ jobs:
 
       - name: Install FFmpeg
         run: |
-          # Download pre-built static binary — avoids apt-daily dpkg lock hang
           curl -fsSL https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz \
             | tar -xJ --strip-components=2 -C /usr/local/bin --wildcards '*/bin/ffmpeg' '*/bin/ffprobe'
           ffmpeg -version 2>&1 | head -1
@@ -76,15 +81,13 @@ jobs:
       - name: Determine mode
         id: mode
         run: |
-          # workflow_dispatch takes explicit mode input
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "mode=${{ github.event.inputs.mode }}" >> "$GITHUB_OUTPUT"
-          # Push to trigger.txt or uploads/*.mp4
           elif [ "${{ github.event_name }}" = "push" ]; then
             if [ -f "trigger.txt" ]; then
               RAW_MODE=$(head -n 1 trigger.txt | awk '{print $1}')
               case "$RAW_MODE" in
-                post|journey_reel|weekly_reel|reel|upload_reel|deep_dive|comparison|future_release)
+                post|journey_reel|weekly_reel|reel|upload_reel|deep_dive|comparison|future_release|youtube_top10|collect_metrics)
                   MODE="$RAW_MODE"
                   ;;
                 *)
@@ -96,17 +99,18 @@ jobs:
               echo "mode=upload_reel" >> "$GITHUB_OUTPUT"
             fi
           else
-            # Scheduled runs: hour 13 = daily photo post, all other hours = reel every 2 hours
-            # 12:00 AM Midnight (18:30 UTC): Daily Study Journey Reel (once per day)
-            # Hour 13:00 UTC: Daily Photo Post
-            # All other 2-hour runs: Clean Supercar & Superbike Reel with zero text overlay
-            # Scheduled runs:
-            # Hour >= 18 UTC (11:30 PM+ IST): Study journey reel window
-            # Hour 13:00 UTC: Daily photo post
-            # All other hours: Clean supercar & superbike reel
             HOUR=$(date -u +%H)
-            if [ "$HOUR" -ge 18 ]; then
+            MIN=$(date -u +%M)
+            # 18:30 UTC = Study journey reel (runs at :30)
+            if [ "$HOUR" = "18" ] && [ "$MIN" -ge 20 ] && [ "$MIN" -le 45 ]; then
               echo "mode=journey_reel" >> "$GITHUB_OUTPUT"
+            # 18:00 UTC = YouTube Top 10 compilation Short (runs at :00)
+            elif [ "$HOUR" = "18" ]; then
+              echo "mode=youtube_top10" >> "$GITHUB_OUTPUT"
+            # 07:00 UTC = Daily metrics collection
+            elif [ "$HOUR" = "07" ]; then
+              echo "mode=collect_metrics" >> "$GITHUB_OUTPUT"
+            # 13:00 UTC = Daily photo post
             elif [ "$HOUR" = "13" ]; then
               echo "mode=post" >> "$GITHUB_OUTPUT"
             else

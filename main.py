@@ -49,6 +49,22 @@ UPLOADS_DIR = ROOT / "uploads"
 UPLOADS_DONE_DIR = ROOT / "uploads" / "done"
 MUSIC_DIR = ROOT / "assets" / "music"
 
+# ---------------------------------------------------------------------------
+# Registry & Deduplication System (AGENT_SPEC §3)
+# ---------------------------------------------------------------------------
+sys.path.insert(0, str(ROOT / "scripts"))
+try:
+    from registry import (
+        is_set_on_cooldown, is_music_on_cooldown, is_slot_occupied,
+        is_caption_duplicate, reserve_slot, confirm_publish,
+        update_metrics, get_top_posts, caption_hash, REGISTRY_FILE
+    )
+    REGISTRY_AVAILABLE = True
+except ImportError:
+    REGISTRY_AVAILABLE = False
+    REGISTRY_FILE = ROOT / "data" / "registry.json"
+    print("  [Registry] Warning: registry module not found. Deduplication disabled.")
+
 IG_API_BASE = "https://graph.facebook.com/v21.0"
 GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta"
 POLLINATIONS_BASE = "https://image.pollinations.ai/prompt"
@@ -1510,6 +1526,9 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     for step in range(len(active_order)):
         candidate_idx = (start_idx + step) % len(active_order)
         cand_name = active_order[candidate_idx]
+        # AGENT_SPEC §3: Check 7-day model cooldown
+        if REGISTRY_AVAILABLE and is_set_on_cooldown(cand_name, cooldown_days=7):
+            continue
         if cand_name not in recent_posted and SET_BRAND_MAP.get(cand_name) != last_posted_brand:
             chosen_name = cand_name
             break
@@ -2543,6 +2562,13 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     event_name = os.environ.get("GITHUB_EVENT_NAME", "").lower()
     is_manual = bool(custom_prompt) or (event_name == "workflow_dispatch")
     if not is_manual:
+        # AGENT_SPEC §2 & §3: Slot idempotency (prevent duplicate posts in same 2-hour UTC slot)
+        if REGISTRY_AVAILABLE:
+            slot_hour = (datetime.now(timezone.utc).hour // 2) * 2
+            if is_slot_occupied(slot_hour):
+                print(f"\n[IDEMPOTENCY] Slot {slot_hour:02d}:00–{(slot_hour+2)%24:02d}:00 UTC already has a confirmed post. Skipping.")
+                return
+
         last_time = get_last_reel_timestamp()
         if last_time:
             elapsed = (datetime.now(timezone.utc) - last_time).total_seconds() / 60.0
@@ -2797,6 +2823,10 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
 
     full_caption = build_full_caption(caption_text, hashtags)
 
+    res_id = None
+    if REGISTRY_AVAILABLE and not dry_run:
+        res_id = reserve_slot(set_name, active_format, full_caption)
+
     print(f"\n[FORMAT]:    {active_format.upper()}")
     print(f"Vehicle Set: {set_name}")
     print(f"Title:       {title}")
@@ -2898,7 +2928,25 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
 
     yt_detail = f", yt_id={yt_id}" if yt_id else (f", yt_err={yt_err_msg}" if yt_err_msg else "")
     log_ok("weekly_reel", full_caption, video_path.name, f"set={set_name}, format={active_format}, media_id={media_id}{yt_detail}")
+
+    if REGISTRY_AVAILABLE:
+        confirm_publish(
+            set_name=set_name,
+            format_name=active_format,
+            caption=full_caption,
+            media_id=media_id,
+            yt_id=yt_id,
+            media_file=video_path.name,
+            reservation_id=res_id
+        )
+    _write_daily_summary(env)
+
     files_to_log = [LOG_FILE]
+    if REGISTRY_FILE.exists():
+        files_to_log.append(REGISTRY_FILE)
+    summary_file = ROOT / "logs" / "daily_summary.md"
+    if summary_file.exists():
+        files_to_log.append(summary_file)
     if ARCH_INDEX_FILE.exists():
         files_to_log.append(ARCH_INDEX_FILE)
     if VEHICLE_STATE_FILE.exists():
@@ -3025,10 +3073,215 @@ Return ONLY a JSON array of lowercase strings without # prefix.
 
 
 # ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Mode: collect_metrics — Daily Instagram Reel Insights Collection (AGENT_SPEC §6)
+# ---------------------------------------------------------------------------
+
+def mode_collect_metrics(persona: dict, env: dict, dry_run: bool) -> None:
+    """Pull per-Reel views, likes, shares, saves from Instagram API and store in registry."""
+    print("\n=== MODE: collect_metrics ===")
+    if not REGISTRY_AVAILABLE:
+        print("  Registry not available. Skipping metrics collection.")
+        return
+
+    from scripts.registry import _load, update_metrics
+
+    data = _load()
+    posts_to_update = [
+        p for p in data.get("posts", [])
+        if p.get("status") == "published"
+        and p.get("media_id")
+        and p.get("metrics", {}).get("views", 0) == 0
+    ][:20]
+
+    if not posts_to_update:
+        print("  No posts needing metrics update.")
+        _write_daily_summary(env)
+        return
+
+    print(f"  Collecting metrics for {len(posts_to_update)} posts...")
+    updated = 0
+    for post in posts_to_update:
+        media_id = post["media_id"]
+        try:
+            resp = ig_get(
+                f"{media_id}/insights",
+                env,
+                params={"metric": "impressions,reach,likes_count,shares,saved"}
+            )
+            metrics_data = {item["name"]: item["values"][0]["value"] for item in resp.get("data", [])}
+            views = metrics_data.get("impressions", metrics_data.get("reach", 0))
+            likes = metrics_data.get("likes_count", 0)
+            shares = metrics_data.get("shares", 0)
+            saves = metrics_data.get("saved", 0)
+            update_metrics(media_id, views, likes, shares, saves)
+            print(f"  Updated {media_id}: views={views}, likes={likes}, shares={shares}, saves={saves}")
+            updated += 1
+        except Exception as exc:
+            print(f"  Notice: metrics for {media_id} skipped ({exc})")
+        time.sleep(1)
+
+    _write_daily_summary(env)
+    print(f"  Metrics collection complete. Updated {updated} posts.")
+    if not dry_run:
+        git_commit_and_push([REGISTRY_FILE, ROOT / "logs" / "daily_summary.md"], "chore: update reel metrics and daily summary")
+
+
+# ---------------------------------------------------------------------------
+# Mode: youtube_top10 — Daily Compilation Short (AGENT_SPEC §2, §6)
+# ---------------------------------------------------------------------------
+
+def mode_youtube_top10(persona: dict, env: dict, dry_run: bool) -> None:
+    """Build a Top 10 compilation from yesterday's best reels and upload to YouTube (under 3 mins)."""
+    print("\n=== MODE: youtube_top10 ===")
+    if not REGISTRY_AVAILABLE:
+        print("  Registry not available. Skipping Top 10.")
+        return
+
+    top_posts = get_top_posts(day_offset=1, limit=10, min_posts=5)
+    if not top_posts:
+        print("  Fewer than 5 qualifying posts found for a Top 10. Skipping today.")
+        _write_daily_summary(env)
+        return
+
+    n = len(top_posts)
+    title = f"Top {n} Supercars & Superbikes of the Day 🔥 #Shorts"
+    print(f"  Building '{title}' from {n} clips...")
+
+    video_paths: list[Path] = []
+    for post in top_posts:
+        media_name = post.get("media_file", "")
+        if media_name:
+            path = MEDIA_DIR / media_name
+            if path.exists() and path.suffix.lower() == ".mp4":
+                video_paths.append(path)
+
+    # Fallback to authentic video sets if rendered files were cleaned up
+    if len(video_paths) < 5:
+        available_clips = list(VEHICLE_VIDEO_SETS_DIR.glob("*/*.mp4"))
+        if available_clips:
+            video_paths = available_clips[:n]
+
+    if len(video_paths) < 5:
+        print(f"  Only {len(video_paths)} video sources found (need at least 5). Skipping Top 10.")
+        return
+
+    if dry_run:
+        print(f"  [DRY RUN] Would build Top {n} Short ({len(video_paths)} clips, ~150s) → top10_compilation.mp4")
+        return
+
+    ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    output_path = MEDIA_DIR / f"top10_{ts}.mp4"
+
+    target_per_clip = min(15, max(8, 150 // len(video_paths)))
+    trimmed_clips: list[Path] = []
+    for i, vp in enumerate(video_paths):
+        trimmed = MEDIA_DIR / f"trim_{ts}_{i}.mp4"
+        subprocess.run([
+            "ffmpeg", "-y",
+            "-i", str(vp),
+            "-t", str(target_per_clip),
+            "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920",
+            "-c:v", "libx264", "-crf", "23", "-preset", "fast",
+            "-c:a", "aac", "-b:a", "128k",
+            str(trimmed)
+        ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if trimmed.exists():
+            trimmed_clips.append(trimmed)
+
+    if not trimmed_clips:
+        print("  Failed to trim clips. Skipping Top 10.")
+        return
+
+    concat_list = MEDIA_DIR / f"concat_{ts}.txt"
+    with open(concat_list, "w", encoding="utf-8") as f:
+        for tc in trimmed_clips:
+            f.write(f"file '{tc.resolve()}'\n")
+
+    subprocess.run([
+        "ffmpeg", "-y",
+        "-f", "concat", "-safe", "0", "-i", str(concat_list),
+        "-c", "copy",
+        str(output_path)
+    ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+    for tc in trimmed_clips:
+        tc.unlink(missing_ok=True)
+    concat_list.unlink(missing_ok=True)
+
+    if not output_path.exists():
+        print("  Failed to concatenate Top 10 video. Skipping.")
+        return
+
+    desc_lines = [
+        f"Top {n} Supercars & Superbikes of the Day ranked by performance!",
+        "",
+    ]
+    for i, p in enumerate(top_posts[:len(trimmed_clips)], 1):
+        car_title = p.get("set_name", "").replace("_", " ").title()
+        desc_lines.append(f"{i}. {car_title}")
+    desc_lines.append("\nFollow on Instagram @apex_rich_ for 2-hour daily reels!")
+    description = "\n".join(desc_lines)
+    tags = ["supercars", "superbike", "carreels", "shorts", "top10", "speedhunters", "carlifestyle"]
+
+    print("  Uploading Top 10 Short to YouTube...")
+    yt_id, yt_err = publish_youtube_short(output_path, title, description, tags, env)
+    if yt_id:
+        print(f"  Successfully published YouTube Top 10 Short! ID: {yt_id}")
+    else:
+        print(f"  YouTube upload skipped/notice: {yt_err}")
+
+    output_path.unlink(missing_ok=True)
+    _write_daily_summary(env)
+
+
+# ---------------------------------------------------------------------------
+# Daily Summary Writer (AGENT_SPEC §8)
+# ---------------------------------------------------------------------------
+
+def _write_daily_summary(env: dict) -> None:
+    """Write logs/daily_summary.md with today's posting activity."""
+    if not REGISTRY_AVAILABLE:
+        return
+    from scripts.registry import _load
+    data = _load()
+    today = datetime.now(timezone.utc).date()
+    today_posts = [
+        p for p in data.get("posts", [])
+        if p.get("status") == "published"
+        and datetime.fromisoformat(p["publish_timestamp"]).date() == today
+    ]
+
+    logs_dir = ROOT / "logs"
+    logs_dir.mkdir(parents=True, exist_ok=True)
+    summary_path = logs_dir / "daily_summary.md"
+
+    lines = [
+        f"# Daily Summary — {today.isoformat()}",
+        "",
+        f"- **Posts published today:** {len(today_posts)}",
+        f"- **Status:** Operational (12 Reels/Day schedule)",
+        "",
+        "## Today's Published Reels",
+        "| Time (UTC) | Vehicle Set | Format | IG Media ID | YouTube Short ID |",
+        "| :--- | :--- | :--- | :--- | :--- |",
+    ]
+    if today_posts:
+        for p in today_posts:
+            t = datetime.fromisoformat(p["publish_timestamp"]).strftime("%H:%M")
+            lines.append(f"| {t} | {p.get('set_name', '?')} | {p.get('format', '?')} | {p.get('media_id', '?')} | {p.get('yt_id') or '—'} |")
+    else:
+        lines.append("| — | No posts yet today | — | — | — |")
+
+    lines.append("")
+    summary_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 # Main entry point
 # ---------------------------------------------------------------------------
 
-MODES = {"post", "weekly_reel", "reel", "upload_reel", "journey_reel", "deep_dive", "comparison", "future_release"}
+MODES = {"post", "weekly_reel", "reel", "upload_reel", "journey_reel", "deep_dive", "comparison", "future_release", "youtube_top10", "collect_metrics"}
 
 
 def main() -> None:
@@ -3118,6 +3371,10 @@ def main() -> None:
             mode_weekly_reel(persona, env, dry_run, custom_prompt="future_release " + custom_prompt)
         elif mode == "upload_reel":
             mode_upload_reel(persona, env, dry_run)
+        elif mode == "youtube_top10":
+            mode_youtube_top10(persona, env, dry_run)
+        elif mode == "collect_metrics":
+            mode_collect_metrics(persona, env, dry_run)
     except Exception as exc:
         print(f"\nFATAL ERROR in mode '{mode}': {exc}")
         if not dry_run:
