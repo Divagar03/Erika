@@ -1383,58 +1383,117 @@ def get_last_reel_timestamp() -> datetime | None:
 
 # ── Interleaved Diverse Rotation Order (Never Clusters Same Brand) ────────
 CURATED_ROTATION_ORDER = [
-    "porsche_911_gt3rs",      # German track supercar (photo)
-    "lamborghini_diablo",     # Italian vintage V12 (video)
-    "bmw_s1000rr",            # German hypersport superbike (photo)
-    "ferrari_f80",            # Italian hypercar (video)
-    "nissan_gtr_r35",         # Japanese twin-turbo AWD (photo)
-    "aston_martin_valour",    # British twin-turbo V12 manual (video)
-    "ducati_panigale_v4s",    # Italian MotoGP-derived superbike (photo)
-    "audi_r8_v10",            # German naturally aspirated V10 (photo)
-    "white_mustang_sunset",   # American V8 muscle (video)
-    "ferrari_sf90",           # Italian hybrid hypercar (photo)
-    "bmw_m4_black",           # German twin-turbo coupe (photo)
-    "red_sportscar",          # Crimson roadster (video)
-    "lamborghini_revuelto",   # Italian V12 hybrid flagship (photo)
+    "bugatti_chiron",            # French quad-turbo W16 hypercar
+    "porsche_911_gt3rs",         # German track supercar
+    "kawasaki_ninja_h2r",        # Japanese supercharged 310HP track hyperbike
+    "koenigsegg_jesko",          # Swedish 300+ mph twin-turbo V8 megacar
+    "ferrari_f80",               # Italian hybrid flagship hypercar (video)
+    "pagani_huayra",             # Italian bespoke carbon V12 hypercar
+    "bmw_s1000rr",               # German hypersport superbike
+    "lamborghini_diablo",        # Italian vintage V12 (video)
+    "mclaren_p1",                # British hybrid hypercar trinity
+    "nissan_gtr_r35",            # Japanese twin-turbo AWD
+    "mercedes_amg_one",          # German F1-derived hybrid hypercar
+    "ducati_panigale_v4s",       # Italian MotoGP-derived superbike
+    "aston_martin_valour",       # British twin-turbo V12 manual (video)
+    "ferrari_laferrari",         # Italian V12 hybrid hypercar trinity
+    "porsche_carrera_gt",        # German naturally aspirated V10 icon
+    "yamaha_yzf_r1m",            # Japanese MotoGP crossplane superbike
+    "lamborghini_aventador_svj", # Italian Nurburgring V12 flagship
+    "audi_r8_v10",               # German naturally aspirated V10
+    "ford_gt_supercar",          # American Le Mans carbon twin-turbo V6
+    "bmw_m5_cs",                 # German flagship twin-turbo V8 super-sedan
+    "mclaren_senna",             # British extreme track hypercar
+    "aston_martin_valkyrie",     # British Cosworth V12 F1-aero hypercar
+    "ferrari_sf90",              # Italian hybrid hypercar
+    "bugatti_veyron",            # French W16 400km/h pioneer
+    "white_mustang_sunset",      # American V8 muscle (video)
+    "porsche_918_spyder",        # German hybrid hypercar trinity
+    "bmw_m4_black",              # German twin-turbo coupe
+    "lamborghini_revuelto",      # Italian V12 hybrid flagship
+    "bmw_m2_coupe",              # German compact twin-turbo coupe
+    "red_sportscar",             # Crimson roadster (video)
 ]
 
 SET_BRAND_MAP = {
+    "aston_martin_valkyrie": "aston_martin",
     "aston_martin_valour": "aston_martin",
     "audi_r8_v10": "audi",
+    "bmw_m2_coupe": "bmw",
     "bmw_m4_black": "bmw",
+    "bmw_m5_cs": "bmw",
     "bmw_s1000rr": "bmw",
+    "bugatti_chiron": "bugatti",
+    "bugatti_veyron": "bugatti",
     "ducati_panigale_v4s": "ducati",
     "ferrari_f80": "ferrari",
+    "ferrari_laferrari": "ferrari",
     "ferrari_sf90": "ferrari",
+    "ford_gt_supercar": "ford",
+    "kawasaki_ninja_h2r": "kawasaki",
+    "koenigsegg_jesko": "koenigsegg",
+    "lamborghini_aventador_svj": "lamborghini",
     "lamborghini_diablo": "lamborghini",
     "lamborghini_revuelto": "lamborghini",
+    "mclaren_p1": "mclaren",
+    "mclaren_senna": "mclaren",
+    "mercedes_amg_one": "mercedes_amg",
     "nissan_gtr_r35": "nissan",
+    "pagani_huayra": "pagani",
     "porsche_911_gt3rs": "porsche",
+    "porsche_918_spyder": "porsche",
+    "porsche_carrera_gt": "porsche",
     "red_sportscar": "roadster",
     "white_mustang_sunset": "ford",
+    "yamaha_yzf_r1m": "yamaha",
 }
 
 SET_MODEL_MAP = {
+    "aston_martin_valkyrie": "valkyrie",
     "aston_martin_valour": "valour",
     "audi_r8_v10": "r8",
+    "bmw_m2_coupe": "m2_coupe",
     "bmw_m4_black": "m4",
+    "bmw_m5_cs": "m5_cs",
     "bmw_s1000rr": "s1000rr",
+    "bugatti_chiron": "chiron",
+    "bugatti_veyron": "veyron",
     "ducati_panigale_v4s": "panigale_v4s",
     "ferrari_f80": "f80",
+    "ferrari_laferrari": "laferrari",
     "ferrari_sf90": "sf90",
+    "ford_gt_supercar": "ford_gt",
+    "kawasaki_ninja_h2r": "ninja_h2r",
+    "koenigsegg_jesko": "jesko",
+    "lamborghini_aventador_svj": "aventador_svj",
     "lamborghini_diablo": "diablo",
     "lamborghini_revuelto": "revuelto",
+    "mclaren_p1": "p1",
+    "mclaren_senna": "senna",
+    "mercedes_amg_one": "amg_one",
     "nissan_gtr_r35": "gtr_r35",
+    "pagani_huayra": "huayra",
     "porsche_911_gt3rs": "911_gt3rs",
+    "porsche_918_spyder": "918_spyder",
+    "porsche_carrera_gt": "carrera_gt",
     "red_sportscar": "crimson_roadster",
     "white_mustang_sunset": "mustang_gt",
+    "yamaha_yzf_r1m": "yzf_r1m",
 }
+
+_BIKE_KEYWORDS = ("bike", "ducati", "s1000rr", "kawasaki", "ninja", "h2r", "yamaha", "r1m")
+
+
+def _is_bike_set(name: str) -> bool:
+    nl = name.lower()
+    return any(b in nl for b in _BIKE_KEYWORDS)
+
 
 def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path], bool]:
     """Return (set_name, media_paths, is_bike) from the curated vehicle library.
-    Loads all 13 authentic sets (both video motion clip sets and DSLR photo cuts)
-    and strictly enforces NO REPEATS using the last 5 posts in log.json and
-    ensures NO SAME-BRAND repeats back-to-back.
+    Loads all authentic sets (both video motion clip sets and DSLR photo cuts)
+    and strictly enforces 24-hour brand cooldown + 7-day model cooldown +
+    car/bike alternation.
     """
     available_dict: dict[str, list[Path]] = {}
 
@@ -1461,24 +1520,44 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
 
     # Use ordered interleaved list for diversity
     active_order = [s for s in CURATED_ROTATION_ORDER if s in available_dict]
-    if not active_order:
-        active_order = sorted(list(available_dict.keys()))
+    for extra in sorted(available_dict.keys()):
+        if extra not in active_order:
+            active_order.append(extra)
+
+    recent_window = max(11, len(active_order) - 3)
 
     # Map caption keywords to set names for log inspection
     _CAPTION_TO_SET: dict[str, str] = {
+        "valkyrie": "aston_martin_valkyrie",
         "aston": "aston_martin_valour", "valour": "aston_martin_valour",
         "audi": "audi_r8_v10", "r8": "audi_r8_v10", "suzuka grey": "audi_r8_v10",
+        "m5 cs": "bmw_m5_cs",
+        "m2": "bmw_m2_coupe",
         "bmw m4": "bmw_m4_black", "m4": "bmw_m4_black", "g82": "bmw_m4_black",
         "s1000rr": "bmw_s1000rr",
+        "chiron": "bugatti_chiron",
+        "veyron": "bugatti_veyron",
         "ducati": "ducati_panigale_v4s", "panigale": "ducati_panigale_v4s", "v4 s": "ducati_panigale_v4s", "v4s": "ducati_panigale_v4s",
         "ferrari f80": "ferrari_f80", "f80": "ferrari_f80",
+        "laferrari": "ferrari_laferrari",
         "sf90": "ferrari_sf90", "stradale": "ferrari_sf90",
+        "ford gt": "ford_gt_supercar",
+        "ninja h2r": "kawasaki_ninja_h2r", "h2r": "kawasaki_ninja_h2r", "kawasaki": "kawasaki_ninja_h2r",
+        "koenigsegg": "koenigsegg_jesko", "jesko": "koenigsegg_jesko",
+        "aventador": "lamborghini_aventador_svj", "svj": "lamborghini_aventador_svj",
         "diablo": "lamborghini_diablo", "giallo fly": "lamborghini_diablo",
         "revuelto": "lamborghini_revuelto", "arancio apodis": "lamborghini_revuelto",
+        "mclaren p1": "mclaren_p1",
+        "senna": "mclaren_senna",
+        "amg one": "mercedes_amg_one",
         "nissan": "nissan_gtr_r35", "gtr": "nissan_gtr_r35", "godzilla": "nissan_gtr_r35",
+        "pagani": "pagani_huayra", "huayra": "pagani_huayra",
+        "carrera gt": "porsche_carrera_gt",
+        "918 spyder": "porsche_918_spyder",
         "porsche": "porsche_911_gt3rs", "gt3": "porsche_911_gt3rs", "shark blue": "porsche_911_gt3rs", "weissach": "porsche_911_gt3rs",
         "crimson": "red_sportscar", "underground": "red_sportscar", "roadster": "red_sportscar",
         "mustang": "white_mustang_sunset", "oxford white": "white_mustang_sunset", "sunset velocity": "white_mustang_sunset",
+        "yamaha": "yamaha_yzf_r1m", "r1m": "yamaha_yzf_r1m",
     }
 
     # Find recently posted vehicle sets from vehicle_state.json AND log.json
@@ -1513,7 +1592,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                             if _sname not in recent_posted:
                                 recent_posted.append(_sname)
                             break
-                if len(recent_posted) >= 11:
+                if len(recent_posted) >= recent_window:
                     break
     except Exception:
         pass
@@ -1525,33 +1604,60 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     th = theme_hint.lower().strip()
     if th:
         KEYWORD_MAP = {
-            "porsche": ["porsche_911_gt3rs"],
+            "porsche": ["porsche_911_gt3rs", "porsche_carrera_gt", "porsche_918_spyder"],
             "gt3": ["porsche_911_gt3rs"],
+            "carrera gt": ["porsche_carrera_gt"],
+            "918": ["porsche_918_spyder"],
             "shark blue": ["porsche_911_gt3rs"],
             "ducati": ["ducati_panigale_v4s"],
             "panigale": ["ducati_panigale_v4s"],
             "s1000rr": ["bmw_s1000rr"],
-            "bike": ["bmw_s1000rr", "ducati_panigale_v4s"],
-            "motorcycle": ["bmw_s1000rr", "ducati_panigale_v4s"],
-            "superbike": ["bmw_s1000rr", "ducati_panigale_v4s"],
-            "bmw": ["bmw_m4_black", "bmw_s1000rr"],
+            "kawasaki": ["kawasaki_ninja_h2r"],
+            "h2r": ["kawasaki_ninja_h2r"],
+            "ninja": ["kawasaki_ninja_h2r"],
+            "yamaha": ["yamaha_yzf_r1m"],
+            "r1m": ["yamaha_yzf_r1m"],
+            "bike": ["kawasaki_ninja_h2r", "bmw_s1000rr", "ducati_panigale_v4s", "yamaha_yzf_r1m"],
+            "motorcycle": ["kawasaki_ninja_h2r", "bmw_s1000rr", "ducati_panigale_v4s", "yamaha_yzf_r1m"],
+            "superbike": ["kawasaki_ninja_h2r", "bmw_s1000rr", "ducati_panigale_v4s", "yamaha_yzf_r1m"],
+            "bmw": ["bmw_m5_cs", "bmw_m4_black", "bmw_m2_coupe", "bmw_s1000rr"],
+            "m5": ["bmw_m5_cs"],
             "m4": ["bmw_m4_black"],
+            "m2": ["bmw_m2_coupe"],
+            "bugatti": ["bugatti_chiron", "bugatti_veyron"],
+            "chiron": ["bugatti_chiron"],
+            "veyron": ["bugatti_veyron"],
+            "koenigsegg": ["koenigsegg_jesko"],
+            "jesko": ["koenigsegg_jesko"],
+            "pagani": ["pagani_huayra"],
+            "huayra": ["pagani_huayra"],
+            "mclaren": ["mclaren_p1", "mclaren_senna"],
+            "p1": ["mclaren_p1"],
+            "senna": ["mclaren_senna"],
+            "mercedes": ["mercedes_amg_one"],
+            "amg": ["mercedes_amg_one"],
             "audi": ["audi_r8_v10"],
             "r8": ["audi_r8_v10"],
             "nissan": ["nissan_gtr_r35"],
             "gtr": ["nissan_gtr_r35"],
             "godzilla": ["nissan_gtr_r35"],
             "sf90": ["ferrari_sf90"],
-            "ferrari": ["ferrari_sf90", "ferrari_f80"],
+            "laferrari": ["ferrari_laferrari"],
+            "ferrari": ["ferrari_sf90", "ferrari_laferrari", "ferrari_f80"],
             "f80": ["ferrari_f80"],
+            "aventador": ["lamborghini_aventador_svj"],
+            "svj": ["lamborghini_aventador_svj"],
             "revuelto": ["lamborghini_revuelto"],
             "diablo": ["lamborghini_diablo"],
-            "lamborghini": ["lamborghini_revuelto", "lamborghini_diablo"],
-            "aston": ["aston_martin_valour"],
+            "lamborghini": ["lamborghini_revuelto", "lamborghini_aventador_svj", "lamborghini_diablo"],
+            "valkyrie": ["aston_martin_valkyrie"],
+            "aston": ["aston_martin_valkyrie", "aston_martin_valour"],
             "valour": ["aston_martin_valour"],
+            "ford gt": ["ford_gt_supercar"],
             "mustang": ["white_mustang_sunset"],
-            "red": ["red_sportscar", "ducati_panigale_v4s"],
-            "sportscar": ["red_sportscar", "audi_r8_v10", "porsche_911_gt3rs"],
+            "red": ["red_sportscar", "ducati_panigale_v4s", "ferrari_laferrari"],
+            "hypercar": ["bugatti_chiron", "koenigsegg_jesko", "pagani_huayra", "mclaren_p1", "ferrari_laferrari", "mercedes_amg_one", "aston_martin_valkyrie"],
+            "sportscar": ["red_sportscar", "audi_r8_v10", "porsche_911_gt3rs", "bmw_m2_coupe"],
         }
         matched_names: set[str] = set()
         for kw, target_sets in KEYWORD_MAP.items():
@@ -1572,16 +1678,15 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
             if not fresh:
                 fresh = non_cooldown_candidates
             chosen_name = fresh[0]
-            is_bike = any(b in chosen_name for b in ["bike", "ducati", "s1000rr"])
-            return chosen_name, available_dict[chosen_name], is_bike
+            return chosen_name, available_dict[chosen_name], _is_bike_set(chosen_name)
 
     # 2. General Selection with strict Brand and Model cooldowns:
     # RULE 1 (Strict 7-Day Model Cooldown):
     #   If BMW M4 was posted, BMW M4 is strictly forbidden for 7 days.
-    #   Even when BMW is eligible again, it CANNOT be M4; it must be a different model (e.g. S1000RR)!
+    #   Even when BMW is eligible again, it CANNOT be M4; it must be a different model (e.g. S1000RR, M5 CS, M2)!
     # RULE 2 (Strict 24-Hour / Same-Day Brand Cooldown):
     #   If BMW was posted today, NO BMW can be posted for the rest of today (minimum 24 hours).
-    #   Next post today must be from another brand (Ferrari, Porsche, Lamborghini, Ducati, etc.).
+    #   Next post today must be from another brand (Bugatti, Koenigsegg, Ferrari, Porsche, etc.).
     # RULE 3 (Supercar / Superbike Alternation):
     #   Alternate between car and superbike to keep the feed dynamic.
     start_idx = (active_order.index(last_posted_set) + 1) % len(active_order) if last_posted_set in active_order else 0
@@ -1602,10 +1707,10 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     preferred_pool = brand_and_model_eligible if brand_and_model_eligible else model_eligible
 
     # Alternate car vs bike
-    last_is_bike = any(b in last_posted_set for b in ["bike", "ducati", "s1000rr"])
+    last_is_bike = _is_bike_set(last_posted_set)
     alternating_candidates = [
         s for s in preferred_pool
-        if (any(b in s for b in ["bike", "ducati", "s1000rr"]) != last_is_bike)
+        if (_is_bike_set(s) != last_is_bike)
         and s not in recent_posted
     ]
 
@@ -1618,9 +1723,9 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     else:
         chosen_name = active_order[start_idx]
 
-    # Cache recent_sets queue (keeps last 11 so all 13 cycle through before repeating)
+    # Cache recent_sets queue across the active library
     updated_recent = [chosen_name] + [s for s in recent_posted if s != chosen_name]
-    updated_recent = updated_recent[:11]
+    updated_recent = updated_recent[:recent_window]
     try:
         VEHICLE_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
         with open(VEHICLE_STATE_FILE, "w", encoding="utf-8") as f:
@@ -1628,8 +1733,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     except Exception:
         pass
 
-    is_bike = any(b in chosen_name for b in ["bike", "ducati", "yamaha", "kawasaki", "s1000rr"])
-    return chosen_name, available_dict[chosen_name], is_bike
+    return chosen_name, available_dict[chosen_name], _is_bike_set(chosen_name)
 
 
 # ---------------------------------------------------------------------------
@@ -2602,6 +2706,244 @@ CURATED_SET_METADATA = {
         "tags": ["porsche911gt3rs", "gt3rs", "992gt3rs", "porsche", "weissachpackage", "tracktool", "flatsix", "supercars", "carlifestyle"],
         "audio": "porsche_gt3rs_rev.mp3",
         "is_bike": False,
+        "is_fast_motion": False
+    },
+    "bugatti_chiron": {
+        "title": "Bugatti Chiron • 1,500 HP Quad-Turbo W16 Royalty 🔵🇫🇷",
+        "make_model": "Bugatti Chiron",
+        "color": "Atlantic Blue / Exposed Carbon",
+        "captions": [
+            "8.0 liters. Sixteen cylinders. Four turbochargers. 1,500 horsepower engineered in Molsheim to bend velocity beyond 260 mph in complete composure. Rate this W16 icon 1-10 👇",
+            "From the C-line aluminum signature to the quad-turbo symphony spooling behind the cabin, the Bugatti Chiron remains automotive royalty. Drop your dream hypercar spec below 🔑🔥",
+            "Zero to 200 km/h in just 6.1 seconds. Hand-built French bespoke luxury meeting relentless hypercar velocity. Rate the Chiron 1-10 👇"
+        ],
+        "tags": ["bugattichiron", "bugatti", "chiron", "w16", "hypercar", "molsheim", "luxurycars", "supercars", "topspeed"],
+        "audio": "car_rev_driveby.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "bugatti_veyron": {
+        "title": "Bugatti Veyron 16.4 • The 400 km/h Engineering Pioneer ⚫🇫🇷",
+        "make_model": "Bugatti Veyron 16.4",
+        "color": "Two-Tone Metallic / Carbon",
+        "captions": [
+            "The machine that shattered the 400 km/h barrier and rewrote every rule of automotive physics. 8.0L quad-turbo W16 legend. Rate the timeless Veyron 1-10 👇",
+            "Ten radiators, active hydraulic wing, and an engineering tour de force that defined the 21st-century hypercar era. Would you daily a Veyron? 🔑🔥",
+            "Before anyone else dared build a 1,000+ horsepower road car with effortless poise, Molsheim delivered the Bugatti Veyron. Pure history on tarmac 👇"
+        ],
+        "tags": ["bugattiveyron", "bugatti", "veyron", "w16", "hypercar", "classicmodern", "luxurycars", "supercars"],
+        "audio": "car_rev_driveby.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "koenigsegg_jesko": {
+        "title": "Koenigsegg Jesko • 1,600 HP Swedish Megacar Extremity ⚪🇸🇪",
+        "make_model": "Koenigsegg Jesko",
+        "color": "Carbon / Racing Stripe",
+        "captions": [
+            "1,600 horsepower on E85, an 8,500 RPM flat-plane twin-turbo V8, and Koenigsegg's lightning-quick 9-speed Light Speed Transmission. Rate this megacar 1-10 👇",
+            "Over 1,000 kg of downforce sculpted in Ängelholm carbon fiber. The Koenigsegg Jesko exists purely in a league of its own. Drop your dream Koenigsegg below 🔑🇸🇪",
+            "No flywheel. Instantaneous throttle snap. Built to honor Jesko von Koenigsegg and chase 300+ mph supremacy. Rate this masterpiece 1-10 👇"
+        ],
+        "tags": ["koenigseggjesko", "koenigsegg", "jesko", "megacar", "hypercars", "carbonfiber", "topspeed", "supercars"],
+        "audio": "car_v8_start.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "pagani_huayra": {
+        "title": "Pagani Huayra • Carbo-Titanium Rolling Sculpture ⚙️🇮🇹",
+        "make_model": "Pagani Huayra",
+        "color": "Exposed Carbon / Bespoke Spec",
+        "captions": [
+            "Every bolt stamped with the Pagani crest. Billet aluminum watchmaker switchgear, carbo-titanium monocoque, and a bespoke AMG twin-turbo V12. Rate this art piece 1-10 👇",
+            "Active aerodynamic flaps dancing across exposed carbon weave as the Pagani Huayra slices through canyon air. Is Pagani the pinnacle of bespoke hypercars? 🔑🇮🇹",
+            "Sixteen months of obsessive Italian craftsmanship per chassis. Where mechanical Horology meets V12 hypercar performance. Rate the Huayra 1-10 👇"
+        ],
+        "tags": ["paganihuayra", "pagani", "huayra", "v12", "hypercar", "bespoke", "carbonfiber", "italianexotics"],
+        "audio": "lamborghini_v12_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "mclaren_p1": {
+        "title": "McLaren P1 • 903 HP Carbon Hybrid Hypercar Trinity 🟠🇬🇧",
+        "make_model": "McLaren P1",
+        "color": "Volcano / Carbon Aero",
+        "captions": [
+            "Part of the untouchable Holy Trinity. Twin-turbo V8 instant-torque hybrid power wrapped in Formula 1 carbon MonoCage architecture. Rate the McLaren P1 1-10 👇",
+            "When Race Mode drops the ride height 50mm and deploys that iconic swan-neck rear wing, nothing on the tarmac looks sharper. Drop your Holy Trinity pick below 🔑🇬🇧",
+            "Designed first as an aerodynamic weapon, only second as a road car. Over a decade later, the McLaren P1 still looks like the future. Rate it 1-10 👇"
+        ],
+        "tags": ["mclarenp1", "mclaren", "p1", "holytrinity", "hypercar", "carbonfiber", "supercars", "woking"],
+        "audio": "mclaren_v8_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "mclaren_senna": {
+        "title": "McLaren Senna • Unapologetic Track-Bred Carbon Missile 🔵🇬🇧",
+        "make_model": "McLaren Senna",
+        "color": "Motorsport Spec / Carbon",
+        "captions": [
+            "Built to honor Ayrton Senna with zero compromises for comfort: 800 kg of downforce, transparent lower door panels, and an 800 PS twin-turbo V8. Rate the Senna 1-10 👇",
+            "Form strictly following downforce. Top-exit Inconel-titanium exhausts glowing behind a double-element active rear wing. Track weapon royalty 🔑🏁",
+            "Under 1,200 kg dry weight with active electro-hydraulic suspension locking the chassis flat at every apex. Rate this McLaren Senna 1-10 👇"
+        ],
+        "tags": ["mclarensenna", "mclaren", "senna", "trackweapon", "hypercars", "aero", "supercars", "ayrtonsenna"],
+        "audio": "mclaren_v8_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "ferrari_laferrari": {
+        "title": "Ferrari LaFerrari • 950 HP Naturally Aspirated V12 Symphony 🔴🇮🇹",
+        "make_model": "Ferrari LaFerrari",
+        "color": "Rosso Corsa / Nero Roof",
+        "captions": [
+            "6.3 liters of screaming naturally aspirated V12 spinning to 9,250 RPM paired with Maranello's F1 HY-KERS system. Pure goosebumps from every cold start. Rate LaFerrari 1-10 👇",
+            "Timeless Pininfarina-era drama meeting Formula 1 carbon monocoque DNA. Still the crown jewel of the modern Holy Trinity. Which Trinity legend do you pick? 🔑🇮🇹",
+            "Every downshift echoes like a classic V12 F1 grid. The Ferrari LaFerrari remains one of the greatest hypercars ever sculpted. Rate this spec 1-10 👇"
+        ],
+        "tags": ["ferrarilaferrari", "laferrari", "ferrari", "v12", "holytrinity", "hypercars", "maranello", "exoticcars"],
+        "audio": "lamborghini_v12_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "lamborghini_aventador_svj": {
+        "title": "Lamborghini Aventador SVJ • 770 CV Naturally Aspirated V12 🟢🇮🇹",
+        "make_model": "Lamborghini Aventador SVJ",
+        "color": "ALA Carbon Spec",
+        "captions": [
+            "Super Veloce Jota. 6.5 liters of naturally aspirated Sant'Agata V12 violence screaming past 8,500 RPM with ALA 2.0 active aero. Rate the SVJ 1-10 👇",
+            "6:44.97 around the Nürburgring Nordschleife and the wildest high-mount dual exhaust flames in modern supercar history. Dream Lambo? Drop it below 🔑🐂",
+            "Scissor doors up, carbon forged composites everywhere, and zero turbo muffling. The Aventador SVJ is pure unfiltered Italian theater. Rate it 1-10 👇"
+        ],
+        "tags": ["aventadorsvj", "lamborghiniaventador", "svj", "lamborghini", "v12", "supercars", "exoticcars", "italianmuscle"],
+        "audio": "lamborghini_v12_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "porsche_carrera_gt": {
+        "title": "Porsche Carrera GT • Pure Analog 5.7L V10 Legend ⚪🇩🇪",
+        "make_model": "Porsche Carrera GT",
+        "color": "GT Silver Metallic",
+        "captions": [
+            "Born from a cancelled Le Mans prototype program. A bespoke 5.7-liter V10, beechwood shift knob, and a 6-speed manual gearbox demanding pure driver respect. Rate the CGT 1-10 👇",
+            "Considered by collectors as the greatest-sounding street-legal V10 ever created. Zero electronic safety nets beyond raw mechanical precision 🔑🔥",
+            "Carbon-fiber-reinforced plastic chassis, pushrod suspension, and an iconic twin-hump silhouette. Timeless Porsche halo perfection. Rate this icon 1-10 👇"
+        ],
+        "tags": ["porschecarreragt", "carreragt", "porsche", "v10", "analogsupercar", "manual", "hypercars", "carlifestyle"],
+        "audio": "lamborghini_v12_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "porsche_918_spyder": {
+        "title": "Porsche 918 Spyder • Top-Pipe Weissach Hybrid Hypercar ⚫🇩🇪",
+        "make_model": "Porsche 918 Spyder",
+        "color": "Weissach Martini / Carbon",
+        "captions": [
+            "Top-exit exhausts roaring right behind your shoulders from a 9,150 RPM V8 combined with dual electric motors for savage AWD launches. Rate the 918 Spyder 1-10 👇",
+            "0 to 60 in 2.2 seconds with repeatable Porsche reliability. The third pillar of the Holy Trinity stands tall forever. Drop your dream Trinity pick below 🔑🇩🇪",
+            "Effortless open-top cruising to sub-7-minute Nürburgring pace in a single dial twist on the steering wheel. Rate the 918 Spyder 1-10 👇"
+        ],
+        "tags": ["porsche918", "918spyder", "porsche", "holytrinity", "hypercar", "weissach", "supercars"],
+        "audio": "porsche_gt3rs_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "mercedes_amg_one": {
+        "title": "Mercedes-AMG ONE • Street-Legal Formula 1 Powertrain ⚫🇩🇪",
+        "make_model": "Mercedes-AMG ONE",
+        "color": "Petronas Silver / Carbon Aero",
+        "captions": [
+            "An authentic championship-winning 1.6L V6 hybrid Formula 1 engine revving to 11,000 RPM on public roads. Nürburgring production record holder. Rate the AMG ONE 1-10 👇",
+            "1,063 horsepower, active front louver fins, roof airscoop, and pushrod coilover suspension lifted straight from Grand Prix paddocks 🔑🏁",
+            "Only 275 units built worldwide — the closest mortals will ever get to driving a Silver Arrows F1 car on the highway. Rate this engineering feat 1-10 👇"
+        ],
+        "tags": ["mercedesamgone", "amgone", "mercedesamg", "f1", "hypercar", "nurburgring", "supercars", "affalterbach"],
+        "audio": "ferrari_v8_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "bmw_m5_cs": {
+        "title": "BMW M5 CS • 627 HP Gold-Bronze Bavarian Super-Sedan 🟢🇩🇪",
+        "make_model": "BMW M5 CS",
+        "color": "Frozen Deep Green / Gold Bronze",
+        "captions": [
+            "Yellow motorsport DRLs, carbon-ceramic brakes, individual carbon bucket seats for four, and a twin-turbo V8 rocket launching to 60 mph in 2.6 seconds. Rate the M5 CS 1-10 👇",
+            "Lightweight forged gold-bronze wheels paired with Frozen Deep Green — widely crowned the greatest M sedan BMW ever engineered. Drop your favorite M car below 🔑🔥",
+            "Switchable xDrive AWD or pure rear-wheel-drive drift fury in four-door executive luxury. Rate the BMW M5 CS 1-10 👇"
+        ],
+        "tags": ["bmwm5cs", "m5cs", "bmwm", "f90", "mpower", "supersedan", "bimmer", "carlifestyle"],
+        "audio": "car_v8_start.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "bmw_m2_coupe": {
+        "title": "BMW M2 (G87) • Widebody Twin-Turbo Inline-Six Toy 🔵🇩🇪",
+        "make_model": "BMW M2 Coupe (G87)",
+        "color": "Zandvoort Blue / Carbon Roof",
+        "captions": [
+            "Box-flared fenders, rear-wheel drive, and the mighty S58 twin-turbo inline-six tuned for pure hooligan balance. Rate the G87 BMW M2 1-10 👇",
+            "Compact wheelbase, wide stance, and a 6-speed manual option keeping old-school M Division driving joy alive. Would you take an M2 over an M4? 🔑🇩🇪",
+            "Pure corner-carving pocket rocket wrapped in muscular widebody aggression. Rate this M2 spec 1-10 👇"
+        ],
+        "tags": ["bmwm2", "g87m2", "bmwm", "mpower", "bimmer", "coupe", "carlifestyle", "sportscar"],
+        "audio": "bmw_m4_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "ford_gt_supercar": {
+        "title": "Ford GT • Carbon Le Mans Heritage Aero Weapon 🔵🇺🇸",
+        "make_model": "Ford GT",
+        "color": "Liquid Blue / Heritage Livery",
+        "captions": [
+            "Flying buttresses sculpted in wind tunnels strictly to dominate Le Mans. Twin-turbo EcoBoost V6 pushing active hydraulic track suspension. Rate the Ford GT 1-10 👇",
+            "Teardrop carbon fuselage with hollow aerodynamic channels guiding airflow straight onto an active deployable wing. American supercar royalty 🔑🇺🇸",
+            "Drop the ride height into Track Mode and watch the entire silhouette transform in milliseconds. Rate the modern Ford GT 1-10 👇"
+        ],
+        "tags": ["fordgt", "ford", "supercars", "lemans", "americanexotic", "carbonfiber", "carlifestyle"],
+        "audio": "car_v8_start.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "aston_martin_valkyrie": {
+        "title": "Aston Martin Valkyrie • 11,100 RPM Cosworth V12 F1 Road Car 🟢🇬🇧",
+        "make_model": "Aston Martin Valkyrie",
+        "color": "British Racing Green / Carbon",
+        "captions": [
+            "Designed by Adrian Newey with full underfloor Venturi tunnels generating F1-level ground-effect downforce. 6.5L Cosworth V12 screaming past 11,000 RPM. Rate the Valkyrie 1-10 👇",
+            "No front grille needed — air shoots beneath the suspension wishbones like an LMP1 prototype with license plates. Noise-cancelling headsets mandatory inside 🔑🏁",
+            "The loudest, wildest naturally aspirated V12 ever homologated for the street. Rate the Aston Martin Valkyrie 1-10 👇"
+        ],
+        "tags": ["astonmartinvalkyrie", "valkyrie", "astonmartin", "cosworth", "v12", "hypercar", "adriannewey"],
+        "audio": "lamborghini_v12_rev.mp3",
+        "is_bike": False,
+        "is_fast_motion": False
+    },
+    "kawasaki_ninja_h2r": {
+        "title": "Kawasaki Ninja H2R • 310 HP Supercharged Carbon Track Beast 🟢🏍️",
+        "make_model": "Kawasaki Ninja H2R",
+        "color": "Mirror Coated Matte Spark Black / Trellis Green",
+        "captions": [
+            "Centrifugal supercharger spinning at 130,000 RPM producing 310 horsepower on two wheels and shattering 400 km/h on tarmac. Sound up for that supercharger chirp! Rate the H2R 1-10 👇",
+            "Carbon aerodynamic winglets, mirror-chrome black paint, and Kawasaki Heavy Industries turbine engineering built with zero street limits 🔑🏍️",
+            "The fastest production track hyperbike ever unleashed on the planet. Would you dare twist full throttle? Drop your dream bike below 👇"
+        ],
+        "tags": ["ninjah2r", "kawasakininja", "h2r", "kawasaki", "supercharged", "hyperbike", "superbike", "bikelife"],
+        "audio": "kawasaki_superbike_rev.mp3",
+        "is_bike": True,
+        "is_fast_motion": False
+    },
+    "yamaha_yzf_r1m": {
+        "title": "Yamaha YZF-R1M • Carbon Crossplane MotoGP Tech Superbike 🔵🏍️",
+        "make_model": "Yamaha YZF-R1M",
+        "color": "Carbon Fiber / Racing Blue",
+        "captions": [
+            "Unmistakable crossplane-crankshaft CP4 growl born directly from Valentino Rossi's YZR-M1 MotoGP program. Carbon bodywork and Öhlins electronic suspension. Rate the R1M 1-10 👇",
+            "200 horsepower, hidden projector headlights beneath twin intake ducts, and six-axis IMU cornering precision. Pure Japanese track perfection 🔑🏍️",
+            "Nothing on two wheels sounds quite like a Yamaha crossplane inline-four howling toward redline. Rate this R1M spec 1-10 👇"
+        ],
+        "tags": ["yamahar1m", "yzfr1m", "yamaha", "crossplane", "superbike", "bikelife", "sportbike", "twowheels"],
+        "audio": "bike_rev_high_rpm.mp3",
+        "is_bike": True,
         "is_fast_motion": False
     }
 }

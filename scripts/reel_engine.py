@@ -86,25 +86,54 @@ def pick_authentic_engine_sfx(vehicle_name: str, is_bike: bool = False) -> Path 
 
     vn = vehicle_name.lower()
     mapping = {
-        "bmw_m4": "bmw_m4_rev.mp3",
-        "m4": "bmw_m4_rev.mp3",
-        "s1000rr": "bmw_s1000rr_rev.mp3",
         "bmw_s1000rr": "bmw_s1000rr_rev.mp3",
+        "s1000rr": "bmw_s1000rr_rev.mp3",
+        "bmw_m5": "car_v8_start.mp3",
+        "m5_cs": "car_v8_start.mp3",
+        "bmw_m4": "bmw_m4_rev.mp3",
+        "bmw_m2": "bmw_m4_rev.mp3",
+        "m4": "bmw_m4_rev.mp3",
+        "m2": "bmw_m4_rev.mp3",
         "panigale": "ducati_panigale_rev.mp3",
         "ducati": "ducati_panigale_rev.mp3",
+        "ninja": "kawasaki_superbike_rev.mp3",
+        "h2r": "kawasaki_superbike_rev.mp3",
+        "kawasaki": "kawasaki_superbike_rev.mp3",
+        "yamaha": "bike_rev_high_rpm.mp3",
+        "r1m": "bike_rev_high_rpm.mp3",
+        "laferrari": "lamborghini_v12_rev.mp3",  # Naturally aspirated V12
         "sf90": "ferrari_v8_rev.mp3",
+        "f80": "ferrari_v8_rev.mp3",
         "ferrari": "ferrari_v8_rev.mp3",
+        "aventador": "lamborghini_v12_rev.mp3",
         "diablo": "lamborghini_v12_rev.mp3",
         "revuelto": "lamborghini_v12_rev.mp3",
         "lamborghini": "lamborghini_v12_rev.mp3",
+        "bugatti": "car_rev_driveby.mp3",
+        "chiron": "car_rev_driveby.mp3",
+        "veyron": "car_rev_driveby.mp3",
+        "koenigsegg": "car_v8_start.mp3",
+        "jesko": "car_v8_start.mp3",
+        "pagani": "lamborghini_v12_rev.mp3",
+        "huayra": "lamborghini_v12_rev.mp3",
+        "mclaren": "mclaren_v8_rev.mp3",
+        "p1": "mclaren_v8_rev.mp3",
+        "senna": "mclaren_v8_rev.mp3",
+        "mercedes": "ferrari_v8_rev.mp3",  # F1 high-rev V6 hybrid scream
+        "amg_one": "ferrari_v8_rev.mp3",
+        "carrera_gt": "lamborghini_v12_rev.mp3",  # Iconic V10 scream
+        "918": "porsche_gt3rs_rev.mp3",
         "gt3rs": "porsche_gt3rs_rev.mp3",
         "porsche": "porsche_gt3rs_rev.mp3",
-        "r8": "lamborghini_v12_rev.mp3", # V10 naturally aspirated
+        "r8": "lamborghini_v12_rev.mp3",  # V10 naturally aspirated
         "audi": "lamborghini_v12_rev.mp3",
-        "valour": "lamborghini_v12_rev.mp3", # Aston V12
+        "valkyrie": "lamborghini_v12_rev.mp3",  # Cosworth V12
+        "valour": "lamborghini_v12_rev.mp3",    # Aston V12
         "aston": "lamborghini_v12_rev.mp3",
+        "ford_gt": "car_v8_start.mp3",
         "mustang": "car_v8_start.mp3",
-        "kawasaki": "kawasaki_superbike_rev.mp3",
+        "gtr": "car_rev_driveby.mp3",
+        "nissan": "car_rev_driveby.mp3",
     }
 
     for key, sfx_file in mapping.items():
@@ -286,8 +315,8 @@ def build_trending_reel(
         concat_list_file = temp_cuts_dir / "concat_list.txt"
         with open(concat_list_file, "w", encoding="utf-8") as f:
             for c in rendered_cuts:
-                # Use forward slashes
-                f.write(f"file '{c.as_posix()}'\n")
+                # Use absolute forward-slash paths so relative output_path never breaks concat demuxer
+                f.write(f"file '{c.resolve().as_posix()}'\n")
 
         raw_assembled_v = temp_cuts_dir / "raw_video.mp4"
         template_filter = TEMPLATE_VISUAL_FILTERS.get(template, "eq=contrast=1.15:saturation=1.20")

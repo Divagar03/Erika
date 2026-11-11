@@ -45,51 +45,101 @@ def caption_hash(caption: str) -> str:
 
 
 SET_BRAND_MAP = {
+    "aston_martin_valkyrie": "aston_martin",
     "aston_martin_valour": "aston_martin",
     "audi_r8_v10": "audi",
+    "bmw_m2_coupe": "bmw",
     "bmw_m4_black": "bmw",
+    "bmw_m5_cs": "bmw",
     "bmw_s1000rr": "bmw",
+    "bugatti_chiron": "bugatti",
+    "bugatti_veyron": "bugatti",
     "ducati_panigale_v4s": "ducati",
     "ferrari_f80": "ferrari",
+    "ferrari_laferrari": "ferrari",
     "ferrari_sf90": "ferrari",
+    "ford_gt_supercar": "ford",
+    "kawasaki_ninja_h2r": "kawasaki",
+    "koenigsegg_jesko": "koenigsegg",
+    "lamborghini_aventador_svj": "lamborghini",
     "lamborghini_diablo": "lamborghini",
     "lamborghini_revuelto": "lamborghini",
+    "mclaren_p1": "mclaren",
+    "mclaren_senna": "mclaren",
+    "mercedes_amg_one": "mercedes_amg",
     "nissan_gtr_r35": "nissan",
+    "pagani_huayra": "pagani",
     "porsche_911_gt3rs": "porsche",
+    "porsche_918_spyder": "porsche",
+    "porsche_carrera_gt": "porsche",
     "red_sportscar": "roadster",
     "white_mustang_sunset": "ford",
+    "yamaha_yzf_r1m": "yamaha",
 }
 
 SET_MODEL_MAP = {
+    "aston_martin_valkyrie": "valkyrie",
     "aston_martin_valour": "valour",
     "audi_r8_v10": "r8",
+    "bmw_m2_coupe": "m2_coupe",
     "bmw_m4_black": "m4",
+    "bmw_m5_cs": "m5_cs",
     "bmw_s1000rr": "s1000rr",
+    "bugatti_chiron": "chiron",
+    "bugatti_veyron": "veyron",
     "ducati_panigale_v4s": "panigale_v4s",
     "ferrari_f80": "f80",
+    "ferrari_laferrari": "laferrari",
     "ferrari_sf90": "sf90",
+    "ford_gt_supercar": "ford_gt",
+    "kawasaki_ninja_h2r": "ninja_h2r",
+    "koenigsegg_jesko": "jesko",
+    "lamborghini_aventador_svj": "aventador_svj",
     "lamborghini_diablo": "diablo",
     "lamborghini_revuelto": "revuelto",
+    "mclaren_p1": "p1",
+    "mclaren_senna": "senna",
+    "mercedes_amg_one": "amg_one",
     "nissan_gtr_r35": "gtr_r35",
+    "pagani_huayra": "huayra",
     "porsche_911_gt3rs": "911_gt3rs",
+    "porsche_918_spyder": "918_spyder",
+    "porsche_carrera_gt": "carrera_gt",
     "red_sportscar": "crimson_roadster",
     "white_mustang_sunset": "mustang_gt",
+    "yamaha_yzf_r1m": "yzf_r1m",
 }
 
 def get_set_brand(set_name: str) -> str:
     s = set_name.lower().strip()
     if s in SET_BRAND_MAP:
         return SET_BRAND_MAP[s]
-    for b in ["bmw", "ferrari", "lamborghini", "porsche", "audi", "nissan", "ducati", "aston", "mustang", "ford"]:
+    for b in [
+        "bmw", "ferrari", "lamborghini", "porsche", "audi", "nissan", "ducati",
+        "aston", "mustang", "ford", "bugatti", "koenigsegg", "pagani", "mclaren",
+        "mercedes", "kawasaki", "yamaha"
+    ]:
         if b in s:
-            return "aston_martin" if b == "aston" else ("ford" if b == "mustang" else b)
+            if b == "aston":
+                return "aston_martin"
+            if b == "mustang":
+                return "ford"
+            if b == "mercedes":
+                return "mercedes_amg"
+            return b
     return s.split("_")[0]
 
 def get_set_model(set_name: str) -> str:
     s = set_name.lower().strip()
     if s in SET_MODEL_MAP:
         return SET_MODEL_MAP[s]
-    for m in ["m4", "m3", "m2", "m5", "s1000rr", "f80", "sf90", "diablo", "revuelto", "gt3rs", "r8", "gtr", "panigale", "valour", "mustang"]:
+    for m in [
+        "m4", "m3", "m2", "m5", "s1000rr", "f80", "sf90", "laferrari",
+        "diablo", "revuelto", "aventador", "gt3rs", "carrera_gt", "918",
+        "r8", "gtr", "panigale", "valour", "valkyrie", "mustang", "ford_gt",
+        "chiron", "veyron", "jesko", "huayra", "p1", "senna", "amg_one",
+        "h2r", "r1m"
+    ]:
         if m in s:
             return m
     return s
