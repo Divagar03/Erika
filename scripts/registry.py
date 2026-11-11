@@ -44,12 +44,99 @@ def caption_hash(caption: str) -> str:
     return hashlib.sha256(cleaned.encode("utf-8")).hexdigest()[:16]
 
 
-def is_set_on_cooldown(set_name: str, cooldown_days: int = 7) -> bool:
-    """Return True if set_name was published within the last cooldown_days days."""
+SET_BRAND_MAP = {
+    "aston_martin_valour": "aston_martin",
+    "audi_r8_v10": "audi",
+    "bmw_m4_black": "bmw",
+    "bmw_s1000rr": "bmw",
+    "ducati_panigale_v4s": "ducati",
+    "ferrari_f80": "ferrari",
+    "ferrari_sf90": "ferrari",
+    "lamborghini_diablo": "lamborghini",
+    "lamborghini_revuelto": "lamborghini",
+    "nissan_gtr_r35": "nissan",
+    "porsche_911_gt3rs": "porsche",
+    "red_sportscar": "roadster",
+    "white_mustang_sunset": "ford",
+}
+
+SET_MODEL_MAP = {
+    "aston_martin_valour": "valour",
+    "audi_r8_v10": "r8",
+    "bmw_m4_black": "m4",
+    "bmw_s1000rr": "s1000rr",
+    "ducati_panigale_v4s": "panigale_v4s",
+    "ferrari_f80": "f80",
+    "ferrari_sf90": "sf90",
+    "lamborghini_diablo": "diablo",
+    "lamborghini_revuelto": "revuelto",
+    "nissan_gtr_r35": "gtr_r35",
+    "porsche_911_gt3rs": "911_gt3rs",
+    "red_sportscar": "crimson_roadster",
+    "white_mustang_sunset": "mustang_gt",
+}
+
+def get_set_brand(set_name: str) -> str:
+    s = set_name.lower().strip()
+    if s in SET_BRAND_MAP:
+        return SET_BRAND_MAP[s]
+    for b in ["bmw", "ferrari", "lamborghini", "porsche", "audi", "nissan", "ducati", "aston", "mustang", "ford"]:
+        if b in s:
+            return "aston_martin" if b == "aston" else ("ford" if b == "mustang" else b)
+    return s.split("_")[0]
+
+def get_set_model(set_name: str) -> str:
+    s = set_name.lower().strip()
+    if s in SET_MODEL_MAP:
+        return SET_MODEL_MAP[s]
+    for m in ["m4", "m3", "m2", "m5", "s1000rr", "f80", "sf90", "diablo", "revuelto", "gt3rs", "r8", "gtr", "panigale", "valour", "mustang"]:
+        if m in s:
+            return m
+    return s
+
+def is_brand_on_cooldown(brand_or_set: str, cooldown_hours: int = 24) -> bool:
+    """Return True if any post from this brand was published within the last cooldown_hours
+    OR on the same UTC calendar day.
+    Guarantees: If BMW is posted today, NO BMW can be posted for the rest of today!
+    """
+    if not brand_or_set:
+        return False
+    target_brand = get_set_brand(brand_or_set)
     data = _load()
-    cutoff = datetime.now(timezone.utc) - timedelta(days=cooldown_days)
+    now = datetime.now(timezone.utc)
+    cutoff = now - timedelta(hours=cooldown_hours)
     for post in data.get("posts", []):
-        if post.get("set_name") == set_name and post.get("status") == "published":
+        if post.get("status") != "published":
+            continue
+        p_brand = post.get("brand") or get_set_brand(post.get("set_name", ""))
+        if p_brand == target_brand:
+            try:
+                ts = datetime.fromisoformat(post["publish_timestamp"])
+                # Block if published on same UTC calendar day OR within 24 hours
+                if ts > cutoff or ts.date() == now.date():
+                    return True
+            except Exception:
+                pass
+    return False
+
+def is_model_on_cooldown(model_or_set: str, cooldown_days: int = 7) -> bool:
+    """Return True if this exact model (e.g. BMW M4) was published within the last cooldown_days days.
+    Guarantees: Even when the brand (BMW) is eligible again tomorrow, the same model (M4)
+    cannot repeat; it must pick a different model (e.g. BMW S1000RR)!
+    """
+    if not model_or_set:
+        return False
+    target_model = get_set_model(model_or_set)
+    target_set = model_or_set.lower().strip()
+    data = _load()
+    now = datetime.now(timezone.utc)
+    cutoff = now - timedelta(days=cooldown_days)
+    for post in data.get("posts", []):
+        if post.get("status") != "published":
+            continue
+        p_set = post.get("set_name", "").lower().strip()
+        p_model = post.get("model") or get_set_model(p_set)
+        if p_set == target_set or (target_model and p_model == target_model):
             try:
                 ts = datetime.fromisoformat(post["publish_timestamp"])
                 if ts > cutoff:
@@ -57,6 +144,10 @@ def is_set_on_cooldown(set_name: str, cooldown_days: int = 7) -> bool:
             except Exception:
                 pass
     return False
+
+def is_set_on_cooldown(set_name: str, cooldown_days: int = 7) -> bool:
+    """Return True if set_name or its exact model was published within cooldown_days."""
+    return is_model_on_cooldown(set_name, cooldown_days=cooldown_days)
 
 
 def is_music_on_cooldown(track_name: str, cooldown_days: int = 3) -> bool:
@@ -132,6 +223,8 @@ def confirm_publish(
     media_file: Optional[str] = None,
     music_track: Optional[str] = None,
     reservation_id: Optional[str] = None,
+    brand: Optional[str] = None,
+    model: Optional[str] = None,
 ) -> None:
     """Record a verified publish in the persistent registry."""
     data = _load()
@@ -140,6 +233,8 @@ def confirm_publish(
 
     data["posts"].append({
         "set_name": set_name,
+        "brand": brand or get_set_brand(set_name),
+        "model": model or get_set_model(set_name),
         "format": format_name,
         "caption_hash": caption_hash(caption),
         "media_id": media_id,

@@ -40,3 +40,8 @@
   - **Loudness Normalization:** Integrated EBU R128 (`loudnorm`) targeting -14 LUFS, TP -1.0 dB so the audio is loud, punchy, and never muted on phone speakers.
   - **Automated Quality Gates:** Strict pre-publish checks for 1080x1920 9:16 aspect ratio, 8–14s duration, stereo AAC audio present, and loudness thresholds.
   - **Full Supercar Focus:** Eliminated study journey text overlays and static single photo post crons (`0 13 * * *`). Automated pipeline runs 100% viral supercar/superbike Reels and Shorts.
+
+### 8. Strict 24-Hour Brand Cooldown & 7-Day Model Exclusion
+- **Decision:** Enforce two-tier vehicle selection rules in [`scripts/registry.py`](file:///D:/Erika/scripts/registry.py) and [`main.py`](file:///D:/Erika/main.py):
+  - **Same-Day / 24-Hour Brand Block (`is_brand_on_cooldown`):** Once a brand posts today (e.g., BMW), no other post from that brand can be scheduled until the next day.
+  - **7-Day Model Lockout (`is_model_on_cooldown`):** Even when the brand becomes eligible again on a subsequent day, the previously posted model (e.g., BMW M4) remains locked for 7 days, forcing the system to choose a distinct model (e.g., BMW S1000RR, Ferrari F80 vs SF90, Lamborghini Diablo vs Revuelto).

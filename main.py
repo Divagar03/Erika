@@ -55,14 +55,20 @@ MUSIC_DIR = ROOT / "assets" / "music"
 sys.path.insert(0, str(ROOT / "scripts"))
 try:
     from registry import (
-        is_set_on_cooldown, is_music_on_cooldown, is_slot_occupied,
+        is_set_on_cooldown, is_brand_on_cooldown, is_model_on_cooldown,
+        is_music_on_cooldown, is_slot_occupied,
         is_caption_duplicate, reserve_slot, confirm_publish,
-        update_metrics, get_top_posts, caption_hash, REGISTRY_FILE
+        update_metrics, get_top_posts, caption_hash, REGISTRY_FILE,
+        get_set_brand, get_set_model
     )
     REGISTRY_AVAILABLE = True
 except ImportError:
     REGISTRY_AVAILABLE = False
     REGISTRY_FILE = ROOT / "data" / "registry.json"
+    is_brand_on_cooldown = lambda *args, **kwargs: False
+    is_model_on_cooldown = lambda *args, **kwargs: False
+    get_set_brand = lambda name: name.split("_")[0]
+    get_set_model = lambda name: name
     print("  [Registry] Warning: registry module not found. Deduplication disabled.")
 
 # ---------------------------------------------------------------------------
@@ -1396,7 +1402,7 @@ SET_BRAND_MAP = {
     "aston_martin_valour": "aston_martin",
     "audi_r8_v10": "audi",
     "bmw_m4_black": "bmw",
-    "bmw_s1000rr": "bmw_bike",
+    "bmw_s1000rr": "bmw",
     "ducati_panigale_v4s": "ducati",
     "ferrari_f80": "ferrari",
     "ferrari_sf90": "ferrari",
@@ -1406,6 +1412,22 @@ SET_BRAND_MAP = {
     "porsche_911_gt3rs": "porsche",
     "red_sportscar": "roadster",
     "white_mustang_sunset": "ford",
+}
+
+SET_MODEL_MAP = {
+    "aston_martin_valour": "valour",
+    "audi_r8_v10": "r8",
+    "bmw_m4_black": "m4",
+    "bmw_s1000rr": "s1000rr",
+    "ducati_panigale_v4s": "panigale_v4s",
+    "ferrari_f80": "f80",
+    "ferrari_sf90": "sf90",
+    "lamborghini_diablo": "diablo",
+    "lamborghini_revuelto": "revuelto",
+    "nissan_gtr_r35": "gtr_r35",
+    "porsche_911_gt3rs": "911_gt3rs",
+    "red_sportscar": "crimson_roadster",
+    "white_mustang_sunset": "mustang_gt",
 }
 
 def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path], bool]:
@@ -1538,45 +1560,62 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
 
         if matched_names:
             matched_candidates = [s for s in active_order if s in matched_names and s in available_dict]
+            # Strictly exclude any exact model on 7-day cooldown
+            non_cooldown_candidates = [
+                c for c in matched_candidates
+                if not (REGISTRY_AVAILABLE and is_model_on_cooldown(c, cooldown_days=7))
+            ] or matched_candidates
             # Prioritize candidate NOT recently posted and NOT same brand as last
-            fresh = [c for c in matched_candidates if c not in recent_posted and SET_BRAND_MAP.get(c) != last_posted_brand]
+            fresh = [c for c in non_cooldown_candidates if c not in recent_posted and SET_BRAND_MAP.get(c) != last_posted_brand]
             if not fresh:
-                fresh = [c for c in matched_candidates if c not in recent_posted]
-            if fresh:
-                chosen_name = fresh[0]
-                is_bike = any(b in chosen_name for b in ["bike", "ducati", "s1000rr"])
-                return chosen_name, available_dict[chosen_name], is_bike
-            # If all were recent, pick the least recently posted
-            for r in reversed(recent_posted):
-                if r in matched_candidates:
-                    chosen_name = r
-                    is_bike = any(b in chosen_name for b in ["bike", "ducati", "s1000rr"])
-                    return chosen_name, available_dict[chosen_name], is_bike
+                fresh = [c for c in non_cooldown_candidates if c not in recent_posted]
+            if not fresh:
+                fresh = non_cooldown_candidates
+            chosen_name = fresh[0]
+            is_bike = any(b in chosen_name for b in ["bike", "ducati", "s1000rr"])
+            return chosen_name, available_dict[chosen_name], is_bike
 
-    # 2. General round-robin through active_order: pick next set NOT in recent_posted AND NOT same brand
+    # 2. General Selection with strict Brand and Model cooldowns:
+    # RULE 1 (Strict 7-Day Model Cooldown):
+    #   If BMW M4 was posted, BMW M4 is strictly forbidden for 7 days.
+    #   Even when BMW is eligible again, it CANNOT be M4; it must be a different model (e.g. S1000RR)!
+    # RULE 2 (Strict 24-Hour / Same-Day Brand Cooldown):
+    #   If BMW was posted today, NO BMW can be posted for the rest of today (minimum 24 hours).
+    #   Next post today must be from another brand (Ferrari, Porsche, Lamborghini, Ducati, etc.).
+    # RULE 3 (Supercar / Superbike Alternation):
+    #   Alternate between car and superbike to keep the feed dynamic.
     start_idx = (active_order.index(last_posted_set) + 1) % len(active_order) if last_posted_set in active_order else 0
 
+    # Filter candidates strictly by 7-day model cooldown first
+    model_eligible = [
+        s for s in active_order
+        if not (REGISTRY_AVAILABLE and is_model_on_cooldown(s, cooldown_days=7))
+    ] or active_order
+
+    # Filter by 24-hour brand cooldown (no same brand today!)
+    brand_and_model_eligible = [
+        s for s in model_eligible
+        if not (REGISTRY_AVAILABLE and is_brand_on_cooldown(SET_BRAND_MAP.get(s, s), cooldown_hours=24))
+    ]
+
+    # Decide preferred pool
+    preferred_pool = brand_and_model_eligible if brand_and_model_eligible else model_eligible
+
+    # Alternate car vs bike
+    last_is_bike = any(b in last_posted_set for b in ["bike", "ducati", "s1000rr"])
+    alternating_candidates = [
+        s for s in preferred_pool
+        if (any(b in s for b in ["bike", "ducati", "s1000rr"]) != last_is_bike)
+        and s not in recent_posted
+    ]
+
     chosen_name = None
-    for step in range(len(active_order)):
-        candidate_idx = (start_idx + step) % len(active_order)
-        cand_name = active_order[candidate_idx]
-        # AGENT_SPEC §3: Check 7-day model cooldown
-        if REGISTRY_AVAILABLE and is_set_on_cooldown(cand_name, cooldown_days=7):
-            continue
-        if cand_name not in recent_posted and SET_BRAND_MAP.get(cand_name) != last_posted_brand:
-            chosen_name = cand_name
-            break
-
-    # If all non-recent share the brand, relax brand check
-    if not chosen_name:
-        for step in range(len(active_order)):
-            candidate_idx = (start_idx + step) % len(active_order)
-            cand_name = active_order[candidate_idx]
-            if cand_name not in recent_posted:
-                chosen_name = cand_name
-                break
-
-    if not chosen_name:
+    if alternating_candidates:
+        chosen_name = alternating_candidates[0]
+    elif preferred_pool:
+        fresh = [s for s in preferred_pool if s not in recent_posted]
+        chosen_name = fresh[0] if fresh else preferred_pool[0]
+    else:
         chosen_name = active_order[start_idx]
 
     # Cache recent_sets queue (keeps last 11 so all 13 cycle through before repeating)
@@ -2744,7 +2783,9 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
             media_id=media_id,
             yt_id=yt_id,
             media_file=video_path.name,
-            reservation_id=res_id
+            reservation_id=res_id,
+            brand=SET_BRAND_MAP.get(set_name, ""),
+            model=SET_MODEL_MAP.get(set_name, "")
         )
     _write_daily_summary(env)
 
