@@ -497,8 +497,8 @@
       <div class="card-title">Dual-Platform Publishing Controls</div>
       <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;">
         <span style="font-size:0.75rem;color:var(--muted);font-weight:600;">ACTIVE DESTINATIONS:</span>
-        <span class="platform-pill ig"><span class="dot"></span>📸 Instagram Reels (@apex_rich_)</span>
-        <span class="platform-pill yt"><span class="dot"></span>▶ YouTube Shorts (Auto #Shorts)</span>
+        <span class="platform-pill ig"><span class="dot"></span>📸 Instagram Reels (12 Reels/Day)</span>
+        <span class="platform-pill yt"><span class="dot"></span>▶ YouTube Shorts (10 Daily Shorts from Yesterday's Reels)</span>
       </div>
       <div id="actions-area" style="display:flex;flex-direction:column;gap:1.25rem;">
 
@@ -553,6 +553,7 @@
           <div style="font-size:0.75rem;font-weight:600;color:var(--muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.05em;">Standard Curation:</div>
           <div class="actions-grid">
             <button class="btn btn-secondary" id="btn-reel-now">🎬 Clean Reel &amp; Short</button>
+            <button class="btn btn-primary" id="btn-yt-short-now" style="background:linear-gradient(135deg, #ef4444, #b91c1c);border:none;">▶ Post Next YouTube Short</button>
             <button class="btn btn-primary" id="btn-post-now">📸 Post IG Photo Now</button>
             <button class="btn btn-primary" id="btn-journey-now" style="background:linear-gradient(135deg, #10b981, #059669);border:none;">🚀 Day X Study Reel &amp; Short</button>
             <button class="btn btn-pause" id="btn-pause-resume">⏸ Pause Automation</button>
@@ -1194,6 +1195,7 @@
 
     document.getElementById("btn-post-now").addEventListener("click", () => doDispatch("post", "photo post"));
     document.getElementById("btn-reel-now").addEventListener("click", () => doDispatch("weekly_reel", "clean automotive reel & YouTube short"));
+    document.getElementById("btn-yt-short-now").addEventListener("click", () => doDispatch("youtube_short", "next daily YouTube Short from yesterday's queue"));
     document.getElementById("btn-journey-now").addEventListener("click", () => doDispatch("journey_reel", "Day X Study Reel & YouTube Short"));
     
     document.getElementById("btn-custom-reel-now").addEventListener("click", () => {

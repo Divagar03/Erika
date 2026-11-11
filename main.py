@@ -65,6 +65,23 @@ except ImportError:
     REGISTRY_FILE = ROOT / "data" / "registry.json"
     print("  [Registry] Warning: registry module not found. Deduplication disabled.")
 
+# ---------------------------------------------------------------------------
+# Daily YouTube Shorts Queue (AGENT_SPEC & User: 10 Shorts from Yesterday's 12)
+# ---------------------------------------------------------------------------
+try:
+    from youtube_queue import (
+        get_or_create_daily_youtube_queue,
+        get_next_pending_youtube_short,
+        record_youtube_short_publish,
+        QUEUE_FILE as YT_QUEUE_FILE,
+        MAX_DAILY_YOUTUBE_SHORTS
+    )
+    YT_QUEUE_AVAILABLE = True
+except ImportError:
+    YT_QUEUE_AVAILABLE = False
+    YT_QUEUE_FILE = ROOT / "data" / "youtube_queue.json"
+    MAX_DAILY_YOUTUBE_SHORTS = 10
+
 IG_API_BASE = "https://graph.facebook.com/v21.0"
 GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta"
 POLLINATIONS_BASE = "https://image.pollinations.ai/prompt"
@@ -2917,14 +2934,17 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     media_id = publish_reel(raw_url, full_caption, env)
     print(f"Published to Instagram! media_id={media_id}")
 
-    # Cross-post to YouTube Shorts
+    # ---------------------------------------------------------------------------
+    # YouTube Pipeline: 10 Daily Shorts (Selected from Yesterday's 12 Reels)
+    # Today's fresh reel is saved to become part of tomorrow's 10 YouTube Shorts!
+    # ---------------------------------------------------------------------------
     yt_id = None
     yt_err_msg = ""
     try:
-        yt_id, yt_err_msg = publish_youtube_short(video_path, title, full_caption, hashtags, env)
+        yt_id, yt_err_msg = post_daily_youtube_short_step(env, dry_run=dry_run)
     except Exception as yt_err:
         yt_err_msg = str(yt_err)
-        print(f"  [YouTube] Notice: YouTube upload bypassed ({yt_err})")
+        print(f"  [YouTube Queue] Notice: YouTube step bypassed ({yt_err})")
 
     yt_detail = f", yt_id={yt_id}" if yt_id else (f", yt_err={yt_err_msg}" if yt_err_msg else "")
     log_ok("weekly_reel", full_caption, video_path.name, f"set={set_name}, format={active_format}, media_id={media_id}{yt_detail}")
@@ -2944,6 +2964,8 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     files_to_log = [LOG_FILE]
     if REGISTRY_FILE.exists():
         files_to_log.append(REGISTRY_FILE)
+    if YT_QUEUE_FILE.exists():
+        files_to_log.append(YT_QUEUE_FILE)
     summary_file = ROOT / "logs" / "daily_summary.md"
     if summary_file.exists():
         files_to_log.append(summary_file)
@@ -3278,10 +3300,69 @@ def _write_daily_summary(env: dict) -> None:
     summary_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+
+# ---------------------------------------------------------------------------
+# Daily YouTube Shorts Step: 10 Shorts per day from Yesterday's 12 Reels
+# ---------------------------------------------------------------------------
+
+def post_daily_youtube_short_step(env: dict, dry_run: bool = False) -> tuple[str | None, str]:
+    """Upload 1 of the 10 daily YouTube Shorts selected from yesterday's 12 Instagram Reels pool.
+    Strictly caps at 10 uploads per day to prevent exceeding the YouTube Data API quota.
+    """
+    if not YT_QUEUE_AVAILABLE:
+        return None, "yt_queue_unavailable"
+
+    item, queue_data = get_next_pending_youtube_short()
+    published_today = queue_data.get("published_today", 0)
+
+    if published_today >= MAX_DAILY_YOUTUBE_SHORTS:
+        print(f"\n[YouTube Queue] 10/10 daily YouTube Shorts already published today. Skipping upload to protect daily quota.")
+        return None, "daily_quota_limit_reached"
+
+    if not item:
+        print(f"\n[YouTube Queue] All {len(queue_data.get('queue', []))} queued Shorts for today have been published ({published_today}/10).")
+        return None, "queue_complete"
+
+    media_file = item.get("media_file")
+    video_path = MEDIA_DIR / media_file
+    if not video_path.exists():
+        print(f"\n[YouTube Queue] Notice: Video file {media_file} not found locally in media/. Marking skipped.")
+        record_youtube_short_publish(item["id"], None, error=f"file_not_found_{media_file}")
+        return None, "file_not_found"
+
+    title = item.get("title", "Supercar Reel #Shorts")
+    caption = item.get("caption", "")
+    tags = ["Shorts", "supercars", "superbike", "carreels", "speedhunters", "carlifestyle"]
+
+    print(f"\n[YouTube Queue] Publishing Daily Short {published_today + 1}/10 for today:")
+    print(f"  Title:  {title}")
+    print(f"  Source: {media_file} (Yesterday's Reel)")
+
+    if dry_run:
+        print(f"  [DRY RUN] Would upload {media_file} as YouTube Short #{published_today + 1}")
+        return "dry_run_yt_id", ""
+
+    yt_id, yt_err = publish_youtube_short(video_path, title, caption, tags, env)
+    if yt_id:
+        record_youtube_short_publish(item["id"], yt_id)
+        print(f"  [YouTube Queue] ✓ Uploaded Short {published_today + 1}/10! https://youtube.com/shorts/{yt_id}")
+        return yt_id, ""
+    else:
+        record_youtube_short_publish(item["id"], None, error=yt_err)
+        print(f"  [YouTube Queue] ✗ Upload failed: {yt_err}")
+        return None, yt_err
+
+
+def mode_youtube_short(persona: dict, env: dict, dry_run: bool) -> None:
+    """Publish the next pending YouTube Short from yesterday's 10 selected reels."""
+    print("\n=== MODE: youtube_short ===")
+    post_daily_youtube_short_step(env, dry_run=dry_run)
+
+
 # Main entry point
 # ---------------------------------------------------------------------------
 
-MODES = {"post", "weekly_reel", "reel", "upload_reel", "journey_reel", "deep_dive", "comparison", "future_release", "youtube_top10", "collect_metrics"}
+MODES = {"post", "weekly_reel", "reel", "upload_reel", "journey_reel", "deep_dive", "comparison", "future_release", "youtube_top10", "youtube_short", "collect_metrics"}
 
 
 def main() -> None:
@@ -3371,6 +3452,8 @@ def main() -> None:
             mode_weekly_reel(persona, env, dry_run, custom_prompt="future_release " + custom_prompt)
         elif mode == "upload_reel":
             mode_upload_reel(persona, env, dry_run)
+        elif mode == "youtube_short":
+            mode_youtube_short(persona, env, dry_run)
         elif mode == "youtube_top10":
             mode_youtube_top10(persona, env, dry_run)
         elif mode == "collect_metrics":

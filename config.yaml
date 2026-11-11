@@ -3,18 +3,17 @@
 
 instagram:
   interval_hours: 2
+  reels_per_day: 12
   slot_jitter_minutes: 5
   retry_window_minutes: 30
   supercar_to_superbike_ratio: 0.6  # 60% supercars, 40% superbikes
   min_interval_minutes: 90
 
 youtube:
-  posts_per_day: 1
-  post_time_utc: "18:00"
-  target_length_sec: 150  # 2.5 minutes target for daily compilation
-  min_clips: 5
-  max_clips: 10
-  shorts_max_seconds: 180
+  shorts_per_day: 10
+  source: "yesterdays_instagram_reels"  # Curates 10 Shorts from yesterday's 12 Reels
+  max_daily_quota: 10  # Hard daily quota limit to prevent API exhaustion
+  retention_hours: 48   # Media files preserved for yesterday's YouTube upload
 
 content:
   model_cooldown_days: 7
