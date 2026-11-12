@@ -158,6 +158,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "ferrari_laferrari",
+      "brand": "ferrari",
+      "model": "laferrari",
+      "format": "phonk_bass_drop",
+      "caption_hash": "3798d04118b2fb97",
+      "media_id": "18387035245238794",
+      "yt_id": "LksOOiCFrS4",
+      "media_file": "reel_20261112_161552.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-12T16:17:27.215030+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
