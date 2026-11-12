@@ -118,6 +118,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "mclaren_p1",
+      "brand": "mclaren",
+      "model": "p1",
+      "format": "cinematic_slow_mo",
+      "caption_hash": "fb441ff547b020b7",
+      "media_id": "18483167845113103",
+      "yt_id": "NAgw66sBg9s",
+      "media_file": "reel_20261112_121550.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-12T12:18:12.104475+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
