@@ -198,6 +198,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "lamborghini_aventador_svj",
+      "brand": "lamborghini",
+      "model": "aventador_svj",
+      "format": "night_city",
+      "caption_hash": "2bb378d2e71b645d",
+      "media_id": "18032674907881693",
+      "yt_id": "3d8VcbI4yO4",
+      "media_file": "reel_20261112_233837.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-12T23:40:12.173832+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
