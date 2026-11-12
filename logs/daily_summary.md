@@ -1,11 +1,10 @@
-# Daily Summary — 2026-11-11
+# Daily Summary — 2026-11-12
 
-- **Posts published today:** 2
+- **Posts published today:** 1
 - **Status:** Operational (12 Reels/Day schedule)
 
 ## Today's Published Reels
 | Time (UTC) | Vehicle Set | Format | IG Media ID | YouTube Short ID |
 | :--- | :--- | :--- | :--- | :--- |
-| 09:20 | ferrari_sf90 | deep_dive | 18097730642476971 | kPhbyXY2L1c |
-| 16:32 | bugatti_chiron | cinematic_slow_mo | 18071122235685348 | T4KKWxLjaK0 |
+| 00:37 | kawasaki_ninja_h2r | engine_sound_showcase | 18082362707390714 | zI455DFFl38 |
 

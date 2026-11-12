@@ -38,6 +38,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "kawasaki_ninja_h2r",
+      "brand": "kawasaki",
+      "model": "ninja_h2r",
+      "format": "engine_sound_showcase",
+      "caption_hash": "1d6d892a38c4839e",
+      "media_id": "18082362707390714",
+      "yt_id": "zI455DFFl38",
+      "media_file": "reel_20261112_003608.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-12T00:37:55.712026+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
