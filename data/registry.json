@@ -58,6 +58,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "koenigsegg_jesko",
+      "brand": "koenigsegg",
+      "model": "jesko",
+      "format": "engine_sound_showcase",
+      "caption_hash": "cd23688fc0b68815",
+      "media_id": "18135523735801179",
+      "yt_id": "kO4ymgN2uvY",
+      "media_file": "reel_20261112_050336.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-12T05:05:44.266955+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

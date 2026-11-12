@@ -2,7 +2,7 @@
   "date": "2026-11-12",
   "source_date": "2026-11-11",
   "target_count": 10,
-  "published_today": 1,
+  "published_today": 2,
   "queue": [
     {
       "id": "reel_20261111_091828",
@@ -21,9 +21,9 @@
       "title": "Bugatti Chiron • Supercar Reel #Shorts",
       "caption": "",
       "set_name": "bugatti_chiron",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "kO4ymgN2uvY",
+      "published_at": "2026-11-12T05:05:44.264667+00:00",
       "error": null
     },
     {
