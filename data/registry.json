@@ -78,6 +78,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "yamaha_yzf_r1m",
+      "brand": "yamaha",
+      "model": "yzf_r1m",
+      "format": "phonk_bass_drop",
+      "caption_hash": "dc1e7c184fcb2ceb",
+      "media_id": "18147954094589450",
+      "yt_id": "n3lfRjawSBg",
+      "media_file": "reel_20261112_061551.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-12T06:17:14.004033+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
