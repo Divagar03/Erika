@@ -2,7 +2,7 @@
   "date": "2026-11-13",
   "source_date": "2026-11-12",
   "target_count": 10,
-  "published_today": 6,
+  "published_today": 7,
   "queue": [
     {
       "id": "reel_20261112_003608",
@@ -98,9 +98,9 @@
       "title": "Lamborghini Aventador Svj • Supercar Reel #Shorts",
       "caption": "",
       "set_name": "lamborghini_aventador_svj",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "px2xirF4qPU",
+      "published_at": "2026-11-13T16:20:59.170331+00:00",
       "error": null
     },
     {
