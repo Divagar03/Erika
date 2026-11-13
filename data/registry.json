@@ -398,6 +398,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "ferrari_f80",
+      "brand": "ferrari",
+      "model": "f80",
+      "format": "engine_sound_showcase",
+      "caption_hash": "7ff5b3cc91670e62",
+      "media_id": "17976546279171530",
+      "yt_id": "4ztWLemJxJI",
+      "media_file": "reel_20261113_181605.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-13T18:17:51.181597+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
