@@ -32,10 +32,10 @@
       "title": "Yamaha Yzf R1M • Supercar Reel #Shorts",
       "caption": "",
       "set_name": "yamaha_yzf_r1m",
-      "status": "pending",
+      "status": "failed",
       "yt_id": null,
       "published_at": null,
-      "error": null
+      "error": "init_upload_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may "
     },
     {
       "id": "reel_20261112_081550",
