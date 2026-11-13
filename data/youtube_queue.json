@@ -2,7 +2,7 @@
   "date": "2026-11-13",
   "source_date": "2026-11-12",
   "target_count": 10,
-  "published_today": 3,
+  "published_today": 4,
   "queue": [
     {
       "id": "reel_20261112_003608",
@@ -65,9 +65,9 @@
       "title": "Mercedes Amg One • Supercar Reel #Shorts",
       "caption": "",
       "set_name": "mercedes_amg_one",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "DKh6znP9TDc",
+      "published_at": "2026-11-13T10:17:26.713820+00:00",
       "error": null
     },
     {
