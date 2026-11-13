@@ -21,10 +21,10 @@
       "title": "Koenigsegg Jesko • Supercar Reel #Shorts",
       "caption": "",
       "set_name": "koenigsegg_jesko",
-      "status": "pending",
+      "status": "failed",
       "yt_id": null,
       "published_at": null,
-      "error": null
+      "error": "init_upload_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may "
     },
     {
       "id": "reel_20261112_061551",

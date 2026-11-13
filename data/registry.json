@@ -238,6 +238,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "bmw_m5_cs",
+      "brand": "bmw",
+      "model": "m5_cs",
+      "format": "cinematic_slow_mo",
+      "caption_hash": "29ef470837fc6fd3",
+      "media_id": "18120549005005356",
+      "yt_id": null,
+      "media_file": "reel_20261113_021549.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-13T02:17:37.375620+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
