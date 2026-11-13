@@ -2,18 +2,18 @@ name: YouTube Daily Shorts
 
 on:
   schedule:
-    # Daily YouTube Top 10 compilation Short at 18:00 UTC (11:30 PM IST)
+    # Backup trigger: process pending daily YouTube Short
     - cron: "0 18 * * *"
   workflow_dispatch:
     inputs:
       mode:
         description: "YouTube mode to run"
         required: true
-        default: "youtube_top10"
+        default: "youtube_short"
         type: choice
         options:
-          - youtube_top10
           - youtube_short
+          - youtube_top10
 
 permissions:
   contents: write
@@ -63,7 +63,7 @@ jobs:
           GITHUB_REF_NAME: ${{ github.ref_name }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MODE_NAME: ${{ github.event.inputs.mode || 'youtube_top10' }}
+          MODE_NAME: ${{ github.event.inputs.mode || 'youtube_short' }}
           GITHUB_EVENT_NAME: ${{ github.event_name }}
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
