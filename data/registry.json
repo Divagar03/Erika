@@ -218,6 +218,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "ford_gt_supercar",
+      "brand": "ford",
+      "model": "ford_gt",
+      "format": "rolling_shots",
+      "caption_hash": "ee0f21020b7b026a",
+      "media_id": "18018950255993647",
+      "yt_id": "g4fBfM_o2MU",
+      "media_file": "reel_20261113_012852.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-13T01:30:16.565712+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
