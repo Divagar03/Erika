@@ -338,6 +338,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "audi_r8_v10",
+      "brand": "audi",
+      "model": "r8",
+      "format": "rolling_shots",
+      "caption_hash": "a6bef0ac706d5382",
+      "media_id": "17994196029099643",
+      "yt_id": "N7gWDIb-Ak0",
+      "media_file": "reel_20261113_121552.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-13T12:17:53.259725+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

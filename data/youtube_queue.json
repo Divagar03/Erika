@@ -2,7 +2,7 @@
   "date": "2026-11-13",
   "source_date": "2026-11-12",
   "target_count": 10,
-  "published_today": 4,
+  "published_today": 5,
   "queue": [
     {
       "id": "reel_20261112_003608",
@@ -76,9 +76,9 @@
       "title": "Ferrari Laferrari • Supercar Reel #Shorts",
       "caption": "",
       "set_name": "ferrari_laferrari",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "N7gWDIb-Ak0",
+      "published_at": "2026-11-13T12:17:53.257183+00:00",
       "error": null
     },
     {
