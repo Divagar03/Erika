@@ -1,6 +1,7 @@
 {
-  "last_set": "bugatti_veyron",
+  "last_set": "nissan_gtr_r35",
   "recent_sets": [
+    "nissan_gtr_r35",
     "bugatti_veyron",
     "aston_martin_valkyrie",
     "bmw_m5_cs",
@@ -26,7 +27,6 @@
     "ferrari_f80",
     "lamborghini_diablo",
     "porsche_911_gt3rs",
-    "ferrari_sf90",
-    "nissan_gtr_r35"
+    "ferrari_sf90"
   ]
 }
