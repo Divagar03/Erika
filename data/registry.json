@@ -358,6 +358,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "mclaren_senna",
+      "brand": "mclaren",
+      "model": "senna",
+      "format": "night_city",
+      "caption_hash": "ae8488ce96962bfa",
+      "media_id": "18115597667624024",
+      "yt_id": "cbV_rdchCYc",
+      "media_file": "reel_20261113_161601.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-13T16:18:05.838149+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

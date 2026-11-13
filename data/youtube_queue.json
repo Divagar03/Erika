@@ -2,7 +2,7 @@
   "date": "2026-11-13",
   "source_date": "2026-11-12",
   "target_count": 10,
-  "published_today": 5,
+  "published_today": 6,
   "queue": [
     {
       "id": "reel_20261112_003608",
@@ -87,9 +87,9 @@
       "title": "Porsche Carrera Gt • Supercar Reel #Shorts",
       "caption": "",
       "set_name": "porsche_carrera_gt",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "cbV_rdchCYc",
+      "published_at": "2026-11-13T16:18:05.835238+00:00",
       "error": null
     },
     {
