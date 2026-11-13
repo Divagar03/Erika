@@ -2,7 +2,7 @@
   "date": "2026-11-13",
   "source_date": "2026-11-12",
   "target_count": 10,
-  "published_today": 2,
+  "published_today": 3,
   "queue": [
     {
       "id": "reel_20261112_003608",
@@ -54,9 +54,9 @@
       "title": "Mclaren P1 • Supercar Reel #Shorts",
       "caption": "",
       "set_name": "mclaren_p1",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "fPWrylWyfk4",
+      "published_at": "2026-11-13T08:17:20.979262+00:00",
       "error": null
     },
     {
