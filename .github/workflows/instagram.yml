@@ -77,11 +77,6 @@ jobs:
           git config user.name "ig-influencer-bot"
           git config user.email "ig-influencer-bot@users.noreply.github.com"
 
-      - name: Pull latest changes
-        run: |
-          # Ensure latest registry.json and logs are present even if queued behind another run
-          git pull --rebase origin main || true
-
       - name: Determine mode
         id: mode
         run: |
