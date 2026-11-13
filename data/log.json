@@ -1022,5 +1022,13 @@
     "caption": "Feel the thunder in sleek Suzuka grey.\n\nThe V10 roars, zipping 0‑60 in a flash.  \nAerodynamics bite, sending wind and eyes alike into a clean slice.\n\nRate this spec 1‑10 👇\n\n#audir8 #r8v10 #v10 #audi #quattro #supercars #carlifestyle #germanmuscle #exoticcars",
     "media": "reel_20261113_121552.mp4",
     "detail": "set=audi_r8_v10, format=rolling_shots, media_id=17994196029099643, yt_id=N7gWDIb-Ak0"
+  },
+  {
+    "time": "2026-11-13T14:16:49.164106+00:00",
+    "kind": "reel",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Reel video generation failed quality gate: Audio peaks too quiet: max_volume=-6.3 dB (threshold >= -5 dB)"
   }
 ]
