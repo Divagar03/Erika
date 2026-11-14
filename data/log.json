@@ -1086,5 +1086,13 @@
     "caption": "Turn up the volume—this Mustang is a roar ready to paint the asphalt!  \nIts 5.0 V8 hammers out a 0-60 in 6.5 seconds, leaving a cloud of Oxford White fury.  \nThe twin-tube exhaust sings a bassline that feels like a drum solo on every turn.  \nRate this beast 1‑10 👇\n\n#mustang #mustanggt #americanmuscl",
     "media": "reel_20261114_112535.mp4",
     "detail": "set=white_mustang_sunset, format=engine_sound_showcase, media_id=18122817952985054, yt_err=token_refresh_failed_400_{\n  \"error\": \"invalid_grant\",\n  \"error_description\": \"Token has been expired or revoked.\"\n}"
+  },
+  {
+    "time": "2026-11-14T17:59:46.103232+00:00",
+    "kind": "reel",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Instagram container processing failed: {'id': '18041884766689070', 'status_code': 'ERROR'}"
   }
 ]
