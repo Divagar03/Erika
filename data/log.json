@@ -1094,5 +1094,13 @@
     "caption": "",
     "media": "",
     "detail": "Instagram container processing failed: {'id': '18041884766689070', 'status_code': 'ERROR'}"
+  },
+  {
+    "time": "2026-11-14T22:22:17.337470+00:00",
+    "kind": "weekly_reel",
+    "status": "ok",
+    "caption": "Turn heads, take hearts—it’s the GT3 RS like you’ve never seen.  \n502hp, 0‑60 in 3.1s—every pedal push is a heart‑stopper.  \nIts scalloped blue shell slices air, turning exhaust into a symphonic roar.  \nDrop your dream spec below 🔑🔥\n\n#porsche911gt3rs #gt3rs #992gt3rs #porsche #weissachpackage #track",
+    "media": "reel_20261114_221914.mp4",
+    "detail": "set=porsche_911_gt3rs, format=rolling_shots, media_id=18120147482022966, yt_err=token_refresh_failed_400_{\n  \"error\": \"invalid_grant\",\n  \"error_description\": \"Token has been expired or revoked.\"\n}"
   }
 ]
