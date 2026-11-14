@@ -438,6 +438,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "bmw_m2_coupe",
+      "brand": "bmw",
+      "model": "m2_coupe",
+      "format": "cinematic_slow_mo",
+      "caption_hash": "4824f64d151914ac",
+      "media_id": "18110941049218131",
+      "yt_id": "UvFduYW9pAM",
+      "media_file": "reel_20261114_022209.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-14T02:23:58.287579+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
