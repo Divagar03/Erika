@@ -478,6 +478,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "white_mustang_sunset",
+      "brand": "ford",
+      "model": "mustang_gt",
+      "format": "engine_sound_showcase",
+      "caption_hash": "d5e150a90613bb19",
+      "media_id": "18122817952985054",
+      "yt_id": null,
+      "media_file": "reel_20261114_112535.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-14T11:27:25.685754+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
