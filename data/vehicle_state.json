@@ -1,6 +1,7 @@
 {
-  "last_set": "bmw_s1000rr",
+  "last_set": "bugatti_chiron",
   "recent_sets": [
+    "bugatti_chiron",
     "bmw_s1000rr",
     "lamborghini_revuelto",
     "red_sportscar",
@@ -26,7 +27,6 @@
     "mercedes_amg_one",
     "mclaren_p1",
     "pagani_huayra",
-    "yamaha_yzf_r1m",
-    "koenigsegg_jesko"
+    "yamaha_yzf_r1m"
   ]
 }
