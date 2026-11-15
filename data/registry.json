@@ -558,6 +558,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "red_sportscar",
+      "brand": "roadster",
+      "model": "crimson_roadster",
+      "format": "cinematic_slow_mo",
+      "caption_hash": "7232dd67fe736238",
+      "media_id": "17958205260288936",
+      "yt_id": null,
+      "media_file": "reel_20261115_081602.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-15T08:18:35.810932+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
