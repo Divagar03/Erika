@@ -618,6 +618,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "bugatti_chiron",
+      "brand": "bugatti",
+      "model": "chiron",
+      "format": "night_city",
+      "caption_hash": "fad52a5af9152612",
+      "media_id": "17886457941522864",
+      "yt_id": null,
+      "media_file": "reel_20261115_141527.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-15T14:18:10.040592+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

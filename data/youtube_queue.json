@@ -65,10 +65,10 @@
       "title": "Audi R8 V10 • Supercar Reel #Shorts",
       "caption": "Day 6 of seeking help to complete my ug studies.\n\nI am an undergraduate student working hard to finish my education and graduate. If you have guidance, mentorship, or support to share, every bit helps me keep moving forward. 📚🎓\n\nThank you for being part of this journey.\n\n#ugstudies #collegejourney #",
       "set_name": "set=audi_r8_v10, format=journey_reel, media_id=18130256437883322, yt_id=Obj838CUwnM",
-      "status": "pending",
+      "status": "failed",
       "yt_id": null,
       "published_at": null,
-      "error": null
+      "error": "token_refresh_failed_400_{\n  \"error\": \"invalid_grant\",\n  \"error_description\": \"Token has been expired or revoked.\"\n}"
     },
     {
       "id": "reel_20261110_123325",
