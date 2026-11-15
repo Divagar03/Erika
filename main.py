@@ -1256,6 +1256,18 @@ ENGINE_SFX_DIR = Path(__file__).parent / "assets" / "sfx" / "engine"
 VEHICLE_SETS_DIR = Path(__file__).parent / "assets" / "vehicles" / "sets"
 VEHICLE_VIDEO_SETS_DIR = Path(__file__).parent / "assets" / "vehicles" / "video_sets"
 VEHICLE_STATE_FILE = Path(__file__).parent / "data" / "vehicle_state.json"
+SHOT_USAGE_FILE = Path(__file__).parent / "data" / "used_shots.json"
+
+try:
+    from shot_tracker import select_diverse_vehicle_shots
+    SHOT_TRACKER_AVAILABLE = True
+except ImportError:
+    try:
+        from scripts.shot_tracker import select_diverse_vehicle_shots
+        SHOT_TRACKER_AVAILABLE = True
+    except ImportError:
+        select_diverse_vehicle_shots = lambda name, media, count=5: list(media)[:count]
+        SHOT_TRACKER_AVAILABLE = False
 REEL_PATTERN_FILE = Path(__file__).parent / "data" / "reel_pattern_state.json"
 JOURNEY_STATE_FILE = Path(__file__).parent / "data" / "journey_state.json"
 
@@ -1505,12 +1517,12 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                 if len(clips) >= 3:
                     available_dict[d.name] = clips
 
-    # 2. Curated DSLR photo sets
+    # 2. Curated DSLR photo sets (supports any expanded library with >= 5 shots)
     if VEHICLE_SETS_DIR.exists():
         for d in sorted(VEHICLE_SETS_DIR.iterdir()):
             if d.is_dir():
                 shots = sorted(list(d.glob("shot_*.jpg")))
-                if len(shots) == 5:
+                if len(shots) >= 5:
                     available_dict[d.name] = shots
 
     if not available_dict:
@@ -1733,7 +1745,11 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     except Exception:
         pass
 
-    return chosen_name, available_dict[chosen_name], _is_bike_set(chosen_name)
+    # Pick non-repeating diverse shots from the vehicle's expanded pool
+    raw_shots = available_dict[chosen_name]
+    selected_shots = select_diverse_vehicle_shots(chosen_name, raw_shots, needed_count=5)
+
+    return chosen_name, selected_shots, _is_bike_set(chosen_name)
 
 
 # ---------------------------------------------------------------------------
@@ -3000,7 +3016,7 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         for d in sorted(VEHICLE_SETS_DIR.iterdir()):
             if d.is_dir():
                 shots = sorted(list(d.glob("shot_*.jpg")))
-                if len(shots) == 5:
+                if len(shots) >= 5:
                     available_dict[d.name] = shots
 
     prompt_lower = custom_prompt.lower().strip()
@@ -3102,6 +3118,8 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         files_to_commit.append(VEHICLE_STATE_FILE)
     if REEL_PATTERN_FILE.exists() and REEL_PATTERN_FILE not in files_to_commit:
         files_to_commit.append(REEL_PATTERN_FILE)
+    if SHOT_USAGE_FILE.exists() and SHOT_USAGE_FILE not in files_to_commit:
+        files_to_commit.append(SHOT_USAGE_FILE)
     git_commit_and_push(files_to_commit, f"chore: add {active_format} reel {ts}")
 
     print("Waiting for raw URL...")
@@ -3152,6 +3170,8 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         files_to_log.append(ARCH_INDEX_FILE)
     if VEHICLE_STATE_FILE.exists():
         files_to_log.append(VEHICLE_STATE_FILE)
+    if SHOT_USAGE_FILE.exists():
+        files_to_log.append(SHOT_USAGE_FILE)
     if REEL_PATTERN_FILE.exists():
         files_to_log.append(REEL_PATTERN_FILE)
     if JOURNEY_STATE_FILE.exists():

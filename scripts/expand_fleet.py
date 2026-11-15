@@ -1,12 +1,20 @@
-import json
+"""
+Expands photo media sets for all Zenith Motors supercars, hypercars, and superbikes
+by sourcing high-resolution CC-licensed DSLR photos from Wikimedia Commons.
+Increases library from 5 shots per car up to 12-15 shots per car so the shot tracker
+always has a large, fresh pool of unposted shots to pick from.
+"""
+
+from __future__ import annotations
+
 import hashlib
 import io
-import os
+import json
 import re
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
-import urllib.error
 from pathlib import Path
 from PIL import Image, ImageOps
 
@@ -15,7 +23,7 @@ SETS_DIR = BASE_DIR / "assets" / "vehicles" / "sets"
 LICENSES_FILE = BASE_DIR / "data" / "licenses.json"
 
 HEADERS = {
-    "User-Agent": "ZenithMotorsBot/1.1 (https://github.com/Divagar03/Erika; educational-automotive-showcase)"
+    "User-Agent": "ZenithMotorsBot/1.2 (https://github.com/Divagar03/Erika; educational-automotive-showcase)"
 }
 
 ALLOWED_LICENSES = {
@@ -32,8 +40,18 @@ SKIP_TITLE_TERMS = (
     "caliper", "taillight detail", "headlight detail", "door handle", "plate",
 )
 
-# Diverse iconic hypercars, supercars, and superbikes (fastest, highest-spec, most striking)
-VEHICLES = [
+# All vehicles to expand with query terms, target count is 10-12 shots
+TARGET_SHOTS_PER_VEHICLE = 10
+
+ALL_VEHICLES = [
+    ("audi_r8_v10", ["Audi R8 V10", "Audi R8 4S", "Audi R8 Type 42"], "Audi R8 V10", "Audi"),
+    ("bmw_m4_black", ["BMW M4 G82", "BMW M4 Competition", "BMW M4 Coupe"], "BMW M4 Competition", "BMW"),
+    ("bmw_s1000rr", ["BMW S1000RR", "BMW S 1000 RR"], "BMW S1000RR", "BMW"),
+    ("ducati_panigale_v4s", ["Ducati Panigale V4 S", "Ducati Panigale V4"], "Ducati Panigale V4 S", "Ducati"),
+    ("ferrari_sf90", ["Ferrari SF90 Stradale", "Ferrari SF90"], "Ferrari SF90 Stradale", "Ferrari"),
+    ("lamborghini_revuelto", ["Lamborghini Revuelto"], "Lamborghini Revuelto", "Lamborghini"),
+    ("nissan_gtr_r35", ["Nissan GT-R R35", "Nissan GT-R Nismo"], "Nissan GT-R Nismo", "Nissan"),
+    ("porsche_911_gt3rs", ["Porsche 911 GT3 RS 992", "Porsche 992 GT3 RS"], "Porsche 911 GT3 RS", "Porsche"),
     ("bugatti_chiron", ["Bugatti Chiron", "Bugatti Chiron Pur Sport"], "Bugatti Chiron", "Bugatti"),
     ("koenigsegg_jesko", ["Koenigsegg Jesko"], "Koenigsegg Jesko", "Koenigsegg"),
     ("pagani_huayra", ["Pagani Huayra", "Pagani Huayra BC"], "Pagani Huayra", "Pagani"),
@@ -51,11 +69,13 @@ VEHICLES = [
     ("ford_gt_supercar", ["Ford GT 2017", "Ford GT 2019", "Ford GT Heritage"], "Ford GT", "Ford"),
     ("aston_martin_valkyrie", ["Aston Martin Valkyrie"], "Aston Martin Valkyrie", "Aston Martin"),
     ("bugatti_veyron", ["Bugatti Veyron Super Sport", "Bugatti Veyron 16.4"], "Bugatti Veyron", "Bugatti"),
+    ("lamborghini_diablo", ["Lamborghini Diablo", "Lamborghini Diablo VT"], "Lamborghini Diablo", "Lamborghini"),
+    ("aston_martin_valour", ["Aston Martin Valour", "Aston Martin Victor"], "Aston Martin Valour", "Aston Martin"),
+    ("ferrari_f80", ["Ferrari F80 Concept", "Ferrari F80"], "Ferrari F80", "Ferrari"),
 ]
 
 
 def _fetch_bytes(url: str, max_retries: int = 4) -> bytes:
-    """Fetch URL with polite exponential backoff on HTTP 429/503."""
     for attempt in range(max_retries):
         req = urllib.request.Request(url, headers=HEADERS)
         try:
@@ -63,17 +83,14 @@ def _fetch_bytes(url: str, max_retries: int = 4) -> bytes:
                 return resp.read()
         except urllib.error.HTTPError as e:
             if e.code in (429, 503) and attempt < max_retries - 1:
-                retry_after = e.headers.get("Retry-After")
-                wait_s = int(retry_after) if (retry_after and retry_after.isdigit()) else (4 * (2 ** attempt))
-                wait_s = min(wait_s, 30)
-                print(f"  [RATE LIMIT {e.code}] waiting {wait_s}s before retry...")
+                wait_s = 4 * (2 ** attempt)
+                print(f"  [WAIT {e.code}] rate limited, sleeping {wait_s}s...")
                 time.sleep(wait_s)
                 continue
             raise
 
 
-def search_commons(query: str, limit: int = 20) -> list[dict]:
-    """Query Wikimedia Commons with thumbnail size 1280px to respect Wikimedia CDN limits."""
+def search_commons(query: str, limit: int = 25) -> list[dict]:
     q = urllib.parse.quote(f"{query} filetype:bitmap")
     url = (
         f"https://commons.wikimedia.org/w/api.php?action=query&generator=search"
@@ -108,7 +125,6 @@ def search_commons(query: str, limit: int = 20) -> list[dict]:
         artist_raw = meta.get("Artist", {}).get("value", "Wikimedia Commons")
         artist = re.sub(r"<[^>]+>", "", artist_raw).strip()
 
-        # Prefer Wikimedia 1280px CDN thumbnail URL (fast & allowed without 429 raw throttling)
         download_url = ii.get("thumburl") or ii.get("url")
         if not download_url:
             continue
@@ -124,13 +140,11 @@ def search_commons(query: str, limit: int = 20) -> list[dict]:
             "desc_url": ii.get("descriptionurl", ""),
         })
 
-    # Prefer wider landscape DSLR photos that crop sharply
     results.sort(key=lambda x: (x["width"] >= x["height"], x["width"] * x["height"]), reverse=True)
     return results
 
 
 def convert_to_vertical(img_bytes: bytes, dest: Path) -> tuple[int, int]:
-    """Save crisp 1080x1920 vertical center-crop without stretching."""
     img = Image.open(io.BytesIO(img_bytes))
     img = ImageOps.exif_transpose(img).convert("RGB")
     orig_w, orig_h = img.size
@@ -153,7 +167,7 @@ def _file_md5(path: Path) -> str:
     return hashlib.md5(path.read_bytes()).hexdigest()
 
 
-def expand() -> None:
+def expand_all_sets(target_count: int = TARGET_SHOTS_PER_VEHICLE) -> None:
     SETS_DIR.mkdir(parents=True, exist_ok=True)
     licenses_data: dict = {}
     if LICENSES_FILE.exists():
@@ -162,21 +176,19 @@ def expand() -> None:
         except Exception:
             licenses_data = {}
 
-    for set_id, queries, display_name, brand in VEHICLES:
+    for set_id, queries, display_name, brand in ALL_VEHICLES:
         target_dir = SETS_DIR / set_id
         target_dir.mkdir(parents=True, exist_ok=True)
 
         existing_shots = {p.name: p for p in sorted(target_dir.glob("shot_*.jpg")) if p.stat().st_size > 15000}
-        if len(existing_shots) >= 5 and set_id in licenses_data:
-            print(f"[SKIP] {set_id}: already has {len(existing_shots)}/5 shots")
+        current_count = len(existing_shots)
+        if current_count >= target_count:
+            print(f"[OK] {set_id}: already has {current_count}/{target_count} shots")
             continue
 
-        needed_slots = [f"shot_{i}.jpg" for i in range(1, 6) if f"shot_{i}.jpg" not in existing_shots]
-        if not needed_slots:
-            print(f"[SKIP] {set_id}: all 5 slots populated")
-            continue
+        needed_slots = [f"shot_{i}.jpg" for i in range(1, target_count + 1) if f"shot_{i}.jpg" not in existing_shots]
+        print(f"\n[FETCH] {display_name} ({set_id}) currently has {current_count} shots -> adding {len(needed_slots)}...")
 
-        print(f"\n[FETCH] {display_name} ({set_id}) -> need {len(needed_slots)} shot(s)...")
         existing_hashes = {_file_md5(p) for p in existing_shots.values()}
         existing_urls = {
             e.get("url") for e in licenses_data.get(set_id, {}).get("shots", []) if e.get("url")
@@ -186,12 +198,12 @@ def expand() -> None:
         seen_titles: set[str] = set()
         for q in queries:
             try:
-                found = search_commons(q, limit=25)
+                found = search_commons(q, limit=20)
                 for item in found:
                     if item["title"] not in seen_titles:
                         seen_titles.add(item["title"])
                         candidates.append(item)
-                time.sleep(1.5)
+                time.sleep(1.0)
             except Exception as e:
                 print(f"  Search error for '{q}': {e}")
 
@@ -232,26 +244,21 @@ def expand() -> None:
                     "attribution_url": cand["desc_url"],
                 })
                 slot_idx += 1
-                print(f"  Saved {slot_name} ({ow}x{oh} -> 1080x1920) [{cand['license']}]")
-                time.sleep(2.0)
+                print(f"  + Saved {slot_name} ({ow}x{oh} -> 1080x1920) [{cand['license']}]")
+                time.sleep(1.5)
             except Exception as e:
-                print(f"  Download error ({cand['title'][:45]}): {e}")
-                time.sleep(2.0)
+                print(f"  Download error: {e}")
+                time.sleep(1.5)
 
         total_now = len(list(target_dir.glob("shot_*.jpg")))
-        if total_now == 5:
-            licenses_data[set_id] = {
-                "display_name": display_name,
-                "brand": brand,
-                "shots": shot_licenses,
-            }
-            LICENSES_FILE.parent.mkdir(parents=True, exist_ok=True)
-            LICENSES_FILE.write_text(json.dumps(licenses_data, indent=2), encoding="utf-8")
-            print(f"  [OK] {set_id}: complete 5/5 shots registered")
-        else:
-            print(f"  [WARN] {set_id}: incomplete ({total_now}/5 shots) — leaving out of catalog until complete")
+        licenses_data[set_id] = {
+            "display_name": display_name,
+            "brand": brand,
+            "shots": shot_licenses,
+        }
+        LICENSES_FILE.write_text(json.dumps(licenses_data, indent=2), encoding="utf-8")
+        print(f"  [RESULT] {set_id}: total {total_now} shots in library")
 
 
 if __name__ == "__main__":
-    expand()
-    print("\nFleet expansion finished!")
+    expand_all_sets(TARGET_SHOTS_PER_VEHICLE)

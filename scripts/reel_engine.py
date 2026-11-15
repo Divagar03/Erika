@@ -240,30 +240,39 @@ def build_trending_reel(
                 subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
                 rendered_cuts.append(cut_path)
         else:
-            # High-Resolution Photography Sets (5 shots)
+            # High-Resolution Photography Sets
             # TRANSFORM into 8-10 HIGH-VELOCITY RAPID BEAT CUTS!
             # Never display a still photo for 3.2s!
-            # We create dynamic zoom punches, whip sweeps, and detail focal cuts (0.8s - 1.2s each).
-            cut_plans = [
-                # Cut 0 (THE HOOK 0-1.2s): Front aggressive intake / headlight crash zoom
-                {"src_idx": 0, "dur": 1.2, "crop": "iw*0.8:ih*0.8", "zoom": "in", "rate": 0.02},
-                # Cut 1: Snap wide 3/4 angle
-                {"src_idx": 1 % len(media_paths), "dur": 1.0, "crop": "iw:ih", "zoom": "out", "rate": 0.015},
-                # Cut 2: Rear aerodynamic diffuser / wing punch
-                {"src_idx": 2 % len(media_paths), "dur": 0.9, "crop": "iw*0.85:ih*0.85", "zoom": "in", "rate": 0.025},
-                # Cut 3: Side rolling profile sweep
-                {"src_idx": 3 % len(media_paths), "dur": 1.1, "crop": "iw:ih", "zoom": "pan_right", "rate": 0.01},
-                # Cut 4: Carbon-ceramic wheel / badge macro
-                {"src_idx": 4 % len(media_paths), "dur": 0.9, "crop": "iw*0.75:ih*0.75", "zoom": "in", "rate": 0.03},
-                # Cut 5: Cockpit / steering / aero detail
-                {"src_idx": 0, "dur": 1.0, "crop": "iw:ih", "zoom": "pan_left", "rate": 0.015},
-                # Cut 6: High-angle full car shot
-                {"src_idx": 1 % len(media_paths), "dur": 1.1, "crop": "iw*0.9:ih*0.9", "zoom": "in", "rate": 0.02},
-                # Cut 7: Low ground-skimming apex angle
-                {"src_idx": 2 % len(media_paths), "dur": 1.0, "crop": "iw:ih", "zoom": "out", "rate": 0.02},
-                # Cut 8: Outro hero frame (loops cleanly into start)
-                {"src_idx": 0, "dur": 1.3, "crop": "iw:ih", "zoom": "in", "rate": 0.015},
-            ]
+            # We vary the cut choreography (order, zoom style, and durations) so even when
+            # the same car appears, the edit pattern and camera choreographies are completely unique.
+            num_media = len(media_paths)
+            random_seed_offset = random.randint(0, num_media - 1) if num_media > 1 else 0
+            reverse_pattern = random.choice([True, False])
+
+            # Diverse zoom motions to rotate across cuts
+            motions = ["in", "out", "pan_right", "pan_left"]
+            random.shuffle(motions)
+
+            # Generate dynamic 9-cut choreography
+            cut_plans = []
+            durations = [1.2, 0.95, 0.9, 1.1, 0.85, 1.0, 1.05, 0.95, 1.3]
+
+            for c_idx, dur in enumerate(durations):
+                # Calculate media index with rotation offset
+                if reverse_pattern:
+                    src_idx = (num_media - 1 - (c_idx + random_seed_offset)) % num_media
+                else:
+                    src_idx = (c_idx + random_seed_offset) % num_media
+
+                zoom_type = motions[c_idx % len(motions)]
+                rate = 0.015 + (c_idx % 3) * 0.005
+
+                cut_plans.append({
+                    "src_idx": src_idx,
+                    "dur": dur,
+                    "zoom": zoom_type,
+                    "rate": rate
+                })
 
             for c_idx, plan in enumerate(cut_plans):
                 img_src = media_paths[plan["src_idx"]]
