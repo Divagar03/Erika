@@ -1,6 +1,7 @@
 {
-  "last_set": "red_sportscar",
+  "last_set": "lamborghini_revuelto",
   "recent_sets": [
+    "lamborghini_revuelto",
     "red_sportscar",
     "bmw_m4_black",
     "aston_martin_valour",
@@ -26,7 +27,6 @@
     "pagani_huayra",
     "yamaha_yzf_r1m",
     "koenigsegg_jesko",
-    "kawasaki_ninja_h2r",
-    "bugatti_chiron"
+    "kawasaki_ninja_h2r"
   ]
 }
