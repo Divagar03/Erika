@@ -1,13 +1,10 @@
-# Daily Summary — 2026-11-14
+# Daily Summary — 2026-11-15
 
-- **Posts published today:** 4
+- **Posts published today:** 1
 - **Status:** Operational (12 Reels/Day schedule)
 
 ## Today's Published Reels
 | Time (UTC) | Vehicle Set | Format | IG Media ID | YouTube Short ID |
 | :--- | :--- | :--- | :--- | :--- |
-| 02:23 | bmw_m2_coupe | cinematic_slow_mo | 18110941049218131 | UvFduYW9pAM |
-| 08:23 | lamborghini_diablo | cinematic_slow_mo | 18650204563027572 | — |
-| 11:27 | white_mustang_sunset | engine_sound_showcase | 18122817952985054 | — |
-| 22:22 | porsche_911_gt3rs | rolling_shots | 18120147482022966 | — |
+| 03:53 | aston_martin_valour | cinematic_slow_mo | 18448484698197852 | — |
 
