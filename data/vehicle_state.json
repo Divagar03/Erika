@@ -1,6 +1,7 @@
 {
-  "last_set": "aston_martin_valour",
+  "last_set": "bmw_m4_black",
   "recent_sets": [
+    "bmw_m4_black",
     "aston_martin_valour",
     "porsche_911_gt3rs",
     "red_sportscar",
@@ -26,7 +27,6 @@
     "yamaha_yzf_r1m",
     "koenigsegg_jesko",
     "kawasaki_ninja_h2r",
-    "bugatti_chiron",
-    "bmw_s1000rr"
+    "bugatti_chiron"
   ]
 }
