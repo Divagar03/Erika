@@ -87,10 +87,10 @@
       "title": "Battle Hyper Track • Supercar Reel #Shorts",
       "caption": "German precision vs Italian V12 fury vs Maranello hybrid speed. Porsche 911 GT3 RS, Lamborghini Revuelto, or Ferrari SF90 Stradale? Vote your champion below 👇🔥\n\n#carbattle #supercars #hypercars #porsche #lamborghini #ferrari #gt3rs #revuelto #sf90 #carreels #carlifestyle",
       "set_name": "set=battle_hyper_track, format=comparison, media_id=18081393548711569, yt_id=xL5XE1HD5HQ",
-      "status": "pending",
+      "status": "failed",
       "yt_id": null,
       "published_at": null,
-      "error": null
+      "error": "token_refresh_failed_400_{\n  \"error\": \"invalid_grant\",\n  \"error_description\": \"Token has been expired or revoked.\"\n}"
     },
     {
       "id": "reel_20261110_014339",
