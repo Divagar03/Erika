@@ -598,6 +598,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "bmw_s1000rr",
+      "brand": "bmw",
+      "model": "s1000rr",
+      "format": "engine_sound_showcase",
+      "caption_hash": "b0a7752e8abbd0f8",
+      "media_id": "17967735285245780",
+      "yt_id": null,
+      "media_file": "reel_20261115_121534.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-15T12:17:34.238082+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

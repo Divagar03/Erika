@@ -1134,5 +1134,13 @@
     "caption": "Hold on tight—this beast rewrites physics in slow‑motion frames.  \nA roaring exhaust that tastes like victory, and chassis engineering that swoops like a comet.  \nRate this spec 1-10 👇\n\n#lamborghinirevuelto #revuelto #lamborghini #v12hybrid #hypercars #santagatabolognese #supercars #carlifestyle",
     "media": "reel_20261115_101559.mp4",
     "detail": "set=lamborghini_revuelto, format=cinematic_slow_mo, media_id=18133996816704119, yt_err=token_refresh_failed_400_{\n  \"error\": \"invalid_grant\",\n  \"error_description\": \"Token has been expired or revoked.\"\n}"
+  },
+  {
+    "time": "2026-11-15T12:17:34.235769+00:00",
+    "kind": "weekly_reel",
+    "status": "ok",
+    "caption": "Feel the roar that turns heads—  \n\nPure power in Alpine White, slicing the street like a razor.  \nThe exhaust symphony blasts straight to your pulse.  \n\nRate this spec 1-10 👇\n\n#bmws1000rr #s1000rr #bmwmotorrad #superbike #bikelife #hypersport #motorcyclesofinstagram #twowheels #sportbike",
+    "media": "reel_20261115_121534.mp4",
+    "detail": "set=bmw_s1000rr, format=engine_sound_showcase, media_id=17967735285245780, yt_err=token_refresh_failed_400_{\n  \"error\": \"invalid_grant\",\n  \"error_description\": \"Token has been expired or revoked.\"\n}"
   }
 ]
