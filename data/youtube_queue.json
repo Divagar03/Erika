@@ -43,10 +43,10 @@
       "title": "Lamborghini Revuelto • Supercar Reel #Shorts",
       "caption": "",
       "set_name": "lamborghini_revuelto",
-      "status": "pending",
+      "status": "failed",
       "yt_id": null,
       "published_at": null,
-      "error": null
+      "error": "token_refresh_failed_400_{\n  \"error\": \"invalid_grant\",\n  \"error_description\": \"Token has been expired or revoked.\"\n}"
     },
     {
       "id": "reel_20261115_121534",
