@@ -1206,5 +1206,13 @@
     "caption": "Turn the bass up and the track will lean into the LaFerrari’s street‑wise swagger  \n0‑100 in 2.3 seconds—every second a punch of power.  \nIts crimson shell slices the air like a razor, while the exhaust shivers in a phonk groove.  \n\nRate this beast 1‑10 👇🔑🔥\n\n#ferrarilaferrari #laferrari #ferrari #v1",
     "media": "reel_20261116_101552.mp4",
     "detail": "set=ferrari_laferrari, format=phonk_bass_drop, media_id=18205044859344293, yt_err=token_refresh_failed_401_{\n  \"error\": \"invalid_client\",\n  \"error_description\": \"The provided client secret is invalid.\"\n}"
+  },
+  {
+    "time": "2026-11-16T12:51:13.060996+00:00",
+    "kind": "weekly_reel",
+    "status": "ok",
+    "caption": "Shatter the silence with the silver thunderbolt 🚀\n\nFeel the 620‑hp Porsche Carrera GT roar to life, its exhaust singing a raw, throaty chord. Sleek aerodynamics slice the air, turning every twist into a high‑speed symphony.\n\nRate this spec 1‑10 👇\n\n#porschecarreragt #carreragt #porsche #v10 #analogsu",
+    "media": "reel_20261116_124856.mp4",
+    "detail": "set=porsche_carrera_gt, format=rolling_shots, media_id=17929922373483634, yt_err=token_refresh_failed_401_{\n  \"error\": \"invalid_client\",\n  \"error_description\": \"The provided client secret is invalid.\"\n}"
   }
 ]
