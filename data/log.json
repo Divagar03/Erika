@@ -1198,5 +1198,13 @@
     "caption": "Hold your breath—this isn’t just a car, it’s a symphony in motion.  \nEvery rev shreds the air; the carbon weave slices wind like a blade.  \nRate this spec 1-10 👇\n\n#mercedesamgone #amgone #mercedesamg #f1 #hypercar #nurburgring #supercars #affalterbach",
     "media": "reel_20261116_081546.mp4",
     "detail": "set=mercedes_amg_one, format=phonk_bass_drop, media_id=18127450652316959, yt_err=token_refresh_failed_400_{\n  \"error\": \"invalid_grant\",\n  \"error_description\": \"Token has been expired or revoked.\"\n}"
+  },
+  {
+    "time": "2026-11-16T10:17:21.262332+00:00",
+    "kind": "weekly_reel",
+    "status": "ok",
+    "caption": "Turn the bass up and the track will lean into the LaFerrari’s street‑wise swagger  \n0‑100 in 2.3 seconds—every second a punch of power.  \nIts crimson shell slices the air like a razor, while the exhaust shivers in a phonk groove.  \n\nRate this beast 1‑10 👇🔑🔥\n\n#ferrarilaferrari #laferrari #ferrari #v1",
+    "media": "reel_20261116_101552.mp4",
+    "detail": "set=ferrari_laferrari, format=phonk_bass_drop, media_id=18205044859344293, yt_err=token_refresh_failed_401_{\n  \"error\": \"invalid_client\",\n  \"error_description\": \"The provided client secret is invalid.\"\n}"
   }
 ]
