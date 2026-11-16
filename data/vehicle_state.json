@@ -1,6 +1,7 @@
 {
-  "last_set": "lamborghini_aventador_svj",
+  "last_set": "ford_gt_supercar",
   "recent_sets": [
+    "ford_gt_supercar",
     "lamborghini_aventador_svj",
     "porsche_carrera_gt",
     "ferrari_laferrari",
@@ -26,7 +27,6 @@
     "audi_r8_v10",
     "ducati_panigale_v4s",
     "nissan_gtr_r35",
-    "bugatti_veyron",
-    "aston_martin_valkyrie"
+    "bugatti_veyron"
   ]
 }
