@@ -858,6 +858,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "aston_martin_valkyrie",
+      "brand": "aston_martin",
+      "model": "valkyrie",
+      "format": "night_city",
+      "caption_hash": "60e69baac97f9a24",
+      "media_id": "18018735671971469",
+      "yt_id": "Ygo66K9wP6M",
+      "media_file": "reel_20261116_202349.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-16T20:25:17.115963+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
