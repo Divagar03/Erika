@@ -87,10 +87,10 @@
       "title": "Koenigsegg Jesko • Supercar Reel #Shorts",
       "caption": "",
       "set_name": "koenigsegg_jesko",
-      "status": "pending",
+      "status": "failed",
       "yt_id": null,
       "published_at": null,
-      "error": null
+      "error": "token_refresh_failed_401_{\n  \"error\": \"invalid_client\",\n  \"error_description\": \"The provided client secret is invalid.\"\n}"
     },
     {
       "id": "reel_20261111_015458",
