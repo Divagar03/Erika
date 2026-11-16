@@ -1,6 +1,7 @@
 {
-  "last_set": "mercedes_amg_one",
+  "last_set": "ferrari_laferrari",
   "recent_sets": [
+    "ferrari_laferrari",
     "mercedes_amg_one",
     "mclaren_p1",
     "pagani_huayra",
@@ -26,7 +27,6 @@
     "bugatti_veyron",
     "aston_martin_valkyrie",
     "bmw_m5_cs",
-    "ford_gt_supercar",
-    "lamborghini_aventador_svj"
+    "ford_gt_supercar"
   ]
 }
