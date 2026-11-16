@@ -1182,5 +1182,13 @@
     "caption": "Feel the roar of the future – straight from the gods of speed.  \nEvery inch of exposed carbon screams raw power.  \nThe Huayra’s exhaust sings a symphony that’s pure adrenaline.  \n\nDrop your dream spec below 🔑🔥\n\n#paganihuayra #pagani #huayra #v12 #hypercar #bespoke #carbonfiber #italianexotics",
     "media": "reel_20261116_041554.mp4",
     "detail": "set=pagani_huayra, format=cinematic_slow_mo, media_id=18121289449986826, yt_err=token_refresh_failed_400_{\n  \"error\": \"invalid_grant\",\n  \"error_description\": \"Token has been expired or revoked.\"\n}"
+  },
+  {
+    "time": "2026-11-16T06:17:25.883748+00:00",
+    "kind": "weekly_reel",
+    "status": "ok",
+    "caption": "🔥 The night just got a new legend.  \nThis McLaren P1 bursts forward, its exhaust screaming like a city drumline.  \nVolcano‑carbon aerodynamics cut through the air, turning every flash into a pure adrenaline masterpiece.  \nDrop your dream spec below 🔑🔥\n\n#mclarenp1 #mclaren #p1 #holytrinity #hypercar ",
+    "media": "reel_20261116_061537.mp4",
+    "detail": "set=mclaren_p1, format=night_city, media_id=18142640146623659, yt_err=token_refresh_failed_400_{\n  \"error\": \"invalid_grant\",\n  \"error_description\": \"Token has been expired or revoked.\"\n}"
   }
 ]
