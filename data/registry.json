@@ -878,6 +878,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "nissan_gtr_r35",
+      "brand": "nissan",
+      "model": "gtr_r35",
+      "format": "rolling_shots",
+      "caption_hash": "b6fbb38c7dcb54b8",
+      "media_id": "18184146505436507",
+      "yt_id": "QMPQL4MxIi0",
+      "media_file": "reel_20261117_042759.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-17T04:30:32.072962+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

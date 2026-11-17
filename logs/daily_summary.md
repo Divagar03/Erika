@@ -1,19 +1,10 @@
-# Daily Summary — 2026-11-16
+# Daily Summary — 2026-11-17
 
-- **Posts published today:** 10
+- **Posts published today:** 1
 - **Status:** Operational (12 Reels/Day schedule)
 
 ## Today's Published Reels
 | Time (UTC) | Vehicle Set | Format | IG Media ID | YouTube Short ID |
 | :--- | :--- | :--- | :--- | :--- |
-| 02:00 | yamaha_yzf_r1m | cinematic_slow_mo | 18016830851992618 | — |
-| 04:18 | pagani_huayra | cinematic_slow_mo | 18121289449986826 | — |
-| 06:17 | mclaren_p1 | night_city | 18142640146623659 | — |
-| 08:17 | mercedes_amg_one | phonk_bass_drop | 18127450652316959 | — |
-| 10:17 | ferrari_laferrari | phonk_bass_drop | 18205044859344293 | — |
-| 12:51 | porsche_carrera_gt | rolling_shots | 17929922373483634 | — |
-| 14:17 | lamborghini_aventador_svj | engine_sound_showcase | 18027022361926751 | — |
-| 16:17 | ford_gt_supercar | engine_sound_showcase | 18110438129219627 | — |
-| 18:18 | bmw_m5_cs | phonk_bass_drop | 17915950707558255 | — |
-| 20:25 | aston_martin_valkyrie | night_city | 18018735671971469 | Ygo66K9wP6M |
+| 04:30 | nissan_gtr_r35 | rolling_shots | 18184146505436507 | QMPQL4MxIi0 |
 
