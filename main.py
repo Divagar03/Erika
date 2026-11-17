@@ -1259,14 +1259,15 @@ VEHICLE_STATE_FILE = Path(__file__).parent / "data" / "vehicle_state.json"
 SHOT_USAGE_FILE = Path(__file__).parent / "data" / "used_shots.json"
 
 try:
-    from shot_tracker import select_diverse_vehicle_shots
+    from shot_tracker import select_diverse_vehicle_shots, get_unposted_shots
     SHOT_TRACKER_AVAILABLE = True
 except ImportError:
     try:
-        from scripts.shot_tracker import select_diverse_vehicle_shots
+        from scripts.shot_tracker import select_diverse_vehicle_shots, get_unposted_shots
         SHOT_TRACKER_AVAILABLE = True
     except ImportError:
         select_diverse_vehicle_shots = lambda name, media, count=5: list(media)[:count]
+        get_unposted_shots = lambda name, media: list(media)
         SHOT_TRACKER_AVAILABLE = False
 REEL_PATTERN_FILE = Path(__file__).parent / "data" / "reel_pattern_state.json"
 JOURNEY_STATE_FILE = Path(__file__).parent / "data" / "journey_state.json"
@@ -1509,21 +1510,23 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     """
     available_dict: dict[str, list[Path]] = {}
 
-    # 1. Video clip sets
+    # 1. Video clip sets (requires >= 3 unposted clips)
     if VEHICLE_VIDEO_SETS_DIR.exists():
         for d in sorted(VEHICLE_VIDEO_SETS_DIR.iterdir()):
             if d.is_dir():
                 clips = sorted(list(d.glob("clip_*.mp4")))
-                if len(clips) >= 3:
-                    available_dict[d.name] = clips
+                unposted_clips = get_unposted_shots(d.name, clips)
+                if len(unposted_clips) >= 3:
+                    available_dict[d.name] = unposted_clips
 
-    # 2. Curated DSLR photo sets (supports any expanded library with >= 5 shots)
+    # 2. Curated DSLR photo sets (STRICT ZERO-REPEAT: requires >= 5 unposted shots)
     if VEHICLE_SETS_DIR.exists():
         for d in sorted(VEHICLE_SETS_DIR.iterdir()):
             if d.is_dir():
                 shots = sorted(list(d.glob("shot_*.jpg")))
-                if len(shots) >= 5:
-                    available_dict[d.name] = shots
+                unposted_shots = get_unposted_shots(d.name, shots)
+                if len(unposted_shots) >= 5:
+                    available_dict[d.name] = unposted_shots
 
     if not available_dict:
         v_dir = Path(__file__).parent / "assets" / "vehicles"

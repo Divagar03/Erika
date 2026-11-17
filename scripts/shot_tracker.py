@@ -43,6 +43,17 @@ def save_shot_usage(usage: dict[str, list[str]]) -> None:
         print(f"  [ShotTracker] Error saving shot usage: {e}")
 
 
+def get_unposted_shots(vehicle_name: str, all_media: Sequence[Path]) -> list[Path]:
+    """
+    Return all media files that have NEVER been posted for this vehicle.
+    Strict zero-repeat rule: once a shot is used, it is never eligible again.
+    """
+    usage = load_shot_usage()
+    used_set = set(usage.get(vehicle_name, []))
+    sorted_media = sorted(list(all_media), key=natural_sort_key)
+    return [p for p in sorted_media if p.name not in used_set]
+
+
 def select_diverse_vehicle_shots(
     vehicle_name: str,
     all_media: Sequence[Path],
@@ -50,45 +61,31 @@ def select_diverse_vehicle_shots(
 ) -> list[Path]:
     """
     Given all media files for a vehicle (e.g. shot_1.jpg .. shot_10.jpg or clip_1.mp4 ..),
-    select `needed_count` files prioritizing those that have NOT been recently used.
+    select `needed_count` files that have NEVER been posted before.
     
     Guarantees:
     1. 100% Single-Vehicle Cohesion: All selected files belong strictly to this vehicle.
-    2. Zero Immediate Overlap: Once a batch of shots is posted, the next rotation of this
-       vehicle prioritizes unused shots first.
+    2. Strict Zero Repetition: Once a shot or clip is posted, it is NEVER repeated.
+       If fewer than `needed_count` unposted shots remain, an exception is raised.
     3. Natural Sorting: Never sorts 'shot_10' before 'shot_2'.
     """
-    sorted_media = sorted(list(all_media), key=natural_sort_key)
+    unused = get_unposted_shots(vehicle_name, all_media)
 
-    if len(sorted_media) <= needed_count:
-        # If pool has only needed_count (or fewer), return all of them
-        return list(sorted_media)
+    if len(unused) < needed_count:
+        raise ValueError(
+            f"[ShotTracker] Strict zero-repeat policy: '{vehicle_name}' has only {len(unused)} "
+            f"unposted shots left (needed {needed_count}). Posted shots are NEVER repeated."
+        )
 
+    selected = unused[:needed_count]
+
+    # Permanently append newly selected shots to usage history (never pruned, never wrapped)
     usage = load_shot_usage()
     used_list = usage.get(vehicle_name, [])
-
-    # Group media into unused vs used
-    unused: list[Path] = [p for p in sorted_media if p.name not in used_list]
-    used: list[Path] = [p for p in sorted_media if p.name in used_list]
-
-    if len(unused) >= needed_count:
-        selected = unused[:needed_count]
-    else:
-        # Cycle wrap: take all remaining unused + oldest used from previous cycle
-        selected = unused + used[:(needed_count - len(unused))]
-
-    # Update usage: append newly selected shots
-    new_used = [p.name for p in selected]
-    updated_history = [name for name in used_list if name not in new_used] + new_used
-
-    # Keep history bounded to total media count to allow smooth wrapping
-    if len(updated_history) >= len(sorted_media):
-        # Keep only the most recent batch so older shots become available again
-        updated_history = new_used
-
-    usage[vehicle_name] = updated_history
+    new_used = [p.name for p in selected if p.name not in used_list]
+    usage[vehicle_name] = used_list + new_used
     save_shot_usage(usage)
 
-    print(f"  [ShotTracker] {vehicle_name}: Selected {len(selected)} shots ({', '.join(p.name for p in selected)})")
+    print(f"  [ShotTracker] {vehicle_name}: Selected {len(selected)} unposted shots ({', '.join(p.name for p in selected)}), {len(unused) - len(selected)} remaining unposted")
     return selected
 
