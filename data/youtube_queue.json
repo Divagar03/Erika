@@ -2,7 +2,7 @@
   "date": "2026-11-17",
   "source_date": "2026-11-16",
   "target_count": 10,
-  "published_today": 1,
+  "published_today": 2,
   "queue": [
     {
       "id": "reel_20261116_015840",
@@ -21,9 +21,9 @@
       "title": "Pagani Huayra • Supercar Reel #Shorts",
       "caption": "",
       "set_name": "pagani_huayra",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "7POPWqkEkbg",
+      "published_at": "2026-11-17T11:58:57.730279+00:00",
       "error": null
     },
     {

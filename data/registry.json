@@ -898,6 +898,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "ducati_panigale_v4s",
+      "brand": "ducati",
+      "model": "panigale_v4s",
+      "format": "rolling_shots",
+      "caption_hash": "d16de2b828358e6a",
+      "media_id": "18226117195341676",
+      "yt_id": "7POPWqkEkbg",
+      "media_file": "reel_20261117_115734.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-17T11:58:57.733296+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
