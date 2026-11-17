@@ -175,6 +175,12 @@ def build_trending_reel(
     template = get_next_edit_template(template_override)
     print(f"\n[REEL ENGINE] Active Edit Template: '{template}' for {vehicle_name}")
 
+    # Guardrail: Verify 100% single-car spec cohesion. All cuts must be from the exact same vehicle folder.
+    if media_paths:
+        parents = set(Path(p).parent for p in media_paths)
+        if len(parents) > 1:
+            raise ValueError(f"Single-car spec cohesion violated! Received media from multiple folders: {parents}")
+
     phonk_track = pick_trending_phonk_track()
     engine_sfx = pick_authentic_engine_sfx(vehicle_name, is_bike=is_bike)
 

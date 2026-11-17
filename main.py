@@ -1421,7 +1421,7 @@ CURATED_ROTATION_ORDER = [
     "bugatti_veyron",            # French W16 400km/h pioneer
     "white_mustang_sunset",      # American V8 muscle (video)
     "porsche_918_spyder",        # German hybrid hypercar trinity
-    "bmw_m4_black",              # German twin-turbo coupe
+    "bmw_m4_blue",               # German twin-turbo coupe in Yas Marina Blue
     "lamborghini_revuelto",      # Italian V12 hybrid flagship
     "bmw_m2_coupe",              # German compact twin-turbo coupe
     "red_sportscar",             # Crimson roadster (video)
@@ -1432,7 +1432,7 @@ SET_BRAND_MAP = {
     "aston_martin_valour": "aston_martin",
     "audi_r8_v10": "audi",
     "bmw_m2_coupe": "bmw",
-    "bmw_m4_black": "bmw",
+    "bmw_m4_blue": "bmw",
     "bmw_m5_cs": "bmw",
     "bmw_s1000rr": "bmw",
     "bugatti_chiron": "bugatti",
@@ -1465,7 +1465,7 @@ SET_MODEL_MAP = {
     "aston_martin_valour": "valour",
     "audi_r8_v10": "r8",
     "bmw_m2_coupe": "m2_coupe",
-    "bmw_m4_black": "m4",
+    "bmw_m4_blue": "m4",
     "bmw_m5_cs": "m5_cs",
     "bmw_s1000rr": "s1000rr",
     "bugatti_chiron": "chiron",
@@ -1545,7 +1545,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         "audi": "audi_r8_v10", "r8": "audi_r8_v10", "suzuka grey": "audi_r8_v10",
         "m5 cs": "bmw_m5_cs",
         "m2": "bmw_m2_coupe",
-        "bmw m4": "bmw_m4_black", "m4": "bmw_m4_black", "g82": "bmw_m4_black",
+        "bmw m4": "bmw_m4_blue", "m4": "bmw_m4_blue", "g82": "bmw_m4_blue", "yas marina": "bmw_m4_blue",
         "s1000rr": "bmw_s1000rr",
         "chiron": "bugatti_chiron",
         "veyron": "bugatti_veyron",
@@ -1632,9 +1632,10 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
             "bike": ["kawasaki_ninja_h2r", "bmw_s1000rr", "ducati_panigale_v4s", "yamaha_yzf_r1m"],
             "motorcycle": ["kawasaki_ninja_h2r", "bmw_s1000rr", "ducati_panigale_v4s", "yamaha_yzf_r1m"],
             "superbike": ["kawasaki_ninja_h2r", "bmw_s1000rr", "ducati_panigale_v4s", "yamaha_yzf_r1m"],
-            "bmw": ["bmw_m5_cs", "bmw_m4_black", "bmw_m2_coupe", "bmw_s1000rr"],
+            "bmw m4": ["bmw_m4_blue"],
+            "bmw": ["bmw_m4_blue", "bmw_m5_cs", "bmw_m2_coupe", "bmw_s1000rr"],
             "m5": ["bmw_m5_cs"],
-            "m4": ["bmw_m4_black"],
+            "m4": ["bmw_m4_blue"],
             "m2": ["bmw_m2_coupe"],
             "bugatti": ["bugatti_chiron", "bugatti_veyron"],
             "chiron": ["bugatti_chiron"],
@@ -1671,10 +1672,15 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
             "hypercar": ["bugatti_chiron", "koenigsegg_jesko", "pagani_huayra", "mclaren_p1", "ferrari_laferrari", "mercedes_amg_one", "aston_martin_valkyrie"],
             "sportscar": ["red_sportscar", "audi_r8_v10", "porsche_911_gt3rs", "bmw_m2_coupe"],
         }
-        matched_names: set[str] = set()
-        for kw, target_sets in KEYWORD_MAP.items():
+        matched_names: list[str] = []
+        for kw in sorted(KEYWORD_MAP.keys(), key=len, reverse=True):
             if kw in th:
-                matched_names.update(target_sets)
+                for target in KEYWORD_MAP[kw]:
+                    if target not in matched_names:
+                        matched_names.append(target)
+                # Specific model matched: do not dilute with generic brand
+                if len(kw.split()) > 1 or kw in ("m4", "m5", "m2", "gt3", "p1", "senna", "chiron", "veyron", "jesko", "huayra", "sf90", "f80", "laferrari", "diablo", "revuelto", "svj", "h2r", "s1000rr", "r1m"):
+                    break
 
         if matched_names:
             matched_candidates = [s for s in active_order if s in matched_names and s in available_dict]
@@ -1690,7 +1696,13 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
             if not fresh:
                 fresh = non_cooldown_candidates
             chosen_name = fresh[0]
-            return chosen_name, available_dict[chosen_name], _is_bike_set(chosen_name)
+            raw_shots = available_dict[chosen_name]
+            selected_shots = select_diverse_vehicle_shots(chosen_name, raw_shots, needed_count=5)
+            if selected_shots:
+                parents = set(p.parent for p in selected_shots)
+                if len(parents) > 1:
+                    raise ValueError(f"Single-car spec cohesion violated! Received shots from multiple folders: {parents}")
+            return chosen_name, selected_shots, _is_bike_set(chosen_name)
 
     # 2. General Selection with strict Brand and Model cooldowns:
     # RULE 1 (Strict 7-Day Model Cooldown):
@@ -1748,6 +1760,12 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     # Pick non-repeating diverse shots from the vehicle's expanded pool
     raw_shots = available_dict[chosen_name]
     selected_shots = select_diverse_vehicle_shots(chosen_name, raw_shots, needed_count=5)
+
+    # Guardrail: Verify 100% single-car spec cohesion. All shots must be from the exact same vehicle folder.
+    if selected_shots:
+        parents = set(p.parent for p in selected_shots)
+        if len(parents) > 1:
+            raise ValueError(f"Single-car spec cohesion violated! Received shots from multiple folders: {parents}")
 
     return chosen_name, selected_shots, _is_bike_set(chosen_name)
 
@@ -2035,8 +2053,8 @@ CAR_SPECS_DATABASE = {
             ("💰 Valuation", "Classic Collector Icon ($450k+)")
         ]
     },
-    "bmw_m4_black": {
-        "name": "BMW M4 Competition",
+    "bmw_m4_blue": {
+        "name": "BMW M4 Competition (Yas Marina Blue)",
         "points": [
             ("🐎 Horsepower", "503 HP @ 6,250 RPM"),
             ("⚡ Engine", "3.0L S58 Twin-Turbo Inline-6"),
@@ -2613,29 +2631,29 @@ CURATED_SET_METADATA = {
 
     # ── 8 Authentic DSLR Multi-Angle Photography Sets ─────────────────────────
     "audi_r8_v10": {
-        "title": "Audi R8 V10 Performance • Naturally Aspirated Perfection ⚪🇩🇪",
+        "title": "Audi R8 V10 Performance • Kemora Blue Naturally Aspirated 🔵🇩🇪",
         "make_model": "Audi R8 V10 Performance",
-        "color": "Suzuka Grey Metallic",
+        "color": "Kemora Blue Metallic",
         "captions": [
-            "The twilight of naturally aspirated perfection. 5.2 liters of mid-engine German engineering screaming up to 8,700 RPM. Rate this Suzuka Grey R8 spec 1-10 👇",
-            "Quattro grip and pure naturally aspirated V10 symphony. The Audi R8 V10 Performance standing tall with carbon sideblades and forged wheels. Drop your dream everyday supercar below 🔑🔥",
-            "A timeless silhouette that will never be forgotten. Pure gated-era soul evolved into modern precision. Rate this clean R8 build 1-10 👇"
+            "The twilight of naturally aspirated perfection. 5.2 liters of mid-engine German engineering screaming up to 8,700 RPM in Kemora Blue. Rate this R8 spec 1-10 👇",
+            "Quattro grip and pure naturally aspirated V10 symphony. The Audi R8 V10 Performance in Kemora Blue standing tall with carbon sideblades. Drop your dream everyday supercar below 🔑🔥",
+            "A timeless silhouette that will never be forgotten. Pure gated-era soul evolved into modern precision in Kemora Blue. Rate this clean R8 build 1-10 👇"
         ],
         "tags": ["audir8", "r8v10", "v10", "audi", "quattro", "supercars", "carlifestyle", "germanmuscle", "exoticcars"],
         "audio": "car_v8_start.mp3",
         "is_bike": False,
         "is_fast_motion": False
     },
-    "bmw_m4_black": {
-        "title": "BMW M4 Competition G82 • Stealth Carbon Aggression ⚫🇩🇪",
+    "bmw_m4_blue": {
+        "title": "BMW M4 Competition G82 • Yas Marina Blue Aggression 🔵🇩🇪",
         "make_model": "BMW M4 Competition (G82)",
-        "color": "Black Sapphire Metallic",
+        "color": "Yas Marina Blue",
         "captions": [
-            "Stealth mode engaged. The G82 BMW M4 Competition in Black Sapphire with exposed carbon fiber aero splitters and deep-dish forged wheels. Rate this dark spec 1-10 👇",
-            "Twin-turbo S58 inline-six pushing unrelenting Bavarian power. The aggressive contours of the G82 M4 cutting through the night. Drop your favorite M car below 🔑🔥",
-            "Blacked-out presence from every single angle. Laser headlights and a low-slung stance built strictly for high-speed corners. Rate this aggressive M4 spec 1-10 👇"
+            "Pure Bavarian aggression. The G82 BMW M4 Competition in iconic Yas Marina Blue with exposed carbon fiber splitters and deep-dish forged wheels. Rate this blue spec 1-10 👇",
+            "Twin-turbo S58 inline-six pushing 503 HP of unrelenting Bavarian power. The aggressive contours of the G82 M4 in Yas Marina Blue cutting through the apex. Drop your dream M spec below 🔑🔥",
+            "Yas Marina Blue presence from every single angle. Laser headlights, carbon-ceramic brakes, and a wide stance built strictly for high-speed corners. Rate this clean M4 build 1-10 👇"
         ],
-        "tags": ["bmwm4", "m4competition", "g82", "bmwm", "mpower", "bimmer", "carsofinstagram", "cleanbuild", "supercars"],
+        "tags": ["bmwm4", "m4competition", "g82", "yasmarinablue", "bmwm", "mpower", "bimmer", "carsofinstagram", "cleanbuild", "supercars"],
         "audio": "bmw_m4_rev.mp3",
         "is_bike": False,
         "is_fast_motion": False
@@ -2669,13 +2687,13 @@ CURATED_SET_METADATA = {
         "is_fast_motion": False
     },
     "ferrari_sf90": {
-        "title": "Ferrari SF90 Stradale • 1000 HP Maranello Hybrid Flagship 🔴🇮🇹",
+        "title": "Ferrari SF90 Stradale • Blu Elettrico 1000 HP Hybrid V8 🔵🇮🇹",
         "make_model": "Ferrari SF90 Stradale",
-        "color": "Rosso Corsa / Nero Roof",
+        "color": "Blu Elettrico / Nero Roof",
         "captions": [
-            "1,000 metric horsepower from Maranello. A twin-turbo V8 paired with three electric motors catapulting from 0 to 60 in 2.0 seconds flat. Rate this SF90 Stradale spec 1-10 👇",
-            "The pinnacle of contemporary Prancing Horse performance. Rosso Corsa coachwork with carbon fiber rear diffuser and active aerodynamic shut-off Gurney. Drop your dream spec below 🔑🔥",
-            "Electric whisper in the city, savage twin-turbo V8 roar on the open tarmac. The Ferrari SF90 Stradale rewriting the laws of physics. Rate this spec 1-10 👇"
+            "1,000 metric horsepower from Maranello. A twin-turbo V8 paired with three electric motors in stunning Blu Elettrico catapulting from 0 to 60 in 2.0 seconds flat. Rate this SF90 Stradale spec 1-10 👇",
+            "The pinnacle of contemporary Prancing Horse performance. Blu Elettrico coachwork with carbon fiber rear diffuser and active aerodynamic shut-off Gurney. Drop your dream spec below 🔑🔥",
+            "Electric whisper in the city, savage twin-turbo V8 roar on the open tarmac. The Ferrari SF90 Stradale in Blu Elettrico rewriting the laws of physics. Rate this spec 1-10 👇"
         ],
         "tags": ["ferrarisf90", "sf90stradale", "ferrari", "maranello", "hypercars", "hybridhypercar", "supercars", "exoticcars", "carlifestyle"],
         "audio": "ferrari_v8_rev.mp3",
@@ -2711,12 +2729,12 @@ CURATED_SET_METADATA = {
         "is_fast_motion": False
     },
     "porsche_911_gt3rs": {
-        "title": "Porsche 911 GT3 RS (992) • Weissach Aero Perfection 🔵🇩🇪",
+        "title": "Porsche 911 GT3 RS (992) • Carrara White Weissach Aero ⚪🏁",
         "make_model": "Porsche 911 GT3 RS (992)",
-        "color": "Shark Blue / Weissach Package",
+        "color": "Carrara White Metallic / Weissach Package",
         "captions": [
-            "Motorsport DNA for the road. The 992 GT3 RS in Shark Blue with full exposed carbon Weissach Package and active swan-neck DRS wing. Rate this track weapon 1-10 👇",
-            "4.0 liters of naturally aspirated flat-six perfection singing all the way to 9,000 RPM. No turbos, no filters, pure mechanical bliss. Drop your dream 911 spec below 🔑🔥",
+            "Motorsport DNA for the road. The 992 GT3 RS in Carrara White with full exposed carbon Weissach Package and active swan-neck DRS wing. Rate this track weapon 1-10 👇",
+            "4.0 liters of naturally aspirated flat-six perfection singing all the way to 9,000 RPM in Carrara White. No turbos, no filters, pure mechanical bliss. Drop your dream 911 spec below 🔑🔥",
             "860 kilograms of downforce at speed. Central radiator concept and race-derived double-wishbone front axle. The Porsche 911 GT3 RS is untouchable. Rate this spec 1-10 👇"
         ],
         "tags": ["porsche911gt3rs", "gt3rs", "992gt3rs", "porsche", "weissachpackage", "tracktool", "flatsix", "supercars", "carlifestyle"],
