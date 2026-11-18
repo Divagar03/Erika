@@ -2,7 +2,7 @@
   "date": "2026-11-18",
   "source_date": "2026-11-17",
   "target_count": 10,
-  "published_today": 3,
+  "published_today": 4,
   "queue": [
     {
       "id": "reel_20261117_042759",
@@ -43,9 +43,9 @@
       "title": "Ferrari Sf90 • Supercar Reel #Shorts",
       "caption": "",
       "set_name": "ferrari_sf90",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "KNaXVkC99dg",
+      "published_at": "2026-11-18T10:17:41.427646+00:00",
       "error": null
     },
     {
