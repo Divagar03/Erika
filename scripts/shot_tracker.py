@@ -54,11 +54,23 @@ def get_unposted_shots(vehicle_name: str, all_media: Sequence[Path]) -> list[Pat
     return [p for p in sorted_media if p.name not in used_set]
 
 
+def record_used_shots(vehicle_name: str, shots: Sequence[Path]) -> None:
+    """Permanently record shots as used in data/used_shots.json. Call ONLY after successful post."""
+    usage = load_shot_usage()
+    used_list = usage.get(vehicle_name, [])
+    new_used = [p.name for p in shots if p.name not in used_list]
+    if new_used:
+        usage[vehicle_name] = used_list + new_used
+        save_shot_usage(usage)
+        print(f"  [ShotTracker] Permanently recorded {len(new_used)} used shots for {vehicle_name}")
+
+
 def select_diverse_vehicle_shots(
     vehicle_name: str,
     all_media: Sequence[Path],
     needed_count: int = 5,
-    min_required: int = 4
+    min_required: int = 4,
+    record: bool = False
 ) -> list[Path]:
     """
     Given all media files for a vehicle (e.g. shot_1.jpg .. shot_10.jpg or clip_1.mp4 ..),
@@ -69,6 +81,7 @@ def select_diverse_vehicle_shots(
     2. Strict Zero Repetition: Once a shot or clip is posted, it is NEVER repeated.
        If fewer than `min_required` unposted shots remain, an exception is raised.
     3. Natural Sorting: Never sorts 'shot_10' before 'shot_2'.
+    4. Safe Selection: Only records shots to disk if record=True (or via record_used_shots after publish).
     """
     unused = get_unposted_shots(vehicle_name, all_media)
 
@@ -81,12 +94,8 @@ def select_diverse_vehicle_shots(
     actual_count = min(needed_count, len(unused))
     selected = unused[:actual_count]
 
-    # Permanently append newly selected shots to usage history (never pruned, never wrapped)
-    usage = load_shot_usage()
-    used_list = usage.get(vehicle_name, [])
-    new_used = [p.name for p in selected if p.name not in used_list]
-    usage[vehicle_name] = used_list + new_used
-    save_shot_usage(usage)
+    if record:
+        record_used_shots(vehicle_name, selected)
 
     print(f"  [ShotTracker] {vehicle_name}: Selected {len(selected)} unposted shots ({', '.join(p.name for p in selected)}), {len(unused) - len(selected)} remaining unposted")
     return selected

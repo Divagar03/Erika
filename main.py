@@ -1257,17 +1257,19 @@ VEHICLE_SETS_DIR = Path(__file__).parent / "assets" / "vehicles" / "sets"
 VEHICLE_VIDEO_SETS_DIR = Path(__file__).parent / "assets" / "vehicles" / "video_sets"
 VEHICLE_STATE_FILE = Path(__file__).parent / "data" / "vehicle_state.json"
 SHOT_USAGE_FILE = Path(__file__).parent / "data" / "used_shots.json"
+ROTATION_STATE_FILE = Path(__file__).parent / "data" / "rotation_state.json"
 
 try:
-    from shot_tracker import select_diverse_vehicle_shots, get_unposted_shots
+    from shot_tracker import select_diverse_vehicle_shots, get_unposted_shots, record_used_shots
     SHOT_TRACKER_AVAILABLE = True
 except ImportError:
     try:
-        from scripts.shot_tracker import select_diverse_vehicle_shots, get_unposted_shots
+        from scripts.shot_tracker import select_diverse_vehicle_shots, get_unposted_shots, record_used_shots
         SHOT_TRACKER_AVAILABLE = True
     except ImportError:
-        select_diverse_vehicle_shots = lambda name, media, count=5: list(media)[:count]
+        select_diverse_vehicle_shots = lambda name, media, count=5, **kwargs: list(media)[:count]
         get_unposted_shots = lambda name, media: list(media)
+        record_used_shots = lambda name, shots: None
         SHOT_TRACKER_AVAILABLE = False
 REEL_PATTERN_FILE = Path(__file__).parent / "data" / "reel_pattern_state.json"
 JOURNEY_STATE_FILE = Path(__file__).parent / "data" / "journey_state.json"
@@ -1781,6 +1783,202 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
             pass
 
     return chosen_name, selected_shots, _is_bike_set(chosen_name)
+
+
+# ---------------------------------------------------------------------------
+# Master Rotation Engine Integration  (Brand → Model → Colour circular queues)
+# ---------------------------------------------------------------------------
+try:
+    from rotation_engine import (
+        select_next_available_vehicle as _re_select_next_available_vehicle,
+        get_next_selection as _re_get_next_selection,
+        commit_state as _re_commit_state,
+        is_clip_used as _re_is_clip_used,
+    )
+    ROTATION_ENGINE_AVAILABLE = True
+except ImportError:
+    try:
+        from scripts.rotation_engine import (
+            select_next_available_vehicle as _re_select_next_available_vehicle,
+            get_next_selection as _re_get_next_selection,
+            commit_state as _re_commit_state,
+            is_clip_used as _re_is_clip_used,
+        )
+        ROTATION_ENGINE_AVAILABLE = True
+    except ImportError:
+        ROTATION_ENGINE_AVAILABLE = False
+        print("  [RotationEngine] rotation_engine.py not found — using legacy cooldown system.")
+
+# Slug → (brand_key, model_key) mapping for reverse-lookup from asset folder names
+# This maps existing asset folder names to their brand/model in rotation_state.json
+_SLUG_TO_BRAND_MODEL: dict[str, tuple[str, str]] = {
+    "aston_martin_valkyrie":    ("Aston Martin",    "Valkyrie"),
+    "aston_martin_valour":      ("Aston Martin",    "Valour"),
+    "audi_r8_v10":              ("Audi",            "R8 V10 Plus"),
+    "bmw_m2_coupe":             ("BMW",             "M2 Competition"),
+    "bmw_m4_blue":              ("BMW",             "G82 M4"),
+    "bmw_m5_cs":                ("BMW",             "M5 CS"),
+    "bmw_s1000rr":              ("BMW",             "S1000RR"),
+    "bugatti_chiron":           ("Bugatti",         "Chiron"),
+    "bugatti_veyron":           ("Bugatti",         "Veyron"),
+    "ducati_panigale_v4s":      ("Ducati",          "Panigale V4 S"),
+    "ferrari_f80":              ("Ferrari",         "F80"),
+    "ferrari_laferrari":        ("Ferrari",         "LaFerrari"),
+    "ferrari_sf90":             ("Ferrari",         "SF90"),
+    "ford_gt_supercar":         ("Ford",            "GT"),
+    "kawasaki_ninja_h2r":       ("Kawasaki",        "Ninja H2R"),
+    "koenigsegg_jesko":         ("Koenigsegg",      "Jesko"),
+    "lamborghini_aventador_svj":("Lamborghini",     "Aventador SVJ"),
+    "lamborghini_diablo":       ("Lamborghini",     "Diablo"),
+    "lamborghini_revuelto":     ("Lamborghini",     "Revuelto"),
+    "mclaren_p1":               ("McLaren",         "P1"),
+    "mclaren_senna":            ("McLaren",         "Senna"),
+    "mercedes_amg_one":         ("Mercedes-AMG",    "ONE Hypercar"),
+    "nissan_gtr_r35":           ("Nissan",          "GT-R R35"),
+    "pagani_huayra":            ("Pagani",          "Huayra"),
+    "porsche_911_gt3rs":        ("Porsche",         "911 GT3 RS"),
+    "porsche_918_spyder":       ("Porsche",         "918 Spyder"),
+    "porsche_carrera_gt":       ("Porsche",         "Carrera GT"),
+    "white_mustang_sunset":     ("Ford",            "Mustang S550"),
+    "yamaha_yzf_r1m":           ("Yamaha",          "YZF-R1M"),
+}
+
+# Build reverse: (brand_key_lower, model_key_lower) -> slug
+_BRAND_MODEL_TO_SLUG: dict[tuple[str, str], str] = {
+    (b.lower(), m.lower()): slug
+    for slug, (b, m) in _SLUG_TO_BRAND_MODEL.items()
+}
+
+
+def _find_slug_for_brand_model(brand: str, model: str) -> str | None:
+    """Try to find an existing asset folder slug for the given brand/model."""
+    key = (brand.lower(), model.lower())
+    if key in _BRAND_MODEL_TO_SLUG:
+        return _BRAND_MODEL_TO_SLUG[key]
+
+    # Fuzzy: check if brand+model substring matches any slug
+    bm = (brand + " " + model).lower().replace("-", " ").replace("_", " ")
+    for slug in _SLUG_TO_BRAND_MODEL:
+        slug_readable = slug.replace("_", " ")
+        if slug_readable in bm or bm in slug_readable:
+            return slug
+
+    # Try matching slug words against model words
+    model_words = set(model.lower().replace("-", " ").split())
+    brand_words = set(brand.lower().replace("-", " ").split())
+    for slug, (b, m) in _SLUG_TO_BRAND_MODEL.items():
+        b_words = set(b.lower().split())
+        m_words = set(m.lower().replace("-", " ").split())
+        if b_words & brand_words and m_words & model_words:
+            return slug
+    return None
+
+
+# Shared state: populated by _get_vehicle_via_rotation_engine and read by do_reel()
+_ROTATION_BRAND: str = ""
+_ROTATION_MODEL: str = ""
+_ROTATION_COLOUR: str = ""
+_ROTATION_CANDIDATE_STATE: dict | None = None
+
+
+def _get_vehicle_via_rotation_engine(
+    theme_hint: str = ""
+) -> tuple[str, list[Path], bool] | None:
+    """
+    Selects the next vehicle strictly following MASTER PROMPT specifications:
+      - Circular queue of brands (never same brand twice in a row)
+      - Circular queue of models per brand (only repeats after full cycle)
+      - 100% single-car, single-colour lock per reel
+      - Skip Rule: if a model has no unposted clips, stays in same brand queue.
+        If all models of brand fail, advances to next brand in queue.
+      - Pointers/state committed ONLY after successful publish.
+    """
+    global _ROTATION_BRAND, _ROTATION_MODEL, _ROTATION_COLOUR, _ROTATION_CANDIDATE_STATE
+
+    if not ROTATION_ENGINE_AVAILABLE:
+        return None
+
+    # Build available asset dict
+    available_dict: dict[str, list[Path]] = {}
+    if VEHICLE_VIDEO_SETS_DIR.exists():
+        for d in sorted(VEHICLE_VIDEO_SETS_DIR.iterdir()):
+            if d.is_dir():
+                clips = sorted(list(d.glob("clip_*.mp4")))
+                unposted = get_unposted_shots(d.name, clips)
+                if len(unposted) >= 3:
+                    available_dict[d.name] = unposted
+
+    if VEHICLE_SETS_DIR.exists():
+        for d in sorted(VEHICLE_SETS_DIR.iterdir()):
+            if d.is_dir():
+                shots = sorted(list(d.glob("shot_*.jpg")))
+                unposted = get_unposted_shots(d.name, shots)
+                if len(unposted) >= 4:
+                    available_dict[d.name] = unposted
+
+    if not available_dict:
+        return None
+
+    def _is_available(brand: str, model: str, colour: str) -> bool:
+        slug = _find_slug_for_brand_model(brand, model)
+        if not slug or slug not in available_dict:
+            return False
+        raw_shots = available_dict[slug]
+        try:
+            # Check if at least 4 unposted shots exist
+            selected = select_diverse_vehicle_shots(slug, raw_shots, needed_count=5, record=False)
+            if not selected or len(selected) < 4:
+                return False
+            # Verify single-car color cohesion
+            from scripts.color_guard import verify_color_cohesion
+            verify_color_cohesion(selected)
+            return True
+        except Exception:
+            return False
+
+    res = _re_select_next_available_vehicle(_is_available)
+    if not res:
+        print("  [RotationEngine] Notice: No eligible vehicle found in rotation queue. Falling back to legacy.")
+        return None
+
+    brand, model, colour, state_cand = res
+    slug = _find_slug_for_brand_model(brand, model)
+    raw_shots = available_dict[slug]
+    selected = select_diverse_vehicle_shots(slug, raw_shots, needed_count=5, record=False)
+
+    _ROTATION_BRAND = brand
+    _ROTATION_MODEL = model
+    _ROTATION_COLOUR = colour
+    _ROTATION_CANDIDATE_STATE = state_cand
+
+    print(f"  [RotationEngine] Master Selection: {brand} | {model} | {colour} -> folder: '{slug}' ({len(selected)} unposted clips)")
+    return slug, selected, _is_bike_set(slug)
+
+
+def _commit_rotation_state_after_post(post_id: str, clip_hashes: list, source_urls: list, num_clips: int) -> None:
+    """Call after a confirmed successful post to persist rotation state."""
+    global _ROTATION_BRAND, _ROTATION_MODEL, _ROTATION_COLOUR, _ROTATION_CANDIDATE_STATE
+    if not ROTATION_ENGINE_AVAILABLE:
+        return
+    if not _ROTATION_BRAND:
+        return  # Was a legacy selection — nothing to commit
+    try:
+        _re_commit_state(
+            brand=_ROTATION_BRAND,
+            model=_ROTATION_MODEL,
+            colour=_ROTATION_COLOUR,
+            clip_hashes=clip_hashes,
+            source_urls=source_urls,
+            post_id=post_id,
+            num_clips=num_clips,
+            state=_ROTATION_CANDIDATE_STATE
+        )
+        print(f"  [RotationEngine] State committed for post {post_id}: "
+              f"{_ROTATION_BRAND} | {_ROTATION_MODEL} | {_ROTATION_COLOUR}")
+        _ROTATION_BRAND = _ROTATION_MODEL = _ROTATION_COLOUR = ""
+        _ROTATION_CANDIDATE_STATE = None
+    except Exception as exc:
+        print(f"  [RotationEngine] WARNING: commit_state failed: {exc}")
 
 
 # ---------------------------------------------------------------------------
@@ -3064,14 +3262,33 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     print(f"  [Viral Edit Engine] Template selected: '{active_template}'")
 
     hint = custom_prompt if custom_prompt else ""
-    set_name, set_shots, is_bike = get_next_curated_vehicle_set(hint)
+
+    # --- Master Rotation Engine (Brand/Model/Colour circular queues) ---
+    _re_result = None
+    if not hint:  # Only use rotation engine for unattended automated posts
+        _re_result = _get_vehicle_via_rotation_engine(hint)
+
+    if _re_result:
+        set_name, set_shots, is_bike = _re_result
+        # Inject colour from rotation engine into metadata
+        _re_colour = _ROTATION_COLOUR
+        _re_model  = _ROTATION_MODEL
+        _re_brand  = _ROTATION_BRAND
+    else:
+        # Legacy selection (theme-hinted or rotation engine unavailable/exhausted)
+        set_name, set_shots, is_bike = get_next_curated_vehicle_set(hint)
+        _re_colour = ""
+        _re_model  = ""
+        _re_brand  = ""
+
     meta = CURATED_SET_METADATA.get(set_name, {})
     title = meta.get("title", f"{set_name.replace('_', ' ').title()} Supercar Reel")
     hashtags = meta.get("tags") or ["supercars", "hypercars", "carreels", "carlifestyle", "speedhunters", "exoticcars"]
     is_bike = meta.get("is_bike", is_bike)
 
     make_model = meta.get("make_model", set_name.replace("_", " ").title())
-    color = meta.get("color", "")
+    # Use rotation engine colour if available, else fall back to metadata colour
+    color = _re_colour if _re_colour else meta.get("color", "")
     theme_desc = f"Machine: {make_model} in {color}" if color else f"Machine: {make_model}"
 
     prompt = (
@@ -3187,6 +3404,37 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
             brand=SET_BRAND_MAP.get(set_name, ""),
             model=SET_MODEL_MAP.get(set_name, "")
         )
+
+    # ---------------------------------------------------------------------------
+    # Commit State ONLY After Successful Publish (Strict Master Spec Rule 6 & 7)
+    # ---------------------------------------------------------------------------
+    # 1. Permanently record shots as used in used_shots.json
+    try:
+        record_used_shots(set_name, set_shots)
+    except Exception as _su_err:
+        print(f"  [ShotTracker] Notice recording shots: {_su_err}")
+
+    # 2. Compute perceptual hashes and commit Master Rotation Engine state
+    _clip_hashes = []
+    _source_urls = []
+    try:
+        import imagehash
+        from PIL import Image as _PILImg
+        for p in set_shots:
+            if p.suffix.lower() in ('.jpg', '.jpeg', '.png', '.webp'):
+                with _PILImg.open(p) as img:
+                    _clip_hashes.append(str(imagehash.phash(img)))
+            _source_urls.append(p.name)
+    except Exception as _h_err:
+        print(f"  [RotationEngine] Notice on clip hashes: {_h_err}")
+
+    _commit_rotation_state_after_post(
+        post_id=media_id or ts,
+        clip_hashes=_clip_hashes,
+        source_urls=_source_urls,
+        num_clips=len(set_shots)
+    )
+
     _write_daily_summary(env)
 
     files_to_log = [LOG_FILE]
@@ -3203,6 +3451,8 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         files_to_log.append(VEHICLE_STATE_FILE)
     if SHOT_USAGE_FILE.exists():
         files_to_log.append(SHOT_USAGE_FILE)
+    if ROTATION_STATE_FILE.exists():
+        files_to_log.append(ROTATION_STATE_FILE)
     if REEL_PATTERN_FILE.exists():
         files_to_log.append(REEL_PATTERN_FILE)
     if JOURNEY_STATE_FILE.exists():
