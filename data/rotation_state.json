@@ -17,8 +17,8 @@
     "Aston Martin",
     "Mercedes-AMG"
   ],
-  "brand_pointer": 3,
-  "last_brand": "Ferrari",
+  "brand_pointer": 4,
+  "last_brand": "BMW",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -5016,8 +5016,8 @@
         "M5 CS",
         "S1000RR"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "G82 M4",
       "models": {
         "M1": {
           "used_colours": [],
@@ -5070,8 +5070,10 @@
           "unavailable_until_next_cycle": false
         },
         "G82 M4": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "blue"
+          ],
+          "last_colour": "blue",
           "unavailable_until_next_cycle": false
         },
         "E36 M3": {
@@ -12872,6 +12874,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "17917601964509940"
+    },
+    {
+      "timestamp": "2026-11-18T22:17:22.228666Z",
+      "brand": "BMW",
+      "model": "G82 M4",
+      "colour": "blue",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "18032341139916109"
     }
   ]
 }
