@@ -978,6 +978,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "bugatti_veyron",
+      "brand": "bugatti",
+      "model": "veyron",
+      "format": "night_city",
+      "caption_hash": "b1b80cc48c5dca0e",
+      "media_id": "18117598246843282",
+      "yt_id": "3D2uFoE6Gzc",
+      "media_file": "reel_20261118_061545.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-18T06:17:52.425976+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
