@@ -1058,6 +1058,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "aston_martin_valour",
+      "brand": "aston_martin",
+      "model": "valour",
+      "format": "cinematic_slow_mo",
+      "caption_hash": "44b742343026a832",
+      "media_id": "18354856912266177",
+      "yt_id": "uQLv1NCtLwA",
+      "media_file": "reel_20261118_141543.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-18T14:17:37.516767+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
