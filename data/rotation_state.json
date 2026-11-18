@@ -17,26 +17,26 @@
     "Aston Martin",
     "Mercedes-AMG"
   ],
-  "brand_pointer": 0,
-  "last_brand": null,
+  "brand_pointer": 3,
+  "last_brand": "Ferrari",
   "brands": {
     "Bugatti": {
       "model_queue": [
         "Chiron",
         "Veyron"
       ],
-      "model_pointer": 0,
+      "model_pointer": 2,
       "last_model": null,
       "models": {
         "Veyron": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Chiron": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Divo": {
           "used_colours": [],
@@ -344,8 +344,8 @@
         "LaFerrari",
         "SF90"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "F80",
       "models": {
         "F40": {
           "used_colours": [],
@@ -523,8 +523,10 @@
           "unavailable_until_next_cycle": false
         },
         "F80": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "white"
+          ],
+          "last_colour": "white",
           "unavailable_until_next_cycle": false
         },
         "458 Spider": {
@@ -5228,7 +5230,7 @@
       "model_queue": [
         "R8 V10 Plus"
       ],
-      "model_pointer": 0,
+      "model_pointer": 1,
       "last_model": null,
       "models": {
         "Quattro": {
@@ -5264,7 +5266,7 @@
         "R8 V10 Plus": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "R8 GT": {
           "used_colours": [],
@@ -12861,5 +12863,15 @@
   },
   "used_clip_hashes": [],
   "used_source_urls": [],
-  "post_log": []
+  "post_log": [
+    {
+      "timestamp": "2026-11-18T16:17:35.143291Z",
+      "brand": "Ferrari",
+      "model": "F80",
+      "colour": "white",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "17917601964509940"
+    }
+  ]
 }
