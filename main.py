@@ -1408,6 +1408,7 @@ CURATED_ROTATION_ORDER = [
     "nissan_gtr_r35",            # Japanese twin-turbo AWD
     "mercedes_amg_one",          # German F1-derived hybrid hypercar
     "ducati_panigale_v4s",       # Italian MotoGP-derived superbike
+    "bmw_m2_coupe",              # German compact twin-turbo coupe in Zandvoort Blue
     "aston_martin_valour",       # British twin-turbo V12 manual (video)
     "ferrari_laferrari",         # Italian V12 hybrid hypercar trinity
     "porsche_carrera_gt",        # German naturally aspirated V10 icon
@@ -1424,7 +1425,6 @@ CURATED_ROTATION_ORDER = [
     "porsche_918_spyder",        # German hybrid hypercar trinity
     "bmw_m4_blue",               # German twin-turbo coupe in Yas Marina Blue
     "lamborghini_revuelto",      # Italian V12 hybrid flagship
-    "bmw_m2_coupe",              # German compact twin-turbo coupe
     "red_sportscar",             # Crimson roadster (video)
 ]
 
