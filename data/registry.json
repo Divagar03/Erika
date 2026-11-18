@@ -1038,6 +1038,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "bmw_m2_coupe",
+      "brand": "bmw",
+      "model": "m2_coupe",
+      "format": "night_city",
+      "caption_hash": "bee32064c447c98c",
+      "media_id": "18125013449319725",
+      "yt_id": "CA4ibkpJxyQ",
+      "media_file": "reel_20261118_121545.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-18T12:17:11.308048+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
