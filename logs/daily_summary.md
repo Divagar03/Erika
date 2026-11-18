@@ -1,13 +1,10 @@
-# Daily Summary — 2026-11-17
+# Daily Summary — 2026-11-18
 
-- **Posts published today:** 4
+- **Posts published today:** 1
 - **Status:** Operational (12 Reels/Day schedule)
 
 ## Today's Published Reels
 | Time (UTC) | Vehicle Set | Format | IG Media ID | YouTube Short ID |
 | :--- | :--- | :--- | :--- | :--- |
-| 04:30 | nissan_gtr_r35 | rolling_shots | 18184146505436507 | QMPQL4MxIi0 |
-| 11:58 | ducati_panigale_v4s | rolling_shots | 18226117195341676 | 7POPWqkEkbg |
-| 15:56 | audi_r8_v10 | rolling_shots | 18148249252581324 | sFU66FTnBTg |
-| 23:31 | ferrari_sf90 | cinematic_slow_mo | 18121311626059415 | bHvRAlPZPNE |
+| 05:30 | mclaren_senna | engine_sound_showcase | 18642504082050016 | w5QNDugdoHU |
 
