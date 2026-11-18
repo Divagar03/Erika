@@ -1519,13 +1519,13 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                 if len(unposted_clips) >= 3:
                     available_dict[d.name] = unposted_clips
 
-    # 2. Curated DSLR photo sets (STRICT ZERO-REPEAT: requires >= 5 unposted shots)
+    # 2. Curated DSLR photo sets (STRICT ZERO-REPEAT: requires >= 4 pure unposted shots)
     if VEHICLE_SETS_DIR.exists():
         for d in sorted(VEHICLE_SETS_DIR.iterdir()):
             if d.is_dir():
                 shots = sorted(list(d.glob("shot_*.jpg")))
                 unposted_shots = get_unposted_shots(d.name, shots)
-                if len(unposted_shots) >= 5:
+                if len(unposted_shots) >= 4:
                     available_dict[d.name] = unposted_shots
 
     if not available_dict:
@@ -1705,6 +1705,11 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                 parents = set(p.parent for p in selected_shots)
                 if len(parents) > 1:
                     raise ValueError(f"Single-car spec cohesion violated! Received shots from multiple folders: {parents}")
+                try:
+                    from scripts.color_guard import verify_color_cohesion
+                    verify_color_cohesion(selected_shots)
+                except ImportError:
+                    pass
             return chosen_name, selected_shots, _is_bike_set(chosen_name)
 
     # 2. General Selection with strict Brand and Model cooldowns:
@@ -1769,6 +1774,11 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         parents = set(p.parent for p in selected_shots)
         if len(parents) > 1:
             raise ValueError(f"Single-car spec cohesion violated! Received shots from multiple folders: {parents}")
+        try:
+            from scripts.color_guard import verify_color_cohesion
+            verify_color_cohesion(selected_shots)
+        except ImportError:
+            pass
 
     return chosen_name, selected_shots, _is_bike_set(chosen_name)
 

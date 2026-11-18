@@ -1,112 +1,85 @@
 {
-  "bmw_s1000rr": [
-    "shot_5.jpg",
-    "shot_6.jpg",
-    "shot_7.jpg",
-    "shot_8.jpg",
-    "shot_9.jpg"
-  ],
   "bugatti_chiron": [
     "shot_1.jpg",
-    "shot_10.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
     "shot_4.jpg"
   ],
   "kawasaki_ninja_h2r": [
     "shot_1.jpg",
-    "shot_10.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
     "shot_4.jpg"
   ],
   "koenigsegg_jesko": [
     "shot_1.jpg",
-    "shot_10.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
     "shot_4.jpg"
   ],
   "yamaha_yzf_r1m": [
     "shot_1.jpg",
-    "shot_10.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
     "shot_4.jpg"
   ],
   "pagani_huayra": [
     "shot_1.jpg",
-    "shot_10.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
     "shot_4.jpg"
   ],
   "mclaren_p1": [
     "shot_1.jpg",
-    "shot_10.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
     "shot_4.jpg"
   ],
   "mercedes_amg_one": [
     "shot_1.jpg",
-    "shot_10.jpg",
     "shot_2.jpg",
-    "shot_3.jpg",
-    "shot_4.jpg"
+    "shot_3.jpg"
   ],
   "ferrari_laferrari": [
     "shot_1.jpg",
-    "shot_10.jpg",
-    "shot_2.jpg",
-    "shot_3.jpg",
-    "shot_4.jpg"
+    "shot_2.jpg"
   ],
   "porsche_carrera_gt": [
     "shot_1.jpg",
-    "shot_10.jpg",
-    "shot_2.jpg",
-    "shot_3.jpg",
-    "shot_4.jpg"
+    "shot_2.jpg"
   ],
   "lamborghini_aventador_svj": [
     "shot_1.jpg",
-    "shot_10.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
     "shot_4.jpg"
   ],
   "ford_gt_supercar": [
     "shot_1.jpg",
-    "shot_10.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
     "shot_4.jpg"
   ],
   "bmw_m5_cs": [
     "shot_1.jpg",
-    "shot_10.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
     "shot_4.jpg"
   ],
   "aston_martin_valkyrie": [
     "shot_1.jpg",
-    "shot_10.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
     "shot_4.jpg"
   ],
   "nissan_gtr_r35": [
     "shot_1.jpg",
-    "shot_10.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
     "shot_4.jpg"
   ],
   "ducati_panigale_v4s": [
     "shot_1.jpg",
-    "shot_10.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
     "shot_4.jpg"
@@ -115,8 +88,7 @@
     "shot_1.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
-    "shot_4.jpg",
-    "shot_5.jpg"
+    "shot_4.jpg"
   ],
   "ferrari_sf90": [
     "shot_1.jpg",
@@ -129,14 +101,12 @@
     "shot_1.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
-    "shot_4.jpg",
-    "shot_5.jpg"
+    "shot_4.jpg"
   ],
   "bugatti_veyron": [
     "shot_1.jpg",
     "shot_2.jpg",
     "shot_3.jpg",
-    "shot_4.jpg",
-    "shot_5.jpg"
+    "shot_4.jpg"
   ]
 }

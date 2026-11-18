@@ -57,27 +57,29 @@ def get_unposted_shots(vehicle_name: str, all_media: Sequence[Path]) -> list[Pat
 def select_diverse_vehicle_shots(
     vehicle_name: str,
     all_media: Sequence[Path],
-    needed_count: int = 5
+    needed_count: int = 5,
+    min_required: int = 4
 ) -> list[Path]:
     """
     Given all media files for a vehicle (e.g. shot_1.jpg .. shot_10.jpg or clip_1.mp4 ..),
-    select `needed_count` files that have NEVER been posted before.
+    select up to `needed_count` (at least `min_required`) files that have NEVER been posted before.
     
     Guarantees:
-    1. 100% Single-Vehicle Cohesion: All selected files belong strictly to this vehicle.
+    1. 100% Single-Vehicle & Single-Color Cohesion: All selected files belong strictly to this vehicle.
     2. Strict Zero Repetition: Once a shot or clip is posted, it is NEVER repeated.
-       If fewer than `needed_count` unposted shots remain, an exception is raised.
+       If fewer than `min_required` unposted shots remain, an exception is raised.
     3. Natural Sorting: Never sorts 'shot_10' before 'shot_2'.
     """
     unused = get_unposted_shots(vehicle_name, all_media)
 
-    if len(unused) < needed_count:
+    if len(unused) < min_required:
         raise ValueError(
             f"[ShotTracker] Strict zero-repeat policy: '{vehicle_name}' has only {len(unused)} "
-            f"unposted shots left (needed {needed_count}). Posted shots are NEVER repeated."
+            f"unposted shots left (needed minimum {min_required}). Posted shots are NEVER repeated."
         )
 
-    selected = unused[:needed_count]
+    actual_count = min(needed_count, len(unused))
+    selected = unused[:actual_count]
 
     # Permanently append newly selected shots to usage history (never pruned, never wrapped)
     usage = load_shot_usage()

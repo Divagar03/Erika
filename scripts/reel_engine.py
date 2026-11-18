@@ -181,6 +181,16 @@ def build_trending_reel(
         if len(parents) > 1:
             raise ValueError(f"Single-car spec cohesion violated! Received media from multiple folders: {parents}")
 
+    # Guardrail: Verify 100% single-color spec cohesion. No mixing of colors across cuts in a reel!
+    try:
+        from color_guard import verify_color_cohesion
+    except ImportError:
+        try:
+            from scripts.color_guard import verify_color_cohesion
+        except ImportError:
+            verify_color_cohesion = lambda paths: None
+    verify_color_cohesion(media_paths)
+
     phonk_track = pick_trending_phonk_track()
     engine_sfx = pick_authentic_engine_sfx(vehicle_name, is_bike=is_bike)
 
