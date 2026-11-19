@@ -17,8 +17,8 @@
     "Aston Martin",
     "Mercedes-AMG"
   ],
-  "brand_pointer": 8,
-  "last_brand": "Lamborghini",
+  "brand_pointer": 10,
+  "last_brand": "Porsche",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -189,7 +189,7 @@
       "model_queue": [
         "Jesko"
       ],
-      "model_pointer": 0,
+      "model_pointer": 1,
       "last_model": null,
       "models": {
         "Agera RS": {
@@ -200,7 +200,7 @@
         "Jesko": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Regera": {
           "used_colours": [],
@@ -940,8 +940,8 @@
         "918 Spyder",
         "Carrera GT"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 2,
+      "last_model": "918 Spyder",
       "models": {
         "911 (all generations)": {
           "used_colours": [],
@@ -949,8 +949,10 @@
           "unavailable_until_next_cycle": false
         },
         "918 Spyder": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "white"
+          ],
+          "last_colour": "white",
           "unavailable_until_next_cycle": false
         },
         "Carrera GT": {
@@ -966,7 +968,7 @@
         "911 GT3 RS": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "911 Dakar": {
           "used_colours": [],
@@ -12894,6 +12896,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "18149631652587959"
+    },
+    {
+      "timestamp": "2026-11-19T10:16:40.383431Z",
+      "brand": "Porsche",
+      "model": "918 Spyder",
+      "colour": "white",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "18130213190486012"
     }
   ]
 }
