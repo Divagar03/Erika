@@ -17,8 +17,8 @@
     "Aston Martin",
     "Mercedes-AMG"
   ],
-  "brand_pointer": 4,
-  "last_brand": "BMW",
+  "brand_pointer": 8,
+  "last_brand": "Lamborghini",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -273,7 +273,7 @@
       "model_queue": [
         "Huayra"
       ],
-      "model_pointer": 0,
+      "model_pointer": 1,
       "last_model": null,
       "models": {
         "Zonda": {
@@ -284,7 +284,7 @@
         "Huayra": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Utopia": {
           "used_colours": [],
@@ -632,8 +632,8 @@
         "Diablo",
         "Revuelto"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 2,
+      "last_model": "Diablo",
       "models": {
         "Countach": {
           "used_colours": [],
@@ -641,8 +641,10 @@
           "unavailable_until_next_cycle": false
         },
         "Diablo": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "pink"
+          ],
+          "last_colour": "pink",
           "unavailable_until_next_cycle": false
         },
         "Murci\u00e9lago": {
@@ -733,7 +735,7 @@
         "Aventador SVJ": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Aventador S": {
           "used_colours": [],
@@ -812,7 +814,7 @@
         "P1",
         "Senna"
       ],
-      "model_pointer": 0,
+      "model_pointer": 2,
       "last_model": null,
       "models": {
         "F1": {
@@ -823,12 +825,12 @@
         "P1": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Senna": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "720S": {
           "used_colours": [],
@@ -12852,13 +12854,13 @@
       "model_queue": [
         "YZF-R1M"
       ],
-      "model_pointer": 0,
+      "model_pointer": 1,
       "last_model": null,
       "models": {
         "YZF-R1M": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         }
       }
     }
@@ -12883,6 +12885,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "18032341139916109"
+    },
+    {
+      "timestamp": "2026-11-19T00:17:48.818460Z",
+      "brand": "Lamborghini",
+      "model": "Diablo",
+      "colour": "pink",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "17941365936122027"
     }
   ]
 }

@@ -1118,6 +1118,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "lamborghini_diablo",
+      "brand": "lamborghini",
+      "model": "diablo",
+      "format": "cinematic_slow_mo",
+      "caption_hash": "1c8e3186ad0b69e3",
+      "media_id": "17941365936122027",
+      "yt_id": "e9tCkwmIC8E",
+      "media_file": "reel_20261119_001547.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-19T00:17:48.817421+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
