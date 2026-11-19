@@ -642,9 +642,9 @@
         },
         "Diablo": {
           "used_colours": [
-            "pink"
+            "grey"
           ],
-          "last_colour": "pink",
+          "last_colour": "grey",
           "unavailable_until_next_cycle": false
         },
         "Murci\u00e9lago": {
@@ -12887,13 +12887,13 @@
       "post_id": "18032341139916109"
     },
     {
-      "timestamp": "2026-11-19T00:17:48.818460Z",
+      "timestamp": "2026-11-19T00:20:31.540307Z",
       "brand": "Lamborghini",
       "model": "Diablo",
-      "colour": "pink",
+      "colour": "grey",
       "num_clips": 4,
       "clip_hashes": [],
-      "post_id": "17941365936122027"
+      "post_id": "18149631652587959"
     }
   ]
 }

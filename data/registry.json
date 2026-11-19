@@ -1138,6 +1138,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "lamborghini_diablo",
+      "brand": "lamborghini",
+      "model": "diablo",
+      "format": "night_city",
+      "caption_hash": "e611ede47e606702",
+      "media_id": "18149631652587959",
+      "yt_id": "eydnpJQoNUc",
+      "media_file": "reel_20261119_001836.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-19T00:20:31.539065+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

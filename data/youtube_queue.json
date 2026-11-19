@@ -2,7 +2,7 @@
   "date": "2026-11-19",
   "source_date": "2026-11-18",
   "target_count": 10,
-  "published_today": 1,
+  "published_today": 2,
   "queue": [
     {
       "id": "reel_20261118_052852",
@@ -21,9 +21,9 @@
       "title": "Bugatti Veyron • Supercar Reel #Shorts",
       "caption": "",
       "set_name": "bugatti_veyron",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "eydnpJQoNUc",
+      "published_at": "2026-11-19T00:20:31.535873+00:00",
       "error": null
     },
     {
