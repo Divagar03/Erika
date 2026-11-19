@@ -1178,6 +1178,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "white_mustang_sunset",
+      "brand": "ford",
+      "model": "mustang_gt",
+      "format": "night_city",
+      "caption_hash": "3fb1451036eec8c0",
+      "media_id": "18112137296205125",
+      "yt_id": "0Ci07Stk_PA",
+      "media_file": "reel_20261119_121609.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-19T12:18:13.582227+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

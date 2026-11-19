@@ -17,8 +17,8 @@
     "Aston Martin",
     "Mercedes-AMG"
   ],
-  "brand_pointer": 10,
-  "last_brand": "Porsche",
+  "brand_pointer": 13,
+  "last_brand": "Ford",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -2055,13 +2055,13 @@
         "GT",
         "Mustang S550"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 2,
+      "last_model": "Mustang S550",
       "models": {
         "GT": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Model T": {
           "used_colours": [],
@@ -2174,8 +2174,10 @@
           "unavailable_until_next_cycle": false
         },
         "Mustang S550": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "red"
+          ],
+          "last_colour": "red",
           "unavailable_until_next_cycle": false
         },
         "Mustang S650": {
@@ -3626,7 +3628,7 @@
       "model_queue": [
         "GT-R R35"
       ],
-      "model_pointer": 0,
+      "model_pointer": 1,
       "last_model": null,
       "models": {
         "Skyline GT-R R32": {
@@ -3647,7 +3649,7 @@
         "GT-R R35": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "240Z/Fairlady Z": {
           "used_colours": [],
@@ -12842,13 +12844,13 @@
       "model_queue": [
         "Ninja H2R"
       ],
-      "model_pointer": 0,
+      "model_pointer": 1,
       "last_model": null,
       "models": {
         "Ninja H2R": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         }
       }
     },
@@ -12905,6 +12907,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "18130213190486012"
+    },
+    {
+      "timestamp": "2026-11-19T12:18:13.583281Z",
+      "brand": "Ford",
+      "model": "Mustang S550",
+      "colour": "red",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "18112137296205125"
     }
   ]
 }
