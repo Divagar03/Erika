@@ -79,6 +79,18 @@ def get_or_create_daily_youtube_queue() -> dict:
     candidates: list[dict] = []
     seen_media: set[str] = set()
 
+    # Pre-index captions from log.json to ensure rich viral captions are preserved
+    log_captions: dict[str, str] = {}
+    if LOG_FILE.exists():
+        try:
+            with open(LOG_FILE, encoding="utf-8") as f:
+                logs = json.load(f)
+            for l in logs:
+                if l.get("status") == "ok" and l.get("media"):
+                    log_captions[l.get("media")] = l.get("caption", "")
+        except Exception as e:
+            print(f"  [YouTube Queue] Notice reading log captions: {e}")
+
     if REGISTRY_FILE.exists():
         try:
             with open(REGISTRY_FILE, encoding="utf-8") as f:
@@ -88,13 +100,14 @@ def get_or_create_daily_youtube_queue() -> dict:
                     m_file = p.get("media_file", "")
                     if m_file and m_file not in seen_media:
                         seen_media.add(m_file)
+                        cap = p.get("caption", "") or log_captions.get(m_file, "")
                         candidates.append({
                             "id": Path(m_file).stem,
                             "media_file": m_file,
                             "publish_timestamp": p.get("publish_timestamp", ""),
                             "set_name": p.get("set_name", ""),
                             "format": p.get("format", "reel"),
-                            "caption": p.get("caption", ""),
+                            "caption": cap,
                             "yt_id": p.get("yt_id"),
                             "metrics": p.get("metrics", {})
                         })
@@ -123,10 +136,14 @@ def get_or_create_daily_youtube_queue() -> dict:
         except Exception as e:
             print(f"  [YouTube Queue] Notice reading log: {e}")
 
-    # Filter strictly for yesterday's reels
+    # STRICT RULE: Only include reels that were published to Instagram YESTERDAY
+    # Never pull older archives, banned models (bmw_m4_black), or outdated formats
     yesterday_reels = [
         c for c in candidates
         if c.get("publish_timestamp", "").startswith(yesterday_str)
+        and "bmw_m4_black" not in c.get("set_name", "").lower()
+        and "ug studies" not in c.get("caption", "").lower()
+        and "seeking help" not in c.get("caption", "").lower()
     ]
 
     # Rank by metrics score: 0.4*views + 0.3*shares + 0.2*saves + 0.1*likes
@@ -141,17 +158,9 @@ def get_or_create_daily_youtube_queue() -> dict:
 
     yesterday_ranked = sorted(yesterday_reels, key=score_item, reverse=True)
 
-    # Pick up to 10 from yesterday
+    # Pick up to MAX_DAILY_YOUTUBE_SHORTS (default 10) strictly from yesterday
+    # If yesterday had fewer than 10, queue ONLY those available (never backfill from old archives!)
     selected = yesterday_ranked[:MAX_DAILY_YOUTUBE_SHORTS]
-
-    # If fewer than 10 existed yesterday, fill from recent unposted to reach 10
-    if len(selected) < MAX_DAILY_YOUTUBE_SHORTS:
-        remaining_needed = MAX_DAILY_YOUTUBE_SHORTS - len(selected)
-        other_candidates = [
-            c for c in reversed(candidates)
-            if c not in selected and not c.get("yt_id")
-        ]
-        selected += other_candidates[:remaining_needed]
 
     # Build queue entries with clean metadata
     queue_items = []
@@ -172,12 +181,13 @@ def get_or_create_daily_youtube_queue() -> dict:
     new_queue = {
         "date": today_str,
         "source_date": yesterday_str,
-        "target_count": MAX_DAILY_YOUTUBE_SHORTS,
+        "target_count": len(queue_items),
         "published_today": 0,
         "queue": queue_items
     }
     save_youtube_queue(new_queue)
-    print(f"  [YouTube Queue] Successfully queued {len(queue_items)} Shorts for {today_str}.")
+    print(f"  [YouTube Queue] Successfully queued {len(queue_items)} Shorts for {today_str} (Source: {yesterday_str} Reels).")
+    return new_queue
     return new_queue
 
 
