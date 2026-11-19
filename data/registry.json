@@ -1198,6 +1198,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "lamborghini_revuelto",
+      "brand": "lamborghini",
+      "model": "revuelto",
+      "format": "night_city",
+      "caption_hash": "01df32a8f3114579",
+      "media_id": "18083930042727402",
+      "yt_id": "c5b5nZ5kJps",
+      "media_file": "reel_20261119_141558.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-19T14:17:37.789417+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

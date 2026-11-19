@@ -1,24 +1,24 @@
 {
   "brand_queue": [
-    "Bugatti",
     "Audi",
-    "Ferrari",
-    "BMW",
     "Yamaha",
-    "McLaren",
-    "Pagani",
-    "Lamborghini",
+    "Ferrari",
     "Koenigsegg",
-    "Porsche",
-    "Kawasaki",
-    "Nissan",
+    "BMW",
     "Ford",
     "Ducati",
+    "Kawasaki",
+    "Lamborghini",
+    "Nissan",
+    "Porsche",
+    "McLaren",
+    "Mercedes-AMG",
+    "Bugatti",
     "Aston Martin",
-    "Mercedes-AMG"
+    "Pagani"
   ],
-  "brand_pointer": 13,
-  "last_brand": "Ford",
+  "brand_pointer": 9,
+  "last_brand": "Lamborghini",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -340,11 +340,11 @@
     },
     "Ferrari": {
       "model_queue": [
-        "F80",
         "LaFerrari",
+        "F80",
         "SF90"
       ],
-      "model_pointer": 1,
+      "model_pointer": 2,
       "last_model": "F80",
       "models": {
         "F40": {
@@ -365,12 +365,12 @@
         "LaFerrari": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "SF90": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "296 GTB": {
           "used_colours": [],
@@ -527,7 +527,7 @@
             "white"
           ],
           "last_colour": "white",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "458 Spider": {
           "used_colours": [],
@@ -632,8 +632,8 @@
         "Diablo",
         "Revuelto"
       ],
-      "model_pointer": 2,
-      "last_model": "Diablo",
+      "model_pointer": 3,
+      "last_model": "Revuelto",
       "models": {
         "Countach": {
           "used_colours": [],
@@ -663,8 +663,10 @@
           "unavailable_until_next_cycle": false
         },
         "Revuelto": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "orange"
+          ],
+          "last_colour": "orange",
           "unavailable_until_next_cycle": false
         },
         "Si\u00e1n": {
@@ -1182,13 +1184,13 @@
         "Valkyrie",
         "Valour"
       ],
-      "model_pointer": 0,
+      "model_pointer": 2,
       "last_model": null,
       "models": {
         "Valkyrie": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "DB11": {
           "used_colours": [],
@@ -1308,7 +1310,7 @@
         "Valour": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Valkyrie AMR Pro": {
           "used_colours": [],
@@ -5017,12 +5019,12 @@
     },
     "BMW": {
       "model_queue": [
-        "G82 M4",
         "M2 Competition",
-        "M5 CS",
-        "S1000RR"
+        "S1000RR",
+        "G82 M4",
+        "M5 CS"
       ],
-      "model_pointer": 1,
+      "model_pointer": 3,
       "last_model": "G82 M4",
       "models": {
         "M1": {
@@ -5080,7 +5082,7 @@
             "blue"
           ],
           "last_colour": "blue",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "E36 M3": {
           "used_colours": [],
@@ -5090,7 +5092,7 @@
         "M2 Competition": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "M2 CS": {
           "used_colours": [],
@@ -5110,7 +5112,7 @@
         "M5 CS": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "E39 M5": {
           "used_colours": [],
@@ -5230,7 +5232,7 @@
         "S1000RR": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         }
       }
     },
@@ -7833,7 +7835,7 @@
       "model_queue": [
         "ONE Hypercar"
       ],
-      "model_pointer": 0,
+      "model_pointer": 1,
       "last_model": null,
       "models": {
         "Project One": {
@@ -7844,7 +7846,7 @@
         "ONE Hypercar": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "AMG GT Black Series": {
           "used_colours": [],
@@ -12830,13 +12832,13 @@
       "model_queue": [
         "Panigale V4 S"
       ],
-      "model_pointer": 0,
+      "model_pointer": 1,
       "last_model": null,
       "models": {
         "Panigale V4 S": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         }
       }
     },
@@ -12916,6 +12918,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "18112137296205125"
+    },
+    {
+      "timestamp": "2026-11-19T14:17:37.791025Z",
+      "brand": "Lamborghini",
+      "model": "Revuelto",
+      "colour": "orange",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "18083930042727402"
     }
   ]
 }
