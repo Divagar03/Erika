@@ -17,16 +17,16 @@
     "Aston Martin",
     "Pagani"
   ],
-  "brand_pointer": 11,
-  "last_brand": "Porsche",
+  "brand_pointer": 14,
+  "last_brand": "Bugatti",
   "brands": {
     "Bugatti": {
       "model_queue": [
-        "Chiron",
-        "Veyron"
+        "Veyron",
+        "Chiron"
       ],
       "model_pointer": 2,
-      "last_model": null,
+      "last_model": "Chiron",
       "models": {
         "Veyron": {
           "used_colours": [],
@@ -34,9 +34,11 @@
           "unavailable_until_next_cycle": true
         },
         "Chiron": {
-          "used_colours": [],
-          "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "used_colours": [
+            "blue"
+          ],
+          "last_colour": "blue",
+          "unavailable_until_next_cycle": false
         },
         "Divo": {
           "used_colours": [],
@@ -12937,6 +12939,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "18143258782620454"
+    },
+    {
+      "timestamp": "2026-11-20T08:17:59.437106Z",
+      "brand": "Bugatti",
+      "model": "Chiron",
+      "colour": "blue",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "17915570091558934"
     }
   ]
 }
