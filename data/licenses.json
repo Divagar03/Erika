@@ -1,7 +1,6 @@
 {
   "bugatti_chiron": {
     "display_name": "Bugatti Chiron",
-    "brand": "Bugatti",
     "shots": [
       {
         "file": "shot_5.jpg",
@@ -62,6 +61,46 @@
         "license": "CC BY-SA 4.0",
         "artist": "Matti Blume",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Bugatti_Chiron,_IAA_2017,_Frankfurt_(1Y7A2857).jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2018 Blue Bugatti Chiron at Grand Basel (Ank Kumar) 01.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/11/2018_Blue_Bugatti_Chiron_at_Grand_Basel_%28Ank_Kumar%29_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/2018_Blue_Bugatti_Chiron_at_Grand_Basel_%28Ank_Kumar%29_01.jpg/1280px-2018_Blue_Bugatti_Chiron_at_Grand_Basel_%28Ank_Kumar%29_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Ank Kumar",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2018_Blue_Bugatti_Chiron_at_Grand_Basel_(Ank_Kumar)_01.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2018 Blue Bugatti Chiron at Grand Basel (Ank Kumar) 02.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/d1/2018_Blue_Bugatti_Chiron_at_Grand_Basel_%28Ank_Kumar%29_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/2018_Blue_Bugatti_Chiron_at_Grand_Basel_%28Ank_Kumar%29_02.jpg/1280px-2018_Blue_Bugatti_Chiron_at_Grand_Basel_%28Ank_Kumar%29_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Ank Kumar",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2018_Blue_Bugatti_Chiron_at_Grand_Basel_(Ank_Kumar)_02.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2018 Blue Bugatti Chiron at Grand Basel (Ank Kumar) 03.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/7/77/2018_Blue_Bugatti_Chiron_at_Grand_Basel_%28Ank_Kumar%29_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/2018_Blue_Bugatti_Chiron_at_Grand_Basel_%28Ank_Kumar%29_03.jpg/1280px-2018_Blue_Bugatti_Chiron_at_Grand_Basel_%28Ank_Kumar%29_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Ank Kumar",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2018_Blue_Bugatti_Chiron_at_Grand_Basel_(Ank_Kumar)_03.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2018 Blue Bugatti Chiron at Grand Basel (Ank Kumar) 04.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/9/94/2018_Blue_Bugatti_Chiron_at_Grand_Basel_%28Ank_Kumar%29_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/2018_Blue_Bugatti_Chiron_at_Grand_Basel_%28Ank_Kumar%29_04.jpg/1280px-2018_Blue_Bugatti_Chiron_at_Grand_Basel_%28Ank_Kumar%29_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Ank Kumar",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2018_Blue_Bugatti_Chiron_at_Grand_Basel_(Ank_Kumar)_04.jpg"
       }
     ]
   },
@@ -173,7 +212,6 @@
   },
   "pagani_huayra": {
     "display_name": "Pagani Huayra",
-    "brand": "Pagani",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -274,12 +312,61 @@
         "license": "CC BY-SA 4.0",
         "artist": "Calreyn88",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:2013_Pagani_Huayra_VEdizione_3.jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2017 Pagani Huayra BC Macchina Volante in Greenwich, front right.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/7/7f/2017_Pagani_Huayra_BC_Macchina_Volante_in_Greenwich%2C_front_right.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/2017_Pagani_Huayra_BC_Macchina_Volante_in_Greenwich%2C_front_right.jpg/1280px-2017_Pagani_Huayra_BC_Macchina_Volante_in_Greenwich%2C_front_right.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "Mr.choppers",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2017_Pagani_Huayra_BC_Macchina_Volante_in_Greenwich,_front_right.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2017 Pagani Huayra BC Macchina Volante in Greenwich, right side.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/9/98/2017_Pagani_Huayra_BC_Macchina_Volante_in_Greenwich%2C_right_side.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/2017_Pagani_Huayra_BC_Macchina_Volante_in_Greenwich%2C_right_side.jpg/1280px-2017_Pagani_Huayra_BC_Macchina_Volante_in_Greenwich%2C_right_side.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "Mr.choppers",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2017_Pagani_Huayra_BC_Macchina_Volante_in_Greenwich,_right_side.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2017 Pagani Huayra BC in Blu Francia, front left.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/0c/2017_Pagani_Huayra_BC_in_Blu_Francia%2C_front_left.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/2017_Pagani_Huayra_BC_in_Blu_Francia%2C_front_left.jpg/1280px-2017_Pagani_Huayra_BC_in_Blu_Francia%2C_front_left.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "Mr.choppers",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2017_Pagani_Huayra_BC_in_Blu_Francia,_front_left.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2017 Pagani Huayra BC in Blu Francia, rear right.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/9/95/2017_Pagani_Huayra_BC_in_Blu_Francia%2C_rear_right.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/2017_Pagani_Huayra_BC_in_Blu_Francia%2C_rear_right.jpg/1280px-2017_Pagani_Huayra_BC_in_Blu_Francia%2C_rear_right.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "Mr.choppers",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2017_Pagani_Huayra_BC_in_Blu_Francia,_rear_right.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2020 Pagani Huayra Roadster BC in Blue and Carbon Fibre, front right (Greenwich 2024).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8f/2020_Pagani_Huayra_Roadster_BC_in_Blue_and_Carbon_Fibre%2C_front_right_%28Greenwich_2024%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/2020_Pagani_Huayra_Roadster_BC_in_Blue_and_Carbon_Fibre%2C_front_right_%28Greenwich_2024%29.jpg/1280px-2020_Pagani_Huayra_Roadster_BC_in_Blue_and_Carbon_Fibre%2C_front_right_%28Greenwich_2024%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "Mr.choppers",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2020_Pagani_Huayra_Roadster_BC_in_Blue_and_Carbon_Fibre,_front_right_(Greenwich_2024).jpg"
       }
     ]
   },
   "mclaren_p1": {
     "display_name": "McLaren P1",
-    "brand": "McLaren",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -380,12 +467,51 @@
         "license": "CC BY-SA 4.0",
         "artist": "MrWalkr",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:2013_McLaren_P1.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:McLaren P1 GTR Senna Prototype 01.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/McLaren_P1_GTR_Senna_Prototype_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/McLaren_P1_GTR_Senna_Prototype_01.jpg/1280px-McLaren_P1_GTR_Senna_Prototype_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Ank kumar",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:McLaren_P1_GTR_Senna_Prototype_01.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:McLaren P1 GTR Senna Prototype 03.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/McLaren_P1_GTR_Senna_Prototype_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/McLaren_P1_GTR_Senna_Prototype_03.jpg/1280px-McLaren_P1_GTR_Senna_Prototype_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Ank kumar",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:McLaren_P1_GTR_Senna_Prototype_03.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:McLaren P1 GTR Senna Prototype 04.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/2/23/McLaren_P1_GTR_Senna_Prototype_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/McLaren_P1_GTR_Senna_Prototype_04.jpg/1280px-McLaren_P1_GTR_Senna_Prototype_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Ank kumar",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:McLaren_P1_GTR_Senna_Prototype_04.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:McLaren P1 GTR Senna Prototype 05.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/McLaren_P1_GTR_Senna_Prototype_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/McLaren_P1_GTR_Senna_Prototype_05.jpg/1280px-McLaren_P1_GTR_Senna_Prototype_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Ank kumar",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:McLaren_P1_GTR_Senna_Prototype_05.jpg"
       }
     ]
   },
   "ferrari_laferrari": {
     "display_name": "Ferrari LaFerrari",
-    "brand": "Ferrari",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -434,7 +560,7 @@
         "url": "https://upload.wikimedia.org/wikipedia/commons/9/94/Ferrari_LaFerrari_at_the_Ferrari_museum.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
         "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Ferrari_LaFerrari_at_the_Ferrari_museum.jpg/1280px-Ferrari_LaFerrari_at_the_Ferrari_museum.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "license": "CC BY-SA 4.0",
-        "artist": "Maty\u00e1\u0161 Sola\u0159\u00edk",
+        "artist": "Matyáš Solařík",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Ferrari_LaFerrari_at_the_Ferrari_museum.jpg"
       },
       {
@@ -486,12 +612,61 @@
         "license": "CC BY-SA 4.0",
         "artist": "Ank Kumar",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Ferrari_LaFerrari_at_Grand_Basel_2018_11.jpg"
+      },
+      {
+        "file": "shot_3.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:1985 Ferrari GTB Berlinetta (6322045917).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/9/93/1985_Ferrari_GTB_Berlinetta_%286322045917%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/1985_Ferrari_GTB_Berlinetta_%286322045917%29.jpg/1280px-1985_Ferrari_GTB_Berlinetta_%286322045917%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 2.0",
+        "artist": "Hugh Llewelyn",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:1985_Ferrari_GTB_Berlinetta_(6322045917).jpg"
+      },
+      {
+        "file": "shot_4.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2015 Ferrari FXX-K RED.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/47/2015_Ferrari_FXX-K_RED.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/2015_Ferrari_FXX-K_RED.jpg/1280px-2015_Ferrari_FXX-K_RED.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 3.0 it",
+        "artist": "Edvvc",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2015_Ferrari_FXX-K_RED.jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Ferrari 599 GTO 2010.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/36/Ferrari_599_GTO_2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Ferrari_599_GTO_2010.jpg/1280px-Ferrari_599_GTO_2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Alexandre Prevot",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Ferrari_599_GTO_2010.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Ferrari LaFerrari (53091285826).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Ferrari_LaFerrari_%2853091285826%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Ferrari_LaFerrari_%2853091285826%29.jpg/1280px-Ferrari_LaFerrari_%2853091285826%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 2.0",
+        "artist": "Alexandre Prevot from Nancy, France",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Ferrari_LaFerrari_(53091285826).jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Ferrari LaFerrari - Rétromobile 2022.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/54/Ferrari_LaFerrari_-_R%C3%A9tromobile_2022.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Ferrari_LaFerrari_-_R%C3%A9tromobile_2022.jpg/1280px-Ferrari_LaFerrari_-_R%C3%A9tromobile_2022.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Y.Leclercq©",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Ferrari_LaFerrari_-_R%C3%A9tromobile_2022.jpg"
       }
     ]
   },
   "lamborghini_aventador_svj": {
     "display_name": "Lamborghini Aventador SVJ",
-    "brand": "Lamborghini",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -592,12 +767,51 @@
         "license": "CC BY-SA 4.0",
         "artist": "Calreyn88",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Lamborghini_Aventador_SVJ_Roadster_2020_gfos25.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2020 Lamborghini Aventador SVJ Roadster 2.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/2020_Lamborghini_Aventador_SVJ_Roadster_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/2020_Lamborghini_Aventador_SVJ_Roadster_2.jpg/1280px-2020_Lamborghini_Aventador_SVJ_Roadster_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 4.0",
+        "artist": "Calreyn88",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2020_Lamborghini_Aventador_SVJ_Roadster_2.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Groupe Schumacher Mondial Paris 2018 (2).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Groupe_Schumacher_Mondial_Paris_2018_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Groupe_Schumacher_Mondial_Paris_2018_%282%29.jpg/1280px-Groupe_Schumacher_Mondial_Paris_2018_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Y.Leclercq",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Groupe_Schumacher_Mondial_Paris_2018_(2).jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Lamborghini Aventador SVJ, Paris Motor Show 2018, IMG 0655.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/7/76/Lamborghini_Aventador_SVJ%2C_Paris_Motor_Show_2018%2C_IMG_0655.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Lamborghini_Aventador_SVJ%2C_Paris_Motor_Show_2018%2C_IMG_0655.jpg/1280px-Lamborghini_Aventador_SVJ%2C_Paris_Motor_Show_2018%2C_IMG_0655.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Alexander Migl",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Lamborghini_Aventador_SVJ,_Paris_Motor_Show_2018,_IMG_0655.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Lamborghini Aventador SVJ, Paris Motor Show 2018, IMG 0656.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/88/Lamborghini_Aventador_SVJ%2C_Paris_Motor_Show_2018%2C_IMG_0656.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Lamborghini_Aventador_SVJ%2C_Paris_Motor_Show_2018%2C_IMG_0656.jpg/1280px-Lamborghini_Aventador_SVJ%2C_Paris_Motor_Show_2018%2C_IMG_0656.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Alexander Migl",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Lamborghini_Aventador_SVJ,_Paris_Motor_Show_2018,_IMG_0656.jpg"
       }
     ]
   },
   "porsche_carrera_gt": {
     "display_name": "Porsche Carrera GT",
-    "brand": "Porsche",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -698,12 +912,61 @@
         "license": "CC BY-SA 4.0",
         "artist": "Calreyn88",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Porsche_Carrera_GT_(27192).jpg"
+      },
+      {
+        "file": "shot_3.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:1959 Porsche 356 Carrera GT Paul Pietsch Classic 2025 DSC 9002.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/34/1959_Porsche_356_Carrera_GT_Paul_Pietsch_Classic_2025_DSC_9002.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/1959_Porsche_356_Carrera_GT_Paul_Pietsch_Classic_2025_DSC_9002.jpg/1280px-1959_Porsche_356_Carrera_GT_Paul_Pietsch_Classic_2025_DSC_9002.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Alexander Migl",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:1959_Porsche_356_Carrera_GT_Paul_Pietsch_Classic_2025_DSC_9002.jpg"
+      },
+      {
+        "file": "shot_4.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2005 Porsche Carrera GT Silver.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/6/6d/2005_Porsche_Carrera_GT_Silver.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/2005_Porsche_Carrera_GT_Silver.jpg/1280px-2005_Porsche_Carrera_GT_Silver.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "MrWalkr",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2005_Porsche_Carrera_GT_Silver.jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Porsche 997.1 911 Carrera S GT Silver Metallic (1).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/80/Porsche_997.1_911_Carrera_S_GT_Silver_Metallic_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Porsche_997.1_911_Carrera_S_GT_Silver_Metallic_%281%29.jpg/1280px-Porsche_997.1_911_Carrera_S_GT_Silver_Metallic_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Damian B Oh",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Porsche_997.1_911_Carrera_S_GT_Silver_Metallic_(1).jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Porsche 997.1 911 Carrera S GT Silver Metallic (10).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Porsche_997.1_911_Carrera_S_GT_Silver_Metallic_%2810%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Porsche_997.1_911_Carrera_S_GT_Silver_Metallic_%2810%29.jpg/1280px-Porsche_997.1_911_Carrera_S_GT_Silver_Metallic_%2810%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Damian B Oh",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Porsche_997.1_911_Carrera_S_GT_Silver_Metallic_(10).jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Porsche 997.1 911 Carrera S GT Silver Metallic (12).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/5a/Porsche_997.1_911_Carrera_S_GT_Silver_Metallic_%2812%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Porsche_997.1_911_Carrera_S_GT_Silver_Metallic_%2812%29.jpg/1280px-Porsche_997.1_911_Carrera_S_GT_Silver_Metallic_%2812%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Damian B Oh",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Porsche_997.1_911_Carrera_S_GT_Silver_Metallic_(12).jpg"
       }
     ]
   },
   "mercedes_amg_one": {
-    "display_name": "Mercedes-AMG One",
-    "brand": "Mercedes-AMG",
+    "display_name": "Mercedes-AMG ONE",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -804,12 +1067,61 @@
         "license": "CC BY-SA 4.0",
         "artist": "Alexander-93",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Mercedes-AMG_One_IAA_2023_1X7A0454.jpg"
+      },
+      {
+        "file": "shot_4.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:'14 Mercedes-Benz CLS-Class AMG (MIAS '14).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/6/68/%2714_Mercedes-Benz_CLS-Class_AMG_%28MIAS_%2714%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/%2714_Mercedes-Benz_CLS-Class_AMG_%28MIAS_%2714%29.jpg/1280px-%2714_Mercedes-Benz_CLS-Class_AMG_%28MIAS_%2714%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "Public domain",
+        "artist": "Bull-Doser",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:%2714_Mercedes-Benz_CLS-Class_AMG_(MIAS_%2714).jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2021 Mercedes-AMG GT Black Series Project One Edition in Cirrus Silver, front left.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/2021_Mercedes-AMG_GT_Black_Series_Project_One_Edition_in_Cirrus_Silver%2C_front_left.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/2021_Mercedes-AMG_GT_Black_Series_Project_One_Edition_in_Cirrus_Silver%2C_front_left.jpg/1280px-2021_Mercedes-AMG_GT_Black_Series_Project_One_Edition_in_Cirrus_Silver%2C_front_left.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Mr.choppers",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2021_Mercedes-AMG_GT_Black_Series_Project_One_Edition_in_Cirrus_Silver,_front_left.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2021 Mercedes-AMG GT Black Series Project One Edition in Cirrus Silver, front left2.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/a/a5/2021_Mercedes-AMG_GT_Black_Series_Project_One_Edition_in_Cirrus_Silver%2C_front_left2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/2021_Mercedes-AMG_GT_Black_Series_Project_One_Edition_in_Cirrus_Silver%2C_front_left2.jpg/1280px-2021_Mercedes-AMG_GT_Black_Series_Project_One_Edition_in_Cirrus_Silver%2C_front_left2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Mr.choppers",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2021_Mercedes-AMG_GT_Black_Series_Project_One_Edition_in_Cirrus_Silver,_front_left2.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Green Mercedes-Benz CLS 63 AMG rr London14.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Green_Mercedes-Benz_CLS_63_AMG_rr_London14.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/Green_Mercedes-Benz_CLS_63_AMG_rr_London14.jpg/1280px-Green_Mercedes-Benz_CLS_63_AMG_rr_London14.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "MB-one",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Green_Mercedes-Benz_CLS_63_AMG_rr_London14.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Mercedes-AMG GT, EMS 2024, Essen (P1032208).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Mercedes-AMG_GT%2C_EMS_2024%2C_Essen_%28P1032208%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Mercedes-AMG_GT%2C_EMS_2024%2C_Essen_%28P1032208%29.jpg/1280px-Mercedes-AMG_GT%2C_EMS_2024%2C_Essen_%28P1032208%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Matti Blume",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Mercedes-AMG_GT,_EMS_2024,_Essen_(P1032208).jpg"
       }
     ]
   },
   "bmw_m5_cs": {
     "display_name": "BMW M5 CS",
-    "brand": "BMW",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -910,12 +1222,61 @@
         "license": "CC BY-SA 4.0",
         "artist": "MrWalkr",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:2021_BMW_M5_CS_FOS23.jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2022-05 bmw M5-CS.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/2/26/2022-05_bmw_M5-CS.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/2022-05_bmw_M5-CS.jpg/1280px-2022-05_bmw_M5-CS.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Wikisympathisant",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2022-05_bmw_M5-CS.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2022 BMW M5 CS.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/59/2022_BMW_M5_CS.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/2022_BMW_M5_CS.jpg/1280px-2022_BMW_M5_CS.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "UltraTech66",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2022_BMW_M5_CS.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:BMW F90 M5 CS Frozen Deep Green Metallic (1).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/BMW_F90_M5_CS_Frozen_Deep_Green_Metallic_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/BMW_F90_M5_CS_Frozen_Deep_Green_Metallic_%281%29.jpg/1280px-BMW_F90_M5_CS_Frozen_Deep_Green_Metallic_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Damian B Oh",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:BMW_F90_M5_CS_Frozen_Deep_Green_Metallic_(1).jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:BMW F90 M5 CS Frozen Deep Green Metallic (10).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/53/BMW_F90_M5_CS_Frozen_Deep_Green_Metallic_%2810%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/BMW_F90_M5_CS_Frozen_Deep_Green_Metallic_%2810%29.jpg/1280px-BMW_F90_M5_CS_Frozen_Deep_Green_Metallic_%2810%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Damian B Oh",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:BMW_F90_M5_CS_Frozen_Deep_Green_Metallic_(10).jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:BMW F90 M5 CS Frozen Deep Green Metallic (11).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/BMW_F90_M5_CS_Frozen_Deep_Green_Metallic_%2811%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/BMW_F90_M5_CS_Frozen_Deep_Green_Metallic_%2811%29.jpg/1280px-BMW_F90_M5_CS_Frozen_Deep_Green_Metallic_%2811%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Damian B Oh",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:BMW_F90_M5_CS_Frozen_Deep_Green_Metallic_(11).jpg"
       }
     ]
   },
   "bmw_m2_coupe": {
     "display_name": "BMW M2 Coupe",
-    "brand": "BMW",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -1016,12 +1377,61 @@
         "license": "CC BY-SA 4.0",
         "artist": "MrWalkr",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:2023_BMW_M2_Red.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2017 BMW M2 Automatic 3.0 Front.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/6/66/2017_BMW_M2_Automatic_3.0_Front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/2017_BMW_M2_Automatic_3.0_Front.jpg/1280px-2017_BMW_M2_Automatic_3.0_Front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Vauxford",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2017_BMW_M2_Automatic_3.0_Front.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2017 BMW M2 Automatic 3.0 Rear.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/2017_BMW_M2_Automatic_3.0_Rear.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/2017_BMW_M2_Automatic_3.0_Rear.jpg/1280px-2017_BMW_M2_Automatic_3.0_Rear.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Vauxford",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2017_BMW_M2_Automatic_3.0_Rear.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2018 BMW M2 Automatic 3.0.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/55/2018_BMW_M2_Automatic_3.0.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/2018_BMW_M2_Automatic_3.0.jpg/1280px-2018_BMW_M2_Automatic_3.0.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Vauxford",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2018_BMW_M2_Automatic_3.0.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2021 BMW M2 CS Blue.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/37/2021_BMW_M2_CS_Blue.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/2021_BMW_M2_CS_Blue.jpg/1280px-2021_BMW_M2_CS_Blue.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "MrWalkr",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2021_BMW_M2_CS_Blue.jpg"
+      },
+      {
+        "file": "shot_10.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2024 BMW M2 G87, front left, 05-31-2024.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/11/2024_BMW_M2_G87%2C_front_left%2C_05-31-2024.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/2024_BMW_M2_G87%2C_front_left%2C_05-31-2024.jpg/1280px-2024_BMW_M2_G87%2C_front_left%2C_05-31-2024.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Ethan Llamas",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2024_BMW_M2_G87,_front_left,_05-31-2024.jpg"
       }
     ]
   },
   "kawasaki_ninja_h2r": {
     "display_name": "Kawasaki Ninja H2R",
-    "brand": "Kawasaki",
     "shots": [
       {
         "file": "shot_2.jpg",
@@ -1112,12 +1522,41 @@
         "license": "CC BY-SA 4.0",
         "artist": "Dennis Bratland",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Kawasaki_Ninja_H2_mirror_right_front.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Kawasaki Ninja H2R at the Tokyo Motor Show 2015-1.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/6/60/Kawasaki_Ninja_H2R_at_the_Tokyo_Motor_Show_2015-1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Kawasaki_Ninja_H2R_at_the_Tokyo_Motor_Show_2015-1.jpg/1280px-Kawasaki_Ninja_H2R_at_the_Tokyo_Motor_Show_2015-1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "PekePON",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Kawasaki_Ninja_H2R_at_the_Tokyo_Motor_Show_2015-1.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Kawasaki Ninja H2R exposd right front.JPG",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Kawasaki_Ninja_H2R_exposd_right_front.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Kawasaki_Ninja_H2R_exposd_right_front.JPG/1280px-Kawasaki_Ninja_H2R_exposd_right_front.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Dennis Bratland",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Kawasaki_Ninja_H2R_exposd_right_front.JPG"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Kawasaki Ninja H2R exposed left front.JPG",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Kawasaki_Ninja_H2R_exposed_left_front.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Kawasaki_Ninja_H2R_exposed_left_front.JPG/1280px-Kawasaki_Ninja_H2R_exposed_left_front.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Dennis Bratland",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Kawasaki_Ninja_H2R_exposed_left_front.JPG"
       }
     ]
   },
   "yamaha_yzf_r1m": {
     "display_name": "Yamaha YZF-R1M",
-    "brand": "Yamaha",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -1218,12 +1657,61 @@
         "license": "CC BY-SA 4.0",
         "artist": "Rainmaker47",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:1998_Yamaha_YZF-R1_in_the_Yamaha_Communication_Plaza.JPG"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2005 Yamaha R1 Model blue.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/11/2005_Yamaha_R1_Model_blue.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/2005_Yamaha_R1_Model_blue.jpg/1280px-2005_Yamaha_R1_Model_blue.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "Nathan Bittinger",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2005_Yamaha_R1_Model_blue.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:CustomBike.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/CustomBike.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/CustomBike.jpg/1280px-CustomBike.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "Public domain",
+        "artist": "Merzperson at English Wikipedia",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:CustomBike.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Mega Biker's Susret No. 6 (defile13).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Mega_Biker%27s_Susret_No._6_%28defile13%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Mega_Biker%27s_Susret_No._6_%28defile13%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license": "CC BY-SA 3.0",
+        "artist": "Frka",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Mega_Biker%27s_Susret_No._6_(defile13).jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:PGR4 Pre-launch in Taiwan MoichiInoshita with Yamaha R1.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/d7/PGR4_Pre-launch_in_Taiwan_MoichiInoshita_with_Yamaha_R1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/PGR4_Pre-launch_in_Taiwan_MoichiInoshita_with_Yamaha_R1.jpg/1280px-PGR4_Pre-launch_in_Taiwan_MoichiInoshita_with_Yamaha_R1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "Rico Shen",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:PGR4_Pre-launch_in_Taiwan_MoichiInoshita_with_Yamaha_R1.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:PGR4 Pre-launch in Taiwan Yamaha YZF R1.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/f/f5/PGR4_Pre-launch_in_Taiwan_Yamaha_YZF_R1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/PGR4_Pre-launch_in_Taiwan_Yamaha_YZF_R1.jpg/1280px-PGR4_Pre-launch_in_Taiwan_Yamaha_YZF_R1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "Rico Shen",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:PGR4_Pre-launch_in_Taiwan_Yamaha_YZF_R1.jpg"
       }
     ]
   },
   "mclaren_senna": {
     "display_name": "McLaren Senna",
-    "brand": "McLaren",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -1324,12 +1812,61 @@
         "license": "CC BY-SA 4.0",
         "artist": "Matti Blume",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:McLaren_Senna_GTR,_Geneva_International_Motor_Show_2018,_Le_Grand-Saconnex_(1X7A0425).jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:An Orange McLaren Senna.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/An_Orange_McLaren_Senna.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/An_Orange_McLaren_Senna.jpg/1280px-An_Orange_McLaren_Senna.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "MrWalkr",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:An_Orange_McLaren_Senna.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:McLaren P1 GTR Senna Prototype 01.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/McLaren_P1_GTR_Senna_Prototype_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/McLaren_P1_GTR_Senna_Prototype_01.jpg/1280px-McLaren_P1_GTR_Senna_Prototype_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Ank kumar",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:McLaren_P1_GTR_Senna_Prototype_01.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:McLaren P1 GTR Senna Prototype 03.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/McLaren_P1_GTR_Senna_Prototype_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/McLaren_P1_GTR_Senna_Prototype_03.jpg/1280px-McLaren_P1_GTR_Senna_Prototype_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Ank kumar",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:McLaren_P1_GTR_Senna_Prototype_03.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:McLaren P1 GTR Senna Prototype 05.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/McLaren_P1_GTR_Senna_Prototype_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/McLaren_P1_GTR_Senna_Prototype_05.jpg/1280px-McLaren_P1_GTR_Senna_Prototype_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Ank kumar",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:McLaren_P1_GTR_Senna_Prototype_05.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:McLaren P1 GTR Senna Prototype 09.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/McLaren_P1_GTR_Senna_Prototype_09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b0/McLaren_P1_GTR_Senna_Prototype_09.jpg/1280px-McLaren_P1_GTR_Senna_Prototype_09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Ank kumar",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:McLaren_P1_GTR_Senna_Prototype_09.jpg"
       }
     ]
   },
   "porsche_918_spyder": {
     "display_name": "Porsche 918 Spyder",
-    "brand": "Porsche",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -1430,12 +1967,51 @@
         "license": "CC BY-SA 4.0",
         "artist": "Ank Kumar",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Porsche_918_Spyder_(Ank_kumar,_Infosys_Limited)_08.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2015 Porsche 918 Spyder Platinum Silver Metallic SCD 24.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/2015_Porsche_918_Spyder_Platinum_Silver_Metallic_SCD_24.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/2015_Porsche_918_Spyder_Platinum_Silver_Metallic_SCD_24.jpg/1280px-2015_Porsche_918_Spyder_Platinum_Silver_Metallic_SCD_24.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "MrWalkr",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2015_Porsche_918_Spyder_Platinum_Silver_Metallic_SCD_24.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Flickr - plushev - Geneva2010 179.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/13/Flickr_-_plushev_-_Geneva2010_179.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Flickr_-_plushev_-_Geneva2010_179.jpg/1280px-Flickr_-_plushev_-_Geneva2010_179.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "Alexander Plushev",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Flickr_-_plushev_-_Geneva2010_179.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:FoS20162016 0623 091815AA (27862547815).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/48/FoS20162016_0623_091815AA_%2827862547815%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/FoS20162016_0623_091815AA_%2827862547815%29.jpg/1280px-FoS20162016_0623_091815AA_%2827862547815%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 2.0",
+        "artist": "Matthew Lamb",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:FoS20162016_0623_091815AA_(27862547815).jpg"
+      },
+      {
+        "file": "shot_10.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:FoS20162016 0623 091825AA (27584843750).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/5a/FoS20162016_0623_091825AA_%2827584843750%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/FoS20162016_0623_091825AA_%2827584843750%29.jpg/1280px-FoS20162016_0623_091825AA_%2827584843750%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 2.0",
+        "artist": "Matthew Lamb",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:FoS20162016_0623_091825AA_(27584843750).jpg"
       }
     ]
   },
   "ford_gt_supercar": {
     "display_name": "Ford GT",
-    "brand": "Ford",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -1454,7 +2030,7 @@
         "url": "https://upload.wikimedia.org/wikipedia/commons/3/33/Ford_GT_2016_%2827698629701%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
         "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/Ford_GT_2016_%2827698629701%29.jpg/1280px-Ford_GT_2016_%2827698629701%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "license": "CC BY-SA 2.0",
-        "artist": "Falcon\u00ae Photography from France",
+        "artist": "Falcon® Photography from France",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Ford_GT_2016_(27698629701).jpg"
       },
       {
@@ -1464,7 +2040,7 @@
         "url": "https://upload.wikimedia.org/wikipedia/commons/4/41/Ford_GT_3.5_%2716_%2816608341860%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
         "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/Ford_GT_3.5_%2716_%2816608341860%29.jpg/1280px-Ford_GT_3.5_%2716_%2816608341860%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "license": "CC BY-SA 2.0",
-        "artist": "Falcon\u00ae Photography from France",
+        "artist": "Falcon® Photography from France",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Ford_GT_3.5_%2716_(16608341860).jpg"
       },
       {
@@ -1474,7 +2050,7 @@
         "url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/2016_Ford_GT_%2820915465904%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
         "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/2016_Ford_GT_%2820915465904%29.jpg/1280px-2016_Ford_GT_%2820915465904%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "license": "CC BY-SA 2.0",
-        "artist": "Falcon\u00ae Photography from France",
+        "artist": "Falcon® Photography from France",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:2016_Ford_GT_(20915465904).jpg"
       },
       {
@@ -1504,7 +2080,7 @@
         "url": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Ford_GT_Headlight_Gen2_%2819619632579%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
         "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Ford_GT_Headlight_Gen2_%2819619632579%29.jpg/1280px-Ford_GT_Headlight_Gen2_%2819619632579%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "license": "CC BY-SA 2.0",
-        "artist": "Falcon\u00ae Photography from France",
+        "artist": "Falcon® Photography from France",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Ford_GT_Headlight_Gen2_(19619632579).jpg"
       },
       {
@@ -1536,12 +2112,41 @@
         "license": "CC BY-SA 4.0",
         "artist": "Rbdesimone",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Scottsdale_2018_Lot_3010_-_2017_Ford_GT.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:1990 Ford Mustang GT 5.0 Hatchback in Ultra Blue, front right.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/6/62/1990_Ford_Mustang_GT_5.0_Hatchback_in_Ultra_Blue%2C_front_right.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/1990_Ford_Mustang_GT_5.0_Hatchback_in_Ultra_Blue%2C_front_right.jpg/1280px-1990_Ford_Mustang_GT_5.0_Hatchback_in_Ultra_Blue%2C_front_right.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "Mr.choppers",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:1990_Ford_Mustang_GT_5.0_Hatchback_in_Ultra_Blue,_front_right.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2003–2004 Ford Mustang GT, blue, Golden Super Cruise 2026-05-02.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/39/2003%E2%80%932004_Ford_Mustang_GT%2C_blue%2C_Golden_Super_Cruise_2026-05-02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/2003%E2%80%932004_Ford_Mustang_GT%2C_blue%2C_Golden_Super_Cruise_2026-05-02.jpg/1280px-2003%E2%80%932004_Ford_Mustang_GT%2C_blue%2C_Golden_Super_Cruise_2026-05-02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Xnatedawgx",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2003%E2%80%932004_Ford_Mustang_GT,_blue,_Golden_Super_Cruise_2026-05-02.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2005-2009 Ford Mustang GT, blue, Ford at the Golden Super Cruise 2026-10-03.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/2005-2009_Ford_Mustang_GT%2C_blue%2C_Ford_at_the_Golden_Super_Cruise_2026-10-03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/2005-2009_Ford_Mustang_GT%2C_blue%2C_Ford_at_the_Golden_Super_Cruise_2026-10-03.jpg/1280px-2005-2009_Ford_Mustang_GT%2C_blue%2C_Ford_at_the_Golden_Super_Cruise_2026-10-03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Xnatedawgx",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2005-2009_Ford_Mustang_GT,_blue,_Ford_at_the_Golden_Super_Cruise_2026-10-03.jpg"
       }
     ]
   },
   "aston_martin_valkyrie": {
     "display_name": "Aston Martin Valkyrie",
-    "brand": "Aston Martin",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -1620,7 +2225,7 @@
         "url": "https://upload.wikimedia.org/wikipedia/commons/4/45/ESO_-_The_Carina_Nebula_%28by%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
         "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/ESO_-_The_Carina_Nebula_%28by%29.jpg/1280px-ESO_-_The_Carina_Nebula_%28by%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "license": "CC BY 4.0",
-        "artist": "ESO/IDA/Danish 1.5 m/R.Gendler, J-E. Ovaldsen, C. Th\u00f6ne, and C. Feron.",
+        "artist": "ESO/IDA/Danish 1.5 m/R.Gendler, J-E. Ovaldsen, C. Thöne, and C. Feron.",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:ESO_-_The_Carina_Nebula_(by).jpg"
       },
       {
@@ -1642,12 +2247,61 @@
         "license": "CC BY-SA 4.0",
         "artist": "Alexander-93",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Aston_Martin_Valkyrie_GIMS_2024_1X7A2266.jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2022 Aston Martin Valkyrie AMR Pro in Stirling Green, front left.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/2022_Aston_Martin_Valkyrie_AMR_Pro_in_Stirling_Green%2C_front_left.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/2022_Aston_Martin_Valkyrie_AMR_Pro_in_Stirling_Green%2C_front_left.jpg/1280px-2022_Aston_Martin_Valkyrie_AMR_Pro_in_Stirling_Green%2C_front_left.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "Mr.choppers",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2022_Aston_Martin_Valkyrie_AMR_Pro_in_Stirling_Green,_front_left.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Amsterdam Motor Show 2023 - 99.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/9/97/Amsterdam_Motor_Show_2023_-_99.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Amsterdam_Motor_Show_2023_-_99.jpg/1280px-Amsterdam_Motor_Show_2023_-_99.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "René Cortin",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Amsterdam_Motor_Show_2023_-_99.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Aston Martin Valkyrie, TC 24, Essen (TCE42947).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/9/96/Aston_Martin_Valkyrie%2C_TC_24%2C_Essen_%28TCE42947%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Aston_Martin_Valkyrie%2C_TC_24%2C_Essen_%28TCE42947%29.jpg/1280px-Aston_Martin_Valkyrie%2C_TC_24%2C_Essen_%28TCE42947%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Matti Blume",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Aston_Martin_Valkyrie,_TC_24,_Essen_(TCE42947).jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Aston Martin Valkyrie (53690636492).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Aston_Martin_Valkyrie_%2853690636492%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Aston_Martin_Valkyrie_%2853690636492%29.jpg/1280px-Aston_Martin_Valkyrie_%2853690636492%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "Thomas Vogt from Paderborn, Deutschland",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Aston_Martin_Valkyrie_(53690636492).jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Aston Martin Valkyrie (53690636512).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Aston_Martin_Valkyrie_%2853690636512%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Aston_Martin_Valkyrie_%2853690636512%29.jpg/1280px-Aston_Martin_Valkyrie_%2853690636512%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "Thomas Vogt from Paderborn, Deutschland",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Aston_Martin_Valkyrie_(53690636512).jpg"
       }
     ]
   },
   "bugatti_veyron": {
     "display_name": "Bugatti Veyron",
-    "brand": "Bugatti",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -1748,12 +2402,61 @@
         "license": "CC BY 2.0",
         "artist": "Autoviva",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Bugatti_Veyron_Super_Sport_(5491315395).jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2006 Bugatti Veyron - 01.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/02/2006_Bugatti_Veyron_-_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/2006_Bugatti_Veyron_-_01.jpg/1280px-2006_Bugatti_Veyron_-_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "This picture has been taken by Oleg Yunakov. Contact e-mail: yunakovgmail.com. Image can be used in ",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2006_Bugatti_Veyron_-_01.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2008 Bugatti Veyron 16.4 Blue Black.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/a/a8/2008_Bugatti_Veyron_16.4_Blue_Black.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/2008_Bugatti_Veyron_16.4_Blue_Black.jpg/1280px-2008_Bugatti_Veyron_16.4_Blue_Black.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "MrWalkr",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2008_Bugatti_Veyron_16.4_Blue_Black.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Blue Bugatti Veyron Grand Sport Vitesse (11921658614).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/51/Blue_Bugatti_Veyron_Grand_Sport_Vitesse_%2811921658614%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Blue_Bugatti_Veyron_Grand_Sport_Vitesse_%2811921658614%29.jpg/1280px-Blue_Bugatti_Veyron_Grand_Sport_Vitesse_%2811921658614%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "Axion23",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Blue_Bugatti_Veyron_Grand_Sport_Vitesse_(11921658614).jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Blue Bugatti Veyron Grand Sport Vitesse AKA Bleugatti (12216861026).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Blue_Bugatti_Veyron_Grand_Sport_Vitesse_AKA_Bleugatti_%2812216861026%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Blue_Bugatti_Veyron_Grand_Sport_Vitesse_AKA_Bleugatti_%2812216861026%29.jpg/1280px-Blue_Bugatti_Veyron_Grand_Sport_Vitesse_AKA_Bleugatti_%2812216861026%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "Axion23",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Blue_Bugatti_Veyron_Grand_Sport_Vitesse_AKA_Bleugatti_(12216861026).jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Blue Bugatti Veyron front.JPG",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Blue_Bugatti_Veyron_front.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/Blue_Bugatti_Veyron_front.JPG/1280px-Blue_Bugatti_Veyron_front.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "BrokenSphere",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Blue_Bugatti_Veyron_front.JPG"
       }
     ]
   },
   "audi_r8_v10": {
     "display_name": "Audi R8 V10",
-    "brand": "Audi",
     "shots": [
       {
         "file": "shot_6.jpg",
@@ -1778,11 +2481,11 @@
       {
         "file": "shot_8.jpg",
         "source": "Wikimedia Commons",
-        "title": "File:Audi R8 V10 RWS (2) \u2013 IAA 2017 \u2013 by Nicolas V\u00f6lcker.jpg",
+        "title": "File:Audi R8 V10 RWS (2) – IAA 2017 – by Nicolas Völcker.jpg",
         "url": "https://upload.wikimedia.org/wikipedia/commons/2/2d/Audi_R8_V10_RWS_%282%29_%E2%80%93_IAA_2017_%E2%80%93_by_Nicolas_V%C3%B6lcker.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
         "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Audi_R8_V10_RWS_%282%29_%E2%80%93_IAA_2017_%E2%80%93_by_Nicolas_V%C3%B6lcker.jpg/1280px-Audi_R8_V10_RWS_%282%29_%E2%80%93_IAA_2017_%E2%80%93_by_Nicolas_V%C3%B6lcker.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "license": "CC BY-SA 4.0",
-        "artist": "Nicolas V\u00f6lcker",
+        "artist": "Nicolas Völcker",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Audi_R8_V10_RWS_(2)_%E2%80%93_IAA_2017_%E2%80%93_by_Nicolas_V%C3%B6lcker.jpg"
       },
       {
@@ -1798,12 +2501,62 @@
       {
         "file": "shot_10.jpg",
         "source": "Wikimedia Commons",
-        "title": "File:Audi R8 Coup\u00e9 V10 (II) \u2013 f 06082021.jpg",
+        "title": "File:Audi R8 Coupé V10 (II) – f 06082021.jpg",
         "url": "https://upload.wikimedia.org/wikipedia/commons/6/63/Audi_R8_Coup%C3%A9_V10_%28II%29_%E2%80%93_f_06082021.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
         "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Audi_R8_Coup%C3%A9_V10_%28II%29_%E2%80%93_f_06082021.jpg/1280px-Audi_R8_Coup%C3%A9_V10_%28II%29_%E2%80%93_f_06082021.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "license": "CC BY-SA 3.0 de",
-        "artist": "\u00a9 M 93",
+        "artist": "© M 93",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Audi_R8_Coup%C3%A9_V10_(II)_%E2%80%93_f_06082021.jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2013 Audi R8 Plus Quattro V10 S-A (OE62 NDY).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/2/21/2013_Audi_R8_Plus_Quattro_V10_S-A_%28OE62_NDY%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/2013_Audi_R8_Plus_Quattro_V10_S-A_%28OE62_NDY%29.jpg/1280px-2013_Audi_R8_Plus_Quattro_V10_S-A_%28OE62_NDY%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Carfanatic2019",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2013_Audi_R8_Plus_Quattro_V10_S-A_(OE62_NDY).jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2014 Audi R8 V10 plus.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/0a/2014_Audi_R8_V10_plus.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/2014_Audi_R8_V10_plus.jpg/1280px-2014_Audi_R8_V10_plus.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "A. Bailey",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2014_Audi_R8_V10_plus.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2014 Washington Auto Show (12140824113).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e4/2014_Washington_Auto_Show_%2812140824113%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e4/2014_Washington_Auto_Show_%2812140824113%29.jpg/1280px-2014_Washington_Auto_Show_%2812140824113%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "BrianBoardman from Alexandria VA",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2014_Washington_Auto_Show_(12140824113).jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2014 Washington Auto Show (12141223076).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/2014_Washington_Auto_Show_%2812141223076%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/2014_Washington_Auto_Show_%2812141223076%29.jpg/1280px-2014_Washington_Auto_Show_%2812141223076%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "BrianBoardman from Alexandria VA",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2014_Washington_Auto_Show_(12141223076).jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2018 Audi R8 Coupe V10 plus Front.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/2018_Audi_R8_Coupe_V10_plus_Front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/2018_Audi_R8_Coupe_V10_plus_Front.jpg/1280px-2018_Audi_R8_Coupe_V10_plus_Front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Vauxford",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2018_Audi_R8_Coupe_V10_plus_Front.jpg"
       }
     ]
   },
@@ -1865,7 +2618,6 @@
   },
   "bmw_s1000rr": {
     "display_name": "BMW S1000RR",
-    "brand": "BMW",
     "shots": [
       {
         "file": "shot_6.jpg",
@@ -1914,14 +2666,43 @@
         "url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/BMW_S1000RR_3asy_Ride_in_BMW-Museum_in_Munich%2C_Bayern.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
         "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/BMW_S1000RR_3asy_Ride_in_BMW-Museum_in_Munich%2C_Bayern.jpg/1280px-BMW_S1000RR_3asy_Ride_in_BMW-Museum_in_Munich%2C_Bayern.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "license": "CC BY-SA 4.0",
-        "artist": "Ji\u0159\u00ed Sedl\u00e1\u010dek",
+        "artist": "Jiří Sedláček",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:BMW_S1000RR_3asy_Ride_in_BMW-Museum_in_Munich,_Bayern.jpg"
+      },
+      {
+        "file": "shot_3.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:BMW S 1000 RR HP4 (1).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/6/64/BMW_S_1000_RR_HP4_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/BMW_S_1000_RR_HP4_%281%29.jpg/1280px-BMW_S_1000_RR_HP4_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Cjp24",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:BMW_S_1000_RR_HP4_(1).jpg"
+      },
+      {
+        "file": "shot_4.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:DSC 4697 (16861737001).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/9/93/DSC_4697_%2816861737001%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/DSC_4697_%2816861737001%29.jpg/1280px-DSC_4697_%2816861737001%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "Tom Reynolds from Melbourne, Australia",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:DSC_4697_(16861737001).jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Easy ride.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/33/Easy_ride.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/3/33/Easy_ride.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license": "CC BY-SA 3.0",
+        "artist": "Hein waschefort",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Easy_ride.jpg"
       }
     ]
   },
   "ducati_panigale_v4s": {
     "display_name": "Ducati Panigale V4 S",
-    "brand": "Ducati",
     "shots": [
       {
         "file": "shot_6.jpg",
@@ -1966,18 +2747,57 @@
       {
         "file": "shot_10.jpg",
         "source": "Wikimedia Commons",
-        "title": "File:Ducati Panigale V4 SP2 30\u00b0 anniversario 916 at EICMA 2023 -right view.jpg",
+        "title": "File:Ducati Panigale V4 SP2 30° anniversario 916 at EICMA 2023 -right view.jpg",
         "url": "https://upload.wikimedia.org/wikipedia/commons/5/56/Ducati_Panigale_V4_SP2_30%C2%B0_anniversario_916_at_EICMA_2023_-right_view.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
         "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Ducati_Panigale_V4_SP2_30%C2%B0_anniversario_916_at_EICMA_2023_-right_view.jpg/1280px-Ducati_Panigale_V4_SP2_30%C2%B0_anniversario_916_at_EICMA_2023_-right_view.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "license": "CC BY-SA 4.0",
         "artist": "Earthshaker13",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Ducati_Panigale_V4_SP2_30%C2%B0_anniversario_916_at_EICMA_2023_-right_view.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Ducati Panigale V4S 2025.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/40/Ducati_Panigale_V4S_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Ducati_Panigale_V4S_2025.jpg/1280px-Ducati_Panigale_V4S_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "AVMOTO",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Ducati_Panigale_V4S_2025.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Ducati Panigale V4 R (1).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/83/Ducati_Panigale_V4_R_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Ducati_Panigale_V4_R_%281%29.jpg/1280px-Ducati_Panigale_V4_R_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Cjp24",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Ducati_Panigale_V4_R_(1).jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Ducati Panigale V4 R (1) Winglets.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/f/fe/Ducati_Panigale_V4_R_%281%29_Winglets.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Ducati_Panigale_V4_R_%281%29_Winglets.jpg/1280px-Ducati_Panigale_V4_R_%281%29_Winglets.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Cjp24",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Ducati_Panigale_V4_R_(1)_Winglets.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Ducati Panigale V4 R (2).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Ducati_Panigale_V4_R_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Ducati_Panigale_V4_R_%282%29.jpg/1280px-Ducati_Panigale_V4_R_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Cjp24",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Ducati_Panigale_V4_R_(2).jpg"
       }
     ]
   },
   "ferrari_sf90": {
     "display_name": "Ferrari SF90 Stradale",
-    "brand": "Ferrari",
     "shots": [
       {
         "file": "shot_6.jpg",
@@ -2028,12 +2848,61 @@
         "license": "CC BY-SA 4.0",
         "artist": "This picture has been taken by Oleg Yunakov. Contact e-mail: yunakovgmail.com. Image can be used in ",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:2025_Ferrari_SF90_Stradale_-_02.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Ferrari SF90 Stradale.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Ferrari_SF90_Stradale.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Ferrari_SF90_Stradale.jpg/1280px-Ferrari_SF90_Stradale.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Tokumeigakarinoaoshima",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Ferrari_SF90_Stradale.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Ferrari SF90 XX Stradale (54927995184).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Ferrari_SF90_XX_Stradale_%2854927995184%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Ferrari_SF90_XX_Stradale_%2854927995184%29.jpg/1280px-Ferrari_SF90_XX_Stradale_%2854927995184%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Alexandre Prevot from Nancy, France",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Ferrari_SF90_XX_Stradale_(54927995184).jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2023 Ferrari SF90 Spider blue.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/a/ab/2023_Ferrari_SF90_Spider_blue.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/2023_Ferrari_SF90_Spider_blue.jpg/1280px-2023_Ferrari_SF90_Spider_blue.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Calreyn88",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2023_Ferrari_SF90_Spider_blue.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Ferrari 7LA-173H SF90 Spider (No.50) (24052609450).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Ferrari_7LA-173H_SF90_Spider_%28No.50%29_%2824052609450%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Ferrari_7LA-173H_SF90_Spider_%28No.50%29_%2824052609450%29.jpg/1280px-Ferrari_7LA-173H_SF90_Spider_%28No.50%29_%2824052609450%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC0",
+        "artist": "先従隗始",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Ferrari_7LA-173H_SF90_Spider_(No.50)_(24052609450).jpg"
+      },
+      {
+        "file": "shot_10.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Ferrari 7LA-173H SF90 Spider (No.50) (24052609451).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Ferrari_7LA-173H_SF90_Spider_%28No.50%29_%2824052609451%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Ferrari_7LA-173H_SF90_Spider_%28No.50%29_%2824052609451%29.jpg/1280px-Ferrari_7LA-173H_SF90_Spider_%28No.50%29_%2824052609451%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC0",
+        "artist": "先従隗始",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Ferrari_7LA-173H_SF90_Spider_(No.50)_(24052609451).jpg"
       }
     ]
   },
   "lamborghini_revuelto": {
     "display_name": "Lamborghini Revuelto",
-    "brand": "Lamborghini",
     "shots": [
       {
         "file": "shot_6.jpg",
@@ -2084,12 +2953,41 @@
         "license": "CC BY-SA 4.0",
         "artist": "Alexander-93",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Lamborghini_Revuelto_Auto_Zuerich_2023_1X7A1367.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2023 Lamborghini Revuelto LB744 Orange FOS23.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/a/a2/2023_Lamborghini_Revuelto_LB744_Orange_FOS23.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/2023_Lamborghini_Revuelto_LB744_Orange_FOS23.jpg/1280px-2023_Lamborghini_Revuelto_LB744_Orange_FOS23.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "MrWalkr",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2023_Lamborghini_Revuelto_LB744_Orange_FOS23.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Lamborghini Revuelto IMG01.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Lamborghini_Revuelto_IMG01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/Lamborghini_Revuelto_IMG01.jpg/1280px-Lamborghini_Revuelto_IMG01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Maxhdtenda",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Lamborghini_Revuelto_IMG01.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Lamborghini Revuelto IMG02.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Lamborghini_Revuelto_IMG02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e6/Lamborghini_Revuelto_IMG02.jpg/1280px-Lamborghini_Revuelto_IMG02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Maxhdtenda",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Lamborghini_Revuelto_IMG02.jpg"
       }
     ]
   },
   "nissan_gtr_r35": {
     "display_name": "Nissan GT-R Nismo",
-    "brand": "Nissan",
     "shots": [
       {
         "file": "shot_6.jpg",
@@ -2140,12 +3038,61 @@
         "license": "CC BY-SA 4.0",
         "artist": "Dinkun Chen",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:NISSAN_GT-R_(R35)_China_(2).jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:1990 Nissan Skyline R32 GTR Nismo (23711740576).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/44/1990_Nissan_Skyline_R32_GTR_Nismo_%2823711740576%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/1990_Nissan_Skyline_R32_GTR_Nismo_%2823711740576%29.jpg/1280px-1990_Nissan_Skyline_R32_GTR_Nismo_%2823711740576%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "Sicnag",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:1990_Nissan_Skyline_R32_GTR_Nismo_(23711740576).jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:1991 Nissan Skyline GT-R, Rear Right, 05-08-2021.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/6/62/1991_Nissan_Skyline_GT-R%2C_Rear_Right%2C_05-08-2021.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/1991_Nissan_Skyline_GT-R%2C_Rear_Right%2C_05-08-2021.jpg/1280px-1991_Nissan_Skyline_GT-R%2C_Rear_Right%2C_05-08-2021.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "SsmIntrigue",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:1991_Nissan_Skyline_GT-R,_Rear_Right,_05-08-2021.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2024 Nissan GT-R NISMO Special Edition.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/48/2024_Nissan_GT-R_NISMO_Special_Edition.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/2024_Nissan_GT-R_NISMO_Special_Edition.jpg/1280px-2024_Nissan_GT-R_NISMO_Special_Edition.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "ShunyaIshiwatari",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2024_Nissan_GT-R_NISMO_Special_Edition.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Nissan 4BA-R35 GT-R NISMO - Ferrari ABA-F142VS 458 Speciale - Lamborghini ABA-47L541 Aventador LP 770-4 SVJ Roadster (23091714275).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/01/Nissan_4BA-R35_GT-R_NISMO_-_Ferrari_ABA-F142VS_458_Speciale_-_Lamborghini_ABA-47L541_Aventador_LP_770-4_SVJ_Roadster_%2823091714275%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/Nissan_4BA-R35_GT-R_NISMO_-_Ferrari_ABA-F142VS_458_Speciale_-_Lamborghini_ABA-47L541_Aventador_LP_770-4_SVJ_Roadster_%2823091714275%29.jpg/1280px-Nissan_4BA-R35_GT-R_NISMO_-_Ferrari_ABA-F142VS_458_Speciale_-_Lamborghini_ABA-47L541_Aventador_LP_770-4_SVJ_Roadster_%2823091714275%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC0",
+        "artist": "先従隗始",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Nissan_4BA-R35_GT-R_NISMO_-_Ferrari_ABA-F142VS_458_Speciale_-_Lamborghini_ABA-47L541_Aventador_LP_770-4_SVJ_Roadster_(23091714275).jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Nissan E-BNR32 Skyline 2DOOR SPORTS COUPE GT-R (24091415004).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/88/Nissan_E-BNR32_Skyline_2DOOR_SPORTS_COUPE_GT-R_%2824091415004%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Nissan_E-BNR32_Skyline_2DOOR_SPORTS_COUPE_GT-R_%2824091415004%29.jpg/1280px-Nissan_E-BNR32_Skyline_2DOOR_SPORTS_COUPE_GT-R_%2824091415004%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC0",
+        "artist": "先従隗始",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Nissan_E-BNR32_Skyline_2DOOR_SPORTS_COUPE_GT-R_(24091415004).jpg"
       }
     ]
   },
   "porsche_911_gt3rs": {
     "display_name": "Porsche 911 GT3 RS",
-    "brand": "Porsche",
     "shots": [
       {
         "file": "shot_6.jpg",
@@ -2196,12 +3143,61 @@
         "license": "CC BY-SA 4.0",
         "artist": "MrWalkr",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Porsche_992_GT3_RS_Weissach_SCD_24.jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Porsche 911 GT3, EMS 2024, Essen (P1031698).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Porsche_911_GT3%2C_EMS_2024%2C_Essen_%28P1031698%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Porsche_911_GT3%2C_EMS_2024%2C_Essen_%28P1031698%29.jpg/1280px-Porsche_911_GT3%2C_EMS_2024%2C_Essen_%28P1031698%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Matti Blume",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Porsche_911_GT3,_EMS_2024,_Essen_(P1031698).jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Porsche 911 GT3 RS (992.1).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Porsche_911_GT3_RS_%28992.1%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Porsche_911_GT3_RS_%28992.1%29.jpg/1280px-Porsche_911_GT3_RS_%28992.1%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC0",
+        "artist": "BrackishStowaway",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Porsche_911_GT3_RS_(992.1).jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:VBG 29 - Porsche.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/b/b4/VBG_29_-_Porsche.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/VBG_29_-_Porsche.jpg/1280px-VBG_29_-_Porsche.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "Herranderssvensson",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:VBG_29_-_Porsche.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2011 Porsche 911 GT3 RS at Industry City, front right.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/57/2011_Porsche_911_GT3_RS_at_Industry_City%2C_front_right.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/2011_Porsche_911_GT3_RS_at_Industry_City%2C_front_right.jpg/1280px-2011_Porsche_911_GT3_RS_at_Industry_City%2C_front_right.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "Mr.choppers",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2011_Porsche_911_GT3_RS_at_Industry_City,_front_right.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2011 Porsche 911 GT3 RS at Industry City, rear right.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/2011_Porsche_911_GT3_RS_at_Industry_City%2C_rear_right.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/2011_Porsche_911_GT3_RS_at_Industry_City%2C_rear_right.jpg/1280px-2011_Porsche_911_GT3_RS_at_Industry_City%2C_rear_right.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "Mr.choppers",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2011_Porsche_911_GT3_RS_at_Industry_City,_rear_right.jpg"
       }
     ]
   },
   "lamborghini_diablo": {
-    "display_name": "Lamborghini Diablo",
-    "brand": "Lamborghini",
+    "display_name": "Lamborghini Diablo VT",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -2302,12 +3298,61 @@
         "license": "CC BY-SA 4.0",
         "artist": "Ank Kumar",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Yellow_Lamborghini_Diablo_(Ank_Kumar)_03.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:1996 Lamborghini Diablo SV Yellow.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/1996_Lamborghini_Diablo_SV_Yellow.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/1996_Lamborghini_Diablo_SV_Yellow.jpg/1280px-1996_Lamborghini_Diablo_SV_Yellow.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "MrWalkr",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:1996_Lamborghini_Diablo_SV_Yellow.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:1997 Lamborghini Diablo FOS21 yellow.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/1f/1997_Lamborghini_Diablo_FOS21_yellow.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/1997_Lamborghini_Diablo_FOS21_yellow.jpg/1280px-1997_Lamborghini_Diablo_FOS21_yellow.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "MrWalkr",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:1997_Lamborghini_Diablo_FOS21_yellow.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:1998 Lamborghini Diablo SV Yellow Supercarfest.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/00/1998_Lamborghini_Diablo_SV_Yellow_Supercarfest.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/1998_Lamborghini_Diablo_SV_Yellow_Supercarfest.jpg/1280px-1998_Lamborghini_Diablo_SV_Yellow_Supercarfest.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "MrWalkr",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:1998_Lamborghini_Diablo_SV_Yellow_Supercarfest.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:1999 Lamborghini Diablo VT Roadster in Fly Yellow, front right.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/f/fd/1999_Lamborghini_Diablo_VT_Roadster_in_Fly_Yellow%2C_front_right.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/1999_Lamborghini_Diablo_VT_Roadster_in_Fly_Yellow%2C_front_right.jpg/1280px-1999_Lamborghini_Diablo_VT_Roadster_in_Fly_Yellow%2C_front_right.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Mr.choppers",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:1999_Lamborghini_Diablo_VT_Roadster_in_Fly_Yellow,_front_right.jpg"
+      },
+      {
+        "file": "shot_10.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Lambo Diablo LCCS 2020 yellow.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/43/Lambo_Diablo_LCCS_2020_yellow.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Lambo_Diablo_LCCS_2020_yellow.jpg/1280px-Lambo_Diablo_LCCS_2020_yellow.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "MrWalkr",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Lambo_Diablo_LCCS_2020_yellow.jpg"
       }
     ]
   },
   "aston_martin_valour": {
     "display_name": "Aston Martin Valour",
-    "brand": "Aston Martin",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -2408,12 +3453,21 @@
         "license": "CC BY-SA 3.0",
         "artist": "Mr.choppers",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:2024_Aston_Martin_Valour_in_Andromeda_Red,_front_(Miller).jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Air Mens Memorial St Edward's Leek.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Air_Mens_Memorial_St_Edward%27s_Leek.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Air_Mens_Memorial_St_Edward%27s_Leek.jpg/1280px-Air_Mens_Memorial_St_Edward%27s_Leek.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Memorialman",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Air_Mens_Memorial_St_Edward%27s_Leek.jpg"
       }
     ]
   },
   "ferrari_f80": {
     "display_name": "Ferrari F80",
-    "brand": "Ferrari",
     "shots": [
       {
         "file": "shot_1.jpg",
@@ -2514,6 +3568,31 @@
         "license": "CC0",
         "artist": "Pauls.127",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:FerrariF80.jpg"
+      }
+    ]
+  },
+  "bmw_m4_blue": {
+    "display_name": "BMW M4 Competition",
+    "shots": [
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:BMW G82 M4 Competition Tanzanite Blue Metallic (10).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/f/f3/BMW_G82_M4_Competition_Tanzanite_Blue_Metallic_%2810%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/BMW_G82_M4_Competition_Tanzanite_Blue_Metallic_%2810%29.jpg/1280px-BMW_G82_M4_Competition_Tanzanite_Blue_Metallic_%2810%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Damian B Oh",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:BMW_G82_M4_Competition_Tanzanite_Blue_Metallic_(10).jpg"
+      },
+      {
+        "file": "shot_10.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:BMW G82 M4 Competition Tanzanite Blue Metallic (11).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/BMW_G82_M4_Competition_Tanzanite_Blue_Metallic_%2811%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/BMW_G82_M4_Competition_Tanzanite_Blue_Metallic_%2811%29.jpg/1280px-BMW_G82_M4_Competition_Tanzanite_Blue_Metallic_%2811%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Damian B Oh",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:BMW_G82_M4_Competition_Tanzanite_Blue_Metallic_(11).jpg"
       }
     ]
   }

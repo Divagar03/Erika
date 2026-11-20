@@ -102,6 +102,10 @@ jobs:
             echo "mode=reel" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Replenish unposted vehicle shots
+        run: |
+          python scripts/replenish_fleet.py
+
       - name: Run automation
         env:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}

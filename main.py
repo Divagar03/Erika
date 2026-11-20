@@ -1701,9 +1701,27 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
             if not fresh:
                 fresh = non_cooldown_candidates
             chosen_name = fresh[0]
-            raw_shots = available_dict[chosen_name]
-            selected_shots = select_diverse_vehicle_shots(chosen_name, raw_shots, needed_count=5)
-            if selected_shots:
+            selected_shots = None
+            for candidate in fresh:
+                if candidate not in available_dict:
+                    continue
+                cand_raw = available_dict[candidate]
+                is_vid = any(p.suffix.lower() == ".mp4" for p in cand_raw)
+                min_req = 3 if is_vid else 4
+                try:
+                    shots = select_diverse_vehicle_shots(candidate, cand_raw, needed_count=5, min_required=min_req)
+                    if shots and len(shots) >= min_req:
+                        chosen_name = candidate
+                        selected_shots = shots
+                        break
+                except Exception as e:
+                    print(f"  [VehicleSelection] Theme candidate {candidate} skipped: {e}")
+                    continue
+
+            if not selected_shots:
+                # Fallback to general selection
+                pass
+            else:
                 parents = set(p.parent for p in selected_shots)
                 if len(parents) > 1:
                     raise ValueError(f"Single-car spec cohesion violated! Received shots from multiple folders: {parents}")
@@ -1712,7 +1730,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                     verify_color_cohesion(selected_shots)
                 except ImportError:
                     pass
-            return chosen_name, selected_shots, _is_bike_set(chosen_name)
+                return chosen_name, selected_shots, _is_bike_set(chosen_name)
 
     # 2. General Selection with strict Brand and Model cooldowns:
     # RULE 1 (Strict 7-Day Model Cooldown):
@@ -1749,13 +1767,35 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     ]
 
     chosen_name = None
+    candidate_order = []
     if alternating_candidates:
-        chosen_name = alternating_candidates[0]
-    elif preferred_pool:
-        fresh = [s for s in preferred_pool if s not in recent_posted]
-        chosen_name = fresh[0] if fresh else preferred_pool[0]
-    else:
-        chosen_name = active_order[start_idx]
+        candidate_order.extend(alternating_candidates)
+    if preferred_pool:
+        candidate_order.extend([s for s in preferred_pool if s not in candidate_order])
+    candidate_order.extend([s for s in active_order if s not in candidate_order])
+
+    chosen_name = None
+    selected_shots = None
+    for cand in candidate_order:
+        if cand not in available_dict:
+            continue
+        cand_raw = available_dict[cand]
+        is_vid = any(p.suffix.lower() == ".mp4" for p in cand_raw)
+        min_req = 3 if is_vid else 4
+        try:
+            shots = select_diverse_vehicle_shots(cand, cand_raw, needed_count=5, min_required=min_req)
+            if shots and len(shots) >= min_req:
+                chosen_name = cand
+                selected_shots = shots
+                break
+        except Exception as exc:
+            print(f"  [VehicleSelection] Notice: {cand} skipped: {exc}")
+            continue
+
+    if not chosen_name or not selected_shots:
+        v_dir = Path(__file__).parent / "assets" / "vehicles"
+        imgs = sorted(list(v_dir.glob("*.jpg")))[:5]
+        return "single_car", imgs, False
 
     # Cache recent_sets queue across the active library
     updated_recent = [chosen_name] + [s for s in recent_posted if s != chosen_name]
@@ -1767,20 +1807,15 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     except Exception:
         pass
 
-    # Pick non-repeating diverse shots from the vehicle's expanded pool
-    raw_shots = available_dict[chosen_name]
-    selected_shots = select_diverse_vehicle_shots(chosen_name, raw_shots, needed_count=5)
-
     # Guardrail: Verify 100% single-car spec cohesion. All shots must be from the exact same vehicle folder.
-    if selected_shots:
-        parents = set(p.parent for p in selected_shots)
-        if len(parents) > 1:
-            raise ValueError(f"Single-car spec cohesion violated! Received shots from multiple folders: {parents}")
-        try:
-            from scripts.color_guard import verify_color_cohesion
-            verify_color_cohesion(selected_shots)
-        except ImportError:
-            pass
+    parents = set(p.parent for p in selected_shots)
+    if len(parents) > 1:
+        raise ValueError(f"Single-car spec cohesion violated! Received shots from multiple folders: {parents}")
+    try:
+        from scripts.color_guard import verify_color_cohesion
+        verify_color_cohesion(selected_shots)
+    except ImportError:
+        pass
 
     return chosen_name, selected_shots, _is_bike_set(chosen_name)
 
@@ -1924,10 +1959,12 @@ def _get_vehicle_via_rotation_engine(
         if not slug or slug not in available_dict:
             return False
         raw_shots = available_dict[slug]
+        is_vid = any(p.suffix.lower() == ".mp4" for p in raw_shots)
+        min_req = 3 if is_vid else 4
         try:
-            # Check if at least 4 unposted shots exist
-            selected = select_diverse_vehicle_shots(slug, raw_shots, needed_count=5, record=False)
-            if not selected or len(selected) < 4:
+            # Check if at least min_req unposted shots exist
+            selected = select_diverse_vehicle_shots(slug, raw_shots, needed_count=5, min_required=min_req, record=False)
+            if not selected or len(selected) < min_req:
                 return False
             # Verify single-car color cohesion
             from scripts.color_guard import verify_color_cohesion
@@ -1944,7 +1981,9 @@ def _get_vehicle_via_rotation_engine(
     brand, model, colour, state_cand = res
     slug = _find_slug_for_brand_model(brand, model)
     raw_shots = available_dict[slug]
-    selected = select_diverse_vehicle_shots(slug, raw_shots, needed_count=5, record=False)
+    is_vid = any(p.suffix.lower() == ".mp4" for p in raw_shots)
+    min_req = 3 if is_vid else 4
+    selected = select_diverse_vehicle_shots(slug, raw_shots, needed_count=5, min_required=min_req, record=False)
 
     _ROTATION_BRAND = brand
     _ROTATION_MODEL = model
@@ -3457,6 +3496,9 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         files_to_log.append(REEL_PATTERN_FILE)
     if JOURNEY_STATE_FILE.exists():
         files_to_log.append(JOURNEY_STATE_FILE)
+    licenses_file = DATA_DIR / "licenses.json"
+    if licenses_file.exists():
+        files_to_log.append(licenses_file)
     git_commit_and_push(files_to_log, f"chore: log {active_format} reel {ts}")
 
 
