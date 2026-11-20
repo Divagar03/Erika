@@ -1406,5 +1406,13 @@
     "caption": "",
     "media": "",
     "detail": "[ShotTracker] Strict zero-repeat policy: 'ferrari_f80' has only 3 unposted shots left (needed minimum 4). Posted shots are NEVER repeated."
+  },
+  {
+    "time": "2026-11-20T01:46:06.834120+00:00",
+    "kind": "reel",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "[ShotTracker] Strict zero-repeat policy: 'ferrari_f80' has only 3 unposted shots left (needed minimum 4). Posted shots are NEVER repeated."
   }
 ]
