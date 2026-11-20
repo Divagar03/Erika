@@ -44,6 +44,7 @@ ROOT = Path(__file__).parent.resolve()
 PERSONA_FILE = ROOT / "persona.json"
 CONFIG_FILE = ROOT / "data" / "config.json"
 LOG_FILE = ROOT / "data" / "log.json"
+LICENSES_FILE = ROOT / "data" / "licenses.json"
 MEDIA_DIR = ROOT / "media"
 UPLOADS_DIR = ROOT / "uploads"
 UPLOADS_DONE_DIR = ROOT / "uploads" / "done"
@@ -3254,7 +3255,7 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         force_run = (event_name == "workflow_dispatch")
 
     is_manual = bool(custom_prompt) or (event_name == "workflow_dispatch" and force_run)
-    if not is_manual:
+    if not is_manual and not dry_run:
         # AGENT_SPEC §2 & §3: Slot idempotency (prevent duplicate posts in same 2-hour UTC slot)
         if REGISTRY_AVAILABLE:
             slot_hour = (datetime.now(timezone.utc).hour // 2) * 2
@@ -3496,9 +3497,8 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
         files_to_log.append(REEL_PATTERN_FILE)
     if JOURNEY_STATE_FILE.exists():
         files_to_log.append(JOURNEY_STATE_FILE)
-    licenses_file = DATA_DIR / "licenses.json"
-    if licenses_file.exists():
-        files_to_log.append(licenses_file)
+    if LICENSES_FILE.exists():
+        files_to_log.append(LICENSES_FILE)
     git_commit_and_push(files_to_log, f"chore: log {active_format} reel {ts}")
 
 
