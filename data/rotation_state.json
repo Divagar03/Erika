@@ -17,8 +17,8 @@
     "Aston Martin",
     "Pagani"
   ],
-  "brand_pointer": 9,
-  "last_brand": "Lamborghini",
+  "brand_pointer": 11,
+  "last_brand": "Porsche",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -952,15 +952,16 @@
         },
         "918 Spyder": {
           "used_colours": [
-            "white"
+            "white",
+            "red"
           ],
-          "last_colour": "white",
+          "last_colour": "red",
           "unavailable_until_next_cycle": false
         },
         "Carrera GT": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "959": {
           "used_colours": [],
@@ -12927,6 +12928,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "18083930042727402"
+    },
+    {
+      "timestamp": "2026-11-20T06:17:57.190944Z",
+      "brand": "Porsche",
+      "model": "918 Spyder",
+      "colour": "red",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "18143258782620454"
     }
   ]
 }
