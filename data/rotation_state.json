@@ -1,24 +1,24 @@
 {
   "brand_queue": [
-    "Audi",
-    "Yamaha",
     "Ferrari",
-    "Koenigsegg",
+    "McLaren",
+    "Audi",
     "BMW",
-    "Ford",
     "Ducati",
     "Kawasaki",
-    "Lamborghini",
+    "Ford",
     "Nissan",
-    "Porsche",
-    "McLaren",
+    "Lamborghini",
     "Mercedes-AMG",
-    "Bugatti",
+    "Koenigsegg",
     "Aston Martin",
-    "Pagani"
+    "Bugatti",
+    "Porsche",
+    "Pagani",
+    "Yamaha"
   ],
-  "brand_pointer": 14,
-  "last_brand": "Bugatti",
+  "brand_pointer": 1,
+  "last_brand": "Ferrari",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -526,10 +526,11 @@
         },
         "F80": {
           "used_colours": [
-            "white"
+            "white",
+            "gold"
           ],
-          "last_colour": "white",
-          "unavailable_until_next_cycle": true
+          "last_colour": "gold",
+          "unavailable_until_next_cycle": false
         },
         "458 Spider": {
           "used_colours": [],
@@ -1184,8 +1185,8 @@
     },
     "Aston Martin": {
       "model_queue": [
-        "Valkyrie",
-        "Valour"
+        "Valour",
+        "Valkyrie"
       ],
       "model_pointer": 2,
       "last_model": null,
@@ -12948,6 +12949,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "17915570091558934"
+    },
+    {
+      "timestamp": "2026-11-20T10:17:51.179856Z",
+      "brand": "Ferrari",
+      "model": "F80",
+      "colour": "gold",
+      "num_clips": 3,
+      "clip_hashes": [],
+      "post_id": "18138727213783413"
     }
   ]
 }

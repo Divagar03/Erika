@@ -1258,6 +1258,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "ferrari_f80",
+      "brand": "ferrari",
+      "model": "f80",
+      "format": "night_city",
+      "caption_hash": "d2b05f888cdcb969",
+      "media_id": "18138727213783413",
+      "yt_id": "H-qdf4w_f7k",
+      "media_file": "reel_20261120_101617.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-20T10:17:51.178731+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
