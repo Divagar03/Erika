@@ -1422,5 +1422,21 @@
     "caption": "",
     "media": "",
     "detail": "[ShotTracker] Strict zero-repeat policy: 'ferrari_f80' has only 3 unposted shots left (needed minimum 4). Posted shots are NEVER repeated."
+  },
+  {
+    "time": "2026-11-20T04:35:40.462141+00:00",
+    "kind": "weekly_reel",
+    "status": "ok",
+    "caption": "🔥 TURNING THE STREET INTO YOUR PERSONAL TRACK!  \n\nOrange‑fire on the get‑up, the 918’s twin‑turbo heart screams platinum‑steel.  \nThe exhaust wails like a sleepless orchestra, and every curve cuts wind like a razor.  \n\nRate this spec 1-10 👇\n\n#porsche918 #918spyder #porsche #holytrinity #hypercar #we",
+    "media": "reel_20261120_043349.mp4",
+    "detail": "set=porsche_918_spyder, format=phonk_bass_drop, media_id=18113567456233420, yt_id=EFB8qb-HdU0"
+  },
+  {
+    "time": "2026-11-20T04:35:40.473838+00:00",
+    "kind": "reel",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "name 'DATA_DIR' is not defined"
   }
 ]
