@@ -1510,5 +1510,13 @@
     "caption": "",
     "media": "",
     "detail": "Color cohesion violated! Diverse car colors in single reel (hue spread = 158.5°): shot_5.jpg: 199.3°, shot_6.jpg: 71.7°, shot_7.jpg: 139.4°, shot_8.jpg: 214.1°, shot_9.jpg: 230.2°"
+  },
+  {
+    "time": "2026-11-21T15:38:33.886682+00:00",
+    "kind": "reel",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Color cohesion violated! Mixed car color types detected: shot_1.jpg: COLORED, shot_2.jpg: COLORED, shot_3.jpg: COLORED, shot_4.jpg: WHITE, shot_5.jpg: COLORED"
   }
 ]
