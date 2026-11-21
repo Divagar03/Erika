@@ -17,8 +17,8 @@
     "Pagani",
     "Yamaha"
   ],
-  "brand_pointer": 7,
-  "last_brand": "Ford",
+  "brand_pointer": 9,
+  "last_brand": "Lamborghini",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -631,12 +631,12 @@
     },
     "Lamborghini": {
       "model_queue": [
-        "Aventador SVJ",
         "Diablo",
-        "Revuelto"
+        "Revuelto",
+        "Aventador SVJ"
       ],
       "model_pointer": 3,
-      "last_model": "Revuelto",
+      "last_model": "Aventador SVJ",
       "models": {
         "Countach": {
           "used_colours": [],
@@ -738,9 +738,11 @@
           "unavailable_until_next_cycle": false
         },
         "Aventador SVJ": {
-          "used_colours": [],
-          "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "used_colours": [
+            "yellow"
+          ],
+          "last_colour": "yellow",
+          "unavailable_until_next_cycle": false
         },
         "Aventador S": {
           "used_colours": [],
@@ -13002,6 +13004,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "17899746405416538"
+    },
+    {
+      "timestamp": "2026-11-21T09:43:49.472553Z",
+      "brand": "Lamborghini",
+      "model": "Aventador SVJ",
+      "colour": "yellow",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "17913679743310536"
     }
   ]
 }

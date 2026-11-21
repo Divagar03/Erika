@@ -1358,6 +1358,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "lamborghini_aventador_svj",
+      "brand": "lamborghini",
+      "model": "aventador_svj",
+      "format": "engine_sound_showcase",
+      "caption_hash": "bc620d9082738bdb",
+      "media_id": "17913679743310536",
+      "yt_id": "Vh_rKu7pinw",
+      "media_file": "reel_20261121_094250.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-21T09:43:49.470711+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
