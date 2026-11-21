@@ -1526,5 +1526,13 @@
     "caption": "",
     "media": "",
     "detail": "Color cohesion violated! Mixed car color types detected: shot_1.jpg: COLORED, shot_2.jpg: COLORED, shot_3.jpg: COLORED, shot_4.jpg: WHITE, shot_5.jpg: COLORED"
+  },
+  {
+    "time": "2026-11-21T17:27:12.747365+00:00",
+    "kind": "reel",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Color cohesion violated! Mixed car color types detected: shot_1.jpg: COLORED, shot_2.jpg: COLORED, shot_3.jpg: COLORED, shot_4.jpg: WHITE, shot_5.jpg: COLORED"
   }
 ]
