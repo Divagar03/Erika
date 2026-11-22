@@ -65,6 +65,77 @@ def record_used_shots(vehicle_name: str, shots: Sequence[Path]) -> None:
         print(f"  [ShotTracker] Permanently recorded {len(new_used)} used shots for {vehicle_name}")
 
 
+def _find_cohesive_subset(shots: list[Path], min_required: int, needed_count: int) -> list[Path]:
+    """
+    Finds the largest mutually color-cohesive subset of unposted shots
+    that satisfies the single-color rule (same color category and hue spread <= 50 deg).
+    """
+    if not shots:
+        return []
+    # Video clips are continuous footage from the same curated set
+    if shots[0].suffix.lower() == ".mp4":
+        return shots[:needed_count] if len(shots) >= min_required else []
+
+    try:
+        from scripts.color_guard import analyze_shot_color
+    except ImportError:
+        try:
+            from color_guard import analyze_shot_color
+        except ImportError:
+            return shots[:needed_count] if len(shots) >= min_required else []
+
+    analyzed = []
+    for s in shots:
+        try:
+            ct, hue = analyze_shot_color(s)
+            analyzed.append((s, ct, hue))
+        except Exception:
+            pass
+
+    if not analyzed:
+        return []
+
+    # Group by color category: WHITE, BLACK, GRAY, COLORED
+    by_type: dict[str, list[tuple[Path, float]]] = {}
+    for s, ct, hue in analyzed:
+        by_type.setdefault(ct, []).append((s, hue))
+
+    best_cluster: list[Path] = []
+
+    # 1. Non-COLORED (WHITE, BLACK, GRAY)
+    for ct in ("WHITE", "BLACK", "GRAY"):
+        items = by_type.get(ct, [])
+        if len(items) >= min_required and len(items) > len(best_cluster):
+            best_cluster = [s for s, _ in items]
+
+    # 2. COLORED: Find largest cluster where circular hue spread <= 50 degrees
+    colored_items = by_type.get("COLORED", [])
+    if len(colored_items) >= min_required:
+        n = len(colored_items)
+        best_colored: list[Path] = []
+        for i in range(n):
+            ref_hue = colored_items[i][1]
+            cluster = []
+            for s, h in colored_items:
+                diff = abs(h - ref_hue) % 360
+                dist = min(diff, 360 - diff)
+                if dist <= 25.0:  # total diameter <= 50 deg
+                    cluster.append((s, h))
+            if len(cluster) > len(best_colored):
+                # Verify exact circular hue spread
+                hues = [h for _, h in cluster]
+                sorted_hues = sorted(hues)
+                max_gap = max((sorted_hues[(k + 1) % len(sorted_hues)] - sorted_hues[k]) % 360 for k in range(len(sorted_hues)))
+                if (360.0 - max_gap) <= 50.0:
+                    best_colored = [s for s, _ in cluster]
+        if len(best_colored) > len(best_cluster):
+            best_cluster = best_colored
+
+    if len(best_cluster) >= min_required:
+        return best_cluster[:needed_count]
+    return []
+
+
 def select_diverse_vehicle_shots(
     vehicle_name: str,
     all_media: Sequence[Path],
@@ -77,7 +148,8 @@ def select_diverse_vehicle_shots(
     select up to `needed_count` (at least `min_required`) files that have NEVER been posted before.
     
     Guarantees:
-    1. 100% Single-Vehicle & Single-Color Cohesion: All selected files belong strictly to this vehicle.
+    1. 100% Single-Vehicle & Single-Color Cohesion: All selected files belong strictly to this vehicle
+       and share the exact same vehicle color.
     2. Strict Zero Repetition: Once a shot or clip is posted, it is NEVER repeated.
        If fewer than `min_required` unposted shots remain, an exception is raised.
     3. Natural Sorting: Never sorts 'shot_10' before 'shot_2'.
@@ -91,12 +163,18 @@ def select_diverse_vehicle_shots(
             f"unposted shots left (needed minimum {min_required}). Posted shots are NEVER repeated."
         )
 
-    actual_count = min(needed_count, len(unused))
-    selected = unused[:actual_count]
+    cohesive = _find_cohesive_subset(unused, min_required, needed_count)
+    if not cohesive or len(cohesive) < min_required:
+        raise ValueError(
+            f"[ShotTracker] Single-color cohesion: '{vehicle_name}' has {len(unused)} unposted shots, "
+            f"but no mutually cohesive color cluster with at least {min_required} shots was found."
+        )
+
+    selected = cohesive
 
     if record:
         record_used_shots(vehicle_name, selected)
 
-    print(f"  [ShotTracker] {vehicle_name}: Selected {len(selected)} unposted shots ({', '.join(p.name for p in selected)}), {len(unused) - len(selected)} remaining unposted")
+    print(f"  [ShotTracker] {vehicle_name}: Selected {len(selected)} cohesive unposted shots ({', '.join(p.name for p in selected)}), {len(unused) - len(selected)} remaining unposted")
     return selected
 

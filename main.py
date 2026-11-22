@@ -1786,6 +1786,14 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         try:
             shots = select_diverse_vehicle_shots(cand, cand_raw, needed_count=5, min_required=min_req)
             if shots and len(shots) >= min_req:
+                parents = set(p.parent for p in shots)
+                if len(parents) > 1:
+                    raise ValueError(f"Single-car spec cohesion violated! Received shots from multiple folders: {parents}")
+                try:
+                    from scripts.color_guard import verify_color_cohesion
+                    verify_color_cohesion(shots)
+                except ImportError:
+                    pass
                 chosen_name = cand
                 selected_shots = shots
                 break

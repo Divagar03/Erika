@@ -20,6 +20,7 @@ import hashlib
 import io
 import json
 import re
+import sys
 import time
 import urllib.error
 import urllib.parse
@@ -28,6 +29,11 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+if str(ROOT / "scripts") not in sys.path:
+    sys.path.insert(0, str(ROOT / "scripts"))
+
 SETS_DIR = ROOT / "assets" / "vehicles" / "sets"
 LICENSES_FILE = ROOT / "data" / "licenses.json"
 USAGE_FILE = ROOT / "data" / "used_shots.json"
@@ -58,8 +64,8 @@ FLEET_CONFIGS = [
         "display_name": "Porsche 911 GT3 RS",
         "queries": ["Porsche 911 GT3 RS 992 blue", "Porsche 992 GT3 RS blue", "Porsche 911 GT3 RS blue"],
         "expected_color_type": "COLORED",
-        "target_hue": 33.0,     # Normalized blue cluster for Shark Blue
-        "hue_tolerance": 45.0,
+        "target_hue": 210.0,     # Normalized blue cluster for Shark Blue
+        "hue_tolerance": 50.0,
     },
     {
         "id": "bmw_m4_blue",
@@ -176,10 +182,10 @@ FLEET_CONFIGS = [
     {
         "id": "pagani_huayra",
         "display_name": "Pagani Huayra",
-        "queries": ["Pagani Huayra carbon", "Pagani Huayra BC silver", "Pagani Huayra grey"],
-        "expected_color_type": "GRAY",
-        "target_hue": 0.0,
-        "hue_tolerance": 0.0,
+        "queries": ["Pagani Huayra blue", "Pagani Huayra BC blue", "Pagani Huayra Blu Francia"],
+        "expected_color_type": "COLORED",
+        "target_hue": 210.0,
+        "hue_tolerance": 50.0,
     },
     {
         "id": "porsche_carrera_gt",
@@ -372,8 +378,9 @@ def _check_color_match(candidate_path: Path, expected_type: str, target_hue: flo
             dist = min(diff, 360 - diff)
             return dist <= tolerance
         return True
-    except Exception:
-        return True
+    except Exception as e:
+        print(f"  [Replenish] Color match failed on {candidate_path.name}: {e}")
+        return False
 
 
 def replenish_vehicle(config: dict, target_unposted: int = 6) -> int:
