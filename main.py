@@ -3914,10 +3914,27 @@ def mode_youtube_short(persona: dict, env: dict, dry_run: bool) -> None:
             git_commit_and_push(files, f"chore: log youtube_short failure: {err_msg[:40]}")
 
 
+def mode_youtube_longform(persona: dict, env: dict, dry_run: bool, custom_prompt: str = "") -> None:
+    """Execute the 18-22 minute long-form YouTube documentary pipeline."""
+    print("\n=== MODE: youtube_longform ===")
+    from scripts.longform.pipeline import run_longform_pipeline
+    result = run_longform_pipeline(env, dry_run=dry_run)
+    if not dry_run and result.get("status") == "success":
+        yt_id = result.get("youtube_id", "")
+        log_ok("youtube_longform", "", "", f"yt_id={yt_id}, duration_min={result.get('duration_min', 0):.1f}")
+        files = [
+            ROOT / "data" / "longform_episodes.json",
+            ROOT / "data" / "youtube_queue.json",
+        ]
+        if LOG_FILE.exists():
+            files.append(LOG_FILE)
+        git_commit_and_push(files, f"chore: publish long-form YouTube episode {yt_id}")
+
+
 # Main entry point
 # ---------------------------------------------------------------------------
 
-MODES = {"post", "weekly_reel", "reel", "upload_reel", "journey_reel", "deep_dive", "comparison", "future_release", "youtube_top10", "youtube_short", "collect_metrics"}
+MODES = {"post", "weekly_reel", "reel", "upload_reel", "journey_reel", "deep_dive", "comparison", "future_release", "youtube_top10", "youtube_short", "youtube_longform", "collect_metrics"}
 
 
 def main() -> None:
@@ -3989,6 +4006,8 @@ def main() -> None:
             mode_upload_reel(persona, env, dry_run)
         elif mode == "youtube_short":
             mode_youtube_short(persona, env, dry_run)
+        elif mode == "youtube_longform":
+            mode_youtube_longform(persona, env, dry_run, custom_prompt=custom_prompt)
         elif mode == "youtube_top10":
             mode_youtube_top10(persona, env, dry_run)
         elif mode == "collect_metrics":

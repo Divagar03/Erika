@@ -1,0 +1,139 @@
+{
+  "pipeline_name": "ZenithMotors Long-Form Master Pipeline",
+  "version": "1.0.0",
+  "duration": {
+    "target_seconds": 1200,
+    "min_seconds": 1080,
+    "max_seconds": 1320,
+    "words_per_minute": 150,
+    "target_min_words": 2800,
+    "target_max_words": 3300,
+    "target_segment_count": 10
+  },
+  "formats": [
+    {
+      "id": "top_10_countdown",
+      "name": "Top 10 Countdown",
+      "description": "Numbered countdown ranking hypercars/superbikes by engineering extremes, controversy, or speed",
+      "structure": "Cold open countdown teaser, #10 to #1 with increasing stakes, mid-video #5 pivot, grand #1 reveal, verdict"
+    },
+    {
+      "id": "brand_history_evolution",
+      "name": "Brand History and Evolution",
+      "description": "Dramatic chronological narrative of how a marque rose from humble origins or near-bankruptcy to hypercar dominance",
+      "structure": "Cold open crisis moment, genesis era, engineering breakthrough, dark ages/near bankruptcy, modern rebirth, future roadmap"
+    },
+    {
+      "id": "model_deep_dive",
+      "name": "Single-Model Deep Dive",
+      "description": "Intense masterclass dissecting every bolt, aero scoop, powertrain secret, and lap record of one legendary machine",
+      "structure": "Cold open visceral stat, secret mandate, powertrain engineering, active aero physics, driving dynamics, ownership realities, verdict"
+    },
+    {
+      "id": "head_to_head_comparison",
+      "name": "Head-to-Head Comparison",
+      "description": "Rivalry clash comparing two direct adversaries across telemetry, aerodynamics, exhaust symphony, and road presence",
+      "structure": "Cold open duel teaser, philosophy clash, engine dyno & telemetry battle, chassis & aero, real-world track duel, point-by-point verdict"
+    },
+    {
+      "id": "myths_and_facts",
+      "name": "Myths and Facts Exposed",
+      "description": "Debunking widespread internet misconceptions, false performance claims, and manufacturing lore with verified telemetry",
+      "structure": "Cold open biggest lie, 5-8 myth-busting chapters, evidence presentation, manufacturer secrets, true engineering reality"
+    },
+    {
+      "id": "engineering_explained",
+      "name": "Engineering Explained",
+      "description": "Technical deep dive into cutting-edge mechanical wizardry: active aerodynamics, hybrid torque vectoring, or Freevalve",
+      "structure": "Cold open mechanical problem, physics constraints, the revolutionary breakthrough, step-by-step breakdown, telemetry validation, future impact"
+    },
+    {
+      "id": "what_happened_to",
+      "name": "What Happened To Discontinued Legends",
+      "description": "Investigative documentary into why celebrated supercar models or skunkworks projects were abruptly killed off",
+      "structure": "Cold open golden era snapshot, the promise, the hidden structural/financial flaws, the corporate guillotine, current cult status & value"
+    },
+    {
+      "id": "buyers_guide_ownership",
+      "name": "Buyer's Guide and Real Ownership Costs",
+      "description": "Unvarnished reality check on the true cost to buy, insure, service, and keep exotic machinery running without going bankrupt",
+      "structure": "Cold open sticker price illusion, routine maintenance nightmare, common catastrophic failures, depreciation curves, buyer's checklist"
+    }
+  ],
+  "hook_styles": [
+    {
+      "id": "provocative_claim",
+      "name": "Bold Provocative Claim",
+      "prompt_instruction": "Open immediately with a counter-intuitive assertion that challenges conventional supercar wisdom within the first 7 seconds."
+    },
+    {
+      "id": "high_stakes_mystery",
+      "name": "High-Stakes Secret Crisis",
+      "prompt_instruction": "Open with a dramatic, confidential crisis or secret crash during development that almost killed the project."
+    },
+    {
+      "id": "sensory_visceral",
+      "name": "Sensory Telemetry Shock",
+      "prompt_instruction": "Open directly with visceral acoustic and physics telemetry: the exact G-force, exhaust frequency, or turbo boost pressures."
+    },
+    {
+      "id": "historical_paradox",
+      "name": "Underdog Historical Paradox",
+      "prompt_instruction": "Open with an unexpected historical clash or bitter feud that forced engineers to attempt the seemingly impossible."
+    },
+    {
+      "id": "statistical_anomaly",
+      "name": "Statistical Anomaly",
+      "prompt_instruction": "Open with a mind-boggling number or cost comparison that sounds mathematically impossible but is 100% true."
+    },
+    {
+      "id": "insider_reveal",
+      "name": "Insider Confidential Reveal",
+      "prompt_instruction": "Open with what factory test drivers and confidential factory service bulletins revealed that was never mentioned in the marketing brochure."
+    }
+  ],
+  "voice": {
+    "primary": "en-US-ChristopherNeural",
+    "alternates": [
+      "en-US-AndrewNeural",
+      "en-US-GuyNeural",
+      "en-GB-RyanNeural"
+    ],
+    "target_lufs": -14.0,
+    "max_true_peak_db": -1.5,
+    "speech_rate_variance": ["+0%", "+2%", "-2%"]
+  },
+  "visuals": {
+    "min_shot_duration_sec": 4.5,
+    "max_shot_duration_sec": 7.5,
+    "max_asset_reuse_count": 2,
+    "ken_burns_zoom_speed": 0.0015,
+    "resolution": {
+      "width": 1920,
+      "height": 1080
+    },
+    "fps": 30
+  },
+  "anti_repetition": {
+    "min_format_gap_episodes": 5,
+    "min_hook_gap_episodes": 5,
+    "max_script_similarity_threshold": 0.50,
+    "similarity_history_window": 20
+  },
+  "qa_gates": {
+    "min_duration_sec": 1080,
+    "max_duration_sec": 1320,
+    "max_silence_gap_sec": 2.0,
+    "max_black_frame_ratio": 0.01,
+    "min_audio_peak_db": -18.0,
+    "max_audio_peak_db": -1.0,
+    "require_all_attributions": true
+  },
+  "publishing": {
+    "interval_hours": 48,
+    "category_id": "2",
+    "altered_synthetic_content": true,
+    "shorts_to_extract": 2,
+    "max_title_length": 70
+  }
+}

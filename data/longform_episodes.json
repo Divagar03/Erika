@@ -1,0 +1,100 @@
+{
+  "episodes": [
+    {
+      "episode_id": "ep_20261122_143936",
+      "topic_brand": "Aston Martin",
+      "topic_model": "Valour",
+      "topic_colour": "red",
+      "format_id": "engineering_explained",
+      "hook_style_id": "provocative_claim",
+      "title": "Aston Martin Valour: The Engineering Masterclass",
+      "script_hash": "7c417e47ff31a0183e0806ebb6d3474cffeec53518bd19b750cae323f66b62b7",
+      "script_word_count": 1515,
+      "duration_seconds": 694.6560000000002,
+      "thumbnail_path": "D:\\Erika\\data\\longform_thumbnails\\ep_20261122_143936_thumb.jpg",
+      "video_path": "D:\\Erika\\data\\longform_rendered\\ep_20261122_143936_master.mp4",
+      "srt_path": "D:\\Erika\\data\\longform_audio\\ep_20261122_143936\\ep_20261122_143936.srt",
+      "youtube_id": "DRY_RUN_YT_ID_12345",
+      "status": "published",
+      "created_at": "2026-11-22T14:39:36.854021+00:00",
+      "published_at": "2026-11-22T14:45:15.193777+00:00",
+      "qa_report": {
+        "duration_seconds": 694.464,
+        "duration_minutes": 11.5744,
+        "audio_metrics": {
+          "max_volume_db": -9.6,
+          "mean_volume_db": -24.9
+        },
+        "max_asset_reuse": 19,
+        "similarity_score": 0.0,
+        "attribution_count": 9,
+        "passed": false,
+        "failure_reasons": [
+          "Assets reused more than twice: {'shot_7': 15, 'shot_5': 9, 'shot_8': 11, 'shot_4': 10, 'shot_1': 8, 'shot_3': 12, 'shot_9': 14, 'shot_6': 19, 'shot_2': 12}"
+        ]
+      },
+      "assets_used": [
+        "shot_7",
+        "shot_5",
+        "shot_8",
+        "shot_4",
+        "shot_1",
+        "shot_3",
+        "shot_9",
+        "shot_6",
+        "shot_2"
+      ],
+      "attributions": [
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        }
+      ],
+      "retention_pct": null,
+      "avg_view_duration_sec": null,
+      "error_message": null
+    }
+  ],
+  "synced_at": "2026-11-22T14:45:15.201873+00:00"
+}

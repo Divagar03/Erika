@@ -1,0 +1,91 @@
+name: YouTube Long-Form Pipeline (Every 48h)
+
+on:
+  schedule:
+    # Runs once every 48 hours at 12:00 UTC (17:30 IST)
+    - cron: "0 12 */2 * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry Run (generate and render without YouTube upload)"
+        required: false
+        default: false
+        type: boolean
+      brand:
+        description: "Force specific brand (leave empty for automatic rotation)"
+        required: false
+        default: ""
+        type: string
+      model:
+        description: "Force specific model (leave empty for automatic rotation)"
+        required: false
+        default: ""
+        type: string
+      format:
+        description: "Force specific format (e.g. model_deep_dive, top_10_countdown, etc.)"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  # Isolated concurrency group: NEVER blocks or delays the 2-hour Instagram Reels workflow
+  group: youtube-longform
+  cancel-in-progress: false
+
+jobs:
+  longform:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install FFmpeg
+        run: |
+          curl -fsSL https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz \
+            | tar -xJ --strip-components=2 -C /usr/local/bin --wildcards '*/bin/ffmpeg' '*/bin/ffprobe'
+          ffmpeg -version 2>&1 | head -1
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Configure Git identity
+        run: |
+          git config user.name "zenith-longform-bot"
+          git config user.email "zenith-longform-bot@users.noreply.github.com"
+
+      - name: Execute Long-Form Pipeline
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-2.5-flash' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+          FORCE_BRAND: ${{ github.event.inputs.brand }}
+          FORCE_MODEL: ${{ github.event.inputs.model }}
+          FORCE_FORMAT: ${{ github.event.inputs.format }}
+        run: |
+          EXTRA_ARGS=""
+          if [ "$DRY_RUN" = "true" ]; then
+            EXTRA_ARGS="$EXTRA_ARGS --dry-run"
+          fi
+          python main.py youtube_longform $EXTRA_ARGS

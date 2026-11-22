@@ -1,3 +1,11 @@
 __pycache__/
 *.py[cod]
 .env
+data/longform.db
+data/longform_rendered/
+data/longform_audio/
+data/longform_music/
+data/longform_visuals/
+data/longform_research/
+data/longform_scripts/
+data/longform_thumbnails/
