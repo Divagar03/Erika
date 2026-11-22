@@ -17,8 +17,8 @@
     "Audi",
     "Yamaha"
   ],
-  "brand_pointer": 11,
-  "last_brand": "BMW",
+  "brand_pointer": 13,
+  "last_brand": "Lamborghini",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -637,12 +637,12 @@
     },
     "Lamborghini": {
       "model_queue": [
-        "Diablo",
         "Revuelto",
-        "Aventador SVJ"
+        "Aventador SVJ",
+        "Diablo"
       ],
       "model_pointer": 3,
-      "last_model": "Aventador SVJ",
+      "last_model": "Diablo",
       "models": {
         "Countach": {
           "used_colours": [],
@@ -651,9 +651,10 @@
         },
         "Diablo": {
           "used_colours": [
-            "grey"
+            "grey",
+            "silver"
           ],
-          "last_colour": "grey",
+          "last_colour": "silver",
           "unavailable_until_next_cycle": false
         },
         "Murci\u00e9lago": {
@@ -676,7 +677,7 @@
             "orange"
           ],
           "last_colour": "orange",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Si\u00e1n": {
           "used_colours": [],
@@ -748,7 +749,7 @@
             "yellow"
           ],
           "last_colour": "yellow",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Aventador S": {
           "used_colours": [],
@@ -13077,6 +13078,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "18112545557244680"
+    },
+    {
+      "timestamp": "2026-11-22T21:48:02.396923Z",
+      "brand": "Lamborghini",
+      "model": "Diablo",
+      "colour": "silver",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "18090147464299588"
     }
   ]
 }
