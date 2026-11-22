@@ -191,6 +191,14 @@ def get_or_create_daily_youtube_queue() -> dict:
     return new_queue
 
 
+def _clean_caption(caption: str) -> str:
+    """Sanitize caption for YouTube (strip LLM tokens and angle brackets)."""
+    if not caption:
+        return ""
+    caption = re.sub(r"<\|.*?\|>", "", caption)
+    return caption.replace("<", "").replace(">", "").strip()
+
+
 def _refill_queue_from_published_instagram_reels(queue_data: dict) -> bool:
     """If yesterday had fewer than 10 reels, refill with reels that have already been
     published to Instagram (e.g. today's published reels) and are waiting for YouTube.
@@ -218,14 +226,18 @@ def _refill_queue_from_published_instagram_reels(queue_data: dict) -> bool:
                     if not v_path.exists():
                         continue
                     det = l.get("detail", "")
+                    # Skip if already uploaded to YouTube previously
+                    if "yt_id=" in det:
+                        continue
                     if "bmw_m4_black" in det.lower():
                         continue
-                    clean_title = _clean_vehicle_title(det)
+                    clean_title = _clean_vehicle_title(det).replace("<", "").replace(">", "").strip()
+                    clean_cap = _clean_caption(l.get("caption", ""))
                     candidates.append({
                         "id": Path(m_file).stem,
                         "media_file": m_file,
                         "title": f"{clean_title} #Shorts",
-                        "caption": l.get("caption", ""),
+                        "caption": clean_cap,
                         "set_name": det,
                         "status": "pending",
                         "yt_id": None,

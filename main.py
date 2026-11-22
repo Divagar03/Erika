@@ -1090,6 +1090,17 @@ def publish_photo(image_url: str, caption: str, env: dict) -> str:
     return result["id"]
 
 
+def sanitize_youtube_text(text: str) -> str:
+    """Sanitize text for YouTube Data API (strip '<' and '>', remove LLM control tokens)."""
+    if not text:
+        return ""
+    # Strip LLM control tokens like <|endoftext|>, <pad>, etc.
+    text = re.sub(r"<\|.*?\|>", "", text)
+    # YouTube Data API v3 explicitly forbids angle brackets < and > in title and description
+    text = text.replace("<", "").replace(">", "")
+    return text.strip()
+
+
 def publish_youtube_short(video_path: Path, title: str, description: str, tags: list[str], env: dict) -> tuple[str | None, str]:
     """Upload vertical MP4 video to YouTube as a YouTube Short via YouTube Data API v3 resumable upload."""
     client_id = env.get("yt_client_id", "").strip()
@@ -1121,9 +1132,11 @@ def publish_youtube_short(video_path: Path, title: str, description: str, tags: 
         print(f"  [YouTube] Token refresh exception: {exc}")
         return None, f"token_refresh_exception_{exc}"
 
-    # Title must include #Shorts for automatic placement in Shorts feed
-    yt_title = title if "#shorts" in title.lower() else f"{title[:80]} #Shorts"
-    yt_desc = f"{description}\n\n#Shorts #Supercars #Cars #Reels"
+    # YouTube Data API v3 strictly forbids '<' and '>' in title and description
+    clean_title = sanitize_youtube_text(title)
+    clean_desc = sanitize_youtube_text(description)
+    yt_title = clean_title if "#shorts" in clean_title.lower() else f"{clean_title[:80]} #Shorts"
+    yt_desc = f"{clean_desc}\n\n#Shorts #Supercars #Cars #Reels"
 
     snippet = {
         "title": yt_title,
@@ -3887,14 +3900,18 @@ def mode_youtube_short(persona: dict, env: dict, dry_run: bool) -> None:
     """Publish the next pending YouTube Short from yesterday's 10 selected reels."""
     print("\n=== MODE: youtube_short ===")
     yt_id, err_msg = post_daily_youtube_short_step(env, dry_run=dry_run)
-    if not dry_run and yt_id:
-        log_ok("youtube_short", "", "", f"yt_id={yt_id}")
+    if not dry_run:
         files = [YT_QUEUE_FILE]
         if LOG_FILE.exists():
             files.append(LOG_FILE)
         if REGISTRY_FILE.exists():
             files.append(REGISTRY_FILE)
-        git_commit_and_push(files, f"chore: log published YouTube Short {yt_id}")
+        if yt_id:
+            log_ok("youtube_short", "", "", f"yt_id={yt_id}")
+            git_commit_and_push(files, f"chore: log published YouTube Short {yt_id}")
+        elif err_msg and err_msg != "queue_complete":
+            log_fail("youtube_short", err_msg)
+            git_commit_and_push(files, f"chore: log youtube_short failure: {err_msg[:40]}")
 
 
 # Main entry point
