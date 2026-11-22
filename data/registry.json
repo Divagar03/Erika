@@ -1378,6 +1378,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "bugatti_veyron",
+      "brand": "bugatti",
+      "model": "veyron",
+      "format": "speed_ramp",
+      "caption_hash": "9295a385b4ac0f0d",
+      "media_id": "17869017171677791",
+      "yt_id": "5BIBrGH9-tY",
+      "media_file": "reel_20261122_031007.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-22T03:12:02.978248+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

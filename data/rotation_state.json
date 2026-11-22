@@ -17,21 +17,23 @@
     "Pagani",
     "Yamaha"
   ],
-  "brand_pointer": 9,
-  "last_brand": "Lamborghini",
+  "brand_pointer": 13,
+  "last_brand": "Bugatti",
   "brands": {
     "Bugatti": {
       "model_queue": [
         "Veyron",
         "Chiron"
       ],
-      "model_pointer": 2,
-      "last_model": "Chiron",
+      "model_pointer": 1,
+      "last_model": "Veyron",
       "models": {
         "Veyron": {
-          "used_colours": [],
-          "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "used_colours": [
+            "blue"
+          ],
+          "last_colour": "blue",
+          "unavailable_until_next_cycle": false
         },
         "Chiron": {
           "used_colours": [
@@ -13013,6 +13015,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "17913679743310536"
+    },
+    {
+      "timestamp": "2026-11-22T03:12:02.979472Z",
+      "brand": "Bugatti",
+      "model": "Veyron",
+      "colour": "blue",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "17869017171677791"
     }
   ]
 }

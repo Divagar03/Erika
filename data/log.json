@@ -1558,5 +1558,13 @@
     "caption": "",
     "media": "",
     "detail": "Color cohesion violated! Mixed car color types detected: shot_1.jpg: COLORED, shot_2.jpg: COLORED, shot_3.jpg: COLORED, shot_4.jpg: WHITE, shot_5.jpg: COLORED"
+  },
+  {
+    "time": "2026-11-22T03:12:02.975724+00:00",
+    "kind": "weekly_reel",
+    "status": "ok",
+    "caption": "⚡️ “Speed in the Sky” unleashes the Veyron’s midnight blue fury.  \nThe exhaust roars like a wild drumroll while the aero sculpt turns heads at 300 mph.  \nRate this spec 1‑10 👇 or drop your dream spec below 🔑🔥\n\n#bugattiveyron #bugatti #veyron #w16 #hypercar #classicmodern #luxurycars #supercars",
+    "media": "reel_20261122_031007.mp4",
+    "detail": "set=bugatti_veyron, format=speed_ramp, media_id=17869017171677791, yt_id=5BIBrGH9-tY"
   }
 ]
