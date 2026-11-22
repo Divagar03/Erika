@@ -1582,5 +1582,13 @@
     "caption": "Lights, panels, turbo‑performance!  \nSearing yellow fury that hugs every curve, the SF90’s V‑8 cuts through the air like a razor.  \nIts exhaust roars a symphonic 18‑step crescendo that turns heads in a split second.  \nRate this spec 1‑10 👇\n\n#ferrarisf90 #sf90stradale #ferrari #maranello #hypercars #",
     "media": "reel_20261122_061659.mp4",
     "detail": "set=ferrari_sf90, format=speed_ramp, media_id=18095683346221759, yt_err=queue_complete"
+  },
+  {
+    "time": "2026-11-22T13:20:48.829131+00:00",
+    "kind": "reel",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Reel video generation failed quality gate: Audio peaks too quiet: max_volume=-6.2 dB (threshold >= -5 dB)"
   }
 ]
