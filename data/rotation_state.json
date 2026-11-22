@@ -17,8 +17,8 @@
     "Audi",
     "Yamaha"
   ],
-  "brand_pointer": 7,
-  "last_brand": "McLaren",
+  "brand_pointer": 9,
+  "last_brand": "Ford",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -2068,17 +2068,18 @@
     },
     "Ford": {
       "model_queue": [
-        "GT",
-        "Mustang S550"
+        "Mustang S550",
+        "GT"
       ],
-      "model_pointer": 1,
+      "model_pointer": 2,
       "last_model": "GT",
       "models": {
         "GT": {
           "used_colours": [
-            "brown"
+            "brown",
+            "red"
           ],
-          "last_colour": "brown",
+          "last_colour": "red",
           "unavailable_until_next_cycle": false
         },
         "Model T": {
@@ -2196,7 +2197,7 @@
             "red"
           ],
           "last_colour": "red",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Mustang S650": {
           "used_colours": [],
@@ -13057,6 +13058,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "17926952040441496"
+    },
+    {
+      "timestamp": "2026-11-22T14:19:11.201138Z",
+      "brand": "Ford",
+      "model": "GT",
+      "colour": "red",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "17978423160149981"
     }
   ]
 }

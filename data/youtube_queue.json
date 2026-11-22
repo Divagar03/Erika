@@ -32,10 +32,10 @@
       "title": "Ferrari F80 • Supercar Reel #Shorts",
       "caption": "🔥 Midnight roar, golden flare – the F80 lights up the city skyline.  \nTorque that shreds the silence, exhaust singing in full gold.  \nAerodynamic curves cut shadows like a razor.  \nRate this spec 1‑10 👇<|endoftext|>\n\n#ferrari #ferrarif80 #f80 #rossocorsa #hypercars #maranello #supercars #exoticcars ",
       "set_name": "set=ferrari_f80, format=night_city, media_id=18138727213783413, yt_id=H-qdf4w_f7k",
-      "status": "pending",
+      "status": "failed",
       "yt_id": null,
       "published_at": null,
-      "error": null
+      "error": "init_upload_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The request metadata specifies an invalid video desc"
     },
     {
       "id": "reel_20261120_121639",
