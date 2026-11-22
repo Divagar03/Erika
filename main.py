@@ -3886,7 +3886,15 @@ def post_daily_youtube_short_step(env: dict, dry_run: bool = False) -> tuple[str
 def mode_youtube_short(persona: dict, env: dict, dry_run: bool) -> None:
     """Publish the next pending YouTube Short from yesterday's 10 selected reels."""
     print("\n=== MODE: youtube_short ===")
-    post_daily_youtube_short_step(env, dry_run=dry_run)
+    yt_id, err_msg = post_daily_youtube_short_step(env, dry_run=dry_run)
+    if not dry_run and yt_id:
+        log_ok("youtube_short", "", "", f"yt_id={yt_id}")
+        files = [YT_QUEUE_FILE]
+        if LOG_FILE.exists():
+            files.append(LOG_FILE)
+        if REGISTRY_FILE.exists():
+            files.append(REGISTRY_FILE)
+        git_commit_and_push(files, f"chore: log published YouTube Short {yt_id}")
 
 
 # Main entry point
