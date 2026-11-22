@@ -1478,6 +1478,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "bmw_m4_blue",
+      "brand": "bmw",
+      "model": "m4",
+      "format": "speed_ramp",
+      "caption_hash": "9ea210e2a5157e61",
+      "media_id": "18112545557244680",
+      "yt_id": "Co0R6seIGJM",
+      "media_file": "reel_20261122_161505.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-22T16:17:10.834178+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

@@ -17,8 +17,8 @@
     "Audi",
     "Yamaha"
   ],
-  "brand_pointer": 9,
-  "last_brand": "Ford",
+  "brand_pointer": 11,
+  "last_brand": "BMW",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -5041,8 +5041,8 @@
         "S1000RR",
         "M5 CS"
       ],
-      "model_pointer": 1,
-      "last_model": "M2 Competition",
+      "model_pointer": 2,
+      "last_model": "G82 M4",
       "models": {
         "M1": {
           "used_colours": [],
@@ -5096,9 +5096,10 @@
         },
         "G82 M4": {
           "used_colours": [
-            "blue"
+            "blue",
+            "yellow"
           ],
-          "last_colour": "blue",
+          "last_colour": "yellow",
           "unavailable_until_next_cycle": false
         },
         "E36 M3": {
@@ -13067,6 +13068,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "17978423160149981"
+    },
+    {
+      "timestamp": "2026-11-22T16:17:10.836167Z",
+      "brand": "BMW",
+      "model": "G82 M4",
+      "colour": "yellow",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "18112545557244680"
     }
   ]
 }
