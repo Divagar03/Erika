@@ -191,6 +191,65 @@ def get_or_create_daily_youtube_queue() -> dict:
     return new_queue
 
 
+def _refill_queue_from_published_instagram_reels(queue_data: dict) -> bool:
+    """If yesterday had fewer than 10 reels, refill with reels that have already been
+    published to Instagram (e.g. today's published reels) and are waiting for YouTube.
+    Strictly preserves the rule that reels must be published on Instagram first!
+    """
+    published_today = queue_data.get("published_today", 0)
+    slots_left = MAX_DAILY_YOUTUBE_SHORTS - published_today
+    if slots_left <= 0:
+        return False
+
+    already_queued_files = {item["media_file"] for item in queue_data.get("queue", []) if item.get("media_file")}
+
+    # Read log.json for reels successfully published on Instagram
+    candidates: list[dict] = []
+    if LOG_FILE.exists():
+        try:
+            with open(LOG_FILE, encoding="utf-8") as f:
+                logs = json.load(f)
+            for l in reversed(logs):
+                if l.get("status") == "ok" and l.get("media", "").endswith(".mp4"):
+                    m_file = l.get("media")
+                    if m_file in already_queued_files:
+                        continue
+                    v_path = MEDIA_DIR / m_file
+                    if not v_path.exists():
+                        continue
+                    det = l.get("detail", "")
+                    if "bmw_m4_black" in det.lower():
+                        continue
+                    clean_title = _clean_vehicle_title(det)
+                    candidates.append({
+                        "id": Path(m_file).stem,
+                        "media_file": m_file,
+                        "title": f"{clean_title} #Shorts",
+                        "caption": l.get("caption", ""),
+                        "set_name": det,
+                        "status": "pending",
+                        "yt_id": None,
+                        "published_at": None,
+                        "error": None
+                    })
+                    already_queued_files.add(m_file)
+                    if len(candidates) >= slots_left:
+                        break
+        except Exception as e:
+            print(f"  [YouTube Queue] Notice refilling queue: {e}")
+
+    if not candidates:
+        return False
+
+    # Reverse back so oldest unposted comes first
+    candidates.reverse()
+    queue_data.setdefault("queue", []).extend(candidates)
+    queue_data["target_count"] = len(queue_data["queue"])
+    save_youtube_queue(queue_data)
+    print(f"  [YouTube Queue] Refilled daily queue with {len(candidates)} Instagram-published reels for today.")
+    return True
+
+
 def get_next_pending_youtube_short() -> tuple[dict | None, dict]:
     """Return (item, queue_data) for the next pending short, or (None, queue_data) if finished."""
     queue_data = get_or_create_daily_youtube_queue()
@@ -200,6 +259,13 @@ def get_next_pending_youtube_short() -> tuple[dict | None, dict]:
     for item in queue_data.get("queue", []):
         if item.get("status") == "pending":
             return item, queue_data
+
+    # If all items in current queue are published, but published_today < 10,
+    # refill with reels already published on Instagram!
+    if _refill_queue_from_published_instagram_reels(queue_data):
+        for item in queue_data.get("queue", []):
+            if item.get("status") == "pending":
+                return item, queue_data
 
     return None, queue_data
 
