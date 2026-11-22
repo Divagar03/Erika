@@ -1398,6 +1398,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "pagani_huayra",
+      "brand": "pagani",
+      "model": "huayra",
+      "format": "speed_ramp",
+      "caption_hash": "b2ece1648f0480d6",
+      "media_id": "18132953821697234",
+      "yt_id": "dhTa7DLiSDk",
+      "media_file": "reel_20261122_041636.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-22T04:18:35.514919+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
