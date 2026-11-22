@@ -2,7 +2,7 @@
   "date": "2026-11-22",
   "source_date": "2026-11-21",
   "target_count": 10,
-  "published_today": 2,
+  "published_today": 3,
   "queue": [
     {
       "id": "reel_20261121_012837",
@@ -32,9 +32,9 @@
       "title": "Mclaren Senna • Supercar Reel #Shorts",
       "caption": "🔥🚀 Ready to stop the night in its tracks?  \n\nThe McLaren Senna’s orange beast roars, shaking every pillar of silence.  \nIts sleek lines slice through the city maze, turning every corner into a hard‑core ballet.  \n\nRate this spec 1‑10 👇 or drop your dream spec below 🔑🔥\n\n#mclarensenna #mclaren #senna",
       "set_name": "set=mclaren_senna, format=night_city, media_id=17926952040441496, yt_err=queue_complete",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "AE8NrKfKHyw",
+      "published_at": "2026-11-22T14:23:02.578927+00:00",
       "error": null
     },
     {

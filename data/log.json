@@ -1606,5 +1606,13 @@
     "caption": "🚀 Red‑hot, heart‑stamped power unleashed!  \n\nThe Ford GT slashes the track with a thunderous bass‑drop roar, turning every curve into an adrenaline concerto. Its sleek aerodynamics slice wind like a knife, leaving competitors in a dusty blur.  \n\nRate this spec 1-10 👇 #️⃣🔥\n\n#fordgt #ford #supercars #",
     "media": "reel_20261122_141718.mp4",
     "detail": "set=ford_gt_supercar, format=phonk_bass_drop, media_id=17978423160149981, yt_err=init_upload_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The request metadata specifies an invalid video desc"
+  },
+  {
+    "time": "2026-11-22T14:23:02.579388+00:00",
+    "kind": "youtube_short",
+    "status": "ok",
+    "caption": "",
+    "media": "",
+    "detail": "yt_id=AE8NrKfKHyw"
   }
 ]
