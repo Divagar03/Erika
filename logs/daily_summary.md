@@ -1,6 +1,6 @@
 # Daily Summary — 2026-11-22
 
-- **Posts published today:** 3
+- **Posts published today:** 4
 - **Status:** Operational (12 Reels/Day schedule)
 
 ## Today's Published Reels
@@ -9,4 +9,5 @@
 | 03:12 | bugatti_veyron | speed_ramp | 17869017171677791 | 5BIBrGH9-tY |
 | 04:18 | pagani_huayra | speed_ramp | 18132953821697234 | dhTa7DLiSDk |
 | 06:18 | ferrari_sf90 | speed_ramp | 18095683346221759 | — |
+| 13:30 | mclaren_senna | night_city | 17926952040441496 | — |
 

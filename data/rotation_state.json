@@ -17,8 +17,8 @@
     "Audi",
     "Yamaha"
   ],
-  "brand_pointer": 6,
-  "last_brand": "Ferrari",
+  "brand_pointer": 7,
+  "last_brand": "McLaren",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -824,11 +824,11 @@
     },
     "McLaren": {
       "model_queue": [
-        "P1",
-        "Senna"
+        "Senna",
+        "P1"
       ],
-      "model_pointer": 2,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "Senna",
       "models": {
         "F1": {
           "used_colours": [],
@@ -838,12 +838,14 @@
         "P1": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "unavailable_until_next_cycle": false
         },
         "Senna": {
-          "used_colours": [],
-          "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "used_colours": [
+            "orange"
+          ],
+          "last_colour": "orange",
+          "unavailable_until_next_cycle": false
         },
         "720S": {
           "used_colours": [],
@@ -13046,6 +13048,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "18095683346221759"
+    },
+    {
+      "timestamp": "2026-11-22T13:30:36.865052Z",
+      "brand": "McLaren",
+      "model": "Senna",
+      "colour": "orange",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "17926952040441496"
     }
   ]
 }
