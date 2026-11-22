@@ -1,31 +1,31 @@
 {
   "brand_queue": [
+    "Bugatti",
+    "Pagani",
+    "Ducati",
+    "Koenigsegg",
+    "Mercedes-AMG",
     "Ferrari",
     "McLaren",
-    "Audi",
-    "BMW",
-    "Ducati",
-    "Kawasaki",
-    "Ford",
     "Nissan",
-    "Lamborghini",
-    "Mercedes-AMG",
-    "Koenigsegg",
+    "Ford",
     "Aston Martin",
-    "Bugatti",
+    "BMW",
     "Porsche",
-    "Pagani",
+    "Lamborghini",
+    "Kawasaki",
+    "Audi",
     "Yamaha"
   ],
-  "brand_pointer": 15,
-  "last_brand": "Pagani",
+  "brand_pointer": 6,
+  "last_brand": "Ferrari",
   "brands": {
     "Bugatti": {
       "model_queue": [
-        "Veyron",
-        "Chiron"
+        "Chiron",
+        "Veyron"
       ],
-      "model_pointer": 1,
+      "model_pointer": 2,
       "last_model": "Veyron",
       "models": {
         "Veyron": {
@@ -33,14 +33,14 @@
             "blue"
           ],
           "last_colour": "blue",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Chiron": {
           "used_colours": [
             "blue"
           ],
           "last_colour": "blue",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Divo": {
           "used_colours": [],
@@ -346,12 +346,12 @@
     },
     "Ferrari": {
       "model_queue": [
+        "SF90",
         "LaFerrari",
-        "F80",
-        "SF90"
+        "F80"
       ],
-      "model_pointer": 2,
-      "last_model": "F80",
+      "model_pointer": 1,
+      "last_model": "SF90",
       "models": {
         "F40": {
           "used_colours": [],
@@ -371,12 +371,14 @@
         "LaFerrari": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "unavailable_until_next_cycle": false
         },
         "SF90": {
-          "used_colours": [],
-          "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "used_colours": [
+            "yellow"
+          ],
+          "last_colour": "yellow",
+          "unavailable_until_next_cycle": false
         },
         "296 GTB": {
           "used_colours": [],
@@ -13035,6 +13037,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "18132953821697234"
+    },
+    {
+      "timestamp": "2026-11-22T06:18:11.239178Z",
+      "brand": "Ferrari",
+      "model": "SF90",
+      "colour": "yellow",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "18095683346221759"
     }
   ]
 }

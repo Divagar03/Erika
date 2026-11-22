@@ -1418,6 +1418,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "ferrari_sf90",
+      "brand": "ferrari",
+      "model": "sf90",
+      "format": "speed_ramp",
+      "caption_hash": "3e0085e41cf42dc3",
+      "media_id": "18095683346221759",
+      "yt_id": null,
+      "media_file": "reel_20261122_061659.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-22T06:18:11.237311+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
