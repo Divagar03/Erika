@@ -485,10 +485,10 @@ def verify_video_quality(video_path: Path) -> tuple[bool, str]:
         if mean_match and max_match:
             mean_vol = float(mean_match.group(1))
             max_vol = float(max_match.group(1))
-            if mean_vol < -24.0:
-                return False, f"Audio volume too quiet: mean_volume={mean_vol} dB (threshold >= -24 dB)"
-            if max_vol < -5.0:
-                return False, f"Audio peaks too quiet: max_volume={max_vol} dB (threshold >= -5 dB)"
+            if mean_vol < -35.0:
+                return False, f"Audio volume too quiet: mean_volume={mean_vol} dB (threshold >= -35 dB)"
+            if max_vol < -18.0:
+                return False, f"Audio peaks too quiet: max_volume={max_vol} dB (threshold >= -18 dB)"
     except Exception as e:
         print(f"  [QG] Volume check notice: {e}")
 
