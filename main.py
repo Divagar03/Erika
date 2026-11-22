@@ -132,10 +132,10 @@ def _env(key: str, required: bool = True) -> str:
 
 def load_env() -> dict:
     return {
-        "ig_user_id": _env("IG_USER_ID"),
-        "ig_token": _env("IG_ACCESS_TOKEN"),
+        "ig_user_id": _env("IG_USER_ID", required=False),
+        "ig_token": _env("IG_ACCESS_TOKEN", required=False),
         "gemini_key": _env("GEMINI_API_KEY", required=False),
-        "gh_repo": _env("GITHUB_REPOSITORY"),   # owner/repo
+        "gh_repo": _env("GITHUB_REPOSITORY", required=False) or "Divagar03/Erika",
         "gh_branch": _env("GITHUB_REF_NAME", required=False) or "main",
         "gemini_model": os.environ.get("GEMINI_MODEL", "gemini-3.8-flash").strip(),
         "gh_token": os.environ.get("GITHUB_TOKEN", "").strip(),
