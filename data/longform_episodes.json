@@ -1,50 +1,828 @@
 {
   "episodes": [
     {
-      "episode_id": "ep_20261122_143936",
-      "topic_brand": "Aston Martin",
-      "topic_model": "Valour",
-      "topic_colour": "red",
-      "format_id": "engineering_explained",
-      "hook_style_id": "provocative_claim",
-      "title": "Aston Martin Valour: The Engineering Masterclass",
-      "script_hash": "7c417e47ff31a0183e0806ebb6d3474cffeec53518bd19b750cae323f66b62b7",
-      "script_word_count": 1515,
-      "duration_seconds": 694.6560000000002,
-      "thumbnail_path": "D:\\Erika\\data\\longform_thumbnails\\ep_20261122_143936_thumb.jpg",
-      "video_path": "D:\\Erika\\data\\longform_rendered\\ep_20261122_143936_master.mp4",
-      "srt_path": "D:\\Erika\\data\\longform_audio\\ep_20261122_143936\\ep_20261122_143936.srt",
-      "youtube_id": "DRY_RUN_YT_ID_12345",
+      "episode_id": "ep_20261123_101213",
+      "topic_brand": "Ford",
+      "topic_model": "Mustang S550",
+      "topic_colour": "blue",
+      "format_id": "what_happened_to",
+      "hook_style_id": "high_stakes_mystery",
+      "title": "Ford Mustang S550: The Engineering Masterclass",
+      "script_hash": "8b3738e24ec7067d67be9054171d923d3caf91640a58516587de6b2efd247f86",
+      "script_word_count": 3087,
+      "duration_seconds": 1199.841854,
+      "thumbnail_path": "/home/runner/work/Erika/Erika/data/longform_thumbnails/ep_20261123_101213_thumb.jpg",
+      "video_path": "/home/runner/work/Erika/Erika/data/longform_rendered/ep_20261123_101213_master.mp4",
+      "srt_path": "/home/runner/work/Erika/Erika/data/longform_audio/ep_20261123_101213/ep_20261123_101213.srt",
+      "youtube_id": "XluXzJA1Evg",
       "status": "published",
-      "created_at": "2026-11-22T14:39:36.854021+00:00",
-      "published_at": "2026-11-22T14:45:15.193777+00:00",
+      "created_at": "2026-11-23T10:12:13.458390+00:00",
+      "published_at": "2026-11-23T10:26:16.789282+00:00",
       "qa_report": {
-        "duration_seconds": 694.464,
-        "duration_minutes": 11.5744,
+        "duration_seconds": 1198.788688,
+        "duration_minutes": 19.979811466666668,
         "audio_metrics": {
-          "max_volume_db": -9.6,
-          "mean_volume_db": -24.9
+          "max_volume_db": -9.0,
+          "mean_volume_db": -24.7
         },
-        "max_asset_reuse": 19,
+        "max_asset_reuse": 2,
         "similarity_score": 0.0,
-        "attribution_count": 9,
-        "passed": false,
-        "failure_reasons": [
-          "Assets reused more than twice: {'shot_7': 15, 'shot_5': 9, 'shot_8': 11, 'shot_4': 10, 'shot_1': 8, 'shot_3': 12, 'shot_9': 14, 'shot_6': 19, 'shot_2': 12}"
-        ]
+        "attribution_count": 139,
+        "passed": true,
+        "failure_reasons": []
       },
       "assets_used": [
-        "shot_7",
-        "shot_5",
-        "shot_8",
-        "shot_4",
-        "shot_1",
-        "shot_3",
-        "shot_9",
-        "shot_6",
-        "shot_2"
+        "lamborghini_diablo_shot_2",
+        "bmw_m5_cs_shot_6",
+        "bmw_m2_coupe_shot_5",
+        "ducati_panigale_v4s_shot_2",
+        "ferrari_sf90_shot_2",
+        "ford_gt_supercar_shot_1",
+        "mclaren_senna_shot_2",
+        "audi_r8_v10_shot_9",
+        "ferrari_laferrari_shot_3",
+        "yamaha_yzf_r1m_shot_9",
+        "yamaha_yzf_r1m_shot_2",
+        "porsche_918_spyder_shot_7",
+        "porsche_carrera_gt_shot_7",
+        "bmw_s1000rr_shot_2",
+        "ferrari_laferrari_shot_7",
+        "aston_martin_valkyrie_shot_3",
+        "mclaren_p1_shot_7",
+        "bugatti_veyron_shot_9",
+        "lamborghini_revuelto_shot_1",
+        "lamborghini_diablo_shot_6",
+        "audi_r8_v10_shot_6",
+        "porsche_911_gt3rs_shot_3",
+        "bugatti_veyron_shot_1",
+        "mercedes_amg_one_shot_1",
+        "lamborghini_diablo_shot_10",
+        "mercedes_amg_one_shot_4",
+        "lamborghini_diablo_shot_9",
+        "aston_martin_valour_shot_7",
+        "ferrari_sf90_shot_5",
+        "pagani_huayra_shot_8",
+        "bmw_m5_cs_shot_8",
+        "ford_gt_supercar_shot_4",
+        "ducati_panigale_v4s_shot_9",
+        "mercedes_amg_one_shot_3",
+        "aston_martin_valour_shot_2",
+        "pagani_huayra_shot_3",
+        "aston_martin_valour_shot_4",
+        "porsche_918_spyder_shot_5",
+        "aston_martin_valkyrie_shot_8",
+        "aston_martin_valkyrie_shot_1",
+        "lamborghini_revuelto_shot_9",
+        "porsche_911_gt3rs_shot_4",
+        "bmw_m5_cs_shot_2",
+        "mercedes_amg_one_shot_8",
+        "bugatti_chiron_shot_2",
+        "porsche_918_spyder_shot_6",
+        "porsche_911_gt3rs_shot_1",
+        "nissan_gtr_r35_shot_4",
+        "porsche_911_gt3rs_shot_2",
+        "mclaren_p1_shot_5",
+        "ducati_panigale_v4s_shot_6",
+        "nissan_gtr_r35_shot_3",
+        "kawasaki_ninja_h2r_shot_9",
+        "mclaren_p1_shot_1",
+        "lamborghini_aventador_svj_shot_6",
+        "mclaren_senna_shot_5",
+        "porsche_carrera_gt_shot_5",
+        "ford_gt_supercar_shot_3",
+        "bmw_m4_blue_shot_3",
+        "lamborghini_revuelto_shot_8",
+        "kawasaki_ninja_h2r_shot_4",
+        "bmw_m2_coupe_shot_3",
+        "nissan_gtr_r35_shot_5",
+        "bugatti_veyron_shot_8",
+        "aston_martin_valkyrie_shot_7",
+        "porsche_carrera_gt_shot_3",
+        "mclaren_senna_shot_8",
+        "porsche_carrera_gt_shot_2",
+        "koenigsegg_jesko_shot_2",
+        "bmw_m2_coupe_shot_8",
+        "bugatti_chiron_shot_7",
+        "audi_r8_v10_shot_3",
+        "bmw_s1000rr_shot_4",
+        "bmw_m4_blue_shot_5",
+        "lamborghini_diablo_shot_3",
+        "porsche_918_spyder_shot_8",
+        "lamborghini_aventador_svj_shot_3",
+        "audi_r8_v10_shot_8",
+        "lamborghini_diablo_shot_8",
+        "porsche_911_gt3rs_shot_7",
+        "lamborghini_diablo_shot_5",
+        "lamborghini_aventador_svj_shot_5",
+        "pagani_huayra_shot_2",
+        "bugatti_chiron_shot_1",
+        "ford_gt_supercar_shot_7",
+        "bugatti_veyron_shot_3",
+        "yamaha_yzf_r1m_shot_3",
+        "porsche_911_gt3rs_shot_6",
+        "bugatti_veyron_shot_5",
+        "porsche_carrera_gt_shot_4",
+        "ferrari_laferrari_shot_4",
+        "audi_r8_v10_shot_1",
+        "aston_martin_valour_shot_1",
+        "bmw_m2_coupe_shot_2",
+        "porsche_911_gt3rs_shot_5",
+        "aston_martin_valkyrie_shot_9",
+        "aston_martin_valour_shot_9",
+        "porsche_carrera_gt_shot_6",
+        "bugatti_chiron_shot_3",
+        "porsche_carrera_gt_shot_1",
+        "porsche_911_gt3rs_shot_9",
+        "ferrari_sf90_shot_8",
+        "kawasaki_ninja_h2r_shot_6",
+        "bmw_m2_coupe_shot_10",
+        "mercedes_amg_one_shot_7",
+        "lamborghini_diablo_shot_1",
+        "ferrari_f80_shot_3",
+        "bugatti_chiron_shot_6",
+        "aston_martin_valkyrie_shot_6",
+        "pagani_huayra_shot_6",
+        "lamborghini_revuelto_shot_6",
+        "mclaren_senna_shot_9",
+        "kawasaki_ninja_h2r_shot_2",
+        "ford_gt_supercar_shot_9",
+        "ferrari_laferrari_shot_2",
+        "pagani_huayra_shot_1",
+        "ford_gt_supercar_shot_2",
+        "bmw_m2_coupe_shot_9",
+        "audi_r8_v10_shot_7",
+        "mclaren_senna_shot_7",
+        "pagani_huayra_shot_5",
+        "ferrari_f80_shot_2",
+        "aston_martin_valour_shot_3",
+        "lamborghini_revuelto_shot_7",
+        "bmw_m5_cs_shot_5",
+        "bugatti_veyron_shot_4",
+        "yamaha_yzf_r1m_shot_6",
+        "bugatti_veyron_shot_7",
+        "nissan_gtr_r35_shot_9",
+        "mclaren_p1_shot_8",
+        "bmw_m5_cs_shot_4",
+        "ford_gt_supercar_shot_6",
+        "mclaren_senna_shot_4",
+        "bmw_m5_cs_shot_3",
+        "pagani_huayra_shot_4",
+        "bmw_m4_blue_shot_7",
+        "bugatti_veyron_shot_6",
+        "porsche_918_spyder_shot_9",
+        "mclaren_p1_shot_9"
       ],
       "attributions": [
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
         {
           "author": "Zenith Motors Studio",
           "license": "Proprietary / CC-0 In-House",
@@ -96,5 +874,5 @@
       "error_message": null
     }
   ],
-  "synced_at": "2026-11-22T14:45:15.201873+00:00"
+  "synced_at": "2026-11-23T10:26:16.792699+00:00"
 }

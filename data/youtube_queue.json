@@ -1,7 +1,7 @@
 {
   "date": "2026-11-23",
   "source_date": "2026-11-22",
-  "target_count": 7,
+  "target_count": 9,
   "published_today": 3,
   "queue": [
     {
@@ -76,6 +76,28 @@
       "title": "Lamborghini Diablo • Supercar Reel #Shorts",
       "caption": "Ready to lose the phone? 🎬💥  \n\nSilver beast, torque that slams the street—mind‑blowing line cuts, speed tells a story. 🚀  \n\nChill vibes, drop the bass, burn the track.  \n\nRate this spec 1-10 👇 or drop your dream spec below 🔑🔥\n\n#lamborghini #diablo #lamborghinidiablo #v12 #retrosupercar #90ssupercars",
       "set_name": "lamborghini_diablo",
+      "status": "pending",
+      "yt_id": null,
+      "published_at": null,
+      "error": null
+    },
+    {
+      "id": "short_ep_20261123_101213_1",
+      "media_file": "short_ep_20261123_101213_1.mp4",
+      "title": "Ford Mustang S550: Cold Open & The Impossible P • Supercar Reel #Shorts",
+      "caption": "⚡ The Ford Mustang S550 pushed automotive physics to the edge. Watch the full 20-minute investigative deep-dive on our channel! 👇\n\n#Ford #MustangS550 #Supercars #Engineering",
+      "set_name": "ford_mustang s550",
+      "status": "pending",
+      "yt_id": null,
+      "published_at": null,
+      "error": null
+    },
+    {
+      "id": "short_ep_20261123_101213_2",
+      "media_file": "short_ep_20261123_101213_2.mp4",
+      "title": "Ford Mustang S550: Aero Warfare: Bending Air at • Supercar Reel #Shorts",
+      "caption": "⚡ The Ford Mustang S550 pushed automotive physics to the edge. Watch the full 20-minute investigative deep-dive on our channel! 👇\n\n#Ford #MustangS550 #Supercars #Engineering",
+      "set_name": "ford_mustang s550",
       "status": "pending",
       "yt_id": null,
       "published_at": null,
