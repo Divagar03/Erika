@@ -3918,7 +3918,17 @@ def mode_youtube_longform(persona: dict, env: dict, dry_run: bool, custom_prompt
     """Execute the 18-22 minute long-form YouTube documentary pipeline."""
     print("\n=== MODE: youtube_longform ===")
     from scripts.longform.pipeline import run_longform_pipeline
-    result = run_longform_pipeline(env, dry_run=dry_run)
+    force_brand = os.environ.get("FORCE_BRAND", "").strip() or None
+    force_model = os.environ.get("FORCE_MODEL", "").strip() or None
+    force_format = os.environ.get("FORCE_FORMAT", "").strip() or None
+
+    result = run_longform_pipeline(
+        env,
+        dry_run=dry_run,
+        force_brand=force_brand,
+        force_model=force_model,
+        force_format=force_format
+    )
     if not dry_run:
         if result.get("status") == "success":
             yt_id = result.get("youtube_id", "")
