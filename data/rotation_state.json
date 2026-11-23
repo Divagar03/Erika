@@ -17,8 +17,8 @@
     "Koenigsegg",
     "Audi"
   ],
-  "brand_pointer": 4,
-  "last_brand": "BMW",
+  "brand_pointer": 7,
+  "last_brand": "Lamborghini",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -346,11 +346,11 @@
     },
     "Ferrari": {
       "model_queue": [
-        "SF90",
         "LaFerrari",
+        "SF90",
         "F80"
       ],
-      "model_pointer": 1,
+      "model_pointer": 2,
       "last_model": "SF90",
       "models": {
         "F40": {
@@ -371,14 +371,14 @@
         "LaFerrari": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "SF90": {
           "used_colours": [
             "yellow"
           ],
           "last_colour": "yellow",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "296 GTB": {
           "used_colours": [],
@@ -536,7 +536,7 @@
             "gold"
           ],
           "last_colour": "gold",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "458 Spider": {
           "used_colours": [],
@@ -637,8 +637,8 @@
     },
     "Lamborghini": {
       "model_queue": [
-        "Revuelto",
         "Aventador SVJ",
+        "Revuelto",
         "Diablo"
       ],
       "model_pointer": 3,
@@ -652,9 +652,10 @@
         "Diablo": {
           "used_colours": [
             "grey",
-            "silver"
+            "silver",
+            "pink"
           ],
-          "last_colour": "silver",
+          "last_colour": "pink",
           "unavailable_until_next_cycle": false
         },
         "Murci\u00e9lago": {
@@ -13098,6 +13099,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "17894812191618069"
+    },
+    {
+      "timestamp": "2026-11-23T04:26:14.838163Z",
+      "brand": "Lamborghini",
+      "model": "Diablo",
+      "colour": "pink",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "18114153209461561"
     }
   ]
 }
