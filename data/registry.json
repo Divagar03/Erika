@@ -1518,6 +1518,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "bmw_s1000rr",
+      "brand": "bmw",
+      "model": "s1000rr",
+      "format": "night_city",
+      "caption_hash": "250526c78770f967",
+      "media_id": "17894812191618069",
+      "yt_id": "1Ia9zx1HrjY",
+      "media_file": "reel_20261123_024301.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-23T02:44:52.309676+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

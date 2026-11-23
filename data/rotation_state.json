@@ -1,24 +1,24 @@
 {
   "brand_queue": [
-    "Bugatti",
+    "Aston Martin",
+    "Kawasaki",
+    "Porsche",
+    "BMW",
+    "Nissan",
+    "Ferrari",
+    "Lamborghini",
+    "Ford",
+    "Mercedes-AMG",
+    "Yamaha",
+    "McLaren",
     "Pagani",
+    "Bugatti",
     "Ducati",
     "Koenigsegg",
-    "Mercedes-AMG",
-    "Ferrari",
-    "McLaren",
-    "Nissan",
-    "Ford",
-    "Aston Martin",
-    "BMW",
-    "Porsche",
-    "Lamborghini",
-    "Kawasaki",
-    "Audi",
-    "Yamaha"
+    "Audi"
   ],
-  "brand_pointer": 13,
-  "last_brand": "Lamborghini",
+  "brand_pointer": 4,
+  "last_brand": "BMW",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -1196,8 +1196,8 @@
     },
     "Aston Martin": {
       "model_queue": [
-        "Valour",
-        "Valkyrie"
+        "Valkyrie",
+        "Valour"
       ],
       "model_pointer": 2,
       "last_model": null,
@@ -5042,8 +5042,8 @@
         "S1000RR",
         "M5 CS"
       ],
-      "model_pointer": 2,
-      "last_model": "G82 M4",
+      "model_pointer": 3,
+      "last_model": "S1000RR",
       "models": {
         "M1": {
           "used_colours": [],
@@ -5251,8 +5251,10 @@
           "unavailable_until_next_cycle": false
         },
         "S1000RR": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "grey"
+          ],
+          "last_colour": "grey",
           "unavailable_until_next_cycle": false
         }
       }
@@ -5299,7 +5301,7 @@
             "silver"
           ],
           "last_colour": "silver",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "R8 GT": {
           "used_colours": [],
@@ -12877,7 +12879,7 @@
             "white"
           ],
           "last_colour": "white",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         }
       }
     },
@@ -13087,6 +13089,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "18090147464299588"
+    },
+    {
+      "timestamp": "2026-11-23T02:44:52.311449Z",
+      "brand": "BMW",
+      "model": "S1000RR",
+      "colour": "grey",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "17894812191618069"
     }
   ]
 }
