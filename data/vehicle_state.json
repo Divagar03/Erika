@@ -1,13 +1,16 @@
 {
-  "last_set": "aston_martin_valour",
+  "last_set": "red_sportscar",
   "recent_sets": [
-    "aston_martin_valour",
-    "lamborghini_diablo",
-    "lamborghini_revuelto",
     "red_sportscar",
-    "white_mustang_sunset",
+    "aston_martin_valour",
+    "lamborghini_revuelto",
     "bmw_m4_blue",
-    "porsche_918_spyder",
-    "ferrari_f80"
+    "porsche_911_gt3rs",
+    "ducati_panigale_v4s",
+    "nissan_gtr_r35",
+    "aston_martin_valkyrie",
+    "bmw_m5_cs",
+    "porsche_carrera_gt",
+    "ferrari_laferrari"
   ]
 }
