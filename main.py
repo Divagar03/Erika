@@ -3919,16 +3919,20 @@ def mode_youtube_longform(persona: dict, env: dict, dry_run: bool, custom_prompt
     print("\n=== MODE: youtube_longform ===")
     from scripts.longform.pipeline import run_longform_pipeline
     result = run_longform_pipeline(env, dry_run=dry_run)
-    if not dry_run and result.get("status") == "success":
-        yt_id = result.get("youtube_id", "")
-        log_ok("youtube_longform", "", "", f"yt_id={yt_id}, duration_min={result.get('duration_min', 0):.1f}")
-        files = [
-            ROOT / "data" / "longform_episodes.json",
-            ROOT / "data" / "youtube_queue.json",
-        ]
-        if LOG_FILE.exists():
-            files.append(LOG_FILE)
-        git_commit_and_push(files, f"chore: publish long-form YouTube episode {yt_id}")
+    if not dry_run:
+        if result.get("status") == "success":
+            yt_id = result.get("youtube_id", "")
+            log_ok("youtube_longform", "", "", f"yt_id={yt_id}, duration_min={result.get('duration_min', 0):.1f}")
+            files = [
+                ROOT / "data" / "longform_episodes.json",
+                ROOT / "data" / "youtube_queue.json",
+            ]
+            if LOG_FILE.exists():
+                files.append(LOG_FILE)
+            git_commit_and_push(files, f"chore: publish long-form YouTube episode {yt_id}")
+        else:
+            err = result.get("error", "Unknown pipeline error")
+            raise RuntimeError(f"Long-form pipeline failed: {err}")
 
 
 # Main entry point

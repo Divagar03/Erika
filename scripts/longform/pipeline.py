@@ -260,7 +260,7 @@ def run_longform_pipeline(
     if not passed_qa and not dry_run:
         update_episode(episode_id, status="failed", error_message="; ".join(qa_failures))
         print("  [QA Gate] ✗ PUBLISHING ABORTED: Video failed mandatory QA gates.")
-        return {"status": "qa_failed", "episode_id": episode_id, "reasons": qa_failures}
+        return {"status": "qa_failed", "episode_id": episode_id, "reasons": qa_failures, "error": "; ".join(qa_failures)}
 
     update_episode(episode_id, status="qa_passed")
 

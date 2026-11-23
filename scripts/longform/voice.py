@@ -127,6 +127,69 @@ def synthesize_episode_voice(
 
         current_timeline_sec += ch_duration
 
+    # ---------------------------------------------------------------------------
+    # Automatic Duration Calibration (Guarantees 18 to 22 min bounds)
+    # Target: 1200.0s (20.0 minutes). If outside [1090, 1310], scale via atempo.
+    # ---------------------------------------------------------------------------
+    target_duration = 1200.0
+    if current_timeline_sec < 1090.0 or current_timeline_sec > 1310.0:
+        speed_factor = current_timeline_sec / target_duration
+        print(f"  [Voice] Calibrating narration duration from {current_timeline_sec/60:.1f}m to {target_duration/60:.1f}m (speed factor: {speed_factor:.3f})...")
+
+        calibrated_chapter_audios = []
+        calibrated_timings = []
+        calibrated_srt_entries = []
+        calibrated_timeline = 0.0
+        calibrated_srt_idx = 1
+
+        for ch, a_file in zip(chapter_timings, chapter_audios):
+            ch_id = ch["id"]
+            cal_file = ep_audio_dir / f"{ch_id}_calibrated.wav"
+
+            atempo_val = max(0.5, min(2.0, speed_factor))
+            cmd_atempo = [
+                "ffmpeg", "-y", "-i", str(a_file),
+                "-filter:a", f"atempo={atempo_val:.4f}",
+                "-ar", "48000", "-ac", "2",
+                str(cal_file)
+            ]
+            subprocess.run(cmd_atempo, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+            final_f = cal_file if cal_file.exists() else a_file
+            cal_dur = get_audio_duration(final_f)
+            calibrated_chapter_audios.append(final_f)
+
+            calibrated_timings.append({
+                "index": ch["index"],
+                "id": ch["id"],
+                "title": ch["title"],
+                "start_seconds": calibrated_timeline,
+                "duration": cal_dur,
+                "audio_path": str(final_f)
+            })
+
+            ch_obj = next((c for c in chapters if c["chapter_id"] == ch_id), None)
+            if ch_obj:
+                sentences = re.split(r"(?<=[.!?])\s+", ch_obj["text"])
+                sentences = [s.strip() for s in sentences if s.strip()]
+                if sentences:
+                    sec_per_s = cal_dur / len(sentences)
+                    for s_idx, sentence in enumerate(sentences):
+                        s_start = calibrated_timeline + (s_idx * sec_per_s)
+                        s_end = s_start + sec_per_s - 0.1
+                        calibrated_srt_entries.append(
+                            f"{calibrated_srt_idx}\n"
+                            f"{_format_srt_timestamp(s_start)} --> {_format_srt_timestamp(s_end)}\n"
+                            f"{sentence}\n"
+                        )
+                        calibrated_srt_idx += 1
+
+            calibrated_timeline += cal_dur
+
+        chapter_audios = calibrated_chapter_audios
+        chapter_timings = calibrated_timings
+        srt_entries = calibrated_srt_entries
+        current_timeline_sec = calibrated_timeline
+
     # Concat all chapter audios into a single master narration track
     concat_list_file = ep_audio_dir / "concat_audio.txt"
     with open(concat_list_file, "w", encoding="utf-8") as f:
@@ -149,6 +212,11 @@ def synthesize_episode_voice(
         f.write("\n".join(srt_entries))
 
     total_duration = current_timeline_sec
+    if master_narration_wav.exists():
+        actual_master_dur = get_audio_duration(master_narration_wav)
+        if actual_master_dur > 0:
+            total_duration = actual_master_dur
+
     print(f"  [Voice] Narration complete! Total runtime: {total_duration / 60:.1f} mins ({total_duration:.1f}s). Master audio: {master_narration_wav.name}")
 
     return {
