@@ -1,16 +1,30 @@
 {
-  "last_set": "yamaha_yzf_r1m",
+  "last_set": "koenigsegg_jesko",
   "recent_sets": [
-    "yamaha_yzf_r1m",
-    "aston_martin_valour",
-    "lamborghini_revuelto",
-    "bmw_m4_blue",
-    "porsche_911_gt3rs",
-    "ducati_panigale_v4s",
+    "koenigsegg_jesko",
     "nissan_gtr_r35",
+    "aston_martin_valour",
+    "bmw_m4_blue",
+    "ducati_panigale_v4s",
     "aston_martin_valkyrie",
     "bmw_m5_cs",
     "porsche_carrera_gt",
-    "ferrari_laferrari"
+    "ferrari_laferrari",
+    "mercedes_amg_one",
+    "bugatti_chiron",
+    "porsche_911_gt3rs",
+    "lamborghini_revuelto",
+    "mclaren_p1",
+    "yamaha_yzf_r1m",
+    "lamborghini_diablo",
+    "bmw_s1000rr",
+    "ford_gt_supercar",
+    "mclaren_senna",
+    "ferrari_sf90",
+    "pagani_huayra",
+    "bugatti_veyron",
+    "lamborghini_aventador_svj",
+    "kawasaki_ninja_h2r",
+    "bmw_m2_coupe"
   ]
 }

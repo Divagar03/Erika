@@ -401,17 +401,11 @@ def replenish_vehicle(config: dict, target_unposted: int = 6) -> int:
     existing_files = sorted(target_dir.glob("shot_*.jpg"))
     unposted = [p for p in existing_files if p.name not in used_shots]
 
-    # Verify unposted shots match the vehicle's locked color spec; purge invalid clutter
+    # Verify unposted shots match the vehicle's locked color spec
     valid_unposted = []
     for p in unposted:
         if _check_color_match(p, config["expected_color_type"], config["target_hue"], config["hue_tolerance"]):
             valid_unposted.append(p)
-        else:
-            print(f"  [Replenish] Purging off-spec unposted shot: {p.name}")
-            try:
-                p.unlink(missing_ok=True)
-            except Exception:
-                pass
 
     if len(valid_unposted) >= target_unposted:
         return 0

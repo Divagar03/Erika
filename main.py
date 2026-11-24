@@ -1535,7 +1535,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                 if len(unposted_clips) >= 3:
                     available_dict[d.name] = unposted_clips
 
-    # 2. Curated DSLR photo sets (STRICT ZERO-REPEAT: requires >= 3 pure unposted shots)
+    # 2. Curated DSLR photo sets (requires >= 3 shots; falls back to full vehicle pool if unposted exhausted)
     if VEHICLE_SETS_DIR.exists():
         for d in sorted(VEHICLE_SETS_DIR.iterdir()):
             if d.is_dir() and d.name not in available_dict:
@@ -1543,28 +1543,11 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                 unposted_shots = get_unposted_shots(d.name, shots)
                 if len(unposted_shots) >= 3:
                     available_dict[d.name] = unposted_shots
-
-    if not available_dict:
-        # Fallback to single vehicle with cohesive shots from CURATED_ROTATION_ORDER
-        from scripts.shot_tracker import select_fallback_single_vehicle_shots
-        for cand in CURATED_ROTATION_ORDER:
-            cand_dir = VEHICLE_SETS_DIR / cand
-            if cand_dir.is_dir():
-                all_s = sorted(list(cand_dir.glob("shot_*.jpg")))
-                if len(all_s) >= 3:
-                    fallback_shots = select_fallback_single_vehicle_shots(cand, all_s, needed_count=5, min_required=3)
-                    if len(fallback_shots) >= 3:
-                        print(f"  [CuratedVehicleSet] Fallback selection: {cand} ({len(fallback_shots)} cohesive shots)")
-                        return cand, fallback_shots, _is_bike_set(cand)
-        # Ultimate fallback to any vehicle set folder
-        for d in sorted(VEHICLE_SETS_DIR.iterdir()):
-            if d.is_dir():
-                all_s = sorted(list(d.glob("shot_*.jpg")))
-                if len(all_s) >= 3:
-                    fallback_shots = select_fallback_single_vehicle_shots(d.name, all_s, needed_count=5, min_required=3)
-                    if len(fallback_shots) >= 3:
-                        return d.name, fallback_shots, _is_bike_set(d.name)
-        raise RuntimeError("No vehicle sets with >= 3 cohesive shots available in library!")
+                elif len(shots) >= 3:
+                    from scripts.shot_tracker import select_fallback_single_vehicle_shots
+                    fallback_s = select_fallback_single_vehicle_shots(d.name, shots, needed_count=5, min_required=3)
+                    if len(fallback_s) >= 3:
+                        available_dict[d.name] = fallback_s
 
     # Use ordered interleaved list for diversity
     active_order = [s for s in CURATED_ROTATION_ORDER if s in available_dict]
@@ -1814,7 +1797,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         is_vid = any(p.suffix.lower() == ".mp4" for p in cand_raw)
         min_req = 3
         try:
-            shots = select_diverse_vehicle_shots(cand, cand_raw, needed_count=5, min_required=min_req)
+            shots = select_diverse_vehicle_shots(cand, cand_raw, needed_count=5, min_required=min_req, allow_recycle=True)
             if shots and len(shots) >= min_req:
                 parents = set(p.parent for p in shots)
                 if len(parents) > 1:
@@ -1834,7 +1817,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
     if not chosen_name or not selected_shots:
         for cand, cand_raw in available_dict.items():
             try:
-                shots = select_diverse_vehicle_shots(cand, cand_raw, needed_count=5, min_required=3)
+                shots = select_diverse_vehicle_shots(cand, cand_raw, needed_count=5, min_required=3, allow_recycle=True)
                 if shots and len(shots) >= 3:
                     chosen_name = cand
                     selected_shots = shots
@@ -1844,7 +1827,21 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
 
     if not chosen_name or not selected_shots:
         from scripts.shot_tracker import select_fallback_single_vehicle_shots
-        for cand in CURATED_ROTATION_ORDER:
+        # Prioritize candidates not same model, not same brand, and respecting car/bike alternation
+        fallback_order = [
+            c for c in candidate_order
+            if c != last_posted_set
+            and SET_BRAND_MAP.get(c, "") != last_posted_brand
+            and c not in recent_posted[:recent_window]
+        ] or [
+            c for c in candidate_order
+            if c != last_posted_set
+            and SET_BRAND_MAP.get(c, "") != last_posted_brand
+        ] or [
+            c for c in candidate_order
+            if c != last_posted_set
+        ]
+        for cand in fallback_order:
             cand_dir = VEHICLE_SETS_DIR / cand
             if cand_dir.is_dir():
                 all_s = sorted(list(cand_dir.glob("shot_*.jpg")))
@@ -1855,16 +1852,6 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                         selected_shots = fallback_shots
                         print(f"  [VehicleSelection] Fallback single-car selection: {cand} ({len(fallback_shots)} cohesive shots)")
                         break
-        if not chosen_name or not selected_shots:
-            for d in sorted(VEHICLE_SETS_DIR.iterdir()):
-                if d.is_dir():
-                    all_s = sorted(list(d.glob("shot_*.jpg")))
-                    if len(all_s) >= 3:
-                        fallback_shots = select_fallback_single_vehicle_shots(d.name, all_s, needed_count=5, min_required=3)
-                        if len(fallback_shots) >= 3:
-                            chosen_name = d.name
-                            selected_shots = fallback_shots
-                            break
         if not chosen_name or not selected_shots:
             raise RuntimeError("No cohesive vehicle shots found in library!")
 
@@ -3313,6 +3300,7 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     - Study Journey: 12 AM IST daily progress reel with study overlay.
     """
     print("\n=== MODE: reel ===")
+    global _ROTATION_BRAND, _ROTATION_MODEL, _ROTATION_COLOUR
 
     event_name = os.environ.get("GITHUB_EVENT_NAME", "").lower()
     force_env = os.environ.get("FORCE_RUN", "").strip().lower()
@@ -3387,9 +3375,12 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     else:
         # Legacy selection (theme-hinted or rotation engine unavailable/exhausted)
         set_name, set_shots, is_bike = get_next_curated_vehicle_set(hint)
-        _re_colour = ""
-        _re_model  = ""
-        _re_brand  = ""
+        _re_brand  = SET_BRAND_MAP.get(set_name, "").title()
+        _re_model  = SET_MODEL_MAP.get(set_name, "").replace("_", " ").title()
+        _re_colour = "standard"
+        _ROTATION_BRAND = _re_brand
+        _ROTATION_MODEL = _re_model
+        _ROTATION_COLOUR = _re_colour
 
     meta = CURATED_SET_METADATA.get(set_name, {})
     title = meta.get("title", f"{set_name.replace('_', ' ').title()} Supercar Reel")
