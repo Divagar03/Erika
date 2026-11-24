@@ -2458,7 +2458,499 @@
       "retention_pct": null,
       "avg_view_duration_sec": null,
       "error_message": null
+    },
+    {
+      "episode_id": "ep_20261124_135550",
+      "topic_brand": "Koenigsegg",
+      "topic_model": "Jesko",
+      "topic_colour": "red",
+      "format_id": "top_10_countdown",
+      "hook_style_id": "statistical_anomaly",
+      "title": "Koenigsegg Jesko: The Engineering Masterclass",
+      "script_hash": "583d24225f89a7ba4dd88a62e266e165e5d8d8401dd037038ac1d4a1cd5c3405",
+      "script_word_count": 3242,
+      "duration_seconds": 1199.826875,
+      "thumbnail_path": "/home/runner/work/Erika/Erika/data/longform_thumbnails/ep_20261124_135550_thumb.jpg",
+      "video_path": "/home/runner/work/Erika/Erika/data/longform_rendered/ep_20261124_135550_master.mp4",
+      "srt_path": "/home/runner/work/Erika/Erika/data/longform_audio/ep_20261124_135550/ep_20261124_135550.srt",
+      "youtube_id": "G5xUWI9E79Q",
+      "status": "published",
+      "created_at": "2026-11-24T13:55:50.930131+00:00",
+      "published_at": "2026-11-24T14:07:44.112207+00:00",
+      "qa_report": {
+        "duration_seconds": 1198.143479,
+        "duration_minutes": 19.969057983333336,
+        "audio_metrics": {
+          "max_volume_db": -9.1,
+          "mean_volume_db": -24.7
+        },
+        "max_asset_reuse": 2,
+        "max_consecutive_motion": 2,
+        "max_shot_duration": 4.253575772727273,
+        "similarity_score": 0.0,
+        "attribution_count": 41,
+        "entity_lock_qa": {
+          "passed": true,
+          "off_topic_count": 0,
+          "off_topic_issues": []
+        },
+        "passed": true,
+        "failure_reasons": []
+      },
+      "assets_used": [
+        "wiki_2024_Koenigsegg_Jesko_Absolut_2",
+        "wiki_2023_Koenigsegg_Jesko_Attack_%2898060%29",
+        "koenigsegg_jesko_shot_1",
+        "koenigsegg_jesko_shot_3",
+        "graphic_ep_20261124_135550_g_1_4",
+        "wiki_Koenigsegg_Jesko_18",
+        "wiki_Koenigsegg_Jesko_2",
+        "wiki_Koenigsegg_Jesko_6",
+        "graphic_ep_20261124_135550_g_1_8",
+        "wiki_Koenigsegg_Jesko_14",
+        "wiki_Koenigsegg_Jesko_4",
+        "wiki_Koenigsegg_Jesko%2C_GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS1045%29",
+        "graphic_ep_20261124_135550_g_1_12",
+        "wiki_Koenigsegg_Jesko_3",
+        "wiki_2024_Koenigsegg_Jesko_Attack_4",
+        "wiki_2024_Koenigsegg_Jesko_Attack_2",
+        "graphic_ep_20261124_135550_g_1_16",
+        "wiki_Koenigsegg_Jesko_16",
+        "wiki_Koenigsegg_Jesko_17",
+        "wiki_Koenigsegg_Jesko_15",
+        "graphic_ep_20261124_135550_g_1_20",
+        "wiki_2023_Koenigsegg_Jesko_Rear_LC24",
+        "wiki_2024_Koenigsegg_Jesko_Attack_3",
+        "wiki_Koenigsegg_Jesko_19",
+        "graphic_ep_20261124_135550_g_1_24",
+        "koenigsegg_jesko_shot_2",
+        "koenigsegg_jesko_shot_4",
+        "wiki_Koenigsegg_Jesko_5",
+        "wiki_Koenigsegg_Jesko_8",
+        "graphic_ep_20261124_135550_g_2_3",
+        "graphic_ep_20261124_135550_g_2_4",
+        "wiki_Jesko_Hypercar_-_51173772282",
+        "koenigsegg_jesko_shot_6",
+        "graphic_ep_20261124_135550_g_2_8",
+        "wiki_2024_Koenigsegg_Jesko_Absolut",
+        "wiki_Koenigsegg_Jesko_13",
+        "graphic_ep_20261124_135550_g_2_12",
+        "wiki_2023_Koenigsegg_Jesko_LC24_Low",
+        "wiki_Koenigsegg_Jesko_9",
+        "graphic_ep_20261124_135550_g_2_16",
+        "wiki_2024_Koenigsegg_Jesko_Attack",
+        "graphic_ep_20261124_135550_g_2_20",
+        "wiki_Koenigsegg_Jesko_12",
+        "graphic_ep_20261124_135550_g_2_24",
+        "wiki_2023_Koenigsegg_Jesko_Attack_1",
+        "graphic_ep_20261124_135550_g_2_28",
+        "koenigsegg_jesko_shot_5",
+        "wiki_Koenigsegg_Jesko%2C_Auto_2024%2C_Zurich_%28PANA0936%29",
+        "wiki_Koenigsegg_Jesko_20",
+        "graphic_ep_20261124_135550_g_3_3",
+        "graphic_ep_20261124_135550_g_3_4",
+        "wiki_Koenigsegg%2C_Auto_2024%2C_Zurich_%28PANA0940%29",
+        "graphic_ep_20261124_135550_g_3_8",
+        "wiki_Koenigsegg_Jesko_7",
+        "graphic_ep_20261124_135550_g_3_12",
+        "graphic_ep_20261124_135550_g_3_16",
+        "graphic_ep_20261124_135550_g_3_20",
+        "graphic_ep_20261124_135550_g_4_3",
+        "graphic_ep_20261124_135550_g_4_4",
+        "wiki_Koenigsegg_Jesko_11",
+        "graphic_ep_20261124_135550_g_4_8",
+        "wiki_Koenigsegg_Jesko_10",
+        "graphic_ep_20261124_135550_g_4_12",
+        "wiki_2023_Koenigsegg_Jesko_Absolut",
+        "graphic_ep_20261124_135550_g_4_16",
+        "wiki_2023_Koenigsegg_Jesko_Attack_%2877763%29",
+        "graphic_ep_20261124_135550_g_4_20",
+        "graphic_ep_20261124_135550_g_5_2",
+        "graphic_ep_20261124_135550_g_5_4",
+        "graphic_ep_20261124_135550_g_5_5",
+        "graphic_ep_20261124_135550_g_5_7",
+        "graphic_ep_20261124_135550_g_5_8",
+        "graphic_ep_20261124_135550_g_5_9",
+        "graphic_ep_20261124_135550_g_5_11",
+        "graphic_ep_20261124_135550_g_5_12",
+        "graphic_ep_20261124_135550_g_5_13",
+        "graphic_ep_20261124_135550_g_5_14",
+        "graphic_ep_20261124_135550_g_5_15",
+        "graphic_ep_20261124_135550_g_5_16",
+        "graphic_ep_20261124_135550_g_5_17",
+        "graphic_ep_20261124_135550_g_5_18",
+        "graphic_ep_20261124_135550_g_5_19",
+        "graphic_ep_20261124_135550_g_5_20",
+        "graphic_ep_20261124_135550_g_5_21",
+        "graphic_ep_20261124_135550_g_5_22",
+        "graphic_ep_20261124_135550_g_6_0",
+        "graphic_ep_20261124_135550_g_6_1",
+        "graphic_ep_20261124_135550_g_6_2",
+        "graphic_ep_20261124_135550_g_6_3",
+        "graphic_ep_20261124_135550_g_6_4",
+        "graphic_ep_20261124_135550_g_6_5",
+        "graphic_ep_20261124_135550_g_6_6",
+        "graphic_ep_20261124_135550_g_6_7",
+        "graphic_ep_20261124_135550_g_6_8",
+        "graphic_ep_20261124_135550_g_6_9",
+        "graphic_ep_20261124_135550_g_6_10",
+        "graphic_ep_20261124_135550_g_6_11",
+        "graphic_ep_20261124_135550_g_6_12",
+        "graphic_ep_20261124_135550_g_6_13",
+        "graphic_ep_20261124_135550_g_6_14",
+        "graphic_ep_20261124_135550_g_6_15",
+        "graphic_ep_20261124_135550_g_6_16",
+        "graphic_ep_20261124_135550_g_6_17",
+        "graphic_ep_20261124_135550_g_6_18",
+        "graphic_ep_20261124_135550_g_6_19",
+        "graphic_ep_20261124_135550_g_6_20",
+        "graphic_ep_20261124_135550_g_6_21",
+        "graphic_ep_20261124_135550_g_7_0",
+        "graphic_ep_20261124_135550_g_7_1",
+        "graphic_ep_20261124_135550_g_7_2",
+        "graphic_ep_20261124_135550_g_7_3",
+        "graphic_ep_20261124_135550_g_7_4",
+        "graphic_ep_20261124_135550_g_7_5",
+        "graphic_ep_20261124_135550_g_7_6",
+        "graphic_ep_20261124_135550_g_7_7",
+        "graphic_ep_20261124_135550_g_7_8",
+        "graphic_ep_20261124_135550_g_7_9",
+        "graphic_ep_20261124_135550_g_7_10",
+        "graphic_ep_20261124_135550_g_7_11",
+        "graphic_ep_20261124_135550_g_7_12",
+        "graphic_ep_20261124_135550_g_7_13",
+        "graphic_ep_20261124_135550_g_7_14",
+        "graphic_ep_20261124_135550_g_7_15",
+        "graphic_ep_20261124_135550_g_7_16",
+        "graphic_ep_20261124_135550_g_7_17",
+        "graphic_ep_20261124_135550_g_7_18",
+        "graphic_ep_20261124_135550_g_7_19",
+        "graphic_ep_20261124_135550_g_7_20",
+        "graphic_ep_20261124_135550_g_7_21",
+        "graphic_ep_20261124_135550_g_8_0",
+        "graphic_ep_20261124_135550_g_8_1",
+        "graphic_ep_20261124_135550_g_8_2",
+        "graphic_ep_20261124_135550_g_8_3",
+        "graphic_ep_20261124_135550_g_8_4",
+        "graphic_ep_20261124_135550_g_8_5",
+        "graphic_ep_20261124_135550_g_8_6",
+        "graphic_ep_20261124_135550_g_8_7",
+        "graphic_ep_20261124_135550_g_8_8",
+        "graphic_ep_20261124_135550_g_8_9",
+        "graphic_ep_20261124_135550_g_8_10",
+        "graphic_ep_20261124_135550_g_8_11",
+        "graphic_ep_20261124_135550_g_8_12",
+        "graphic_ep_20261124_135550_g_8_13",
+        "graphic_ep_20261124_135550_g_8_14",
+        "graphic_ep_20261124_135550_g_8_15",
+        "graphic_ep_20261124_135550_g_8_16",
+        "graphic_ep_20261124_135550_g_8_17",
+        "graphic_ep_20261124_135550_g_8_18",
+        "graphic_ep_20261124_135550_g_8_19",
+        "graphic_ep_20261124_135550_g_8_20",
+        "graphic_ep_20261124_135550_g_8_21",
+        "graphic_ep_20261124_135550_g_8_22",
+        "graphic_ep_20261124_135550_g_9_0",
+        "graphic_ep_20261124_135550_g_9_1",
+        "graphic_ep_20261124_135550_g_9_2",
+        "graphic_ep_20261124_135550_g_9_3",
+        "graphic_ep_20261124_135550_g_9_4",
+        "graphic_ep_20261124_135550_g_9_5",
+        "graphic_ep_20261124_135550_g_9_6",
+        "graphic_ep_20261124_135550_g_9_7",
+        "graphic_ep_20261124_135550_g_9_8",
+        "graphic_ep_20261124_135550_g_9_9",
+        "graphic_ep_20261124_135550_g_9_10",
+        "graphic_ep_20261124_135550_g_9_11",
+        "graphic_ep_20261124_135550_g_9_12",
+        "graphic_ep_20261124_135550_g_9_13",
+        "graphic_ep_20261124_135550_g_9_14",
+        "graphic_ep_20261124_135550_g_9_15",
+        "graphic_ep_20261124_135550_g_9_16",
+        "graphic_ep_20261124_135550_g_9_17",
+        "graphic_ep_20261124_135550_g_9_18",
+        "graphic_ep_20261124_135550_g_9_19",
+        "graphic_ep_20261124_135550_g_9_20",
+        "graphic_ep_20261124_135550_g_9_21",
+        "graphic_ep_20261124_135550_g_10_0",
+        "graphic_ep_20261124_135550_g_10_1",
+        "graphic_ep_20261124_135550_g_10_2",
+        "graphic_ep_20261124_135550_g_10_3",
+        "graphic_ep_20261124_135550_g_10_4",
+        "graphic_ep_20261124_135550_g_10_5",
+        "graphic_ep_20261124_135550_g_10_6",
+        "graphic_ep_20261124_135550_g_10_7",
+        "graphic_ep_20261124_135550_g_10_8",
+        "graphic_ep_20261124_135550_g_10_9",
+        "graphic_ep_20261124_135550_g_10_10",
+        "graphic_ep_20261124_135550_g_10_11",
+        "graphic_ep_20261124_135550_g_10_12",
+        "graphic_ep_20261124_135550_g_10_13",
+        "graphic_ep_20261124_135550_g_10_14",
+        "graphic_ep_20261124_135550_g_10_15",
+        "graphic_ep_20261124_135550_g_10_16",
+        "graphic_ep_20261124_135550_g_10_17",
+        "graphic_ep_20261124_135550_g_10_18",
+        "graphic_ep_20261124_135550_g_10_19",
+        "graphic_ep_20261124_135550_g_10_20",
+        "graphic_ep_20261124_135550_g_10_21",
+        "graphic_ep_20261124_135550_g_10_22",
+        "graphic_ep_20261124_135550_g_11_0",
+        "graphic_ep_20261124_135550_g_11_1",
+        "graphic_ep_20261124_135550_g_11_2",
+        "graphic_ep_20261124_135550_g_11_3",
+        "graphic_ep_20261124_135550_g_11_4",
+        "graphic_ep_20261124_135550_g_11_5",
+        "graphic_ep_20261124_135550_g_11_6",
+        "graphic_ep_20261124_135550_g_11_7",
+        "graphic_ep_20261124_135550_g_11_8",
+        "graphic_ep_20261124_135550_g_11_9",
+        "graphic_ep_20261124_135550_g_11_10",
+        "graphic_ep_20261124_135550_g_11_11",
+        "graphic_ep_20261124_135550_g_11_12",
+        "graphic_ep_20261124_135550_g_11_13",
+        "graphic_ep_20261124_135550_g_11_14",
+        "graphic_ep_20261124_135550_g_11_15",
+        "graphic_ep_20261124_135550_g_11_16",
+        "graphic_ep_20261124_135550_g_11_17",
+        "graphic_ep_20261124_135550_g_11_18",
+        "graphic_ep_20261124_135550_g_11_19",
+        "graphic_ep_20261124_135550_g_11_20",
+        "graphic_ep_20261124_135550_g_11_21",
+        "graphic_ep_20261124_135550_g_12_0",
+        "graphic_ep_20261124_135550_g_12_1",
+        "graphic_ep_20261124_135550_g_12_2",
+        "graphic_ep_20261124_135550_g_12_3",
+        "graphic_ep_20261124_135550_g_12_4",
+        "graphic_ep_20261124_135550_g_12_5",
+        "graphic_ep_20261124_135550_g_12_6",
+        "graphic_ep_20261124_135550_g_12_7",
+        "graphic_ep_20261124_135550_g_12_8",
+        "graphic_ep_20261124_135550_g_12_9",
+        "graphic_ep_20261124_135550_g_12_10",
+        "graphic_ep_20261124_135550_g_12_11",
+        "graphic_ep_20261124_135550_g_12_12",
+        "graphic_ep_20261124_135550_g_12_13",
+        "graphic_ep_20261124_135550_g_12_14",
+        "graphic_ep_20261124_135550_g_12_15",
+        "graphic_ep_20261124_135550_g_12_16",
+        "graphic_ep_20261124_135550_g_12_17",
+        "graphic_ep_20261124_135550_g_12_18",
+        "graphic_ep_20261124_135550_g_12_19",
+        "graphic_ep_20261124_135550_g_12_20",
+        "graphic_ep_20261124_135550_g_12_21"
+      ],
+      "attributions": [
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/2024_Koenigsegg_Jesko_Absolut_2.jpg/1920px-2024_Koenigsegg_Jesko_Absolut_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/2023_Koenigsegg_Jesko_Attack_%2898060%29.jpg/1920px-2023_Koenigsegg_Jesko_Attack_%2898060%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Koenigsegg_Jesko_18.jpg/1920px-Koenigsegg_Jesko_18.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Koenigsegg_Jesko_2.jpg/1920px-Koenigsegg_Jesko_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Koenigsegg_Jesko_6.jpg/1920px-Koenigsegg_Jesko_6.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Koenigsegg_Jesko_14.jpg/1920px-Koenigsegg_Jesko_14.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Koenigsegg_Jesko_4.jpg/1920px-Koenigsegg_Jesko_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Matti Blume",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Koenigsegg_Jesko%2C_GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS1045%29.jpg/1920px-Koenigsegg_Jesko%2C_GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS1045%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Koenigsegg_Jesko_3.jpg/1920px-Koenigsegg_Jesko_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/2024_Koenigsegg_Jesko_Attack_4.jpg/1920px-2024_Koenigsegg_Jesko_Attack_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d6/2024_Koenigsegg_Jesko_Attack_2.jpg/1920px-2024_Koenigsegg_Jesko_Attack_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Koenigsegg_Jesko_16.jpg/1920px-Koenigsegg_Jesko_16.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Koenigsegg_Jesko_17.jpg/1920px-Koenigsegg_Jesko_17.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Koenigsegg_Jesko_15.jpg/1920px-Koenigsegg_Jesko_15.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "MrWalkr",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/2023_Koenigsegg_Jesko_Rear_LC24.jpg/1920px-2023_Koenigsegg_Jesko_Rear_LC24.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/2024_Koenigsegg_Jesko_Attack_3.jpg/1920px-2024_Koenigsegg_Jesko_Attack_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Koenigsegg_Jesko_19.jpg/1920px-Koenigsegg_Jesko_19.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Koenigsegg_Jesko_5.jpg/1920px-Koenigsegg_Jesko_5.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Koenigsegg_Jesko_8.jpg/1920px-Koenigsegg_Jesko_8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Ron Frazier",
+          "license": "CC BY 2.0",
+          "source": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Jesko_Hypercar_-_51173772282.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/2024_Koenigsegg_Jesko_Absolut.jpg/1920px-2024_Koenigsegg_Jesko_Absolut.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Koenigsegg_Jesko_13.jpg/1920px-Koenigsegg_Jesko_13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "MrWalkr",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/2023_Koenigsegg_Jesko_LC24_Low.jpg/1920px-2023_Koenigsegg_Jesko_LC24_Low.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Koenigsegg_Jesko_9.jpg/1920px-Koenigsegg_Jesko_9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/2024_Koenigsegg_Jesko_Attack.jpg/1920px-2024_Koenigsegg_Jesko_Attack.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Koenigsegg_Jesko_12.jpg/1920px-Koenigsegg_Jesko_12.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC0",
+          "source": "https://upload.wikimedia.org/wikipedia/commons/9/9c/2023_Koenigsegg_Jesko_Attack_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+        },
+        {
+          "author": "Zenith Motors Studio",
+          "license": "Proprietary / CC-0 In-House",
+          "source": "in_house_fleet"
+        },
+        {
+          "author": "Matti Blume",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Koenigsegg_Jesko%2C_Auto_2024%2C_Zurich_%28PANA0936%29.jpg/1920px-Koenigsegg_Jesko%2C_Auto_2024%2C_Zurich_%28PANA0936%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Koenigsegg_Jesko_20.jpg/1920px-Koenigsegg_Jesko_20.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Matti Blume",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Koenigsegg%2C_Auto_2024%2C_Zurich_%28PANA0940%29.jpg/1920px-Koenigsegg%2C_Auto_2024%2C_Zurich_%28PANA0940%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Koenigsegg_Jesko_7.jpg/1920px-Koenigsegg_Jesko_7.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Koenigsegg_Jesko_11.jpg/1920px-Koenigsegg_Jesko_11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Koenigsegg_Jesko_10.jpg/1920px-Koenigsegg_Jesko_10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/2023_Koenigsegg_Jesko_Absolut.jpg/1920px-2023_Koenigsegg_Jesko_Absolut.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "author": "Calreyn88",
+          "license": "CC BY-SA 4.0",
+          "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/2023_Koenigsegg_Jesko_Attack_%2877763%29.jpg/1920px-2023_Koenigsegg_Jesko_Attack_%2877763%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        }
+      ],
+      "retention_pct": null,
+      "avg_view_duration_sec": null,
+      "error_message": null
     }
   ],
-  "synced_at": "2026-11-24T02:57:25.044733+00:00"
+  "synced_at": "2026-11-24T14:07:44.118040+00:00"
 }

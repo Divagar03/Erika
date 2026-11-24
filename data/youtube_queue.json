@@ -1,7 +1,7 @@
 {
   "date": "2026-11-24",
   "source_date": "2026-11-23",
-  "target_count": 10,
+  "target_count": 12,
   "published_today": 6,
   "queue": [
     {
@@ -109,6 +109,28 @@
       "title": "Ford Gt Supercar • Supercar Reel #Shorts",
       "caption": "🚀 Red‑hot, heart‑stamped power unleashed!  \n\nThe Ford GT slashes the track with a thunderous bass‑drop roar, turning every curve into an adrenaline concerto. Its sleek aerodynamics slice wind like a knife, leaving competitors in a dusty blur.  \n\nRate this spec 1-10 👇 #️⃣🔥\n\n#fordgt #ford #supercars #",
       "set_name": "set=ford_gt_supercar, format=phonk_bass_drop, media_id=17978423160149981, yt_err=init_upload_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The request metadata specifies an invalid video desc",
+      "status": "pending",
+      "yt_id": null,
+      "published_at": null,
+      "error": null
+    },
+    {
+      "id": "short_ep_20261124_135550_1",
+      "media_file": "short_ep_20261124_135550_1.mp4",
+      "title": "Koenigsegg Jesko: Cold Open & The Impossible P • Supercar Reel #Shorts",
+      "caption": "⚡ The Koenigsegg Jesko pushed automotive physics to the edge. Watch the full 20-minute investigative deep-dive on our channel! 👇\n\n#Koenigsegg #Jesko #Supercars #Engineering",
+      "set_name": "koenigsegg_jesko",
+      "status": "pending",
+      "yt_id": null,
+      "published_at": null,
+      "error": null
+    },
+    {
+      "id": "short_ep_20261124_135550_2",
+      "media_file": "short_ep_20261124_135550_2.mp4",
+      "title": "Koenigsegg Jesko: Aero Warfare: Bending Air at • Supercar Reel #Shorts",
+      "caption": "⚡ The Koenigsegg Jesko pushed automotive physics to the edge. Watch the full 20-minute investigative deep-dive on our channel! 👇\n\n#Koenigsegg #Jesko #Supercars #Engineering",
+      "set_name": "koenigsegg_jesko",
       "status": "pending",
       "yt_id": null,
       "published_at": null,
