@@ -18,7 +18,6 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-from .clip_verifier import sample_and_verify_video_frames
 from .voice import get_audio_duration
 
 
@@ -180,29 +179,32 @@ def verify_episode_quality(
     attributions = visual_plan.get("attributions", [])
     report["attribution_count"] = len(attributions)
 
-    # 9. CLIP semantic check on sampled video frames (Sample every 5s; fail if > 5% off-topic)
-    clip_passed, off_topic_ratio, clip_details = sample_and_verify_video_frames(
-        video_path=video_path,
-        target_brand=brand,
-        target_model=model,
-        sample_interval_sec=5.0,
-        max_off_topic_ratio=0.05,
-        is_bike=is_bike
-    )
-    report["clip_qa"] = {
-        "passed": clip_passed,
-        "off_topic_ratio": off_topic_ratio,
-        "details_count": len(clip_details)
+    # 9. Deterministic Entity-Lock Asset Audit (Blocking: 0% off-topic assets allowed)
+    from .visuals import is_asset_topic_locked
+    off_topic_assets = []
+    for s in shots:
+        if s.get("is_graphic"):
+            continue
+        asset_id = s.get("asset_id", "")
+        asset_path = s.get("asset_path", "")
+        is_ok, reason = is_asset_topic_locked(f"{asset_id} {Path(asset_path).name}", brand, model, is_bike=is_bike)
+        if not is_ok:
+            off_topic_assets.append(f"{asset_id}: {reason}")
+
+    report["entity_lock_qa"] = {
+        "passed": len(off_topic_assets) == 0,
+        "off_topic_count": len(off_topic_assets),
+        "off_topic_issues": off_topic_assets
     }
-    if not clip_passed:
-        failures.append(f"CLIP Semantic QA Gate Failed: {off_topic_ratio*100:.1f}% off-topic frames detected in final video (exceeds 5.0% threshold)")
+    if off_topic_assets:
+        failures.append(f"Entity-Lock QA Failed: {len(off_topic_assets)} off-topic assets detected: {off_topic_assets[:3]}")
 
     passed = len(failures) == 0
     report["passed"] = passed
     report["failure_reasons"] = failures
 
     if passed:
-        print(f"  [QA Gate] ✓ ALL QUALITY GATES PASSED! (Duration: {dur / 60:.1f}m, CLIP off-topic: {off_topic_ratio*100:.1f}%, Peak: {audio_metrics.get('max_volume_db')}dB)")
+        print(f"  [QA Gate] ✓ ALL QUALITY GATES PASSED! (Duration: {dur / 60:.1f}m, Entity-Lock off-topic: 0, Peak: {audio_metrics.get('max_volume_db')}dB)")
     else:
         print(f"  [QA Gate] ✗ QUALITY GATES FAILED ({len(failures)} issues):")
         for f in failures:

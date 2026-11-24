@@ -1,7 +1,7 @@
 {
   "pipeline_name": "ZenithMotors Long-Form Master Pipeline",
   "version": "1.0.0",
-  "enabled": false,
+  "enabled": true,
   "duration": {
     "target_seconds": 1200,
     "min_seconds": 1080,

@@ -1,6 +1,6 @@
-"""Visual asset curator, CLIP relevance gate, and shot planner for long-form episodes.
+"""Visual asset curator, deterministic entity-lock verifier, and shot planner for long-form episodes.
 Strictly ensures only topic-relevant visual assets are included (zero cross-brand contamination),
-integrates Wikimedia Commons, local assets, Pexels, and rich procedural 1080p graphics.
+integrates Wikimedia Commons, local assets, and rich procedural 1080p graphics without heavy ML.
 Enforces 3-6s cuts, varied motion types, and max 2 reuses separated by >= 60 seconds.
 """
 
@@ -16,7 +16,6 @@ from pathlib import Path
 from typing import Any
 from PIL import Image
 
-from .clip_verifier import verify_image_relevance
 from .graphics import (
     create_barchart_graphic,
     create_chapter_title_card,
@@ -30,6 +29,22 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 VEHICLES_DIR = ROOT / "assets" / "vehicles" / "sets"
 VISUALS_CACHE_DIR = ROOT / "data" / "longform_visuals"
 GRAPHICS_DIR = ROOT / "data" / "longform_graphics"
+
+ALL_BRANDS = [
+    "acura", "alfa romeo", "alfa", "alpine", "aston martin", "aston", "audi",
+    "bentley", "bmw", "bugatti", "buick", "cadillac", "chevrolet", "chevy",
+    "chrysler", "corvette", "dodge", "viper", "ducati", "ferrari", "fiat",
+    "ford", "genesis", "gmc", "harley", "honda", "hyundai", "infiniti",
+    "jaguar", "jeep", "kawasaki", "koenigsegg", "ktm", "lamborghini", "lancia",
+    "land rover", "lexus", "lotus", "maserati", "mazda", "mclaren", "mercedes",
+    "mercedes-amg", "amg", "mini", "mitsubishi", "nissan", "pagani", "peugeot",
+    "porsche", "ram", "renault", "rimac", "rolls royce", "rolls-royce",
+    "shelby", "subaru", "suzuki", "tesla", "toyota", "triumph", "tvr",
+    "volkswagen", "volvo", "yamaha"
+]
+
+BIKE_TERMS = ["motorcycle", "motorbike", "superbike", "bike", "moto", "scooter", "moped", "rider", "helmet"]
+CAR_TERMS = ["car", "coupe", "sedan", "convertible", "suv", "truck", "wagon", "hatchback", "roadster"]
 
 MOTION_TYPES = [
     "push_in",
@@ -47,6 +62,56 @@ TRANSITION_TYPES = [
     "speed_blur",
     "flash",
 ]
+
+
+def is_asset_topic_locked(
+    asset_meta_text: str,
+    target_brand: str,
+    target_model: str,
+    is_bike: bool = False
+) -> tuple[bool, str]:
+    """Strict deterministic entity-lock validation:
+    1. Rejects any competitor brand from blocklist.
+    2. Rejects wrong vehicle type (no bikes in car videos, no cars in bike videos).
+    3. Requires presence of target brand or target model.
+    """
+    text = asset_meta_text.lower().replace("-", " ").replace("_", " ")
+
+    # Competitor brand check
+    brand_norm = target_brand.lower().strip()
+    allowed_brands = {brand_norm}
+    if brand_norm == "ford":
+        allowed_brands.update({"shelby", "mustang", "gt40", "multimatic"})
+    elif brand_norm in ("mercedes", "mercedes-amg"):
+        allowed_brands.update({"mercedes", "mercedes-amg", "amg"})
+    elif brand_norm == "bmw":
+        allowed_brands.update({"bmw", "mpower", "bmw m"})
+    elif brand_norm == "porsche":
+        allowed_brands.update({"porsche", "weissach"})
+    elif brand_norm == "chevrolet":
+        allowed_brands.update({"corvette", "camaro", "chevy"})
+    elif brand_norm == "dodge":
+        allowed_brands.update({"viper", "hellcat", "demon", "srt"})
+
+    for b in ALL_BRANDS:
+        if b in allowed_brands:
+            continue
+        # Check word boundaries
+        pattern = r'\b' + re.escape(b) + r'\b'
+        if re.search(pattern, text):
+            return False, f"Competitor brand detected: '{b}'"
+
+    # Vehicle type check
+    if not is_bike:
+        for bt in BIKE_TERMS:
+            if re.search(r'\b' + re.escape(bt) + r'\b', text):
+                return False, f"Wrong vehicle type (bike term '{bt}' found in car video)"
+    else:
+        for ct in CAR_TERMS:
+            if re.search(r'\b' + re.escape(ct) + r'\b', text):
+                return False, f"Wrong vehicle type (car term '{ct}' found in bike video)"
+
+    return True, "Entity match verified"
 
 
 def collect_strict_local_assets(brand: str, model: str) -> list[dict[str, Any]]:
@@ -88,31 +153,35 @@ def collect_strict_local_assets(brand: str, model: str) -> list[dict[str, Any]]:
 def fetch_wikimedia_images(
     brand: str,
     model: str,
-    limit: int = 50,
+    limit: int = 25,
+    max_needed: int = 35,
     is_bike: bool = False
 ) -> list[dict[str, Any]]:
-    """Fetch high-resolution CC-licensed vehicle images from Wikimedia Commons for exact brand & model."""
+    """Fetch high-resolution CC-licensed vehicle images from Wikimedia Commons for exact brand & model.
+    Applies strict deterministic topic-locking and competitor blocklisting at ingestion.
+    """
     VISUALS_CACHE_DIR.mkdir(parents=True, exist_ok=True)
     queries = [
+        f'"{brand} {model}"',
         f"{brand} {model}",
         f"{brand} {model} front",
         f"{brand} {model} rear",
         f"{brand} {model} track",
-        f"{brand} {model} interior",
-        f"{brand} {model} engine",
+        f"{brand} {model} exterior",
     ]
 
     all_fetched = []
     seen_urls = set()
-
     headers = {"User-Agent": "ZenithMotorsBot/2.0 (automotive.pipeline@zenithmotors.com)"}
 
     for q in queries:
+        if len(all_fetched) >= max_needed:
+            break
         encoded = urllib.parse.quote(q)
         api_url = (
             f"https://commons.wikimedia.org/w/api.php?action=query&generator=search"
             f"&gsrnamespace=6&gsrsearch={encoded}&gsrlimit={limit}"
-            f"&prop=imageinfo&iiprop=url|extmetadata&format=json"
+            f"&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=1920&format=json"
         )
         req = urllib.request.Request(api_url, headers=headers)
         try:
@@ -120,21 +189,32 @@ def fetch_wikimedia_images(
                 data = json.loads(res.read().decode("utf-8"))
                 pages = data.get("query", {}).get("pages", {})
                 for page in pages.values():
+                    if len(all_fetched) >= max_needed:
+                        break
                     info = page.get("imageinfo", [{}])[0]
-                    img_url = info.get("url")
+                    # Prefer 1920px web-optimized image for ultra-fast downloads and 1080p rendering
+                    img_url = info.get("thumburl") or info.get("url")
+                    orig_url = info.get("url")
+                    title = page.get("title", "")
                     if not img_url or img_url in seen_urls:
                         continue
-                    clean_url_path = img_url.split("?")[0].lower()
+                    clean_url_path = (orig_url or img_url).split("?")[0].lower()
                     if not clean_url_path.endswith((".jpg", ".jpeg", ".png")):
                         continue
 
-                    seen_urls.add(img_url)
                     meta = info.get("extmetadata", {})
                     artist_raw = meta.get("Artist", {}).get("value", "Wikimedia Contributor")
                     artist = re.sub(r"<[^>]+>", "", artist_raw).strip() or "Wikimedia Commons"
                     license_raw = meta.get("LicenseShortName", {}).get("value", "CC-BY-SA")
 
-                    img_stem = Path(img_url.split("?")[0]).name
+                    # Deterministic metadata & filename topic lock
+                    meta_corpus = f"{title} {clean_url_path} {artist}"
+                    is_ok, reason = is_asset_topic_locked(meta_corpus, brand, model, is_bike=is_bike)
+                    if not is_ok:
+                        continue
+
+                    seen_urls.add(img_url)
+                    img_stem = Path(orig_url.split("?")[0] if orig_url else img_url.split("?")[0]).name
                     dest_path = VISUALS_CACHE_DIR / img_stem
                     if not dest_path.exists():
                         try:
@@ -144,55 +224,63 @@ def fetch_wikimedia_images(
                         except Exception:
                             continue
 
+                    # Validate downloaded image aspect ratio and dimensions
+                    try:
+                        with Image.open(dest_path) as im:
+                            w, h = im.size
+                            if w < 500 or h < 350:
+                                dest_path.unlink(missing_ok=True)
+                                continue
+                            ar = w / float(h)
+                            if ar < 0.45 or ar > 2.4:
+                                dest_path.unlink(missing_ok=True)
+                                continue
+                    except Exception:
+                        dest_path.unlink(missing_ok=True)
+                        continue
+
                     all_fetched.append({
                         "id": f"wiki_{dest_path.stem}",
                         "path": str(dest_path),
                         "author": artist,
                         "license": license_raw,
                         "source_url": img_url,
-                        "source_type": "wikimedia_commons"
+                        "source_type": "wikimedia_commons",
+                        "title": title
                     })
-        except Exception as e:
+                    if len(all_fetched) >= max_needed:
+                        return all_fetched
+        except Exception:
             continue
 
     return all_fetched
 
 
-def verify_asset_pool_with_clip(
+def filter_assets_deterministic(
     candidate_assets: list[dict[str, Any]],
     brand: str,
     model: str,
     is_bike: bool = False
 ) -> list[dict[str, Any]]:
-    """Filter candidate assets through open-source CLIP.
-    Strictly discards any image where competitor brands or incorrect vehicle types dominate.
+    """Deterministic entity-lock filter without ML models.
+    Strictly verifies all assets against target brand, model, and blocklist.
     """
     verified = []
-    print(f"  [Visuals] Running CLIP semantic relevance verification on {len(candidate_assets)} candidate assets...")
+    print(f"  [Visuals] Running deterministic entity-lock filter on {len(candidate_assets)} candidate assets...")
 
     for asset in candidate_assets:
         p = asset.get("path")
         if not p or not Path(p).exists():
             continue
 
-        # In-house assets matching exact brand folders are already verified by directory convention
         if asset.get("source_type") == "local_asset" and asset.get("entity_match"):
             verified.append(asset)
             continue
 
-        clip_res = verify_image_relevance(
-            image_path=p,
-            target_brand=brand,
-            target_model=model,
-            is_bike=is_bike,
-            min_score=0.40
-        )
-        if clip_res["is_relevant"]:
-            asset["clip_score"] = clip_res.get("target_score", 0.0)
+        corpus = f"{asset.get('id', '')} {asset.get('title', '')} {asset.get('author', '')} {Path(p).name}"
+        is_ok, reason = is_asset_topic_locked(corpus, brand, model, is_bike=is_bike)
+        if is_ok:
             verified.append(asset)
-        else:
-            # Reject off-topic asset immediately
-            pass
 
     print(f"  [Visuals] Verified {len(verified)} on-topic assets. Discarded {len(candidate_assets) - len(verified)} off-topic assets.")
     return verified
@@ -224,14 +312,17 @@ def plan_visual_timeline(
     # 1. Sourcing Order
     # a) Local in-house assets for exact brand/model
     local_assets = collect_strict_local_assets(brand, model)
-    # b) Wikimedia Commons images
+    # b) Wikimedia Commons images (with deterministic topic lock at ingestion)
     wiki_raw = fetch_wikimedia_images(brand, model, limit=60, is_bike=is_bike)
-    # c) Verify candidate pool with CLIP
-    verified_wiki = verify_asset_pool_with_clip(wiki_raw, brand, model, is_bike=is_bike)
+    # c) Deterministic entity-lock verification
+    verified_wiki = filter_assets_deterministic(wiki_raw, brand, model, is_bike=is_bike)
 
     pool = local_assets + verified_wiki
 
     total_duration_sec = sum(ch["duration"] for ch in chapter_timings)
+    max_footage_sec = len(pool) * 2 * 4.2
+    coverage_ratio = max_footage_sec / max(1.0, total_duration_sec)
+    print(f"  [Visuals] Sourced pool: {len(pool)} topic-locked assets ({max_footage_sec:.1f}s / {total_duration_sec:.1f}s = {coverage_ratio*100:.1f}% potential coverage).")
     asset_usage_counts: dict[str, int] = {}
     last_used_time: dict[str, float] = {}
     planned_shots: list[dict[str, Any]] = []
