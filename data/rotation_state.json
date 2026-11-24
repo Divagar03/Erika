@@ -17,8 +17,8 @@
     "Porsche",
     "Mercedes-AMG"
   ],
-  "brand_pointer": 13,
-  "last_brand": "Lamborghini",
+  "brand_pointer": 15,
+  "last_brand": "Porsche",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -960,8 +960,8 @@
         "918 Spyder",
         "911 GT3 RS"
       ],
-      "model_pointer": 1,
-      "last_model": "918 Spyder",
+      "model_pointer": 3,
+      "last_model": "911 GT3 RS",
       "models": {
         "911 (all generations)": {
           "used_colours": [],
@@ -979,7 +979,7 @@
         "Carrera GT": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "unavailable_until_next_cycle": false
         },
         "959": {
           "used_colours": [],
@@ -987,9 +987,11 @@
           "unavailable_until_next_cycle": false
         },
         "911 GT3 RS": {
-          "used_colours": [],
-          "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "used_colours": [
+            "black"
+          ],
+          "last_colour": "black",
+          "unavailable_until_next_cycle": false
         },
         "911 Dakar": {
           "used_colours": [],
@@ -13151,6 +13153,15 @@
       "num_clips": 3,
       "clip_hashes": [],
       "post_id": "18137229190773491"
+    },
+    {
+      "timestamp": "2026-11-24T13:57:42.910957Z",
+      "brand": "Porsche",
+      "model": "911 GT3 RS",
+      "colour": "black",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "18141561853629572"
     }
   ]
 }
