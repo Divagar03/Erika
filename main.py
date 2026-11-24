@@ -1535,13 +1535,13 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                 if len(unposted_clips) >= 3:
                     available_dict[d.name] = unposted_clips
 
-    # 2. Curated DSLR photo sets (STRICT ZERO-REPEAT: requires >= 4 pure unposted shots)
+    # 2. Curated DSLR photo sets (STRICT ZERO-REPEAT: requires >= 3 pure unposted shots)
     if VEHICLE_SETS_DIR.exists():
         for d in sorted(VEHICLE_SETS_DIR.iterdir()):
-            if d.is_dir():
+            if d.is_dir() and d.name not in available_dict:
                 shots = sorted(list(d.glob("shot_*.jpg")))
                 unposted_shots = get_unposted_shots(d.name, shots)
-                if len(unposted_shots) >= 4:
+                if len(unposted_shots) >= 3:
                     available_dict[d.name] = unposted_shots
 
     if not available_dict:
@@ -1795,7 +1795,7 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
             continue
         cand_raw = available_dict[cand]
         is_vid = any(p.suffix.lower() == ".mp4" for p in cand_raw)
-        min_req = 3 if is_vid else 4
+        min_req = 3
         try:
             shots = select_diverse_vehicle_shots(cand, cand_raw, needed_count=5, min_required=min_req)
             if shots and len(shots) >= min_req:
@@ -1813,6 +1813,17 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
         except Exception as exc:
             print(f"  [VehicleSelection] Notice: {cand} skipped: {exc}")
             continue
+
+    if not chosen_name or not selected_shots:
+        for cand, cand_raw in available_dict.items():
+            try:
+                shots = select_diverse_vehicle_shots(cand, cand_raw, needed_count=5, min_required=3)
+                if shots and len(shots) >= 3:
+                    chosen_name = cand
+                    selected_shots = shots
+                    break
+            except Exception:
+                continue
 
     if not chosen_name or not selected_shots:
         v_dir = Path(__file__).parent / "assets" / "vehicles"
@@ -1967,10 +1978,10 @@ def _get_vehicle_via_rotation_engine(
 
     if VEHICLE_SETS_DIR.exists():
         for d in sorted(VEHICLE_SETS_DIR.iterdir()):
-            if d.is_dir():
+            if d.is_dir() and d.name not in available_dict:
                 shots = sorted(list(d.glob("shot_*.jpg")))
                 unposted = get_unposted_shots(d.name, shots)
-                if len(unposted) >= 4:
+                if len(unposted) >= 3:
                     available_dict[d.name] = unposted
 
     if not available_dict:
@@ -1982,7 +1993,7 @@ def _get_vehicle_via_rotation_engine(
             return False
         raw_shots = available_dict[slug]
         is_vid = any(p.suffix.lower() == ".mp4" for p in raw_shots)
-        min_req = 3 if is_vid else 4
+        min_req = 3
         try:
             # Check if at least min_req unposted shots exist
             selected = select_diverse_vehicle_shots(slug, raw_shots, needed_count=5, min_required=min_req, record=False)
@@ -2004,7 +2015,7 @@ def _get_vehicle_via_rotation_engine(
     slug = _find_slug_for_brand_model(brand, model)
     raw_shots = available_dict[slug]
     is_vid = any(p.suffix.lower() == ".mp4" for p in raw_shots)
-    min_req = 3 if is_vid else 4
+    min_req = 3
     selected = select_diverse_vehicle_shots(slug, raw_shots, needed_count=5, min_required=min_req, record=False)
 
     _ROTATION_BRAND = brand
@@ -3917,6 +3928,19 @@ def mode_youtube_short(persona: dict, env: dict, dry_run: bool) -> None:
 def mode_youtube_longform(persona: dict, env: dict, dry_run: bool, custom_prompt: str = "", is_preview: bool = False) -> None:
     """Execute the 18-22 minute long-form YouTube documentary pipeline."""
     print("\n=== MODE: youtube_longform ===")
+    longform_enabled = os.environ.get("LONGFORM_ENABLED", "").lower() in ("true", "1", "yes")
+    config_file = ROOT / "config" / "longform_config.json"
+    if config_file.exists():
+        try:
+            with open(config_file, "r", encoding="utf-8") as f:
+                cfg = json.load(f)
+                if not cfg.get("enabled", True):
+                    longform_enabled = False
+        except Exception:
+            pass
+    if not longform_enabled:
+        print("  [LongForm] Long-form pipeline is currently DISABLED (LONGFORM_ENABLED=false). Exiting cleanly.")
+        return
     from scripts.longform.pipeline import run_longform_pipeline
     force_brand = os.environ.get("FORCE_BRAND", "").strip() or None
     force_model = os.environ.get("FORCE_MODEL", "").strip() or None

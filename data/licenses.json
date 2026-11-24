@@ -4863,6 +4863,16 @@
         "license": "CC BY-SA 3.0",
         "artist": "Mr.choppers",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:2011_Porsche_911_GT3_RS_at_Industry_City,_rear_right.jpg"
+      },
+      {
+        "file": "shot_10.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2016 Porsche 911 GT3 RS Blue - WELLY 1-24.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/2/28/2016_Porsche_911_GT3_RS_Blue_-_WELLY_1-24.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/2016_Porsche_911_GT3_RS_Blue_-_WELLY_1-24.jpg/1280px-2016_Porsche_911_GT3_RS_Blue_-_WELLY_1-24.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "CSR2Forever",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2016_Porsche_911_GT3_RS_Blue_-_WELLY_1-24.jpg"
       }
     ]
   },
@@ -5543,6 +5553,26 @@
         "license": "CC BY-SA 4.0",
         "artist": "Alexander Migl",
         "attribution_url": "https://commons.wikimedia.org/wiki/File:BMW_M4_CS_(G82)_VR46_Edition_IAA_2025_DSC_1308.jpg"
+      },
+      {
+        "file": "shot_11.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:BMW M4 in der BMW Welt.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/55/BMW_M4_in_der_BMW_Welt.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/BMW_M4_in_der_BMW_Welt.jpg/1280px-BMW_M4_in_der_BMW_Welt.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC0",
+        "artist": "Strubbl",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:BMW_M4_in_der_BMW_Welt.jpg"
+      },
+      {
+        "file": "shot_12.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2020 BMW M4 Competition Convertible Blue FOS22.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/7/74/2020_BMW_M4_Competition_Convertible_Blue_FOS22.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/2020_BMW_M4_Competition_Convertible_Blue_FOS22.jpg/1280px-2020_BMW_M4_Competition_Convertible_Blue_FOS22.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "MrWalkr",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2020_BMW_M4_Competition_Convertible_Blue_FOS22.jpg"
       }
     ]
   }

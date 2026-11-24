@@ -108,7 +108,7 @@ def _find_cohesive_subset(shots: list[Path], min_required: int, needed_count: in
         if len(items) >= min_required and len(items) > len(best_cluster):
             best_cluster = [s for s, _ in items]
 
-    # 2. COLORED: Find largest cluster where circular hue spread <= 50 degrees
+    # 2. COLORED: Find largest cluster where circular hue spread <= 55 degrees
     colored_items = by_type.get("COLORED", [])
     if len(colored_items) >= min_required:
         n = len(colored_items)
@@ -119,14 +119,14 @@ def _find_cohesive_subset(shots: list[Path], min_required: int, needed_count: in
             for s, h in colored_items:
                 diff = abs(h - ref_hue) % 360
                 dist = min(diff, 360 - diff)
-                if dist <= 25.0:  # total diameter <= 50 deg
+                if dist <= 27.5:  # total diameter <= 55 deg
                     cluster.append((s, h))
             if len(cluster) > len(best_colored):
                 # Verify exact circular hue spread
                 hues = [h for _, h in cluster]
                 sorted_hues = sorted(hues)
                 max_gap = max((sorted_hues[(k + 1) % len(sorted_hues)] - sorted_hues[k]) % 360 for k in range(len(sorted_hues)))
-                if (360.0 - max_gap) <= 50.0:
+                if (360.0 - max_gap) <= 55.0:
                     best_colored = [s for s, _ in cluster]
         if len(best_colored) > len(best_cluster):
             best_cluster = best_colored

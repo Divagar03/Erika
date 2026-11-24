@@ -37,6 +37,7 @@ concurrency:
 
 jobs:
   longform:
+    if: false  # LONGFORM_ENABLED=false: Disabled during Phase 0 restore of Shorts & Reels
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
