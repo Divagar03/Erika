@@ -17,8 +17,8 @@
     "Porsche",
     "Mercedes-AMG"
   ],
-  "brand_pointer": 12,
-  "last_brand": "Aston Martin",
+  "brand_pointer": 13,
+  "last_brand": "Lamborghini",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -641,8 +641,8 @@
         "Revuelto",
         "Diablo"
       ],
-      "model_pointer": 3,
-      "last_model": "Diablo",
+      "model_pointer": 2,
+      "last_model": "Revuelto",
       "models": {
         "Countach": {
           "used_colours": [],
@@ -675,10 +675,11 @@
         },
         "Revuelto": {
           "used_colours": [
-            "orange"
+            "orange",
+            "purple"
           ],
-          "last_colour": "orange",
-          "unavailable_until_next_cycle": true
+          "last_colour": "purple",
+          "unavailable_until_next_cycle": false
         },
         "Si\u00e1n": {
           "used_colours": [],
@@ -13141,6 +13142,15 @@
       "num_clips": 3,
       "clip_hashes": [],
       "post_id": "18158176006489739"
+    },
+    {
+      "timestamp": "2026-11-24T08:18:03.708993Z",
+      "brand": "Lamborghini",
+      "model": "Revuelto",
+      "colour": "purple",
+      "num_clips": 3,
+      "clip_hashes": [],
+      "post_id": "18137229190773491"
     }
   ]
 }

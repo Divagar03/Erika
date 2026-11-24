@@ -1638,6 +1638,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "lamborghini_revuelto",
+      "brand": "lamborghini",
+      "model": "revuelto",
+      "format": "phonk_bass_drop",
+      "caption_hash": "86158c5521ba31e5",
+      "media_id": "18137229190773491",
+      "yt_id": "mFs8RP6hZJU",
+      "media_file": "reel_20261124_081634.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-24T08:18:03.706823+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

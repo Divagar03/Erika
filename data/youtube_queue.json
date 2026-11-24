@@ -2,7 +2,7 @@
   "date": "2026-11-24",
   "source_date": "2026-11-23",
   "target_count": 10,
-  "published_today": 5,
+  "published_today": 6,
   "queue": [
     {
       "id": "reel_20261123_024301",
@@ -65,9 +65,9 @@
       "title": "Bmw M5 Cs • Supercar Reel #Shorts",
       "caption": "⚡Drop the Phonk – The M5 CS Drops!⚡ A straight‑line beast, it flashes icy green and gold bronze, hugging the road like a bass line. Its exhaust isn’t just a rumble – it’s a phonk anthem that turns heads. Rate this spec 1-10 👇\n\n#bmwm5cs #m5cs #bmwm #f90 #mpower #supersedan #bimmer #carlifestyle",
       "set_name": "set=bmw_m5_cs, format=phonk_bass_drop, media_id=17915950707558255, yt_err=token_refresh_failed_401_{\n  \"error\": \"invalid_client\",\n  \"error_description\": \"The provided client secret is invalid.\"\n}",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "mFs8RP6hZJU",
+      "published_at": "2026-11-24T08:18:03.702469+00:00",
       "error": null
     },
     {
