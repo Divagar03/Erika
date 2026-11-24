@@ -60,7 +60,60 @@ def init_db() -> None:
             CREATE INDEX IF NOT EXISTS idx_episodes_created ON episodes(created_at);
         """)
         conn.commit()
+    _sync_from_json()
     _sync_to_json()
+
+
+def _sync_from_json() -> None:
+    """Import git-tracked JSON episodes into SQLite if not already present."""
+    if not JSON_FILE.exists():
+        return
+    try:
+        with open(JSON_FILE, encoding="utf-8") as f:
+            data = json.load(f)
+        episodes = data.get("episodes", [])
+        with _get_connection() as conn:
+            for ep in episodes:
+                eid = ep.get("episode_id")
+                if not eid:
+                    continue
+                exists = conn.execute("SELECT 1 FROM episodes WHERE episode_id = ?", (eid,)).fetchone()
+                if not exists:
+                    conn.execute("""
+                        INSERT INTO episodes (
+                            episode_id, topic_brand, topic_model, topic_colour, format_id, hook_style_id,
+                            title, script_hash, script_word_count, duration_seconds, thumbnail_path, video_path,
+                            srt_path, youtube_id, status, created_at, published_at, qa_report, assets_used,
+                            attributions, retention_pct, avg_view_duration_sec, error_message
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """, (
+                        eid,
+                        ep.get("topic_brand", "Unknown"),
+                        ep.get("topic_model", "Unknown"),
+                        ep.get("topic_colour"),
+                        ep.get("format_id", "model_deep_dive"),
+                        ep.get("hook_style_id", "provocative_claim"),
+                        ep.get("title"),
+                        ep.get("script_hash"),
+                        ep.get("script_word_count"),
+                        ep.get("duration_seconds"),
+                        ep.get("thumbnail_path"),
+                        ep.get("video_path"),
+                        ep.get("srt_path"),
+                        ep.get("youtube_id"),
+                        ep.get("status", "initialized"),
+                        ep.get("created_at", datetime.now(timezone.utc).isoformat()),
+                        ep.get("published_at"),
+                        json.dumps(ep.get("qa_report")) if ep.get("qa_report") else None,
+                        json.dumps(ep.get("assets_used")) if ep.get("assets_used") else None,
+                        json.dumps(ep.get("attributions")) if ep.get("attributions") else None,
+                        ep.get("retention_pct"),
+                        ep.get("avg_view_duration_sec"),
+                        ep.get("error_message")
+                    ))
+            conn.commit()
+    except Exception as e:
+        print(f"  [Longform DB] Notice syncing from JSON: {e}")
 
 
 def create_episode(

@@ -3914,7 +3914,7 @@ def mode_youtube_short(persona: dict, env: dict, dry_run: bool) -> None:
             git_commit_and_push(files, f"chore: log youtube_short failure: {err_msg[:40]}")
 
 
-def mode_youtube_longform(persona: dict, env: dict, dry_run: bool, custom_prompt: str = "") -> None:
+def mode_youtube_longform(persona: dict, env: dict, dry_run: bool, custom_prompt: str = "", is_preview: bool = False) -> None:
     """Execute the 18-22 minute long-form YouTube documentary pipeline."""
     print("\n=== MODE: youtube_longform ===")
     from scripts.longform.pipeline import run_longform_pipeline
@@ -3925,10 +3925,16 @@ def mode_youtube_longform(persona: dict, env: dict, dry_run: bool, custom_prompt
     result = run_longform_pipeline(
         env,
         dry_run=dry_run,
+        is_preview=is_preview,
         force_brand=force_brand,
         force_model=force_model,
         force_format=force_format
     )
+    if is_preview:
+        print(f"\n[Preview] 2-Minute Preview Complete! Video: {result.get('video_path')}")
+        print(f"[Preview] Contact Sheet: {result.get('contact_sheet_path')}")
+        return
+
     if not dry_run:
         if result.get("status") == "success":
             yt_id = result.get("youtube_id", "")
@@ -3954,7 +3960,8 @@ MODES = {"post", "weekly_reel", "reel", "upload_reel", "journey_reel", "deep_div
 def main() -> None:
     args = sys.argv[1:]
     dry_run = "--dry-run" in args
-    args = [a for a in args if a != "--dry-run"]
+    is_preview = "--preview" in args
+    args = [a for a in args if a not in ("--dry-run", "--preview")]
 
     custom_prompt = ""
     # Parse --prompt "some text"
@@ -4021,7 +4028,7 @@ def main() -> None:
         elif mode == "youtube_short":
             mode_youtube_short(persona, env, dry_run)
         elif mode == "youtube_longform":
-            mode_youtube_longform(persona, env, dry_run, custom_prompt=custom_prompt)
+            mode_youtube_longform(persona, env, dry_run, custom_prompt=custom_prompt, is_preview=is_preview)
         elif mode == "youtube_top10":
             mode_youtube_top10(persona, env, dry_run)
         elif mode == "collect_metrics":

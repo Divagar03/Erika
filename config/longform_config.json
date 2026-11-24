@@ -104,10 +104,21 @@
     "speech_rate_variance": ["+0%", "+2%", "-2%"]
   },
   "visuals": {
-    "min_shot_duration_sec": 4.5,
-    "max_shot_duration_sec": 7.5,
+    "min_shot_duration_sec": 3.0,
+    "max_shot_duration_sec": 6.0,
     "max_asset_reuse_count": 2,
-    "ken_burns_zoom_speed": 0.0015,
+    "min_asset_reuse_gap_sec": 60.0,
+    "pattern_interrupt_interval_sec": 25.0,
+    "cinematic_grading": "eq=contrast=1.06:saturation=1.10:brightness=0.01",
+    "motion_types": [
+      "push_in",
+      "push_out",
+      "pan_left",
+      "pan_right",
+      "tilt_up",
+      "tilt_down",
+      "parallax_2_5d"
+    ],
     "resolution": {
       "width": 1920,
       "height": 1080
@@ -127,6 +138,10 @@
     "max_black_frame_ratio": 0.01,
     "min_audio_peak_db": -18.0,
     "max_audio_peak_db": -1.0,
+    "max_clip_off_topic_ratio": 0.05,
+    "clip_sample_interval_sec": 5.0,
+    "max_consecutive_same_motion": 3,
+    "max_single_shot_duration_sec": 8.0,
     "require_all_attributions": true
   },
   "publishing": {

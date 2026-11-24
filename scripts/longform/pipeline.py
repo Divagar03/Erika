@@ -38,6 +38,7 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 def run_longform_pipeline(
     env: dict[str, Any],
     dry_run: bool = False,
+    is_preview: bool = False,
     force_brand: str | None = None,
     force_model: str | None = None,
     force_format: str | None = None
@@ -46,7 +47,8 @@ def run_longform_pipeline(
     start_time = time.time()
     print("=" * 70)
     print("🎬 ZENITHMOTORS LONG-FORM YOUTUBE DOCUMENTARY PIPELINE (18-22 MIN)")
-    print(f"Mode: {'DRY RUN (no upload, test rendering)' if dry_run else 'LIVE PRODUCTION'}")
+    mode_desc = 'PREVIEW (2-min test render + contact sheet)' if is_preview else ('DRY RUN (no upload)' if dry_run else 'LIVE PRODUCTION')
+    print(f"Mode: {mode_desc}")
     print("=" * 70)
 
     config = load_config()
@@ -172,11 +174,15 @@ def run_longform_pipeline(
     # -------------------------------------------------------------
     print("\n--- STAGE 5: VISUAL CURATION & ATTRIBUTION COMPILATION ---")
     from .visuals import plan_visual_timeline
+    is_bike = any(b in topic["brand"].lower() for b in ["ducati", "yamaha", "kawasaki", "bmw_s1000rr"])
     visual_plan = plan_visual_timeline(
         brand=topic["brand"],
         model=topic["model"],
         chapter_timings=voice_data["chapter_timings"],
-        episode_id=episode_id
+        episode_id=episode_id,
+        format_id=topic["format"]["id"],
+        is_bike=is_bike,
+        script_data=script_data
     )
     update_episode(
         episode_id,
@@ -197,14 +203,18 @@ def run_longform_pipeline(
     # STAGE 7: CHUNK-BASED VIDEO RENDERING (FFmpeg)
     # -------------------------------------------------------------
     print("\n--- STAGE 7: CHUNK-BASED 1080P VIDEO RENDERING ---")
+    from .renderer import render_full_episode_video, generate_preview_contact_sheet
     rendered_video_path = Path()
+    preview_limit = 120.0 if is_preview else None
+
     for attempt in range(1, 4):
         try:
             rendered_video_path = render_full_episode_video(
                 chapter_timings=voice_data["chapter_timings"],
                 planned_shots=visual_plan["shots"],
                 bg_music_path=bg_music_path,
-                episode_id=episode_id
+                episode_id=episode_id,
+                max_duration_sec=preview_limit
             )
             update_episode(
                 episode_id,
@@ -219,6 +229,19 @@ def run_longform_pipeline(
                 raise RuntimeError(f"Stage 7 failed after 3 attempts: {exc}")
             time.sleep(3)
 
+    # Generate preview contact sheet if preview or dry-run
+    contact_sheet_path = None
+    if is_preview or dry_run:
+        sheet_dest = rendered_video_path.parent / f"{episode_id}_contact_sheet.jpg"
+        try:
+            contact_sheet_path = generate_preview_contact_sheet(
+                video_path=rendered_video_path,
+                output_image_path=sheet_dest,
+                interval_sec=8.0
+            )
+        except Exception as e:
+            print(f"  [Preview] Contact sheet generation notice: {e}")
+
     # -------------------------------------------------------------
     # STAGE 8: THUMBNAIL GENERATION (Pillow High-Contrast A/B)
     # -------------------------------------------------------------
@@ -227,7 +250,7 @@ def run_longform_pipeline(
     sample_car_img = None
     for shot in visual_plan.get("shots", []):
         p_str = shot.get("asset_path")
-        if p_str and Path(p_str).exists():
+        if p_str and Path(p_str).exists() and not shot.get("is_graphic"):
             sample_car_img = Path(p_str)
             break
 
@@ -253,16 +276,32 @@ def run_longform_pipeline(
         visual_plan=visual_plan,
         min_duration_sec=min_dur,
         max_duration_sec=max_dur,
-        is_dry_run=dry_run
+        is_dry_run=dry_run,
+        is_preview=is_preview,
+        brand=topic["brand"],
+        model=topic["model"],
+        is_bike=is_bike
     )
     update_episode(episode_id, qa_report=qa_report)
 
-    if not passed_qa and not dry_run:
+    if not passed_qa and not dry_run and not is_preview:
         update_episode(episode_id, status="failed", error_message="; ".join(qa_failures))
         print("  [QA Gate] ✗ PUBLISHING ABORTED: Video failed mandatory QA gates.")
         return {"status": "qa_failed", "episode_id": episode_id, "reasons": qa_failures, "error": "; ".join(qa_failures)}
 
     update_episode(episode_id, status="qa_passed")
+
+    if is_preview:
+        print("\n=== PREVIEW COMPLETE: Video & Contact Sheet Ready ===")
+        print(f"  Preview Video: {rendered_video_path}")
+        print(f"  Contact Sheet: {contact_sheet_path}")
+        return {
+            "status": "preview_complete",
+            "episode_id": episode_id,
+            "video_path": str(rendered_video_path),
+            "contact_sheet_path": str(contact_sheet_path) if contact_sheet_path else "",
+            "qa_report": qa_report
+        }
 
     # -------------------------------------------------------------
     # STAGE 10: YOUTUBE UPLOAD (Resumable + Thumbnail + Captions)
