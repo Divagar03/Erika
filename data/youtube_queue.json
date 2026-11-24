@@ -2,7 +2,7 @@
   "date": "2026-11-24",
   "source_date": "2026-11-23",
   "target_count": 10,
-  "published_today": 4,
+  "published_today": 5,
   "queue": [
     {
       "id": "reel_20261123_024301",
@@ -54,9 +54,9 @@
       "title": "Ford Gt Supercar • Supercar Reel #Shorts",
       "caption": "Flying buttresses sculpted in wind tunnels strictly to dominate Le Mans. Twin-turbo EcoBoost V6 pushing active hydraulic track suspension. Rate the Ford GT 1-10 👇\n\n#fordgt #ford #supercars #lemans #americanexotic #carbonfiber #carlifestyle",
       "set_name": "set=ford_gt_supercar, format=engine_sound_showcase, media_id=18110438129219627, yt_err=token_refresh_failed_401_{\n  \"error\": \"invalid_client\",\n  \"error_description\": \"The provided client secret is invalid.\"\n}",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "-LNWHjyOQlE",
+      "published_at": "2026-11-24T06:18:23.456643+00:00",
       "error": null
     },
     {

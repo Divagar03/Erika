@@ -1,24 +1,24 @@
 {
   "brand_queue": [
-    "Aston Martin",
-    "Kawasaki",
-    "Porsche",
-    "BMW",
     "Nissan",
-    "Ferrari",
-    "Lamborghini",
-    "Ford",
-    "Mercedes-AMG",
-    "Yamaha",
     "McLaren",
-    "Pagani",
     "Bugatti",
     "Ducati",
+    "Ferrari",
+    "Yamaha",
+    "Ford",
+    "Kawasaki",
+    "Audi",
+    "BMW",
+    "Pagani",
+    "Aston Martin",
+    "Lamborghini",
     "Koenigsegg",
-    "Audi"
+    "Porsche",
+    "Mercedes-AMG"
   ],
-  "brand_pointer": 11,
-  "last_brand": "McLaren",
+  "brand_pointer": 12,
+  "last_brand": "Aston Martin",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -290,7 +290,7 @@
             "gold"
           ],
           "last_colour": "gold",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Utopia": {
           "used_colours": [],
@@ -1203,7 +1203,7 @@
         "Valour"
       ],
       "model_pointer": 2,
-      "last_model": null,
+      "last_model": "Valour",
       "models": {
         "Valkyrie": {
           "used_colours": [],
@@ -1326,9 +1326,11 @@
           "unavailable_until_next_cycle": false
         },
         "Valour": {
-          "used_colours": [],
-          "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "used_colours": [
+            "white"
+          ],
+          "last_colour": "white",
+          "unavailable_until_next_cycle": false
         },
         "Valkyrie AMR Pro": {
           "used_colours": [],
@@ -5040,12 +5042,12 @@
     },
     "BMW": {
       "model_queue": [
-        "M2 Competition",
         "G82 M4",
+        "M2 Competition",
         "S1000RR",
         "M5 CS"
       ],
-      "model_pointer": 3,
+      "model_pointer": 4,
       "last_model": "S1000RR",
       "models": {
         "M1": {
@@ -12898,7 +12900,7 @@
             "red"
           ],
           "last_colour": "red",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         }
       }
     }
@@ -13130,6 +13132,15 @@
       "num_clips": 3,
       "clip_hashes": [],
       "post_id": "18113714033214946"
+    },
+    {
+      "timestamp": "2026-11-24T06:18:23.464390Z",
+      "brand": "Aston Martin",
+      "model": "Valour",
+      "colour": "white",
+      "num_clips": 3,
+      "clip_hashes": [],
+      "post_id": "18158176006489739"
     }
   ]
 }

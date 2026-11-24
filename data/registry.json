@@ -1618,6 +1618,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "aston_martin_valour",
+      "brand": "aston_martin",
+      "model": "valour",
+      "format": "night_city",
+      "caption_hash": "c1059a35e439a0d9",
+      "media_id": "18158176006489739",
+      "yt_id": "-LNWHjyOQlE",
+      "media_file": "reel_20261124_061651.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-24T06:18:23.462306+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
