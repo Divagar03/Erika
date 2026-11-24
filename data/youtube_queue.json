@@ -2,7 +2,7 @@
   "date": "2026-11-24",
   "source_date": "2026-11-23",
   "target_count": 10,
-  "published_today": 6,
+  "published_today": 7,
   "queue": [
     {
       "id": "reel_20261123_024301",
@@ -76,9 +76,9 @@
       "title": "Kawasaki Ninja H2R • Supercar Reel #Shorts",
       "caption": "💥⚡ 169 bhp, zero‑drag, pure white rev‑volution!  \nFeel the roaring exhaust, the wind‑kissed barrel, and the speed‑sculpted horizon.  \nHit that scale 1‑10 and let the machine drive your heart. 👇 #ZenithMotors #NinjaH2R #RollingShots #Machine … (Wait, no hashtags) Need to remove. Let's rewrite without",
       "set_name": "set=kawasaki_ninja_h2r, format=rolling_shots, media_id=17991109743085939, yt_err=queue_complete",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "ATYf-LSUhG4",
+      "published_at": "2026-11-24T13:57:42.904251+00:00",
       "error": null
     },
     {
