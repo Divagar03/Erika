@@ -17,8 +17,8 @@
     "Koenigsegg",
     "Audi"
   ],
-  "brand_pointer": 10,
-  "last_brand": "Yamaha",
+  "brand_pointer": 11,
+  "last_brand": "McLaren",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -829,8 +829,8 @@
         "Senna",
         "P1"
       ],
-      "model_pointer": 1,
-      "last_model": "Senna",
+      "model_pointer": 2,
+      "last_model": "P1",
       "models": {
         "F1": {
           "used_colours": [],
@@ -838,8 +838,10 @@
           "unavailable_until_next_cycle": false
         },
         "P1": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "purple"
+          ],
+          "last_colour": "purple",
           "unavailable_until_next_cycle": false
         },
         "Senna": {
@@ -13119,6 +13121,15 @@
       "num_clips": 3,
       "clip_hashes": [],
       "post_id": "18117431132031468"
+    },
+    {
+      "timestamp": "2026-11-24T05:06:21.454732Z",
+      "brand": "McLaren",
+      "model": "P1",
+      "colour": "purple",
+      "num_clips": 3,
+      "clip_hashes": [],
+      "post_id": "18113714033214946"
     }
   ]
 }
