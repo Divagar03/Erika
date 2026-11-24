@@ -1698,6 +1698,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "bugatti_chiron",
+      "brand": "bugatti",
+      "model": "chiron",
+      "format": "phonk_bass_drop",
+      "caption_hash": "87aa5969f6c3dcf8",
+      "media_id": "18212756821369313",
+      "yt_id": "-VGHS587I1U",
+      "media_file": "reel_20261124_161642.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-24T16:17:54.249430+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
