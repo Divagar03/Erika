@@ -4,6 +4,9 @@ on:
   schedule:
     # Runs once every 48 hours at 12:00 UTC (17:30 IST)
     - cron: "0 12 */2 * *"
+  push:
+    paths:
+      - "trigger_longform.txt"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -81,6 +84,7 @@ jobs:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          LONGFORM_ENABLED: "true"
           DRY_RUN: ${{ github.event.inputs.dry_run }}
           FORCE_BRAND: ${{ github.event.inputs.brand }}
           FORCE_MODEL: ${{ github.event.inputs.model }}

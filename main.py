@@ -1545,9 +1545,26 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                     available_dict[d.name] = unposted_shots
 
     if not available_dict:
-        v_dir = Path(__file__).parent / "assets" / "vehicles"
-        imgs = sorted(list(v_dir.glob("*.jpg")))[:5]
-        return "single_car", imgs, False
+        # Fallback to single vehicle with cohesive shots from CURATED_ROTATION_ORDER
+        from scripts.shot_tracker import select_fallback_single_vehicle_shots
+        for cand in CURATED_ROTATION_ORDER:
+            cand_dir = VEHICLE_SETS_DIR / cand
+            if cand_dir.is_dir():
+                all_s = sorted(list(cand_dir.glob("shot_*.jpg")))
+                if len(all_s) >= 3:
+                    fallback_shots = select_fallback_single_vehicle_shots(cand, all_s, needed_count=5, min_required=3)
+                    if len(fallback_shots) >= 3:
+                        print(f"  [CuratedVehicleSet] Fallback selection: {cand} ({len(fallback_shots)} cohesive shots)")
+                        return cand, fallback_shots, _is_bike_set(cand)
+        # Ultimate fallback to any vehicle set folder
+        for d in sorted(VEHICLE_SETS_DIR.iterdir()):
+            if d.is_dir():
+                all_s = sorted(list(d.glob("shot_*.jpg")))
+                if len(all_s) >= 3:
+                    fallback_shots = select_fallback_single_vehicle_shots(d.name, all_s, needed_count=5, min_required=3)
+                    if len(fallback_shots) >= 3:
+                        return d.name, fallback_shots, _is_bike_set(d.name)
+        raise RuntimeError("No vehicle sets with >= 3 cohesive shots available in library!")
 
     # Use ordered interleaved list for diversity
     active_order = [s for s in CURATED_ROTATION_ORDER if s in available_dict]
@@ -1826,9 +1843,30 @@ def get_next_curated_vehicle_set(theme_hint: str = "") -> tuple[str, list[Path],
                 continue
 
     if not chosen_name or not selected_shots:
-        v_dir = Path(__file__).parent / "assets" / "vehicles"
-        imgs = sorted(list(v_dir.glob("*.jpg")))[:5]
-        return "single_car", imgs, False
+        from scripts.shot_tracker import select_fallback_single_vehicle_shots
+        for cand in CURATED_ROTATION_ORDER:
+            cand_dir = VEHICLE_SETS_DIR / cand
+            if cand_dir.is_dir():
+                all_s = sorted(list(cand_dir.glob("shot_*.jpg")))
+                if len(all_s) >= 3:
+                    fallback_shots = select_fallback_single_vehicle_shots(cand, all_s, needed_count=5, min_required=3)
+                    if len(fallback_shots) >= 3:
+                        chosen_name = cand
+                        selected_shots = fallback_shots
+                        print(f"  [VehicleSelection] Fallback single-car selection: {cand} ({len(fallback_shots)} cohesive shots)")
+                        break
+        if not chosen_name or not selected_shots:
+            for d in sorted(VEHICLE_SETS_DIR.iterdir()):
+                if d.is_dir():
+                    all_s = sorted(list(d.glob("shot_*.jpg")))
+                    if len(all_s) >= 3:
+                        fallback_shots = select_fallback_single_vehicle_shots(d.name, all_s, needed_count=5, min_required=3)
+                        if len(fallback_shots) >= 3:
+                            chosen_name = d.name
+                            selected_shots = fallback_shots
+                            break
+        if not chosen_name or not selected_shots:
+            raise RuntimeError("No cohesive vehicle shots found in library!")
 
     # Cache recent_sets queue across the active library
     updated_recent = [chosen_name] + [s for s in recent_posted if s != chosen_name]
@@ -3928,7 +3966,11 @@ def mode_youtube_short(persona: dict, env: dict, dry_run: bool) -> None:
 def mode_youtube_longform(persona: dict, env: dict, dry_run: bool, custom_prompt: str = "", is_preview: bool = False) -> None:
     """Execute the 18-22 minute long-form YouTube documentary pipeline."""
     print("\n=== MODE: youtube_longform ===")
-    longform_enabled = os.environ.get("LONGFORM_ENABLED", "").lower() in ("true", "1", "yes")
+    env_flag = os.environ.get("LONGFORM_ENABLED")
+    if env_flag is not None:
+        longform_enabled = env_flag.lower() in ("true", "1", "yes")
+    else:
+        longform_enabled = True
     config_file = ROOT / "config" / "longform_config.json"
     if config_file.exists():
         try:
