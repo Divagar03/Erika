@@ -17,8 +17,8 @@
     "Koenigsegg",
     "Audi"
   ],
-  "brand_pointer": 7,
-  "last_brand": "Lamborghini",
+  "brand_pointer": 10,
+  "last_brand": "Yamaha",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -2073,7 +2073,7 @@
         "Mustang S550",
         "GT"
       ],
-      "model_pointer": 2,
+      "model_pointer": 1,
       "last_model": "GT",
       "models": {
         "GT": {
@@ -12889,12 +12889,14 @@
         "YZF-R1M"
       ],
       "model_pointer": 1,
-      "last_model": null,
+      "last_model": "YZF-R1M",
       "models": {
         "YZF-R1M": {
-          "used_colours": [],
-          "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "used_colours": [
+            "red"
+          ],
+          "last_colour": "red",
+          "unavailable_until_next_cycle": false
         }
       }
     }
@@ -13108,6 +13110,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "18114153209461561"
+    },
+    {
+      "timestamp": "2026-11-24T02:39:45.238655Z",
+      "brand": "Yamaha",
+      "model": "YZF-R1M",
+      "colour": "red",
+      "num_clips": 3,
+      "clip_hashes": [],
+      "post_id": "18117431132031468"
     }
   ]
 }
