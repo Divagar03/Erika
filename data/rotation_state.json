@@ -17,8 +17,8 @@
     "Ducati",
     "Pagani"
   ],
-  "brand_pointer": 14,
-  "last_brand": "Aston Martin",
+  "brand_pointer": 15,
+  "last_brand": "Ducati",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -12869,12 +12869,14 @@
         "Panigale V4 S"
       ],
       "model_pointer": 1,
-      "last_model": null,
+      "last_model": "Panigale V4 S",
       "models": {
         "Panigale V4 S": {
-          "used_colours": [],
-          "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "used_colours": [
+            "grey"
+          ],
+          "last_colour": "grey",
+          "unavailable_until_next_cycle": false
         }
       }
     },
@@ -13183,6 +13185,15 @@
       "num_clips": 3,
       "clip_hashes": [],
       "post_id": "18161303347512235"
+    },
+    {
+      "timestamp": "2026-11-25T04:38:40.165942Z",
+      "brand": "Ducati",
+      "model": "Panigale V4 S",
+      "colour": "grey",
+      "num_clips": 3,
+      "clip_hashes": [],
+      "post_id": "18101251370427296"
     }
   ]
 }
