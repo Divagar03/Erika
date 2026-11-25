@@ -1,7 +1,7 @@
 {
   "date": "2026-11-25",
   "source_date": "2026-11-24",
-  "target_count": 11,
+  "target_count": 13,
   "published_today": 10,
   "queue": [
     {
@@ -123,6 +123,28 @@
       "status": "published",
       "yt_id": "BWXmD7Nrt5s",
       "published_at": "2026-11-25T20:18:02.553441+00:00",
+      "error": null
+    },
+    {
+      "id": "short_ep_20261125_205343_1",
+      "media_file": "short_ep_20261125_205343_1.mp4",
+      "title": "Koenigsegg Jesko: Cold Open & The Impossible P • Supercar Reel #Shorts",
+      "caption": "⚡ The Koenigsegg Jesko pushed automotive physics to the edge. Watch the full 20-minute investigative deep-dive on our channel! 👇\n\n#Koenigsegg #Jesko #Supercars #Engineering",
+      "set_name": "koenigsegg_jesko",
+      "status": "pending",
+      "yt_id": null,
+      "published_at": null,
+      "error": null
+    },
+    {
+      "id": "short_ep_20261125_205343_2",
+      "media_file": "short_ep_20261125_205343_2.mp4",
+      "title": "Koenigsegg Jesko: Aero Warfare: Bending Air at • Supercar Reel #Shorts",
+      "caption": "⚡ The Koenigsegg Jesko pushed automotive physics to the edge. Watch the full 20-minute investigative deep-dive on our channel! 👇\n\n#Koenigsegg #Jesko #Supercars #Engineering",
+      "set_name": "koenigsegg_jesko",
+      "status": "pending",
+      "yt_id": null,
+      "published_at": null,
       "error": null
     }
   ]
