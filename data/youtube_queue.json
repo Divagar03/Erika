@@ -2,7 +2,7 @@
   "date": "2026-11-25",
   "source_date": "2026-11-24",
   "target_count": 11,
-  "published_today": 8,
+  "published_today": 9,
   "queue": [
     {
       "id": "reel_20261124_023828",
@@ -109,9 +109,9 @@
       "title": "Ford Gt Supercar • Supercar Reel #Shorts",
       "caption": "🚀 Red‑hot, heart‑stamped power unleashed!  \n\nThe Ford GT slashes the track with a thunderous bass‑drop roar, turning every curve into an adrenaline concerto. Its sleek aerodynamics slice wind like a knife, leaving competitors in a dusty blur.  \n\nRate this spec 1-10 👇 #️⃣🔥\n\n#fordgt #ford #supercars #",
       "set_name": "set=ford_gt_supercar, format=phonk_bass_drop, media_id=17978423160149981, yt_err=init_upload_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The request metadata specifies an invalid video desc",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "v166e8pEUR4",
+      "published_at": "2026-11-25T18:17:34.898038+00:00",
       "error": null
     },
     {
