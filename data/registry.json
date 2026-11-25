@@ -1738,6 +1738,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "aston_martin_valour",
+      "brand": "aston_martin",
+      "model": "valour",
+      "format": "phonk_bass_drop",
+      "caption_hash": "b460493131a73313",
+      "media_id": "18161303347512235",
+      "yt_id": null,
+      "media_file": "reel_20261125_020015.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-25T02:02:24.101284+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

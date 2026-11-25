@@ -17,8 +17,8 @@
     "Ducati",
     "Pagani"
   ],
-  "brand_pointer": 5,
-  "last_brand": "Nissan",
+  "brand_pointer": 14,
+  "last_brand": "Aston Martin",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -843,14 +843,14 @@
             "purple"
           ],
           "last_colour": "purple",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Senna": {
           "used_colours": [
             "orange"
           ],
           "last_colour": "orange",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "720S": {
           "used_colours": [],
@@ -956,8 +956,8 @@
     },
     "Porsche": {
       "model_queue": [
-        "Carrera GT",
         "918 Spyder",
+        "Carrera GT",
         "911 GT3 RS"
       ],
       "model_pointer": 3,
@@ -974,12 +974,12 @@
             "red"
           ],
           "last_colour": "red",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Carrera GT": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "959": {
           "used_colours": [],
@@ -991,7 +991,7 @@
             "black"
           ],
           "last_colour": "black",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "911 Dakar": {
           "used_colours": [],
@@ -1330,9 +1330,10 @@
         },
         "Valour": {
           "used_colours": [
-            "white"
+            "white",
+            "silver"
           ],
-          "last_colour": "white",
+          "last_colour": "silver",
           "unavailable_until_next_cycle": false
         },
         "Valkyrie AMR Pro": {
@@ -5047,12 +5048,12 @@
     },
     "BMW": {
       "model_queue": [
-        "G82 M4",
-        "M2 Competition",
+        "M5 CS",
         "S1000RR",
-        "M5 CS"
+        "M2 Competition",
+        "G82 M4"
       ],
-      "model_pointer": 4,
+      "model_pointer": 1,
       "last_model": "S1000RR",
       "models": {
         "M1": {
@@ -13173,6 +13174,15 @@
       "num_clips": 3,
       "clip_hashes": [],
       "post_id": "17981666115150808"
+    },
+    {
+      "timestamp": "2026-11-25T02:02:24.103469Z",
+      "brand": "Aston Martin",
+      "model": "Valour",
+      "colour": "silver",
+      "num_clips": 3,
+      "clip_hashes": [],
+      "post_id": "18161303347512235"
     }
   ]
 }
