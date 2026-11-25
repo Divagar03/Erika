@@ -1778,6 +1778,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "aston_martin_valkyrie",
+      "brand": "aston_martin",
+      "model": "valkyrie",
+      "format": "rolling_shots",
+      "caption_hash": "d9193134d4d2534f",
+      "media_id": "18131273804479512",
+      "yt_id": "rzTTw9YnOM8",
+      "media_file": "reel_20261125_061611.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-25T06:17:50.597664+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

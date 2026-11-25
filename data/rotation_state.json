@@ -1,24 +1,24 @@
 {
   "brand_queue": [
-    "Lamborghini",
-    "Audi",
-    "Ferrari",
-    "Koenigsegg",
-    "Nissan",
-    "Bugatti",
-    "Yamaha",
-    "Porsche",
-    "Kawasaki",
-    "Ford",
     "BMW",
-    "Mercedes-AMG",
-    "McLaren",
+    "Ford",
+    "Audi",
+    "Nissan",
+    "Porsche",
     "Aston Martin",
-    "Ducati",
-    "Pagani"
+    "Koenigsegg",
+    "Mercedes-AMG",
+    "Ferrari",
+    "Yamaha",
+    "Lamborghini",
+    "Pagani",
+    "McLaren",
+    "Kawasaki",
+    "Bugatti",
+    "Ducati"
   ],
-  "brand_pointer": 15,
-  "last_brand": "Ducati",
+  "brand_pointer": 6,
+  "last_brand": "Aston Martin",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -1205,13 +1205,15 @@
         "Valkyrie",
         "Valour"
       ],
-      "model_pointer": 2,
-      "last_model": "Valour",
+      "model_pointer": 1,
+      "last_model": "Valkyrie",
       "models": {
         "Valkyrie": {
-          "used_colours": [],
-          "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "used_colours": [
+            "yellow"
+          ],
+          "last_colour": "yellow",
+          "unavailable_until_next_cycle": false
         },
         "DB11": {
           "used_colours": [],
@@ -3680,7 +3682,7 @@
             "silver"
           ],
           "last_colour": "silver",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "240Z/Fairlady Z": {
           "used_colours": [],
@@ -5048,10 +5050,10 @@
     },
     "BMW": {
       "model_queue": [
-        "M5 CS",
-        "S1000RR",
+        "G82 M4",
         "M2 Competition",
-        "G82 M4"
+        "M5 CS",
+        "S1000RR"
       ],
       "model_pointer": 1,
       "last_model": "S1000RR",
@@ -5112,7 +5114,7 @@
             "yellow"
           ],
           "last_colour": "yellow",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "E36 M3": {
           "used_colours": [],
@@ -5144,7 +5146,7 @@
         "M5 CS": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "unavailable_until_next_cycle": false
         },
         "E39 M5": {
           "used_colours": [],
@@ -13194,6 +13196,15 @@
       "num_clips": 3,
       "clip_hashes": [],
       "post_id": "18101251370427296"
+    },
+    {
+      "timestamp": "2026-11-25T06:17:50.599957Z",
+      "brand": "Aston Martin",
+      "model": "Valkyrie",
+      "colour": "yellow",
+      "num_clips": 3,
+      "clip_hashes": [],
+      "post_id": "18131273804479512"
     }
   ]
 }
