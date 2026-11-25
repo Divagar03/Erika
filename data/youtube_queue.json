@@ -1,8 +1,8 @@
 {
   "date": "2026-11-25",
   "source_date": "2026-11-24",
-  "target_count": 7,
-  "published_today": 6,
+  "target_count": 11,
+  "published_today": 7,
   "queue": [
     {
       "id": "reel_20261124_023828",
@@ -79,6 +79,50 @@
       "status": "published",
       "yt_id": "DituFK72pU0",
       "published_at": "2026-11-25T10:18:10.255273+00:00",
+      "error": null
+    },
+    {
+      "id": "reel_20261122_061659",
+      "media_file": "reel_20261122_061659.mp4",
+      "title": "Ferrari Sf90 • Supercar Reel #Shorts",
+      "caption": "Lights, panels, turbo‑performance!  \nSearing yellow fury that hugs every curve, the SF90’s V‑8 cuts through the air like a razor.  \nIts exhaust roars a symphonic 18‑step crescendo that turns heads in a split second.  \nRate this spec 1‑10 👇\n\n#ferrarisf90 #sf90stradale #ferrari #maranello #hypercars #",
+      "set_name": "set=ferrari_sf90, format=speed_ramp, media_id=18095683346221759, yt_err=queue_complete",
+      "status": "published",
+      "yt_id": "K8VYVO3IPwM",
+      "published_at": "2026-11-25T13:47:04.758527+00:00",
+      "error": null
+    },
+    {
+      "id": "reel_20261122_132856",
+      "media_file": "reel_20261122_132856.mp4",
+      "title": "Mclaren Senna • Supercar Reel #Shorts",
+      "caption": "🔥🚀 Ready to stop the night in its tracks?  \n\nThe McLaren Senna’s orange beast roars, shaking every pillar of silence.  \nIts sleek lines slice through the city maze, turning every corner into a hard‑core ballet.  \n\nRate this spec 1‑10 👇 or drop your dream spec below 🔑🔥\n\n#mclarensenna #mclaren #senna",
+      "set_name": "set=mclaren_senna, format=night_city, media_id=17926952040441496, yt_err=queue_complete",
+      "status": "pending",
+      "yt_id": null,
+      "published_at": null,
+      "error": null
+    },
+    {
+      "id": "reel_20261122_141718",
+      "media_file": "reel_20261122_141718.mp4",
+      "title": "Ford Gt Supercar • Supercar Reel #Shorts",
+      "caption": "🚀 Red‑hot, heart‑stamped power unleashed!  \n\nThe Ford GT slashes the track with a thunderous bass‑drop roar, turning every curve into an adrenaline concerto. Its sleek aerodynamics slice wind like a knife, leaving competitors in a dusty blur.  \n\nRate this spec 1-10 👇 #️⃣🔥\n\n#fordgt #ford #supercars #",
+      "set_name": "set=ford_gt_supercar, format=phonk_bass_drop, media_id=17978423160149981, yt_err=init_upload_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The request metadata specifies an invalid video desc",
+      "status": "pending",
+      "yt_id": null,
+      "published_at": null,
+      "error": null
+    },
+    {
+      "id": "reel_20261125_020015",
+      "media_file": "reel_20261125_020015.mp4",
+      "title": "Aston Martin Valour • Supercar Reel #Shorts",
+      "caption": "Ready to hit the neon night?  \n\nSilver beast at 40 wheels per minute, hearts racing with every rev.  \n\nFeel the exhaust’s bass‑drop roar that turns streets into a soundtrack.  \n\nRate this spec 1‑10 👇 or drop your dream spec below 🔑🔥\n\n#astonmartin #astonmartinvalour #valour #v12 #britishracinggreen #",
+      "set_name": "set=aston_martin_valour, format=phonk_bass_drop, media_id=18161303347512235, yt_err=init_upload_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may ",
+      "status": "pending",
+      "yt_id": null,
+      "published_at": null,
       "error": null
     }
   ]
