@@ -1818,6 +1818,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "bugatti_chiron",
+      "brand": "bugatti",
+      "model": "chiron",
+      "format": "speed_ramp",
+      "caption_hash": "aab96bf2dd8ab634",
+      "media_id": "18094706051498802",
+      "yt_id": "DituFK72pU0",
+      "media_file": "reel_20261125_101623.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-25T10:18:10.259099+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

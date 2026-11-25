@@ -18,7 +18,7 @@
     "Ducati"
   ],
   "brand_pointer": 6,
-  "last_brand": "Koenigsegg",
+  "last_brand": "Bugatti",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -26,7 +26,7 @@
         "Veyron"
       ],
       "model_pointer": 2,
-      "last_model": "Veyron",
+      "last_model": "Chiron",
       "models": {
         "Veyron": {
           "used_colours": [
@@ -37,10 +37,11 @@
         },
         "Chiron": {
           "used_colours": [
-            "blue"
+            "blue",
+            "standard"
           ],
-          "last_colour": "blue",
-          "unavailable_until_next_cycle": true
+          "last_colour": "standard",
+          "unavailable_until_next_cycle": false
         },
         "Divo": {
           "used_colours": [],
@@ -13216,6 +13217,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "18191673388416135"
+    },
+    {
+      "timestamp": "2026-11-25T10:18:10.263339Z",
+      "brand": "Bugatti",
+      "model": "Chiron",
+      "colour": "standard",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "18094706051498802"
     }
   ]
 }
