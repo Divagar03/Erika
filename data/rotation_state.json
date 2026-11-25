@@ -1,24 +1,24 @@
 {
   "brand_queue": [
-    "Nissan",
-    "McLaren",
-    "Bugatti",
-    "Ducati",
-    "Ferrari",
-    "Yamaha",
-    "Ford",
-    "Kawasaki",
-    "Audi",
-    "BMW",
-    "Pagani",
-    "Aston Martin",
     "Lamborghini",
+    "Audi",
+    "Ferrari",
     "Koenigsegg",
+    "Nissan",
+    "Bugatti",
+    "Yamaha",
     "Porsche",
-    "Mercedes-AMG"
+    "Kawasaki",
+    "Ford",
+    "BMW",
+    "Mercedes-AMG",
+    "McLaren",
+    "Aston Martin",
+    "Ducati",
+    "Pagani"
   ],
-  "brand_pointer": 15,
-  "last_brand": "Porsche",
+  "brand_pointer": 5,
+  "last_brand": "Nissan",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -637,11 +637,11 @@
     },
     "Lamborghini": {
       "model_queue": [
-        "Aventador SVJ",
+        "Diablo",
         "Revuelto",
-        "Diablo"
+        "Aventador SVJ"
       ],
-      "model_pointer": 2,
+      "model_pointer": 1,
       "last_model": "Revuelto",
       "models": {
         "Countach": {
@@ -656,7 +656,7 @@
             "pink"
           ],
           "last_colour": "pink",
-          "unavailable_until_next_cycle": false
+          "unavailable_until_next_cycle": true
         },
         "Murci\u00e9lago": {
           "used_colours": [],
@@ -751,7 +751,7 @@
             "yellow"
           ],
           "last_colour": "yellow",
-          "unavailable_until_next_cycle": true
+          "unavailable_until_next_cycle": false
         },
         "Aventador S": {
           "used_colours": [],
@@ -3657,7 +3657,7 @@
         "GT-R R35"
       ],
       "model_pointer": 1,
-      "last_model": null,
+      "last_model": "GT-R R35",
       "models": {
         "Skyline GT-R R32": {
           "used_colours": [],
@@ -3675,9 +3675,11 @@
           "unavailable_until_next_cycle": false
         },
         "GT-R R35": {
-          "used_colours": [],
-          "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "used_colours": [
+            "silver"
+          ],
+          "last_colour": "silver",
+          "unavailable_until_next_cycle": false
         },
         "240Z/Fairlady Z": {
           "used_colours": [],
@@ -13162,6 +13164,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "18141561853629572"
+    },
+    {
+      "timestamp": "2026-11-25T00:40:26.204136Z",
+      "brand": "Nissan",
+      "model": "GT-R R35",
+      "colour": "silver",
+      "num_clips": 3,
+      "clip_hashes": [],
+      "post_id": "17981666115150808"
     }
   ]
 }
