@@ -2,7 +2,7 @@
   "date": "2026-11-25",
   "source_date": "2026-11-24",
   "target_count": 11,
-  "published_today": 9,
+  "published_today": 10,
   "queue": [
     {
       "id": "reel_20261124_023828",
@@ -120,9 +120,9 @@
       "title": "Aston Martin Valour • Supercar Reel #Shorts",
       "caption": "Ready to hit the neon night?  \n\nSilver beast at 40 wheels per minute, hearts racing with every rev.  \n\nFeel the exhaust’s bass‑drop roar that turns streets into a soundtrack.  \n\nRate this spec 1‑10 👇 or drop your dream spec below 🔑🔥\n\n#astonmartin #astonmartinvalour #valour #v12 #britishracinggreen #",
       "set_name": "set=aston_martin_valour, format=phonk_bass_drop, media_id=18161303347512235, yt_err=init_upload_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may ",
-      "status": "pending",
-      "yt_id": null,
-      "published_at": null,
+      "status": "published",
+      "yt_id": "BWXmD7Nrt5s",
+      "published_at": "2026-11-25T20:18:02.553441+00:00",
       "error": null
     }
   ]
