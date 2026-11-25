@@ -1798,6 +1798,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "koenigsegg_jesko",
+      "brand": "koenigsegg",
+      "model": "jesko",
+      "format": "speed_ramp",
+      "caption_hash": "27c576400af3f4f9",
+      "media_id": "18191673388416135",
+      "yt_id": "gwcGy7gbxNs",
+      "media_file": "reel_20261125_081614.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-25T08:18:47.975284+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

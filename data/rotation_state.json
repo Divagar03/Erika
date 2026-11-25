@@ -18,7 +18,7 @@
     "Ducati"
   ],
   "brand_pointer": 6,
-  "last_brand": "Aston Martin",
+  "last_brand": "Koenigsegg",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -194,7 +194,7 @@
         "Jesko"
       ],
       "model_pointer": 1,
-      "last_model": null,
+      "last_model": "Jesko",
       "models": {
         "Agera RS": {
           "used_colours": [],
@@ -202,9 +202,11 @@
           "unavailable_until_next_cycle": false
         },
         "Jesko": {
-          "used_colours": [],
-          "last_colour": null,
-          "unavailable_until_next_cycle": true
+          "used_colours": [
+            "standard"
+          ],
+          "last_colour": "standard",
+          "unavailable_until_next_cycle": false
         },
         "Regera": {
           "used_colours": [],
@@ -13205,6 +13207,15 @@
       "num_clips": 3,
       "clip_hashes": [],
       "post_id": "18131273804479512"
+    },
+    {
+      "timestamp": "2026-11-25T08:18:47.987464Z",
+      "brand": "Koenigsegg",
+      "model": "Jesko",
+      "colour": "standard",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "18191673388416135"
     }
   ]
 }
