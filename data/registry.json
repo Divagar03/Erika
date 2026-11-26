@@ -2098,6 +2098,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "maserati_250f",
+      "brand": "Maserati",
+      "model": "250F",
+      "format": "night_city",
+      "caption_hash": "2f1fac3928bd8fad",
+      "media_id": "17982880239129258",
+      "yt_id": null,
+      "media_file": "reel_20261126_225827.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-26T23:00:36.357160+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

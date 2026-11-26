@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 23,
-  "last_brand": "Force",
+  "brand_pointer": 24,
+  "last_brand": "Maserati",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -7957,8 +7957,8 @@
         "Khamsin",
         "MC12"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "250F",
       "models": {
         "MC20": {
           "used_colours": [],
@@ -8051,8 +8051,10 @@
           "category": "Sports/Luxury"
         },
         "250F": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "red"
+          ],
+          "last_colour": "red",
           "unavailable_until_next_cycle": false,
           "category": "Sports/Luxury"
         },
@@ -18274,6 +18276,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "18028521587955718"
+    },
+    {
+      "timestamp": "2026-11-26T23:00:36.362049Z",
+      "brand": "Maserati",
+      "model": "250F",
+      "colour": "red",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "17982880239129258"
     }
   ]
 }
