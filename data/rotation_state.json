@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 20,
-  "last_brand": "Mercedes-Benz",
+  "brand_pointer": 21,
+  "last_brand": "SSC",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -3749,8 +3749,8 @@
         "Tuatara",
         "Ultimate Aero"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "Ultimate Aero TT",
       "models": {
         "Tuatara": {
           "used_colours": [],
@@ -3771,8 +3771,10 @@
           "category": "Hypercar"
         },
         "Ultimate Aero TT": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "blue"
+          ],
+          "last_colour": "blue",
           "unavailable_until_next_cycle": false,
           "category": "Hypercar"
         }
@@ -18241,6 +18243,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "18137203336678660"
+    },
+    {
+      "timestamp": "2026-11-26T16:17:36.576993Z",
+      "brand": "SSC",
+      "model": "Ultimate Aero TT",
+      "colour": "blue",
+      "num_clips": 3,
+      "clip_hashes": [],
+      "post_id": "18122357174008154"
     }
   ]
 }

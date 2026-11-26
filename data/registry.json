@@ -2038,6 +2038,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "ssc_ultimate_aero_tt",
+      "brand": "SSC",
+      "model": "Ultimate Aero TT",
+      "format": "phonk_bass_drop",
+      "caption_hash": "635569c4483cb5bf",
+      "media_id": "18122357174008154",
+      "yt_id": "X2FBtdV7LoE",
+      "media_file": "reel_20261126_161627.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-26T16:17:36.573550+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
