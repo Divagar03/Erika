@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 19,
-  "last_brand": "UAZ",
+  "brand_pointer": 20,
+  "last_brand": "Mercedes-Benz",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -2104,8 +2104,8 @@
         "SLR Stirling Moss",
         "E-Class W124"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "540K",
       "models": {
         "AMG One": {
           "used_colours": [],
@@ -2282,8 +2282,10 @@
           "category": "Supercar/Performance"
         },
         "540K": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "orange"
+          ],
+          "last_colour": "orange",
           "unavailable_until_next_cycle": false,
           "category": "Supercar/Performance"
         },
@@ -18230,6 +18232,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "18134844823829328"
+    },
+    {
+      "timestamp": "2026-11-26T14:18:28.960597Z",
+      "brand": "Mercedes-Benz",
+      "model": "540K",
+      "colour": "orange",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "18137203336678660"
     }
   ]
 }
