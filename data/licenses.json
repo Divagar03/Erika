@@ -6391,5 +6391,151 @@
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Rivian_R1S_at_Hillsdale_Shopping_Center_2.jpg"
       }
     ]
+  },
+  "force_force_one": {
+    "display_name": "Force Force One",
+    "brand": "Force",
+    "shots": [
+      {
+        "file": "shot_1.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Air Force One over Mt. Rushmore.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Air_Force_One_over_Mt._Rushmore.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Air_Force_One_over_Mt._Rushmore.jpg/1280px-Air_Force_One_over_Mt._Rushmore.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "Public domain",
+        "artist": "U.S. Air Force File Photo.",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Air_Force_One_over_Mt._Rushmore.jpg"
+      },
+      {
+        "file": "shot_2.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Customize White Nike Air Force One.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Customize_White_Nike_Air_Force_One.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Customize_White_Nike_Air_Force_One.jpg/1280px-Customize_White_Nike_Air_Force_One.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 3.0",
+        "artist": "בר",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Customize_White_Nike_Air_Force_One.jpg"
+      },
+      {
+        "file": "shot_3.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Hamilton Jordan, Jimmy Carter and other White House staff aboard Air Force One. - NARA - 175584.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Hamilton_Jordan%2C_Jimmy_Carter_and_other_White_House_staff_aboard_Air_Force_One._-_NARA_-_175584.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Hamilton_Jordan%2C_Jimmy_Carter_and_other_White_House_staff_aboard_Air_Force_One._-_NARA_-_175584.jpg/1280px-Hamilton_Jordan%2C_Jimmy_Carter_and_other_White_House_staff_aboard_Air_Force_One._-_NARA_-_175584.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "Public domain",
+        "artist": "Unknown authorUnknown author or not provided",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Hamilton_Jordan,_Jimmy_Carter_and_other_White_House_staff_aboard_Air_Force_One._-_NARA_-_175584.jpg"
+      },
+      {
+        "file": "shot_4.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:President Trump Boards Air Force One (48205802471).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/d4/President_Trump_Boards_Air_Force_One_%2848205802471%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/d/d4/President_Trump_Boards_Air_Force_One_%2848205802471%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license": "Public domain",
+        "artist": "The White House from Washington, DC",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:President_Trump_Boards_Air_Force_One_(48205802471).jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:President Ronald Reagan Saluting As He Returns from a Trip from Tennessee on Air Force One to Andrews Air Force Base at Camp Springs, Maryland - DPLA - b703c9222b39e9bede1275d1d9aadff4.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/c0/President_Ronald_Reagan_Saluting_As_He_Returns_from_a_Trip_from_Tennessee_on_Air_Force_One_to_Andrews_Air_Force_Base_at_Camp_Springs%2C_Maryland_-_DPLA_-_b703c9222b39e9bede1275d1d9aadff4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/President_Ronald_Reagan_Saluting_As_He_Returns_from_a_Trip_from_Tennessee_on_Air_Force_One_to_Andrews_Air_Force_Base_at_Camp_Springs%2C_Maryland_-_DPLA_-_b703c9222b39e9bede1275d1d9aadff4.jpg/1280px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "Public domain",
+        "artist": "President (1981-1989 : Reagan). White House Photographic Office. 1981-1989",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:President_Ronald_Reagan_Saluting_As_He_Returns_from_a_Trip_from_Tennessee_on_Air_Force_One_to_Andrews_Air_Force_Base_at_Camp_Springs,_Maryland_-_DPLA_-_b703c9222b39e9bede1275d1d9aadff4.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Air Force One photo op incident.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Air_Force_One_photo_op_incident.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Air_Force_One_photo_op_incident.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license": "Public domain",
+        "artist": "Unknown US Federal Government employee",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Air_Force_One_photo_op_incident.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Marine One and Air Force One, 19 August 2024.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Marine_One_and_Air_Force_One%2C_19_August_2024.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/Marine_One_and_Air_Force_One%2C_19_August_2024.jpg/1280px-Marine_One_and_Air_Force_One%2C_19_August_2024.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "Public domain",
+        "artist": "The White House",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Marine_One_and_Air_Force_One,_19_August_2024.jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Air Force One touches down at RAF Mildenhall (5133208).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Air_Force_One_touches_down_at_RAF_Mildenhall_%285133208%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Air_Force_One_touches_down_at_RAF_Mildenhall_%285133208%29.jpg/1280px-Air_Force_One_touches_down_at_RAF_Mildenhall_%285133208%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "Public domain",
+        "artist": "U.S. Air Force photo by Airman 1st Class Brandon Esau",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Air_Force_One_touches_down_at_RAF_Mildenhall_(5133208).jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:President Trump Boards Air Force One (50367133738).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/40/President_Trump_Boards_Air_Force_One_%2850367133738%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/President_Trump_Boards_Air_Force_One_%2850367133738%29.jpg/1280px-President_Trump_Boards_Air_Force_One_%2850367133738%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "Public domain",
+        "artist": "The White House from Washington, DC",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:President_Trump_Boards_Air_Force_One_(50367133738).jpg"
+      },
+      {
+        "file": "shot_10.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:President Trump Boards Air Force One (32492462677).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/46/President_Trump_Boards_Air_Force_One_%2832492462677%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/President_Trump_Boards_Air_Force_One_%2832492462677%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license": "Public domain",
+        "artist": "The White House from Washington, DC",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:President_Trump_Boards_Air_Force_One_(32492462677).jpg"
+      },
+      {
+        "file": "shot_11.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:President Trump Boards Air Force One (47434322441).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/President_Trump_Boards_Air_Force_One_%2847434322441%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/President_Trump_Boards_Air_Force_One_%2847434322441%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license": "Public domain",
+        "artist": "The White House from Washington, DC",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:President_Trump_Boards_Air_Force_One_(47434322441).jpg"
+      },
+      {
+        "file": "shot_12.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:President Trump Boards Air Force One (40468515833).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/President_Trump_Boards_Air_Force_One_%2840468515833%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/President_Trump_Boards_Air_Force_One_%2840468515833%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license": "Public domain",
+        "artist": "The White House from Washington, DC",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:President_Trump_Boards_Air_Force_One_(40468515833).jpg"
+      },
+      {
+        "file": "shot_13.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:President Trump Boards Air Force One (48205802256).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/b/be/President_Trump_Boards_Air_Force_One_%2848205802256%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/b/be/President_Trump_Boards_Air_Force_One_%2848205802256%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license": "Public domain",
+        "artist": "The White House from Washington, DC",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:President_Trump_Boards_Air_Force_One_(48205802256).jpg"
+      },
+      {
+        "file": "shot_14.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:President Trump Boards Air Force One (48205802391).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/59/President_Trump_Boards_Air_Force_One_%2848205802391%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/5/59/President_Trump_Boards_Air_Force_One_%2848205802391%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license": "Public domain",
+        "artist": "The White House from Washington, DC",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:President_Trump_Boards_Air_Force_One_(48205802391).jpg"
+      }
+    ]
   }
 }

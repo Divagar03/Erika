@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 22,
-  "last_brand": "Rivian",
+  "brand_pointer": 23,
+  "last_brand": "Force",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -12426,8 +12426,8 @@
         "Urbania",
         "Cruiser"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "Force One",
       "models": {
         "Gurkha": {
           "used_colours": [],
@@ -12460,8 +12460,10 @@
           "category": "Indian"
         },
         "Force One": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "white"
+          ],
+          "last_colour": "white",
           "unavailable_until_next_cycle": false,
           "category": "Indian"
         },
@@ -18263,6 +18265,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "18115025741464226"
+    },
+    {
+      "timestamp": "2026-11-26T20:17:29.666574Z",
+      "brand": "Force",
+      "model": "Force One",
+      "colour": "white",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "18028521587955718"
     }
   ]
 }
