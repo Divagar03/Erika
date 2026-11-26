@@ -5867,5 +5867,151 @@
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Lexus_RX_500h_F_Sport_Performance_(TALH17)_1X7A7076.jpg"
       }
     ]
+  },
+  "uaz_patriot": {
+    "display_name": "UAZ Patriot",
+    "brand": "UAZ",
+    "shots": [
+      {
+        "file": "shot_1.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:2009-2014 UAZ Patriot beige front.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/2009-2014_UAZ_Patriot_beige_front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/2009-2014_UAZ_Patriot_beige_front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license": "CC BY 4.0",
+        "artist": "trolleyfan",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:2009-2014_UAZ_Patriot_beige_front.jpg"
+      },
+      {
+        "file": "shot_2.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Auto UAZ Patriot Basmanny District Novaya Basmannaya Street Т232ВР977 2024-04 1713870930.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/d3/Auto_UAZ_Patriot_Basmanny_District_Novaya_Basmannaya_Street_%D0%A2232%D0%92%D0%A0977_2024-04_1713870930.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Auto_UAZ_Patriot_Basmanny_District_Novaya_Basmannaya_Street_%D0%A2232%D0%92%D0%A0977_2024-04_1713870930.jpg/1280px-Auto_UAZ_Patriot_Basmanny_District_Novaya_Basmannaya_Street_%D0%A2232%D0%92%D0%A0977_2024-04_1713870930.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 4.0",
+        "artist": "Artyom Svetlov",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Auto_UAZ_Patriot_Basmanny_District_Novaya_Basmannaya_Street_%D0%A2232%D0%92%D0%A0977_2024-04_1713870930.jpg"
+      },
+      {
+        "file": "shot_3.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Tyumen auto UAZ Patriot У693МУ 72 2023-06 1687888759.JPG",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Tyumen_auto_UAZ_Patriot_%D0%A3693%D0%9C%D0%A3_72_2023-06_1687888759.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Tyumen_auto_UAZ_Patriot_%D0%A3693%D0%9C%D0%A3_72_2023-06_1687888759.JPG/1280px-Tyumen_auto_UAZ_Patriot_%D0%A3693%D0%9C%D0%A3_72_2023-06_1687888759.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Artyom Svetlov",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Tyumen_auto_UAZ_Patriot_%D0%A3693%D0%9C%D0%A3_72_2023-06_1687888759.JPG"
+      },
+      {
+        "file": "shot_4.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:UAZ Patriot.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/UAZ_Patriot.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/UAZ_Patriot.jpg/1280px-UAZ_Patriot.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Hanna Zelenko",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:UAZ_Patriot.jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Modifita UAZ Patriot kun reklamo de la partio Novaj Homoj 02.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/db/Modifita_UAZ_Patriot_kun_reklamo_de_la_partio_Novaj_Homoj_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Modifita_UAZ_Patriot_kun_reklamo_de_la_partio_Novaj_Homoj_02.jpg/1280px-Modifita_UAZ_Patriot_kun_reklamo_de_la_partio_Novaj_Homoj_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "RG72",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Modifita_UAZ_Patriot_kun_reklamo_de_la_partio_Novaj_Homoj_02.jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:UAZ Patriot en strato Respubliko (Tjumeno).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/UAZ_Patriot_en_strato_Respubliko_%28Tjumeno%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/UAZ_Patriot_en_strato_Respubliko_%28Tjumeno%29.jpg/1280px-UAZ_Patriot_en_strato_Respubliko_%28Tjumeno%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "RG72",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:UAZ_Patriot_en_strato_Respubliko_(Tjumeno).jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:UAZ Patriot (Tjumeno).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/7/7b/UAZ_Patriot_%28Tjumeno%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/UAZ_Patriot_%28Tjumeno%29.jpg/1280px-UAZ_Patriot_%28Tjumeno%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "RG72",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:UAZ_Patriot_(Tjumeno).jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Modifita UAZ Patriot kun reklamo de la partio Novaj Homoj 01.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/6/64/Modifita_UAZ_Patriot_kun_reklamo_de_la_partio_Novaj_Homoj_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Modifita_UAZ_Patriot_kun_reklamo_de_la_partio_Novaj_Homoj_01.jpg/1280px-Modifita_UAZ_Patriot_kun_reklamo_de_la_partio_Novaj_Homoj_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "RG72",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Modifita_UAZ_Patriot_kun_reklamo_de_la_partio_Novaj_Homoj_01.jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:UAZ Patriot de reklama vojaĝo de Sankt-Peterburgo al Mirnij 01.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/06/UAZ_Patriot_de_reklama_voja%C4%9Do_de_Sankt-Peterburgo_al_Mirnij_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/UAZ_Patriot_de_reklama_voja%C4%9Do_de_Sankt-Peterburgo_al_Mirnij_01.jpg/1280px-UAZ_Patriot_de_reklama_voja%C4%9Do_de_Sankt-Peterburgo_al_Mirnij_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "RG72",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:UAZ_Patriot_de_reklama_voja%C4%9Do_de_Sankt-Peterburgo_al_Mirnij_01.jpg"
+      },
+      {
+        "file": "shot_10.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:UAZ Patriot de reklama vojaĝo de Sankt-Peterburgo al Mirnij 02.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/d3/UAZ_Patriot_de_reklama_voja%C4%9Do_de_Sankt-Peterburgo_al_Mirnij_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/UAZ_Patriot_de_reklama_voja%C4%9Do_de_Sankt-Peterburgo_al_Mirnij_02.jpg/1280px-UAZ_Patriot_de_reklama_voja%C4%9Do_de_Sankt-Peterburgo_al_Mirnij_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "RG72",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:UAZ_Patriot_de_reklama_voja%C4%9Do_de_Sankt-Peterburgo_al_Mirnij_02.jpg"
+      },
+      {
+        "file": "shot_11.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:UAZ Patriot de reklama vojaĝo de Sankt-Peterburgo al Mirnij 03.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/ea/UAZ_Patriot_de_reklama_voja%C4%9Do_de_Sankt-Peterburgo_al_Mirnij_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/UAZ_Patriot_de_reklama_voja%C4%9Do_de_Sankt-Peterburgo_al_Mirnij_03.jpg/1280px-UAZ_Patriot_de_reklama_voja%C4%9Do_de_Sankt-Peterburgo_al_Mirnij_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "RG72",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:UAZ_Patriot_de_reklama_voja%C4%9Do_de_Sankt-Peterburgo_al_Mirnij_03.jpg"
+      },
+      {
+        "file": "shot_12.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:UAZ Patriot (1).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/ce/UAZ_Patriot_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/UAZ_Patriot_%281%29.jpg/1280px-UAZ_Patriot_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Dogs.barking.duster.rolling",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:UAZ_Patriot_(1).jpg"
+      },
+      {
+        "file": "shot_13.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:UAZ Patriot 3.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/UAZ_Patriot_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/UAZ_Patriot_3.jpg/1280px-UAZ_Patriot_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 3.0",
+        "artist": "Andrej Danković",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:UAZ_Patriot_3.jpg"
+      },
+      {
+        "file": "shot_14.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:UAZ Patriot 4-door pickup in aftermarket bling, front.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/UAZ_Patriot_4-door_pickup_in_aftermarket_bling%2C_front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/UAZ_Patriot_4-door_pickup_in_aftermarket_bling%2C_front.jpg/1280px-UAZ_Patriot_4-door_pickup_in_aftermarket_bling%2C_front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC0",
+        "artist": "Retired electrician",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:UAZ_Patriot_4-door_pickup_in_aftermarket_bling,_front.jpg"
+      }
+    ]
   }
 }

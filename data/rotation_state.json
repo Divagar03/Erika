@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 18,
-  "last_brand": "Lexus",
+  "brand_pointer": 19,
+  "last_brand": "UAZ",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -11414,8 +11414,8 @@
         "UAZ-3151",
         "Pickup"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 2,
+      "last_model": "Patriot",
       "models": {
         "469": {
           "used_colours": [],
@@ -11424,15 +11424,17 @@
           "category": "Soviet/Off-road"
         },
         "Patriot": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "blue"
+          ],
+          "last_colour": "blue",
           "unavailable_until_next_cycle": false,
           "category": "Soviet/Off-road"
         },
         "Hunter": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false,
+          "unavailable_until_next_cycle": true,
           "category": "Soviet/Off-road"
         },
         "Buhanka": {
@@ -18219,6 +18221,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "17949216579369003"
+    },
+    {
+      "timestamp": "2026-11-26T13:02:24.659132Z",
+      "brand": "UAZ",
+      "model": "Patriot",
+      "colour": "blue",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "18134844823829328"
     }
   ]
 }

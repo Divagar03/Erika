@@ -1998,6 +1998,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "uaz_patriot",
+      "brand": "UAZ",
+      "model": "Patriot",
+      "format": "night_city",
+      "caption_hash": "e1a0741845b20a30",
+      "media_id": "18134844823829328",
+      "yt_id": "VIu6Y1snXb8",
+      "media_file": "reel_20261126_130057.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-26T13:02:24.651224+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
