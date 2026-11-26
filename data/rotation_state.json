@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 17,
-  "last_brand": "Suzuki",
+  "brand_pointer": 18,
+  "last_brand": "Lexus",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -2849,8 +2849,8 @@
         "IS 500 F Sport Performance",
         "LC 500 Convertible"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "RX 500h",
       "models": {
         "LFA": {
           "used_colours": [],
@@ -2925,8 +2925,10 @@
           "category": "Luxury/JDM"
         },
         "RX 500h": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "blue"
+          ],
+          "last_colour": "blue",
           "unavailable_until_next_cycle": false,
           "category": "Luxury/JDM"
         },
@@ -18208,6 +18210,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "18131331253857047"
+    },
+    {
+      "timestamp": "2026-11-26T10:17:37.691059Z",
+      "brand": "Lexus",
+      "model": "RX 500h",
+      "colour": "blue",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "17949216579369003"
     }
   ]
 }

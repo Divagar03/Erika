@@ -1978,6 +1978,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "lexus_rx_500h",
+      "brand": "Lexus",
+      "model": "RX 500h",
+      "format": "engine_sound_showcase",
+      "caption_hash": "b011163b4de8354d",
+      "media_id": "17949216579369003",
+      "yt_id": "jizbmgDJYrg",
+      "media_file": "reel_20261126_101623.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-26T10:17:37.686005+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []
