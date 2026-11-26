@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 16,
-  "last_brand": "Bugatti",
+  "brand_pointer": 17,
+  "last_brand": "Suzuki",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -6960,8 +6960,8 @@
         "Swift Sport",
         "Ertiga"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "Jimny JB74",
       "models": {
         "Cappuccino": {
           "used_colours": [],
@@ -7030,8 +7030,10 @@
           "category": "JDM/Kei"
         },
         "Jimny JB74": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "blue"
+          ],
+          "last_colour": "blue",
           "unavailable_until_next_cycle": false,
           "category": "JDM/Kei"
         },
@@ -18197,6 +18199,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "18100247981450728"
+    },
+    {
+      "timestamp": "2026-11-26T08:18:22.776266Z",
+      "brand": "Suzuki",
+      "model": "Jimny JB74",
+      "colour": "blue",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "18131331253857047"
     }
   ]
 }
