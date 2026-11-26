@@ -144,6 +144,11 @@ def get_set_model(set_name: str) -> str:
             return m
     return s
 
+def _norm_key(val: str) -> str:
+    import re
+    return re.sub(r"[^a-z0-9]+", "_", val.lower().strip()).strip("_")
+
+
 def is_brand_on_cooldown(brand_or_set: str, cooldown_hours: int = 24) -> bool:
     """Return True if any post from this brand was published within the last cooldown_hours
     OR on the same UTC calendar day.
@@ -151,15 +156,17 @@ def is_brand_on_cooldown(brand_or_set: str, cooldown_hours: int = 24) -> bool:
     """
     if not brand_or_set:
         return False
-    target_brand = get_set_brand(brand_or_set)
+    target_brand = _norm_key(get_set_brand(brand_or_set) if "_" in brand_or_set and brand_or_set.lower() in SET_BRAND_MAP else brand_or_set)
+    # Handle hyphen/space differences like mercedes_benz vs mercedes_amg? Keep exact norm key + get_set_brand
+    alt_brand = _norm_key(get_set_brand(brand_or_set))
     data = _load()
     now = datetime.now(timezone.utc)
     cutoff = now - timedelta(hours=cooldown_hours)
     for post in data.get("posts", []):
         if post.get("status") != "published":
             continue
-        p_brand = post.get("brand") or get_set_brand(post.get("set_name", ""))
-        if p_brand == target_brand:
+        p_brand = _norm_key(post.get("brand") or get_set_brand(post.get("set_name", "")))
+        if p_brand and (p_brand == target_brand or p_brand == alt_brand):
             try:
                 ts = datetime.fromisoformat(post["publish_timestamp"])
                 # Block if published on same UTC calendar day OR within 24 hours
@@ -176,16 +183,16 @@ def is_model_on_cooldown(model_or_set: str, cooldown_days: int = 7) -> bool:
     """
     if not model_or_set:
         return False
-    target_model = get_set_model(model_or_set)
-    target_set = model_or_set.lower().strip()
+    target_model = _norm_key(get_set_model(model_or_set) if model_or_set.lower().strip() in SET_MODEL_MAP else model_or_set)
+    target_set = _norm_key(model_or_set)
     data = _load()
     now = datetime.now(timezone.utc)
     cutoff = now - timedelta(days=cooldown_days)
     for post in data.get("posts", []):
         if post.get("status") != "published":
             continue
-        p_set = post.get("set_name", "").lower().strip()
-        p_model = post.get("model") or get_set_model(p_set)
+        p_set = _norm_key(post.get("set_name", ""))
+        p_model = _norm_key(post.get("model") or get_set_model(p_set))
         if p_set == target_set or (target_model and p_model == target_model):
             try:
                 ts = datetime.fromisoformat(post["publish_timestamp"])

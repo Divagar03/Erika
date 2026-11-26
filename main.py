@@ -1971,6 +1971,8 @@ def _find_slug_for_brand_model(brand: str, model: str) -> str | None:
 _ROTATION_BRAND: str = ""
 _ROTATION_MODEL: str = ""
 _ROTATION_COLOUR: str = ""
+_ROTATION_CATEGORY: str = ""
+_ROTATION_DISPLAY_NAME: str = ""
 _ROTATION_CANDIDATE_STATE: dict | None = None
 
 
@@ -1978,20 +1980,22 @@ def _get_vehicle_via_rotation_engine(
     theme_hint: str = ""
 ) -> tuple[str, list[Path], bool] | None:
     """
-    Selects the next vehicle strictly following MASTER PROMPT specifications:
-      - Circular queue of brands (never same brand twice in a row)
-      - Circular queue of models per brand (only repeats after full cycle)
+    Selects the next vehicle strictly following MASTER PROMPT specifications across ALL
+    brands & models in the master Excel catalog (174 brands / 2,315+ models):
+      - Circular queue of brands (never same brand twice in a row + 24h brand cooldown)
+      - Circular queue of models per brand (only repeats after full cycle + 7-day model cooldown)
       - 100% single-car, single-colour lock per reel
-      - Skip Rule: if a model has no unposted clips, stays in same brand queue.
-        If all models of brand fail, advances to next brand in queue.
+      - Uses local curated asset folders where available, or fetches verified exterior
+        photos dynamically via Wikimedia Commons (data/dynamic_cache/<slug>/)
       - Pointers/state committed ONLY after successful publish.
     """
-    global _ROTATION_BRAND, _ROTATION_MODEL, _ROTATION_COLOUR, _ROTATION_CANDIDATE_STATE
+    global _ROTATION_BRAND, _ROTATION_MODEL, _ROTATION_COLOUR
+    global _ROTATION_CATEGORY, _ROTATION_DISPLAY_NAME, _ROTATION_CANDIDATE_STATE
 
     if not ROTATION_ENGINE_AVAILABLE:
         return None
 
-    # Build available asset dict
+    # Load pre-curated local assets (both video clip sets and static DSLR folders)
     available_dict: dict[str, list[Path]] = {}
     if VEHICLE_VIDEO_SETS_DIR.exists():
         for d in sorted(VEHICLE_VIDEO_SETS_DIR.iterdir()):
@@ -2009,52 +2013,136 @@ def _get_vehicle_via_rotation_engine(
                 if len(unposted) >= 3:
                     available_dict[d.name] = unposted
 
-    if not available_dict:
-        return None
+    try:
+        from scripts.rotation_engine import get_state as _re_get_state
+        _rot_snapshot = _re_get_state()
+    except Exception:
+        _rot_snapshot = {}
+
+    used_source_urls = set(_rot_snapshot.get("used_source_urls", []))
+    used_clip_hashes = set(_rot_snapshot.get("used_clip_hashes", []))
+
+    try:
+        from scripts.dynamic_sourcing import (
+            probe_wikimedia_availability,
+            fetch_dynamic_cohesive_shots,
+            clean_model_display,
+        )
+        DYNAMIC_SOURCING_OK = True
+    except ImportError:
+        DYNAMIC_SOURCING_OK = False
+        clean_model_display = lambda m: m
+
+    probe_budget = [18]  # Cap Wikimedia metadata probes per run so broken network never stalls
+    rejected_dynamic: set[tuple[str, str]] = set()
+    cooldown_filtered_brands: set[str] = set()
 
     def _is_available(brand: str, model: str, colour: str) -> bool:
-        slug = _find_slug_for_brand_model(brand, model)
-        if not slug or slug not in available_dict:
+        if (brand.lower(), model.lower()) in rejected_dynamic:
             return False
-        raw_shots = available_dict[slug]
-        is_vid = any(p.suffix.lower() == ".mp4" for p in raw_shots)
-        min_req = 3
-        try:
-            # Check if at least min_req unposted shots exist
-            selected = select_diverse_vehicle_shots(slug, raw_shots, needed_count=5, min_required=min_req, record=False)
-            if not selected or len(selected) < min_req:
+
+        # Strict 24h brand cooldown + 7-day model cooldown (instant, 0 network cost)
+        if REGISTRY_AVAILABLE:
+            if is_brand_on_cooldown(brand, cooldown_hours=24):
+                cooldown_filtered_brands.add(brand.lower())
                 return False
-            # Verify single-car color cohesion
-            from scripts.color_guard import verify_color_cohesion
-            verify_color_cohesion(selected)
-            return True
-        except Exception:
+            if is_model_on_cooldown(model, cooldown_days=7):
+                return False
+
+        # 1. Check pre-curated local fleet folders first
+        slug = _find_slug_for_brand_model(brand, model)
+        if slug and slug in available_dict:
+            raw_shots = available_dict[slug]
+            try:
+                selected = select_diverse_vehicle_shots(slug, raw_shots, needed_count=5, min_required=3, record=False)
+                if selected and len(selected) >= 3:
+                    from scripts.color_guard import verify_color_cohesion
+                    verify_color_cohesion(selected)
+                    return True
+            except Exception:
+                pass
+
+        # 2. Check dynamic Wikimedia Commons availability for ALL 2,315+ Excel models
+        if not DYNAMIC_SOURCING_OK or probe_budget[0] <= 0:
             return False
+        probe_budget[0] -= 1
+        is_bk = _is_bike_set(f"{brand} {model}")
+        return probe_wikimedia_availability(brand, model, is_bike=is_bk, min_needed=3)
 
-    res = _re_select_next_available_vehicle(_is_available)
-    if not res:
-        print("  [RotationEngine] Notice: No eligible vehicle found in rotation queue. Falling back to legacy.")
-        return None
+    # Up to 4 attempts in case Stage-A metadata looks good but Stage-B lacks 3 color-cohesive shots
+    for attempt in range(4):
+        res = _re_select_next_available_vehicle(_is_available)
+        if not res:
+            print("  [RotationEngine] Notice: No eligible vehicle found in rotation queue. Falling back to legacy.")
+            return None
 
-    brand, model, colour, state_cand = res
-    slug = _find_slug_for_brand_model(brand, model)
-    raw_shots = available_dict[slug]
-    is_vid = any(p.suffix.lower() == ".mp4" for p in raw_shots)
-    min_req = 3
-    selected = select_diverse_vehicle_shots(slug, raw_shots, needed_count=5, min_required=min_req, record=False)
+        brand, model, colour, state_cand = res
+        is_bk = _is_bike_set(f"{brand} {model}")
+        slug = _find_slug_for_brand_model(brand, model)
 
-    _ROTATION_BRAND = brand
-    _ROTATION_MODEL = model
-    _ROTATION_COLOUR = colour
-    _ROTATION_CANDIDATE_STATE = state_cand
+        # Resolve shots: local pre-curated OR dynamic Wikimedia fetch
+        selected: list[Path] = []
+        source_mode = "local"
+        if slug and slug in available_dict:
+            try:
+                cand_shots = select_diverse_vehicle_shots(slug, available_dict[slug], needed_count=5, min_required=3, record=False)
+                if cand_shots and len(cand_shots) >= 3:
+                    selected = cand_shots
+            except Exception:
+                selected = []
 
-    print(f"  [RotationEngine] Master Selection: {brand} | {model} | {colour} -> folder: '{slug}' ({len(selected)} unposted clips)")
-    return slug, selected, _is_bike_set(slug)
+        if not selected and DYNAMIC_SOURCING_OK:
+            dyn_slug, dyn_shots, actual_colour = fetch_dynamic_cohesive_shots(
+                brand=brand,
+                model=model,
+                target_colour=colour,
+                is_bike=is_bk,
+                min_required=3,
+                needed_count=5,
+                used_source_urls=used_source_urls,
+                used_clip_hashes=used_clip_hashes,
+            )
+            if dyn_shots and len(dyn_shots) >= 3:
+                slug = dyn_slug
+                selected = dyn_shots
+                colour = actual_colour or colour
+                source_mode = "dynamic_wikimedia"
+
+        if not selected or len(selected) < 3:
+            rejected_dynamic.add((brand.lower(), model.lower()))
+            print(f"  [RotationEngine] Dynamic cohesion retry ({attempt+1}/4): {brand} {model} lacked >=3 cohesive shots.")
+            continue
+
+        cat = (
+            state_cand.get("brands", {})
+            .get(brand, {})
+            .get("models", {})
+            .get(model, {})
+            .get("category", "Superbike" if is_bk else "Supercar")
+        )
+        clean_m = clean_model_display(model)
+
+        _ROTATION_BRAND = brand
+        _ROTATION_MODEL = model
+        _ROTATION_COLOUR = colour
+        _ROTATION_CATEGORY = cat
+        _ROTATION_DISPLAY_NAME = f"{brand} {clean_m}" if not clean_m.lower().startswith(brand.lower()) else clean_m
+        _ROTATION_CANDIDATE_STATE = state_cand
+
+        print(
+            f"  [RotationEngine] Master Selection ({source_mode}): "
+            f"{brand} | {model} ({cat}) | {colour} -> '{slug}' ({len(selected)} cohesive shots)"
+        )
+        return slug, selected, is_bk
+
+    print("  [RotationEngine] Notice: Dynamic attempts exhausted. Falling back to legacy.")
+    return None
 
 
 def _commit_rotation_state_after_post(post_id: str, clip_hashes: list, source_urls: list, num_clips: int) -> None:
     """Call after a confirmed successful post to persist rotation state."""
-    global _ROTATION_BRAND, _ROTATION_MODEL, _ROTATION_COLOUR, _ROTATION_CANDIDATE_STATE
+    global _ROTATION_BRAND, _ROTATION_MODEL, _ROTATION_COLOUR
+    global _ROTATION_CATEGORY, _ROTATION_DISPLAY_NAME, _ROTATION_CANDIDATE_STATE
     if not ROTATION_ENGINE_AVAILABLE:
         return
     if not _ROTATION_BRAND:
@@ -2073,6 +2161,7 @@ def _commit_rotation_state_after_post(post_id: str, clip_hashes: list, source_ur
         print(f"  [RotationEngine] State committed for post {post_id}: "
               f"{_ROTATION_BRAND} | {_ROTATION_MODEL} | {_ROTATION_COLOUR}")
         _ROTATION_BRAND = _ROTATION_MODEL = _ROTATION_COLOUR = ""
+        _ROTATION_CATEGORY = _ROTATION_DISPLAY_NAME = ""
         _ROTATION_CANDIDATE_STATE = None
     except Exception as exc:
         print(f"  [RotationEngine] WARNING: commit_state failed: {exc}")
@@ -3300,7 +3389,7 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     - Study Journey: 12 AM IST daily progress reel with study overlay.
     """
     print("\n=== MODE: reel ===")
-    global _ROTATION_BRAND, _ROTATION_MODEL, _ROTATION_COLOUR
+    global _ROTATION_BRAND, _ROTATION_MODEL, _ROTATION_COLOUR, _ROTATION_CATEGORY, _ROTATION_DISPLAY_NAME
 
     event_name = os.environ.get("GITHUB_EVENT_NAME", "").lower()
     force_env = os.environ.get("FORCE_RUN", "").strip().lower()
@@ -3368,37 +3457,70 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
 
     if _re_result:
         set_name, set_shots, is_bike = _re_result
-        # Inject colour from rotation engine into metadata
-        _re_colour = _ROTATION_COLOUR
-        _re_model  = _ROTATION_MODEL
-        _re_brand  = _ROTATION_BRAND
+        # Inject colour, category & display name from rotation engine into metadata
+        _re_colour   = _ROTATION_COLOUR
+        _re_model    = _ROTATION_MODEL
+        _re_brand    = _ROTATION_BRAND
+        _re_category = _ROTATION_CATEGORY or ("Superbike" if is_bike else "Supercar")
+        _re_display  = _ROTATION_DISPLAY_NAME or f"{_re_brand} {_re_model}".strip()
     else:
         # Legacy selection (theme-hinted or rotation engine unavailable/exhausted)
         set_name, set_shots, is_bike = get_next_curated_vehicle_set(hint)
-        _re_brand  = SET_BRAND_MAP.get(set_name, "").title()
-        _re_model  = SET_MODEL_MAP.get(set_name, "").replace("_", " ").title()
-        _re_colour = "standard"
+        _re_brand    = SET_BRAND_MAP.get(set_name, "").title()
+        _re_model    = SET_MODEL_MAP.get(set_name, "").replace("_", " ").title()
+        _re_colour   = "standard"
+        _re_category = "Superbike" if is_bike else "Supercar"
+        _re_display  = ""
         _ROTATION_BRAND = _re_brand
         _ROTATION_MODEL = _re_model
         _ROTATION_COLOUR = _re_colour
+        _ROTATION_CATEGORY = _re_category
+        _ROTATION_DISPLAY_NAME = ""
 
     meta = CURATED_SET_METADATA.get(set_name, {})
-    title = meta.get("title", f"{set_name.replace('_', ' ').title()} Supercar Reel")
-    hashtags = meta.get("tags") or ["supercars", "hypercars", "carreels", "carlifestyle", "speedhunters", "exoticcars"]
     is_bike = meta.get("is_bike", is_bike)
+    is_ev = ("ev" in _re_category.lower() or "electric" in _re_category.lower()) and not is_bike
 
-    make_model = meta.get("make_model", set_name.replace("_", " ").title())
+    display_name = _re_display or meta.get("make_model") or set_name.replace("_", " ").title()
+    make_model = meta.get("make_model", display_name)
+    title = meta.get("title", f"{display_name} • {_re_category} Showcase 🏁")
+
+    if meta.get("tags"):
+        hashtags = meta["tags"]
+    else:
+        b_tag = re.sub(r"[^a-z0-9]", "", _re_brand.lower())
+        m_tag = re.sub(r"[^a-z0-9]", "", _re_model.lower())
+        bm_tag = f"{b_tag}{m_tag}" if b_tag and m_tag and not m_tag.startswith(b_tag) else (m_tag or b_tag)
+        cat_l = _re_category.lower()
+        cat_tags = ["supercars", "carlifestyle", "carreels", "automotive"]
+        if "jdm" in cat_l:
+            cat_tags = ["jdm", "jdmcars", "jdmnation", "japanese", "carreels", "carlifestyle"]
+        elif "muscle" in cat_l:
+            cat_tags = ["musclecar", "americanmuscle", "v8", "classicmuscle", "carreels"]
+        elif "classic" in cat_l:
+            cat_tags = ["classiccars", "vintagecars", "carhistory", "automotive", "carreels"]
+        elif "ev" in cat_l:
+            cat_tags = ["electriccars", "ev", "futurecars", "hypercar", "carreels"]
+        elif "hypercar" in cat_l:
+            cat_tags = ["hypercars", "supercars", "exoticcars", "carlifestyle", "carreels"]
+        elif "luxury" in cat_l:
+            cat_tags = ["luxurycars", "bespoke", "automotive", "exoticcars", "carreels"]
+        elif is_bike or "superbike" in cat_l:
+            cat_tags = ["superbike", "bikelife", "sportbike", "twowheels", "motoreels"]
+        hashtags = [t for t in [b_tag, bm_tag, *cat_tags] if len(t) >= 2][:10]
+
     # Use rotation engine colour if available, else fall back to metadata colour
-    color = _re_colour if _re_colour else meta.get("color", "")
-    theme_desc = f"Machine: {make_model} in {color}" if color else f"Machine: {make_model}"
+    color = _re_colour if (_re_colour and _re_colour != "standard") else meta.get("color", "")
+    theme_desc = f"Machine: {make_model} ({_re_category}) in {color}" if color else f"Machine: {make_model} ({_re_category})"
+    perf_hint = "instant electric torque, futuristic aero, and silent precision" if is_ev else "raw performance, exhaust symphony, heritage, or aerodynamic styling"
 
     prompt = (
         f"You are the creative director of Zenith Motors.\n"
-        f"Write an original, punchy, high-energy Instagram caption for a viral supercar reel edited in '{active_template}' style.\n"
+        f"Write an original, punchy, high-energy Instagram caption for a viral {_re_category.lower()} reel edited in '{active_template}' style.\n"
         f"{theme_desc}\n"
         f"Requirements:\n"
         f"- 1 killer opening hook line\n"
-        f"- 2 short sentences capturing the raw performance, exhaust symphony, or aerodynamic styling\n"
+        f"- 2 short sentences capturing the {perf_hint}\n"
         f"- End with an engagement call-to-action (e.g. 'Rate this spec 1-10 👇' or 'Drop your dream spec below 🔑🔥')\n"
         f"- Do NOT use markdown asterisks (no bold **).\n"
         f"- Do NOT include hashtags in the caption body."
@@ -3406,9 +3528,9 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     try:
         ai_caption = call_gemini(prompt, env).strip()
         ai_caption = ai_caption.replace("**", "").replace("__", "")
-        caption_text = ai_caption if len(ai_caption) > 20 else (random.choice(meta["captions"]) if "captions" in meta else f"The {set_name.replace('_', ' ').title()} in its purest element. Rate this 1-10 👇")
+        caption_text = ai_caption if len(ai_caption) > 20 else (random.choice(meta["captions"]) if "captions" in meta else f"The {make_model} in its purest element. Rate this 1-10 👇")
     except Exception:
-        caption_text = random.choice(meta["captions"]) if meta and "captions" in meta else f"The {set_name.replace('_', ' ').title()} in its purest element. Rate this 1-10 👇"
+        caption_text = random.choice(meta["captions"]) if meta and "captions" in meta else f"The {make_model} in its purest element. Rate this 1-10 👇"
     caption_text = caption_text.replace("**", "").replace("__", "")
 
     full_caption = build_full_caption(caption_text, hashtags)
@@ -3426,7 +3548,7 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
 
     if dry_run:
         print(f"\n[DRY RUN] Would assemble {len(set_shots)} items for format '{active_format}' → {video_path}")
-        print(f"[DRY RUN] Vehicle focus: {title} (is_bike={is_bike})")
+        print(f"[DRY RUN] Vehicle focus: {title} (is_bike={is_bike}, is_ev={is_ev})")
         print("[DRY RUN] Would commit and publish reel")
         return
 
@@ -3437,7 +3559,8 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
             video_path,
             vehicle_name=set_name,
             is_bike=is_bike,
-            template_override=active_format
+            template_override=active_format,
+            is_ev=is_ev,
         )
         if not render_ok:
             print(f"  Warning: Primary template render failed ({template_used}). Retrying with fallback template...")
@@ -3446,7 +3569,8 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
                 video_path,
                 vehicle_name=set_name,
                 is_bike=is_bike,
-                template_override="speed_ramp" if active_format != "speed_ramp" else "phonk_bass_drop"
+                template_override="speed_ramp" if active_format != "speed_ramp" else "phonk_bass_drop",
+                is_ev=is_ev,
             )
             if not render_ok:
                 raise RuntimeError(f"Reel video generation failed quality gate: {template_used}")
@@ -3502,8 +3626,8 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
             yt_id=yt_id,
             media_file=video_path.name,
             reservation_id=res_id,
-            brand=SET_BRAND_MAP.get(set_name, ""),
-            model=SET_MODEL_MAP.get(set_name, "")
+            brand=_re_brand or SET_BRAND_MAP.get(set_name, ""),
+            model=_re_model or SET_MODEL_MAP.get(set_name, "")
         )
 
     # ---------------------------------------------------------------------------
@@ -3519,13 +3643,22 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
     _clip_hashes = []
     _source_urls = []
     try:
+        lic_urls_by_file: dict[str, str] = {}
+        if LICENSES_FILE.exists():
+            try:
+                _ld = json.loads(LICENSES_FILE.read_text(encoding="utf-8"))
+                for _se in _ld.get(set_name, {}).get("shots", []):
+                    if _se.get("file") and (_se.get("thumb_url") or _se.get("url")):
+                        lic_urls_by_file[_se["file"]] = _se.get("thumb_url") or _se.get("url")
+            except Exception:
+                pass
         import imagehash
         from PIL import Image as _PILImg
         for p in set_shots:
             if p.suffix.lower() in ('.jpg', '.jpeg', '.png', '.webp'):
                 with _PILImg.open(p) as img:
                     _clip_hashes.append(str(imagehash.phash(img)))
-            _source_urls.append(p.name)
+            _source_urls.append(lic_urls_by_file.get(p.name, f"{set_name}/{p.name}"))
     except Exception as _h_err:
         print(f"  [RotationEngine] Notice on clip hashes: {_h_err}")
 

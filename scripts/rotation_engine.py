@@ -283,15 +283,16 @@ def skip_brand(brand, reason="all_models_failed"):
 # ---------------------------------------------------------------------------
 # Public: select_next_available_vehicle
 # ---------------------------------------------------------------------------
-def select_next_available_vehicle(is_available_fn, max_skips: int = 100):
+def select_next_available_vehicle(is_available_fn, max_skips: int = 35):
     """
     Finds the next (brand, model, colour) that satisfies is_available_fn(brand, model, colour).
     Strictly follows Master Spec:
-      - RULE 1: Brand Rotation (outer circle)
-      - RULE 2: Model Rotation inside each brand (inner circle)
+      - RULE 1: Brand Rotation (outer circle across all 174 brands)
+      - RULE 2: Model Rotation inside each brand (inner circle across 2,315+ models)
       - RULE 3: Colour Lock (per reel)
       - SKIP RULE: If a model has no clips, mark unavailable and pick next model
-        in SAME brand. If all models of brand fail, skip to next brand.
+        in SAME brand (up to 4 probes per brand per round). If all tried models
+        fail, advance cleanly to the next brand in queue.
     Returns (brand, model, colour, state_candidate) or None.
     State is NOT saved to disk here — commit_state must be called after post.
     """
@@ -301,7 +302,10 @@ def select_next_available_vehicle(is_available_fn, max_skips: int = 100):
         return None
 
     skips = 0
-    while skips < max_skips:
+    brand_attempts = 0
+    max_brand_attempts = min(len(b_queue), 30)
+    while skips < max_skips and brand_attempts < max_brand_attempts:
+        brand_attempts += 1
         try:
             brand = _get_next_brand(state)
         except Exception as exc:
@@ -314,8 +318,11 @@ def select_next_available_vehicle(is_available_fn, max_skips: int = 100):
             skips += 1
             continue
 
-        # Try models in this brand's queue
-        for _ in range(len(models_in_queue)):
+        # Try up to 4 candidate models per brand before moving on so rare brands don't stall
+        max_per_brand = min(len(models_in_queue), 4)
+        for _ in range(max_per_brand):
+            if skips >= max_skips:
+                break
             try:
                 model = _get_next_model(state, brand)
             except Exception as exc:
@@ -329,16 +336,38 @@ def select_next_available_vehicle(is_available_fn, max_skips: int = 100):
                 logger.info(f"Selected: {brand} | {model} | {colour}")
                 return brand, model, colour, state
             else:
-                # Mark model unavailable for this cycle
                 if model in b_state.get("models", {}):
                     b_state["models"][model]["unavailable_until_next_cycle"] = True
                 logger.warning(f"SKIP MODEL: {brand} {model} — unavailable clips")
                 skips += 1
 
-        # If every model of this brand failed, skip brand for this round
-        logger.warning(f"SKIP BRAND: {brand} — all models unavailable for this round")
+        logger.warning(f"SKIP BRAND: {brand} — checked models unavailable for this round")
 
     return None
+
+
+def _resolve_brand_model_keys(state: dict, brand: str, model: str) -> tuple[str, str]:
+    brands = state.get("brands", {})
+    b_key = brand
+    if b_key not in brands:
+        b_norm = b_key.lower().replace("_", " ").replace("-", " ")
+        for k in brands:
+            if k.lower().replace("_", " ").replace("-", " ") == b_norm:
+                b_key = k
+                break
+    if b_key not in brands:
+        return "", ""
+    models = brands[b_key].get("models", {})
+    m_key = model
+    if m_key not in models:
+        m_norm = m_key.lower().replace("_", " ").replace("-", " ")
+        for k in models:
+            if k.lower().replace("_", " ").replace("-", " ") == m_norm:
+                m_key = k
+                break
+    if m_key not in models:
+        return b_key, ""
+    return b_key, m_key
 
 
 # ---------------------------------------------------------------------------
@@ -353,29 +382,53 @@ def commit_state(brand, model, colour, clip_hashes, source_urls, post_id, num_cl
     if state is None:
         state = _load_state()
 
+    b_key, m_key = _resolve_brand_model_keys(state, brand, model)
+    if not b_key:
+        logger.warning(f"Brand '{brand}' not in rotation catalog; recording post_log only.")
+        state["last_brand"] = brand
+        state.setdefault("post_log", []).append({
+            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+            "brand": brand,
+            "model": model,
+            "colour": colour,
+            "num_clips": num_clips,
+            "clip_hashes": clip_hashes,
+            "post_id": post_id,
+        })
+        _save_state(state)
+        return
+
     # Update brand state
-    state["last_brand"] = brand
+    state["last_brand"] = b_key
+    b_state = state["brands"][b_key]
 
-    # Update model state
-    b_state = state["brands"][brand]
-    b_state["last_model"] = model
+    if m_key:
+        b_state["last_model"] = m_key
+        m_state = b_state["models"][m_key]
+        if colour and colour not in m_state["used_colours"]:
+            m_state["used_colours"].append(colour)
+        if colour:
+            m_state["last_colour"] = colour
+        m_state["unavailable_until_next_cycle"] = False
 
-    # Update colour state
-    m_state = b_state["models"][model]
-    if colour not in m_state["used_colours"]:
-        m_state["used_colours"].append(colour)
-    m_state["last_colour"] = colour
-    m_state["unavailable_until_next_cycle"] = False
+    # Update clip hashes + urls (deduplicated)
+    existing_h = set(state.get("used_clip_hashes", []))
+    for h in clip_hashes:
+        if h and h not in existing_h:
+            state.setdefault("used_clip_hashes", []).append(h)
+            existing_h.add(h)
 
-    # Update clip hashes + urls
-    state["used_clip_hashes"].extend(clip_hashes)
-    state["used_source_urls"].extend(source_urls)
+    existing_u = set(state.get("used_source_urls", []))
+    for u in source_urls:
+        if u and u not in existing_u:
+            state.setdefault("used_source_urls", []).append(u)
+            existing_u.add(u)
 
     # Append post log entry
-    state["post_log"].append({
+    state.setdefault("post_log", []).append({
         "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
-        "brand": brand,
-        "model": model,
+        "brand": b_key,
+        "model": m_key or model,
         "colour": colour,
         "num_clips": num_clips,
         "clip_hashes": clip_hashes,
@@ -384,7 +437,7 @@ def commit_state(brand, model, colour, clip_hashes, source_urls, post_id, num_cl
 
     _save_state(state)
     logger.info(
-        f"State committed: {brand} | {model} | {colour} | "
+        f"State committed: {b_key} | {m_key or model} | {colour} | "
         f"{num_clips} clips | post_id={post_id}"
     )
 

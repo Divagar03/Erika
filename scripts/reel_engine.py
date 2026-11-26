@@ -79,9 +79,9 @@ def pick_trending_phonk_track(last_track: str = "") -> Path | None:
     return random.choice(eligible)
 
 
-def pick_authentic_engine_sfx(vehicle_name: str, is_bike: bool = False) -> Path | None:
+def pick_authentic_engine_sfx(vehicle_name: str, is_bike: bool = False, is_ev: bool = False) -> Path | None:
     """Pick the loudest, authentic engine SFX matching the machine architecture."""
-    if not ENGINE_SFX_DIR.exists():
+    if is_ev or not ENGINE_SFX_DIR.exists():
         return None
 
     vn = vehicle_name.lower()
@@ -160,7 +160,8 @@ def build_trending_reel(
     output_path: Path,
     vehicle_name: str = "",
     is_bike: bool = False,
-    template_override: str = ""
+    template_override: str = "",
+    is_ev: bool = False,
 ) -> tuple[bool, str]:
     """
     Build a trending 9:16 vertical 1080x1920 viral automotive edit.
@@ -192,7 +193,7 @@ def build_trending_reel(
     verify_color_cohesion(media_paths)
 
     phonk_track = pick_trending_phonk_track()
-    engine_sfx = pick_authentic_engine_sfx(vehicle_name, is_bike=is_bike)
+    engine_sfx = pick_authentic_engine_sfx(vehicle_name, is_bike=is_bike, is_ev=is_ev)
 
     if not phonk_track:
         return False, "No music track found in assets/music"

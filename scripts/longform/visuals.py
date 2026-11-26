@@ -70,47 +70,21 @@ def is_asset_topic_locked(
     target_model: str,
     is_bike: bool = False
 ) -> tuple[bool, str]:
-    """Strict deterministic entity-lock validation:
-    1. Rejects any competitor brand from blocklist.
-    2. Rejects wrong vehicle type (no bikes in car videos, no cars in bike videos).
-    3. Requires presence of target brand or target model.
-    """
-    text = asset_meta_text.lower().replace("-", " ").replace("_", " ")
+    """Strict deterministic entity-lock validation (positive brand+model match + negative blocklist)."""
+    try:
+        from scripts.dynamic_sourcing import is_clean_model_title
+        return is_clean_model_title(asset_meta_text, target_brand, target_model, is_bike=is_bike)
+    except ImportError:
+        pass
 
-    # Competitor brand check
+    text = asset_meta_text.lower().replace("-", " ").replace("_", " ")
     brand_norm = target_brand.lower().strip()
     allowed_brands = {brand_norm}
-    if brand_norm == "ford":
-        allowed_brands.update({"shelby", "mustang", "gt40", "multimatic"})
-    elif brand_norm in ("mercedes", "mercedes-amg"):
-        allowed_brands.update({"mercedes", "mercedes-amg", "amg"})
-    elif brand_norm == "bmw":
-        allowed_brands.update({"bmw", "mpower", "bmw m"})
-    elif brand_norm == "porsche":
-        allowed_brands.update({"porsche", "weissach"})
-    elif brand_norm == "chevrolet":
-        allowed_brands.update({"corvette", "camaro", "chevy"})
-    elif brand_norm == "dodge":
-        allowed_brands.update({"viper", "hellcat", "demon", "srt"})
-
     for b in ALL_BRANDS:
         if b in allowed_brands:
             continue
-        # Check word boundaries
-        pattern = r'\b' + re.escape(b) + r'\b'
-        if re.search(pattern, text):
+        if re.search(r'\b' + re.escape(b) + r'\b', text):
             return False, f"Competitor brand detected: '{b}'"
-
-    # Vehicle type check
-    if not is_bike:
-        for bt in BIKE_TERMS:
-            if re.search(r'\b' + re.escape(bt) + r'\b', text):
-                return False, f"Wrong vehicle type (bike term '{bt}' found in car video)"
-    else:
-        for ct in CAR_TERMS:
-            if re.search(r'\b' + re.escape(ct) + r'\b', text):
-                return False, f"Wrong vehicle type (car term '{ct}' found in bike video)"
-
     return True, "Entity match verified"
 
 
@@ -161,14 +135,22 @@ def fetch_wikimedia_images(
     Applies strict deterministic topic-locking and competitor blocklisting at ingestion.
     """
     VISUALS_CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    queries = [
-        f'"{brand} {model}"',
-        f"{brand} {model}",
-        f"{brand} {model} front",
-        f"{brand} {model} rear",
-        f"{brand} {model} track",
-        f"{brand} {model} exterior",
-    ]
+    try:
+        from scripts.dynamic_sourcing import _build_search_queries, clean_model_display
+        clean_m = clean_model_display(model)
+        queries = _build_search_queries(brand, model, fast_probe=False) + [
+            f"{brand} {clean_m} front",
+            f"{brand} {clean_m} rear",
+        ]
+    except ImportError:
+        queries = [
+            f'"{brand} {model}"',
+            f"{brand} {model}",
+            f"{brand} {model} front",
+            f"{brand} {model} rear",
+            f"{brand} {model} track",
+            f"{brand} {model} exterior",
+        ]
 
     all_fetched = []
     seen_urls = set()
@@ -207,8 +189,11 @@ def fetch_wikimedia_images(
                     artist = re.sub(r"<[^>]+>", "", artist_raw).strip() or "Wikimedia Commons"
                     license_raw = meta.get("LicenseShortName", {}).get("value", "CC-BY-SA")
 
+                    obj_raw = meta.get("ObjectName", {}).get("value", "")
+                    obj_clean = re.sub(r"<[^>]+>", "", obj_raw).strip()
+
                     # Deterministic metadata & filename topic lock
-                    meta_corpus = f"{title} {clean_url_path} {artist}"
+                    meta_corpus = f"{title} {obj_clean}".strip()
                     is_ok, reason = is_asset_topic_locked(meta_corpus, brand, model, is_bike=is_bike)
                     if not is_ok:
                         continue
