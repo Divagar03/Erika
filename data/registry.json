@@ -2058,6 +2058,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "rivian_r1s",
+      "brand": "Rivian",
+      "model": "R1S",
+      "format": "rolling_shots",
+      "caption_hash": "1a9204d85d74363e",
+      "media_id": "18115025741464226",
+      "yt_id": "UhDvJsCVSBw",
+      "media_file": "reel_20261126_181626.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-26T18:18:03.837690+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

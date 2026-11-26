@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 21,
-  "last_brand": "SSC",
+  "brand_pointer": 22,
+  "last_brand": "Rivian",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -9543,8 +9543,8 @@
         "R1S",
         "R1T"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 2,
+      "last_model": "R1S",
       "models": {
         "R1T": {
           "used_colours": [],
@@ -9553,15 +9553,17 @@
           "category": "EV"
         },
         "R1S": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "blue"
+          ],
+          "last_colour": "blue",
           "unavailable_until_next_cycle": false,
           "category": "EV"
         },
         "R2": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false,
+          "unavailable_until_next_cycle": true,
           "category": "EV"
         }
       }
@@ -18252,6 +18254,15 @@
       "num_clips": 3,
       "clip_hashes": [],
       "post_id": "18122357174008154"
+    },
+    {
+      "timestamp": "2026-11-26T18:18:03.843321Z",
+      "brand": "Rivian",
+      "model": "R1S",
+      "colour": "blue",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "18115025741464226"
     }
   ]
 }
