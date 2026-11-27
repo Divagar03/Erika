@@ -2198,6 +2198,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "ktm_ktm_x_bow_gt2",
+      "brand": "KTM",
+      "model": "KTM X-Bow GT2",
+      "format": "rolling_shots",
+      "caption_hash": "30e5fb755b62fb07",
+      "media_id": "18129884519298627",
+      "yt_id": "0ahFblsp6OU",
+      "media_file": "reel_20261127_141627.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-27T14:18:31.110861+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

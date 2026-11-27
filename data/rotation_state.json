@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 29,
-  "last_brand": "Bentley",
+  "brand_pointer": 30,
+  "last_brand": "KTM",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -15616,8 +15616,8 @@
         "X-Bow",
         "KTM X-Bow Battle"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "KTM X-Bow GT2",
       "models": {
         "X-Bow": {
           "used_colours": [],
@@ -15662,8 +15662,10 @@
           "category": "Sports"
         },
         "KTM X-Bow GT2": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "orange"
+          ],
+          "last_colour": "orange",
           "unavailable_until_next_cycle": false,
           "category": "Sports"
         }
@@ -18329,6 +18331,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "17947154403368274"
+    },
+    {
+      "timestamp": "2026-11-27T14:18:31.114504Z",
+      "brand": "KTM",
+      "model": "KTM X-Bow GT2",
+      "colour": "orange",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "18129884519298627"
     }
   ]
 }
