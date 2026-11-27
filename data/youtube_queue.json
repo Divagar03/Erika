@@ -21,10 +21,10 @@
       "title": "Bugatti Chiron • Supercar Reel #Shorts",
       "caption": "🔥 Watch the Bugatti Chiron tear the roads—speed unleashed!  \n7 seconds, 1200 hp, and an exhaust that sings like a rock anthem.  \n1️⃣0️⃣ down the track, the sculpted lines whisper turbo power.  \nRate this spec 1‑10 👇   (Drop your dream spec below 🔑🔥)\n\n#bugattichiron #bugatti #chiron #w16 #hypercar #m",
       "set_name": "bugatti_chiron",
-      "status": "pending",
+      "status": "failed",
       "yt_id": null,
       "published_at": null,
-      "error": null
+      "error": "init_upload_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may "
     },
     {
       "id": "reel_20261126_081634",

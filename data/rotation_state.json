@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 25,
-  "last_brand": "ZIL",
+  "brand_pointer": 27,
+  "last_brand": "Moskvich",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -11363,8 +11363,8 @@
         "2141",
         "403"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "2140",
       "models": {
         "408": {
           "used_colours": [],
@@ -11379,8 +11379,10 @@
           "category": "Soviet"
         },
         "2140": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "yellow"
+          ],
+          "last_colour": "yellow",
           "unavailable_until_next_cycle": false,
           "category": "Soviet"
         },
@@ -17766,13 +17768,13 @@
         "Faraday Future FF91 2.0",
         "FFZERO1"
       ],
-      "model_pointer": 0,
+      "model_pointer": 4,
       "last_model": null,
       "models": {
         "FF 91": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false,
+          "unavailable_until_next_cycle": true,
           "category": "EV"
         },
         "FFZERO1": {
@@ -17784,19 +17786,19 @@
         "FF 91 Futurist": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false,
+          "unavailable_until_next_cycle": true,
           "category": "EV"
         },
         "Faraday Future FF91 2.0": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false,
+          "unavailable_until_next_cycle": true,
           "category": "EV"
         },
         "FF Hyper Car": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false,
+          "unavailable_until_next_cycle": true,
           "category": "EV"
         }
       }
@@ -18296,6 +18298,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "18141341101635432"
+    },
+    {
+      "timestamp": "2026-11-27T02:17:52.171206Z",
+      "brand": "Moskvich",
+      "model": "2140",
+      "colour": "yellow",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "18099459575449261"
     }
   ]
 }
