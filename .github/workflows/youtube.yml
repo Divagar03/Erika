@@ -2,8 +2,8 @@ name: YouTube Daily Shorts
 
 on:
   schedule:
-    # Backup trigger: process pending daily YouTube Short
-    - cron: "0 18 * * *"
+    # Backup trigger: catch up any pending daily YouTube Short after all 4 daily Reel slots
+    - cron: "45 21 * * *"
   workflow_dispatch:
     inputs:
       mode:

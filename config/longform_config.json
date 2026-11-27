@@ -149,7 +149,7 @@
     "interval_hours": 48,
     "category_id": "2",
     "altered_synthetic_content": true,
-    "shorts_to_extract": 2,
+    "shorts_to_extract": 0,
     "max_title_length": 70
   }
 }

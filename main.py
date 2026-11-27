@@ -57,7 +57,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 try:
     from registry import (
         is_set_on_cooldown, is_brand_on_cooldown, is_model_on_cooldown,
-        is_music_on_cooldown, is_slot_occupied,
+        is_music_on_cooldown, is_slot_occupied, get_daily_published_reel_count,
         is_caption_duplicate, reserve_slot, confirm_publish,
         update_metrics, get_top_posts, caption_hash, REGISTRY_FILE,
         get_set_brand, get_set_model
@@ -68,13 +68,15 @@ except ImportError:
     REGISTRY_FILE = ROOT / "data" / "registry.json"
     is_brand_on_cooldown = lambda *args, **kwargs: False
     is_model_on_cooldown = lambda *args, **kwargs: False
+    get_daily_published_reel_count = lambda *args, **kwargs: 0
     get_set_brand = lambda name: name.split("_")[0]
     get_set_model = lambda name: name
     print("  [Registry] Warning: registry module not found. Deduplication disabled.")
 
 # ---------------------------------------------------------------------------
-# Daily YouTube Shorts Queue (AGENT_SPEC & User: 10 Shorts from Yesterday's 12)
+# Daily YouTube Shorts & Instagram Reels Limits (4 Reels/day -> 4 Shorts/day next day)
 # ---------------------------------------------------------------------------
+MAX_DAILY_REELS = 4
 try:
     from youtube_queue import (
         get_or_create_daily_youtube_queue,
@@ -87,7 +89,7 @@ try:
 except ImportError:
     YT_QUEUE_AVAILABLE = False
     YT_QUEUE_FILE = ROOT / "data" / "youtube_queue.json"
-    MAX_DAILY_YOUTUBE_SHORTS = 10
+    MAX_DAILY_YOUTUBE_SHORTS = 4
 
 # ---------------------------------------------------------------------------
 # Trending Automotive Reel Engine (AGENT_SPEC §5 & §7)
@@ -3403,19 +3405,22 @@ def mode_weekly_reel(persona: dict, env: dict, dry_run: bool, custom_prompt: str
 
     is_manual = bool(custom_prompt) or (event_name == "workflow_dispatch" and force_run)
     if not is_manual and not dry_run:
-        # AGENT_SPEC §2 & §3: Slot idempotency (prevent duplicate posts in same 2-hour UTC slot)
+        # 4 reels/day: 6-hour slot idempotency + strict daily cap (4/day UTC)
         if REGISTRY_AVAILABLE:
-            slot_hour = (datetime.now(timezone.utc).hour // 2) * 2
-            if is_slot_occupied(slot_hour):
-                print(f"\n[IDEMPOTENCY] Slot {slot_hour:02d}:00–{(slot_hour+2)%24:02d}:00 UTC already has a confirmed post. Skipping.")
+            if get_daily_published_reel_count() >= MAX_DAILY_REELS:
+                print(f"\n[DAILY LIMIT] Already published {MAX_DAILY_REELS}/{MAX_DAILY_REELS} automated reels today (UTC). Skipping.")
+                return
+            slot_hour = (datetime.now(timezone.utc).hour // 6) * 6
+            if is_slot_occupied(slot_hour, slot_hours=6):
+                print(f"\n[IDEMPOTENCY] Slot {slot_hour:02d}:00–{(slot_hour+6)%24:02d}:00 UTC already has a confirmed post. Skipping.")
                 return
 
         last_time = get_last_reel_timestamp()
         if last_time:
             elapsed = (datetime.now(timezone.utc) - last_time).total_seconds() / 60.0
-            if elapsed < 30:
+            if elapsed < 60:
                 print(f"\n[SKIP SCHEDULED POST] A reel was already posted {elapsed:.1f} minutes ago.")
-                print("Minimum anti-burst guard is 30 minutes across triggers. Skipping to prevent duplicate/spamming.")
+                print("Minimum anti-burst guard is 60 minutes across triggers. Skipping to prevent duplicate/spamming.")
                 return
 
     ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
@@ -4018,39 +4023,45 @@ def _write_daily_summary(env: dict) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Daily YouTube Shorts Step: 10 Shorts per day from Yesterday's 12 Reels
+# Daily YouTube Shorts Step: 4 Shorts per day from Yesterday's 4 Reels
 # ---------------------------------------------------------------------------
 
 def post_daily_youtube_short_step(env: dict, dry_run: bool = False) -> tuple[str | None, str]:
-    """Upload 1 of the 10 daily YouTube Shorts selected from yesterday's 12 Instagram Reels pool.
-    Strictly caps at 10 uploads per day to prevent exceeding the YouTube Data API quota.
+    """Upload 1 of the 4 daily YouTube Shorts selected from yesterday's 4 Instagram Reels pool.
+    Strictly caps at MAX_DAILY_YOUTUBE_SHORTS (4) uploads per day.
     """
     if not YT_QUEUE_AVAILABLE:
         return None, "yt_queue_unavailable"
 
-    item, queue_data = get_next_pending_youtube_short()
-    published_today = queue_data.get("published_today", 0)
+    item = None
+    queue_data = {}
+    for _ in range(20):
+        item, queue_data = get_next_pending_youtube_short()
+        published_today = queue_data.get("published_today", 0)
 
-    if published_today >= MAX_DAILY_YOUTUBE_SHORTS:
-        print(f"\n[YouTube Queue] 10/10 daily YouTube Shorts already published today. Skipping upload to protect daily quota.")
-        return None, "daily_quota_limit_reached"
+        if published_today >= MAX_DAILY_YOUTUBE_SHORTS:
+            print(f"\n[YouTube Queue] {MAX_DAILY_YOUTUBE_SHORTS}/{MAX_DAILY_YOUTUBE_SHORTS} daily YouTube Shorts already published today. Skipping upload to protect daily quota.")
+            return None, "daily_quota_limit_reached"
 
-    if not item:
-        print(f"\n[YouTube Queue] All {len(queue_data.get('queue', []))} queued Shorts for today have been published ({published_today}/10).")
-        return None, "queue_complete"
+        if not item:
+            print(f"\n[YouTube Queue] All {len(queue_data.get('queue', []))} queued Shorts for today have been published ({published_today}/{MAX_DAILY_YOUTUBE_SHORTS}).")
+            return None, "queue_complete"
 
-    media_file = item.get("media_file")
-    video_path = MEDIA_DIR / media_file
-    if not video_path.exists():
-        print(f"\n[YouTube Queue] Notice: Video file {media_file} not found locally in media/. Marking skipped.")
+        media_file = item.get("media_file")
+        video_path = MEDIA_DIR / media_file
+        if video_path.exists():
+            break
+
+        print(f"\n[YouTube Queue] Notice: Video file {media_file} not found locally in media/. Marking skipped and checking next item.")
         record_youtube_short_publish(item["id"], None, error=f"file_not_found_{media_file}")
-        return None, "file_not_found"
+    else:
+        return None, "queue_complete"
 
     title = item.get("title", "Supercar Reel #Shorts")
     caption = item.get("caption", "")
     tags = ["Shorts", "supercars", "superbike", "carreels", "speedhunters", "carlifestyle"]
 
-    print(f"\n[YouTube Queue] Publishing Daily Short {published_today + 1}/10 for today:")
+    print(f"\n[YouTube Queue] Publishing Daily Short {published_today + 1}/{MAX_DAILY_YOUTUBE_SHORTS} for today:")
     print(f"  Title:  {title}")
     print(f"  Source: {media_file} (Yesterday's Reel)")
 
@@ -4061,7 +4072,7 @@ def post_daily_youtube_short_step(env: dict, dry_run: bool = False) -> tuple[str
     yt_id, yt_err = publish_youtube_short(video_path, title, caption, tags, env)
     if yt_id:
         record_youtube_short_publish(item["id"], yt_id)
-        print(f"  [YouTube Queue] ✓ Uploaded Short {published_today + 1}/10! https://youtube.com/shorts/{yt_id}")
+        print(f"  [YouTube Queue] ✓ Uploaded Short {published_today + 1}/{MAX_DAILY_YOUTUBE_SHORTS}! https://youtube.com/shorts/{yt_id}")
         return yt_id, ""
     else:
         record_youtube_short_publish(item["id"], None, error=yt_err)
@@ -4070,7 +4081,7 @@ def post_daily_youtube_short_step(env: dict, dry_run: bool = False) -> tuple[str
 
 
 def mode_youtube_short(persona: dict, env: dict, dry_run: bool) -> None:
-    """Publish the next pending YouTube Short from yesterday's 10 selected reels."""
+    """Publish the next pending YouTube Short from yesterday's 4 selected reels."""
     print("\n=== MODE: youtube_short ===")
     yt_id, err_msg = post_daily_youtube_short_step(env, dry_run=dry_run)
     if not dry_run:

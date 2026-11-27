@@ -1,9 +1,9 @@
 """
 Daily YouTube Shorts Queue & Scheduler for Erika
 Enforces:
-- 10 Daily YouTube Shorts (selected from yesterday's 12 Instagram Reels)
-- Maximum 10 uploads per calendar day to stay strictly within Google YouTube Data API quota
-- 1-day delay: Today's Instagram Reels become tomorrow's YouTube Shorts
+- 4 Daily YouTube Shorts (selected from yesterday's 4 Instagram Reels)
+- Maximum 4 uploads per calendar day to match the 4-reel cadence and stay safely within YouTube upload quotas
+- 1-day delay: Today's 4 Instagram Reels become tomorrow's 4 YouTube Shorts
 - Idempotent and crash-resilient queue persistence in data/youtube_queue.json
 """
 from __future__ import annotations
@@ -21,7 +21,7 @@ REGISTRY_FILE = DATA_DIR / "registry.json"
 LOG_FILE = DATA_DIR / "log.json"
 MEDIA_DIR = ROOT / "media"
 
-MAX_DAILY_YOUTUBE_SHORTS = 10
+MAX_DAILY_YOUTUBE_SHORTS = 4
 
 
 def load_youtube_queue() -> dict:
@@ -158,8 +158,8 @@ def get_or_create_daily_youtube_queue() -> dict:
 
     yesterday_ranked = sorted(yesterday_reels, key=score_item, reverse=True)
 
-    # Pick up to MAX_DAILY_YOUTUBE_SHORTS (default 10) strictly from yesterday
-    # If yesterday had fewer than 10, queue ONLY those available (never backfill from old archives!)
+    # Pick up to MAX_DAILY_YOUTUBE_SHORTS (4) strictly from yesterday
+    # If yesterday had fewer than 4, queue ONLY those available (never backfill from old archives!)
     selected = yesterday_ranked[:MAX_DAILY_YOUTUBE_SHORTS]
 
     # Build queue entries with clean metadata
@@ -187,7 +187,6 @@ def get_or_create_daily_youtube_queue() -> dict:
     }
     save_youtube_queue(new_queue)
     print(f"  [YouTube Queue] Successfully queued {len(queue_items)} Shorts for {today_str} (Source: {yesterday_str} Reels).")
-    return new_queue
     return new_queue
 
 

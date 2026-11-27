@@ -224,19 +224,36 @@ def is_music_on_cooldown(track_name: str, cooldown_days: int = 3) -> bool:
     return False
 
 
-def is_slot_occupied(slot_hour_utc: int) -> bool:
-    """Return True if a post was already confirmed in this 2-hour UTC slot today."""
+def get_daily_published_reel_count(target_date=None) -> int:
+    """Return number of reels published on target_date (UTC date, defaults to today)."""
+    data = _load()
+    day = target_date or datetime.now(timezone.utc).date()
+    count = 0
+    for post in data.get("posts", []):
+        if post.get("status") != "published":
+            continue
+        try:
+            ts = datetime.fromisoformat(post["publish_timestamp"])
+            if ts.date() == day:
+                count += 1
+        except Exception:
+            pass
+    return count
+
+
+def is_slot_occupied(slot_hour_utc: int, slot_hours: int = 6) -> bool:
+    """Return True if a post was already confirmed in this slot window today."""
     data = _load()
     now = datetime.now(timezone.utc)
     slot_start = now.replace(hour=slot_hour_utc, minute=0, second=0, microsecond=0)
-    slot_end = slot_start + timedelta(hours=2)
+    slot_end = slot_start + timedelta(hours=slot_hours)
     for post in data.get("posts", []):
         if post.get("status") != "published":
             continue
         try:
             ts = datetime.fromisoformat(post["publish_timestamp"])
             if slot_start <= ts < slot_end and ts.date() == now.date():
-                print(f"  [Registry] Slot {slot_hour_utc:02d}:00–{(slot_hour_utc+2)%24:02d}:00 UTC already posted at {ts.isoformat()}. Skipping.")
+                print(f"  [Registry] Slot {slot_hour_utc:02d}:00–{(slot_hour_utc+slot_hours)%24:02d}:00 UTC already posted at {ts.isoformat()}. Skipping.")
                 return True
         except Exception:
             pass

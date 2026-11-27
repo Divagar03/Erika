@@ -2,10 +2,10 @@ name: Instagram Reels Automation
 
 on:
   schedule:
-    # Backup GitHub schedule: every 2 hours at :15 UTC (:45 IST), 24/7
+    # Backup GitHub schedule: 4 times daily every 6 hours at :15 UTC (05:45, 11:45, 17:45, 23:45 IST)
     # Exact-time triggers run via push (trigger.txt) or workflow_dispatch (force=false);
-    # slot idempotency skips duplicates automatically.
-    - cron: "15 */2 * * *"
+    # 6-hour slot idempotency + 4/day cap skip duplicates automatically.
+    - cron: "15 */6 * * *"
   push:
     paths:
       - "uploads/*.mp4"
@@ -33,7 +33,7 @@ on:
         default: ""
         type: string
       force:
-        description: "Bypass 2-hour slot cooldown (keep true for manual runs, false for external exact cron)"
+        description: "Bypass 6-hour slot cooldown (keep true for manual runs, false for external exact cron)"
         required: false
         default: true
         type: boolean
