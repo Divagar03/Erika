@@ -1990,5 +1990,13 @@
     "caption": "🔥 When the city lights blur, a legend ignites.  \nFeel the roar of the 250F’s twin‑turbo whisper, a sonic salute to Maserati heritage.  \nIts gleaming red wing slices the night, turning asphalt into a runway.  \nRate this spec 1-10 👇 #ZenithMotors #NightCityVibes\n\n#maserati #maserati250f #luxurycars #b",
     "media": "reel_20261126_225827.mp4",
     "detail": "set=maserati_250f, format=night_city, media_id=17982880239129258, yt_err=daily_quota_limit_reached"
+  },
+  {
+    "time": "2026-11-27T01:26:26.825515+00:00",
+    "kind": "youtube_short",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "init_upload_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may "
   }
 ]
