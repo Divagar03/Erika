@@ -2030,5 +2030,13 @@
     "caption": "Orange blur. Zero chill. 🧡\n\nThe KTM X-Bow GT2 tears through every rolling shot with race-bred precision. Its aero-sculpted body and snarling soundtrack make the track feel like home.\n\nRate this spec 1–10 👇\n\n#ktm #ktmxbowgt2 #supercars #carlifestyle #carreels #automotive",
     "media": "reel_20261127_141627.mp4",
     "detail": "set=ktm_ktm_x_bow_gt2, format=rolling_shots, media_id=18129884519298627, yt_id=0ahFblsp6OU"
+  },
+  {
+    "time": "2026-11-27T20:43:24.076258+00:00",
+    "kind": "youtube_longform",
+    "status": "failed",
+    "caption": "",
+    "media": "",
+    "detail": "Long-form pipeline failed: init_upload_failed_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The request metadata specifies an invalid video description.\",\n    \"errors\": [\n      {\n        \"messag"
   }
 ]
