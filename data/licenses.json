@@ -6921,5 +6921,121 @@
         "attribution_url": "https://commons.wikimedia.org/wiki/File:Moskvich_2140._Tashkent_03.jpg"
       }
     ]
+  },
+  "shelby_gt350": {
+    "display_name": "Shelby GT350",
+    "brand": "Shelby",
+    "shots": [
+      {
+        "file": "shot_1.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Shelby Mustang GT350.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Shelby_Mustang_GT350.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Shelby_Mustang_GT350.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "license": "CC BY-SA 3.0",
+        "artist": "Wikimedia Commons",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Shelby_Mustang_GT350.jpg"
+      },
+      {
+        "file": "shot_2.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Shelby Mustang GT 350 1968 (5311115118).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Shelby_Mustang_GT_350_1968_%285311115118%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/Shelby_Mustang_GT_350_1968_%285311115118%29.jpg/1280px-Shelby_Mustang_GT_350_1968_%285311115118%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "nakhon100",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Shelby_Mustang_GT_350_1968_(5311115118).jpg"
+      },
+      {
+        "file": "shot_3.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:1968 Shelby Mustang GT350 Fastback (15581364732).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/1968_Shelby_Mustang_GT350_Fastback_%2815581364732%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/1968_Shelby_Mustang_GT350_Fastback_%2815581364732%29.jpg/1280px-1968_Shelby_Mustang_GT350_Fastback_%2815581364732%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "Sicnag",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:1968_Shelby_Mustang_GT350_Fastback_(15581364732).jpg"
+      },
+      {
+        "file": "shot_4.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Shelby Mustang GT350 1968.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Shelby_Mustang_GT350_1968.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Shelby_Mustang_GT350_1968.jpg/1280px-Shelby_Mustang_GT350_1968.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "Sicnag",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Shelby_Mustang_GT350_1968.jpg"
+      },
+      {
+        "file": "shot_5.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:1968 Shelby Mustang GT350 Fastback (26495508560).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/a/ae/1968_Shelby_Mustang_GT350_Fastback_%2826495508560%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/1968_Shelby_Mustang_GT350_Fastback_%2826495508560%29.jpg/1280px-1968_Shelby_Mustang_GT350_Fastback_%2826495508560%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "Sicnag",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:1968_Shelby_Mustang_GT350_Fastback_(26495508560).jpg"
+      },
+      {
+        "file": "shot_6.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Shelby GT350E at Legendy 2018 in Prague.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/6/64/Shelby_GT350E_at_Legendy_2018_in_Prague.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Shelby_GT350E_at_Legendy_2018_in_Prague.jpg/1280px-Shelby_GT350E_at_Legendy_2018_in_Prague.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Jiří Sedláček",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Shelby_GT350E_at_Legendy_2018_in_Prague.jpg"
+      },
+      {
+        "file": "shot_7.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Shelby Cobra GT350-1 (30523954015).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/7/76/Shelby_Cobra_GT350-1_%2830523954015%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Shelby_Cobra_GT350-1_%2830523954015%29.jpg/1280px-Shelby_Cobra_GT350-1_%2830523954015%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "naeem mayet",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Shelby_Cobra_GT350-1_(30523954015).jpg"
+      },
+      {
+        "file": "shot_8.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Shelby Cobra GT350-3 (30437057591).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/a/af/Shelby_Cobra_GT350-3_%2830437057591%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Shelby_Cobra_GT350-3_%2830437057591%29.jpg/1280px-Shelby_Cobra_GT350-3_%2830437057591%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "naeem mayet",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Shelby_Cobra_GT350-3_(30437057591).jpg"
+      },
+      {
+        "file": "shot_9.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Shelby Cobra GT350 (Centropolis Laval '10).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Shelby_Cobra_GT350_%28Centropolis_Laval_%2710%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Shelby_Cobra_GT350_%28Centropolis_Laval_%2710%29.jpg/1280px-Shelby_Cobra_GT350_%28Centropolis_Laval_%2710%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "Public domain",
+        "artist": "Bull-Doser",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Shelby_Cobra_GT350_(Centropolis_Laval_%2710).jpg"
+      },
+      {
+        "file": "shot_10.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Shelby Cobra GT350-2 (30487613376).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/11/Shelby_Cobra_GT350-2_%2830487613376%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Shelby_Cobra_GT350-2_%2830487613376%29.jpg/1280px-Shelby_Cobra_GT350-2_%2830487613376%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY 2.0",
+        "artist": "naeem mayet",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Shelby_Cobra_GT350-2_(30487613376).jpg"
+      },
+      {
+        "file": "shot_11.jpg",
+        "source": "Wikimedia Commons",
+        "title": "File:Shelby GT350E 1967 at Legendy 2019 in Prague.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Shelby_GT350E_1967_at_Legendy_2019_in_Prague.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Shelby_GT350E_1967_at_Legendy_2019_in_Prague.jpg/1280px-Shelby_GT350E_1967_at_Legendy_2019_in_Prague.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "license": "CC BY-SA 4.0",
+        "artist": "Jiří Sedláček",
+        "attribution_url": "https://commons.wikimedia.org/wiki/File:Shelby_GT350E_1967_at_Legendy_2019_in_Prague.jpg"
+      }
+    ]
   }
 }

@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 27,
-  "last_brand": "Moskvich",
+  "brand_pointer": 28,
+  "last_brand": "Shelby",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -10270,8 +10270,8 @@
         "Mustang Shelby GT500 Super Snake",
         "Super Snake"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "GT350",
       "models": {
         "Cobra 427": {
           "used_colours": [],
@@ -10292,8 +10292,10 @@
           "category": "Muscle"
         },
         "GT350": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "blue"
+          ],
+          "last_colour": "blue",
           "unavailable_until_next_cycle": false,
           "category": "Muscle"
         },
@@ -18307,6 +18309,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "18099459575449261"
+    },
+    {
+      "timestamp": "2026-11-27T08:20:45.319279Z",
+      "brand": "Shelby",
+      "model": "GT350",
+      "colour": "blue",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "17900367213613052"
     }
   ]
 }
