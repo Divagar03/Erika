@@ -1992,11 +1992,11 @@
     "detail": "set=maserati_250f, format=night_city, media_id=17982880239129258, yt_err=daily_quota_limit_reached"
   },
   {
-    "time": "2026-11-27T01:26:26.825515+00:00",
-    "kind": "youtube_short",
-    "status": "failed",
-    "caption": "",
-    "media": "",
-    "detail": "init_upload_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may "
+    "time": "2026-11-27T01:26:19.164877+00:00",
+    "kind": "weekly_reel",
+    "status": "ok",
+    "caption": "That blue blur doesn’t purr—it announces itself. 💙\n\nThe ZIL-130 brings Soviet muscle with an exhaust symphony that hits like a drumline. Boxy, bold, and built to own every frame.\n\nRate this spec 1–10 👇\n\n#zil #zil130 #luxurycars #bespoke #automotive #exoticcars #carreels",
+    "media": "reel_20261127_012417.mp4",
+    "detail": "set=zil_zil_130, format=engine_sound_showcase, media_id=18141341101635432, yt_id=NtynnPECd00"
   }
 ]

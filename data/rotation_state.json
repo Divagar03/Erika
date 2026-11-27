@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 24,
-  "last_brand": "Maserati",
+  "brand_pointer": 25,
+  "last_brand": "ZIL",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -11494,8 +11494,8 @@
         "ZIL-117",
         "ZIL-114"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 2,
+      "last_model": "ZIL-130",
       "models": {
         "ZIL-111": {
           "used_colours": [],
@@ -11536,12 +11536,14 @@
         "ZIS-115": {
           "used_colours": [],
           "last_colour": null,
-          "unavailable_until_next_cycle": false,
+          "unavailable_until_next_cycle": true,
           "category": "Soviet/Luxury"
         },
         "ZIL-130": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "blue"
+          ],
+          "last_colour": "blue",
           "unavailable_until_next_cycle": false,
           "category": "Soviet/Luxury"
         }
@@ -18285,6 +18287,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "17982880239129258"
+    },
+    {
+      "timestamp": "2026-11-27T01:26:19.172069Z",
+      "brand": "ZIL",
+      "model": "ZIL-130",
+      "colour": "blue",
+      "num_clips": 4,
+      "clip_hashes": [],
+      "post_id": "18141341101635432"
     }
   ]
 }

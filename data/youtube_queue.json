@@ -2,7 +2,7 @@
   "date": "2026-11-27",
   "source_date": "2026-11-26",
   "target_count": 10,
-  "published_today": 0,
+  "published_today": 1,
   "queue": [
     {
       "id": "reel_20261126_040834",
@@ -10,10 +10,10 @@
       "title": "Bugatti Chiron • Supercar Reel #Shorts",
       "caption": "🔥 ROAR INTO THE FAST LANE! 🔥  \n\nThis Bugatti Chiron blazes through, jaw‑dropping acceleration and a soundtrack that’s pure exhaust symphony.  \nIts sleek, razor‑sharp lines carve the road like a razor blade slicing wind.  \n\nRate this spec 1-10 👇 or drop your dream spec below 🔑🔥\n\n#bugattichiron #bugat",
       "set_name": "bugatti_chiron",
-      "status": "failed",
-      "yt_id": null,
-      "published_at": null,
-      "error": "init_upload_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may "
+      "status": "published",
+      "yt_id": "NtynnPECd00",
+      "published_at": "2026-11-27T01:26:19.164273+00:00",
+      "error": null
     },
     {
       "id": "reel_20261126_061630",
