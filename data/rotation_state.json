@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 28,
-  "last_brand": "Shelby",
+  "brand_pointer": 29,
+  "last_brand": "Bentley",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -7626,8 +7626,8 @@
         "S1 Continental",
         "Continental GTC"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "Turbo R",
       "models": {
         "Continental GT": {
           "used_colours": [],
@@ -7738,8 +7738,10 @@
           "category": "Luxury"
         },
         "Turbo R": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "orange"
+          ],
+          "last_colour": "orange",
           "unavailable_until_next_cycle": false,
           "category": "Luxury"
         },
@@ -18318,6 +18320,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "17900367213613052"
+    },
+    {
+      "timestamp": "2026-11-27T12:18:13.445311Z",
+      "brand": "Bentley",
+      "model": "Turbo R",
+      "colour": "orange",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "17947154403368274"
     }
   ]
 }
