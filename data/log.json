@@ -2038,5 +2038,13 @@
     "caption": "",
     "media": "",
     "detail": "Long-form pipeline failed: init_upload_failed_400_{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The request metadata specifies an invalid video description.\",\n    \"errors\": [\n      {\n        \"messag"
+  },
+  {
+    "time": "2026-11-28T03:33:22.594711+00:00",
+    "kind": "youtube_short",
+    "status": "ok",
+    "caption": "",
+    "media": "",
+    "detail": "yt_id=COkxlnISrQk"
   }
 ]
