@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 31,
-  "last_brand": "AMC",
+  "brand_pointer": 32,
+  "last_brand": "Melkus",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -15794,8 +15794,8 @@
         "RS 1000",
         "Melkus RS 1000 Coupe"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "RS2000",
       "models": {
         "RS 1000": {
           "used_colours": [],
@@ -15804,8 +15804,10 @@
           "category": "Sports"
         },
         "RS2000": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "orange"
+          ],
+          "last_colour": "orange",
           "unavailable_until_next_cycle": false,
           "category": "Sports"
         },
@@ -18351,6 +18353,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "18139812670637172"
+    },
+    {
+      "timestamp": "2026-11-28T07:58:04.386962Z",
+      "brand": "Melkus",
+      "model": "RS2000",
+      "colour": "orange",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "17994865409861362"
     }
   ]
 }
