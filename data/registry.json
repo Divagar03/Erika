@@ -2258,6 +2258,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "hispano_suiza_k6",
+      "brand": "Hispano-Suiza",
+      "model": "K6",
+      "format": "rolling_shots",
+      "caption_hash": "f5a6b347ffff0bb0",
+      "media_id": "18000749559061908",
+      "yt_id": "NftovUjvW5k",
+      "media_file": "reel_20261128_121628.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-28T12:17:58.339973+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

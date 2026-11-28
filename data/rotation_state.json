@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 32,
-  "last_brand": "Melkus",
+  "brand_pointer": 33,
+  "last_brand": "Hispano-Suiza",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -14291,8 +14291,8 @@
         "Carmen",
         "Hispano-Suiza J12"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "K6",
       "models": {
         "H6B": {
           "used_colours": [],
@@ -14307,8 +14307,10 @@
           "category": "Classic/Luxury"
         },
         "K6": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "orange"
+          ],
+          "last_colour": "orange",
           "unavailable_until_next_cycle": false,
           "category": "Classic/Luxury"
         },
@@ -18362,6 +18364,15 @@
       "num_clips": 5,
       "clip_hashes": [],
       "post_id": "17994865409861362"
+    },
+    {
+      "timestamp": "2026-11-28T12:17:58.348701Z",
+      "brand": "Hispano-Suiza",
+      "model": "K6",
+      "colour": "orange",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "18000749559061908"
     }
   ]
 }
