@@ -2218,6 +2218,26 @@
         "saves": 0,
         "collected_at": null
       }
+    },
+    {
+      "set_name": "amc_spirit",
+      "brand": "AMC",
+      "model": "Spirit",
+      "format": "rolling_shots",
+      "caption_hash": "cad45d606e8e286f",
+      "media_id": "18139812670637172",
+      "yt_id": "e9h3A_1QT1U",
+      "media_file": "reel_20261128_053523.mp4",
+      "music_track": "",
+      "publish_timestamp": "2026-11-28T05:37:18.401114+00:00",
+      "status": "published",
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "shares": 0,
+        "saves": 0,
+        "collected_at": null
+      }
     }
   ],
   "reserved": []

@@ -175,8 +175,8 @@
     "Lancia",
     "Mahindra"
   ],
-  "brand_pointer": 30,
-  "last_brand": "KTM",
+  "brand_pointer": 31,
+  "last_brand": "AMC",
   "brands": {
     "Bugatti": {
       "model_queue": [
@@ -13803,8 +13803,8 @@
         "Ambassador",
         "Rebel Machine"
       ],
-      "model_pointer": 0,
-      "last_model": null,
+      "model_pointer": 1,
+      "last_model": "Spirit",
       "models": {
         "AMX": {
           "used_colours": [],
@@ -13855,8 +13855,10 @@
           "category": "Muscle/Classic"
         },
         "Spirit": {
-          "used_colours": [],
-          "last_colour": null,
+          "used_colours": [
+            "blue"
+          ],
+          "last_colour": "blue",
           "unavailable_until_next_cycle": false,
           "category": "Muscle/Classic"
         },
@@ -18340,6 +18342,15 @@
       "num_clips": 4,
       "clip_hashes": [],
       "post_id": "18129884519298627"
+    },
+    {
+      "timestamp": "2026-11-28T05:37:18.406516Z",
+      "brand": "AMC",
+      "model": "Spirit",
+      "colour": "blue",
+      "num_clips": 5,
+      "clip_hashes": [],
+      "post_id": "18139812670637172"
     }
   ]
 }

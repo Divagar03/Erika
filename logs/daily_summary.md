@@ -1,14 +1,10 @@
-# Daily Summary — 2026-11-27
+# Daily Summary — 2026-11-28
 
-- **Posts published today:** 5
+- **Posts published today:** 1
 - **Status:** Operational (12 Reels/Day schedule)
 
 ## Today's Published Reels
 | Time (UTC) | Vehicle Set | Format | IG Media ID | YouTube Short ID |
 | :--- | :--- | :--- | :--- | :--- |
-| 01:26 | zil_zil_130 | engine_sound_showcase | 18141341101635432 | NtynnPECd00 |
-| 02:17 | moskvich_2140 | rolling_shots | 18099459575449261 | — |
-| 08:20 | shelby_gt350 | rolling_shots | 17900367213613052 | UUTlZjiVM-o |
-| 12:18 | bentley_turbo_r | engine_sound_showcase | 17947154403368274 | d2vLgfru3r4 |
-| 14:18 | ktm_ktm_x_bow_gt2 | rolling_shots | 18129884519298627 | 0ahFblsp6OU |
+| 05:37 | amc_spirit | rolling_shots | 18139812670637172 | e9h3A_1QT1U |
 
